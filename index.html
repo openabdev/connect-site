@@ -32,14 +32,40 @@
 
 <header>
   <img class="appicon" src="/icon.png" alt="OpenAB Connect">
-  <h1>Agents from every major vendor,<br>one client</h1>
-  <p class="tag">Running distributed across your own private infrastructure, each in its own sandbox. <strong>Quit the app and they keep running.</strong></p>
+  <h1>Agents from every major vendor.<br><span class="mark">One client</span>, each sandboxed.</h1>
+  <p class="tag">Encrypted and distributed across your own private infrastructure. <strong>Quit the app and they keep running.</strong></p>
 </header>
 
+</div>
+
+<div class="shotwrap">
 <figure>
   <img src="/screenshot.png" alt="OpenAB Connect with seven agent connections in the sidebar and four terminal panes attached to different coding CLIs">
   <figcaption>Seven agents deployed, four attached at once. Every header states the two things the runtime states about itself: the workspace is ephemeral, and teardown is best-effort.</figcaption>
 </figure>
+</div>
+
+<section class="features">
+<div class="features-grid">
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="M9 12h6M12 9v6"/></svg></div>
+    <h3>Every major vendor</h3>
+    <p>Thirteen agent CLIs, one image each — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot and more. Chosen per session. The <code>native</code> variant carries no agent at all.</p>
+  </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></div>
+    <h3>Sessions outlive the client</h3>
+    <p>The shell runs in the container, not on your Mac. Quit the app and it keeps going; reopen and you are in the same split layout, output resuming from the byte where it stopped.</p>
+  </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+    <h3>Nothing is exposed</h3>
+    <p>No ports opened, no ingress, no public endpoint. A Tailscale sidecar is the only thing with a network identity; the runtime binds loopback only.</p>
+  </div>
+</div>
+</section>
+
+<div class="wrap">
 
 <h2 id="what">What it is</h2>
 <p>Your agent runs somewhere. When it leaves something half-finished you want a shell <em>there</em> — same image, same workspace, same files — not a reproduction of it on your laptop.</p>

@@ -32,14 +32,40 @@
 
 <header>
   <img class="appicon" src="/icon.png" alt="OpenAB Connect">
-  <h1>主要ベンダーのエージェントを、<br>ひとつのクライアントに</h1>
-  <p class="tag">自分のプライベート環境に分散して、それぞれのサンドボックスで動きます。<strong>アプリを閉じても、動き続けます。</strong></p>
+  <h1>すべての主要ベンダーのエージェント。<br><span class="mark">ひとつのクライアント</span>、それぞれサンドボックス。</h1>
+  <p class="tag">暗号化されたまま、自分のプライベート環境に分散して動きます。<strong>アプリを閉じても、動き続けます。</strong></p>
 </header>
 
+</div>
+
+<div class="shotwrap">
 <figure>
   <img src="/screenshot.png" alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の coding CLI に接続している OpenAB Connect">
   <figcaption>7 つデプロイし、4 つを同時に接続。各ヘッダーはランタイム自身が明言している 2 点をそのまま表示します。ワークスペースは一時的であること、そして終了処理は best-effort であること。</figcaption>
 </figure>
+</div>
+
+<section class="features">
+<div class="features-grid">
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="M9 12h6M12 9v6"/></svg></div>
+    <h3>主要ベンダーを網羅</h3>
+    <p>13 種類のエージェント CLI に、それぞれのイメージ — Claude Code、Codex、Cursor、Kiro、Gemini、Copilot など。セッションごとに選べます。<code>native</code> はエージェントを含みません。</p>
+  </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></div>
+    <h3>セッションはアプリより長生き</h3>
+    <p>シェルはコンテナの中で動きます。アプリを閉じても動き続け、次に開くと同じ分割レイアウトに戻り、出力は止まったバイト位置から続きます。</p>
+  </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+    <h3>外部には何も公開しない</h3>
+    <p>ポートを開けず、ingress も公開エンドポイントもありません。ネットワーク上の識別を持つのは Tailscale サイドカーだけで、ランタイムは loopback だけを listen します。</p>
+  </div>
+</div>
+</section>
+
+<div class="wrap">
 
 <h2 id="what">これは何か</h2>
 <p>エージェントはどこかで動いています。作業が途中で止まったとき、必要なのは<em>その場所</em>のシェルです。同じイメージ、同じワークスペース、同じファイル。手元で再現したものではありません。</p>

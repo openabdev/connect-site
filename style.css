@@ -3,27 +3,33 @@
    Follows the structure foldic.app uses, including the dark-mode override, so the
    two sites are recognisably from the same hand. */
 :root {
+  /* Sampled from the app icon rather than chosen: the squircle fill is #D6F0F2,
+     and the page tones are that colour mixed toward white. Using the fill at full
+     strength behind body text reads as a coloured box and drops the contrast, so
+     --bg is the palest relative of it and --tint the closest. */
   --mint: #7FC8BC;
-  --mint-deep: #1F4B45;
-  --mint-tint: #DCEFEB;
+  --mint-deep: #1B4A46;
+  --mint-tint: #DCF2F4;
+  --brush: rgba(127, 200, 188, 0.62);
   --blue: #5B9BD5;
   --pink: #E88FB4;
-  --ink: #1D2B29;
-  --muted: #5F736F;
-  --bg: #F6F9F8;
-  --card: #EDF4F2;
-  --border: rgba(31, 75, 69, 0.15);
-  --shadow: 0 24px 80px rgba(29, 43, 41, 0.16);
+  --ink: #16302E;
+  --muted: #59736F;
+  --bg: #EDF8F9;
+  --card: #E4F5F7;
+  --border: rgba(27, 74, 70, 0.15);
+  --shadow: 0 24px 80px rgba(22, 48, 46, 0.16);
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --mint: #7FC8BC;
     --mint-deep: #A8E0D6;
-    --mint-tint: #17302D;
-    --ink: #E6F0EE;
-    --muted: #93A8A4;
-    --bg: #0F1614;
-    --card: #17211F;
+    --mint-tint: #12302F;
+    --brush: rgba(127, 200, 188, 0.42);
+    --ink: #E6F2F1;
+    --muted: #90A8A5;
+    --bg: #0D1717;
+    --card: #142020;
     --border: rgba(127, 200, 188, 0.2);
     --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
   }
@@ -137,3 +143,43 @@ footer {
   color: var(--muted); font-size: 0.9rem; display: flex; gap: 20px; flex-wrap: wrap;
 }
 .date { color: var(--muted); margin: 0 0 30px; }
+
+/* Brush highlight on the phrase the headline turns on. The band stops at 94% so it
+   reads as a marker stroke rather than a filled background, and starts at 58% so
+   it clears the x-height of Latin and the body of Han glyphs alike. */
+.mark {
+  background: linear-gradient(transparent 58%, var(--brush) 58%,
+                              var(--brush) 94%, transparent 94%);
+  padding: 0 0.08em;
+}
+
+/* Feature blocks. Same grammar as foldic.app: auto-fit grid, card background, a
+   tinted icon tile. The icons are inline SVG rather than an icon font or emoji so
+   they inherit --mint-deep and stay crisp at any scale. */
+section.features { max-width: 1080px; margin: 0 auto; padding: 3rem 24px 0; }
+.features-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 1.1rem;
+}
+.feature {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 18px; padding: 1.5rem 1.6rem;
+}
+.feature .icon {
+  width: 42px; height: 42px; border-radius: 11px; background: var(--mint-tint);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem;
+}
+.feature .icon svg {
+  width: 22px; height: 22px; stroke: var(--mint-deep); fill: none;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
+.feature h3 { margin: 0 0 0.4rem; font-size: 1.02rem; }
+.feature p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
+html[data-lang="zh"] .feature h3,
+html[data-lang="ja"] .feature h3,
+html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
+
+/* The screenshot earns more width than the reading column: it is the only place
+   the product is actually visible. */
+.shotwrap { max-width: 1080px; margin: 0 auto; padding: 8px 24px 0; }
+.shotwrap figure { margin: 0; }
+.shotwrap figcaption { max-width: 46em; }

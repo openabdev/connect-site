@@ -20,9 +20,9 @@ L = {
         title="OpenAB Connect — agents from every major vendor, one client",
         desc="Agents from every major vendor in one macOS client, running distributed "
              "across your own private infrastructure, each in its own sandbox.",
-        hero_h1='Agents from every major vendor,<br>one client',
-        hero_sub="Running distributed across your own private infrastructure, each in its "
-                 "own sandbox. <strong>Quit the app and they keep running.</strong>",
+        hero_h1='Agents from every major vendor.<br><span class="mark">One client</span>, each sandboxed.',
+        hero_sub="Encrypted and distributed across your own private infrastructure. "
+             "<strong>Quit the app and they keep running.</strong>",
         nav=("What it is", "You own both ends", "Deploy", "Support"),
         shot_alt="OpenAB Connect with seven agent connections in the sidebar and four "
                  "terminal panes attached to different coding CLIs",
@@ -60,45 +60,62 @@ L = {
         p_demo="The app ships an offline <strong>Demo Mode</strong> in its app menu: two "
                "sample connections and a canned terminal, with no network connection of any "
                "kind. It is there so the app can be evaluated before you deploy anything.",
+        feats=[
+            ('Every major vendor',
+             'Thirteen agent CLIs, one image each — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot and more. Chosen per session. The <code>native</code> variant carries no agent at all.'),
+            ('Sessions outlive the client',
+             'The shell runs in the container, not on your Mac. Quit the app and it keeps going; reopen and you are in the same split layout, output resuming from the byte where it stopped.'),
+            ('Nothing is exposed',
+             'No ports opened, no ingress, no public endpoint. A Tailscale sidecar is the only thing with a network identity; the runtime binds loopback only.'),
+        ],
         f=("Privacy", "Support", "Runtime source"),
     ),
     "zh": dict(
         dir="zh", base="/zh/", htmllang="zh-Hant", label="中文",
-        title="OpenAB Connect — 所有頂尖廠商的 Agent,一個客戶端",
-        desc="所有頂尖廠商的 Agent,一個客戶端,分散運行在你的私有基礎架構,各自沙箱。",
-        hero_h1="所有頂尖廠商的 Agent,<br>一個客戶端",
-        hero_sub="分散運行在你的私有基礎架構,各自沙箱。<strong>關掉 app,它們繼續跑。</strong>",
+        title="OpenAB Connect — 所有頂尖廠商的 Agent，一個客戶端",
+        desc="所有頂尖廠商的 Agent，一個客戶端，分散運行在你的私有基礎架構，各自沙箱。",
+        hero_h1='所有頂尖廠商的 Agent，<br><span class="mark">一個客戶端</span>，各自沙箱。',
+        hero_sub="加密分散運行在你的私有基礎架構，"
+             "<strong>關掉 app，它們繼續跑。</strong>",
         nav=("這是什麼", "兩端都是你的", "部署", "支援"),
-        shot_alt="OpenAB Connect 側邊欄有七個 agent 連線,四個終端分割視窗分別接著不同的 coding CLI",
-        shot_cap="七個 agent 已部署,四個同時接上。每一條標題列都寫著 runtime 對自己的兩項聲明:"
-                 "workspace 是暫存的,teardown 是 best-effort。",
+        shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
+        shot_cap="七個 agent 已部署，四個同時接上。每一條標題列都寫著 runtime 對自己的兩項聲明:"
+                 "workspace 是暫存的，teardown 是 best-effort。",
         h_what="這是什麼",
-        p_what="你的 agent 跑在某處。它把事情做到一半時,你想要的是**那裡**的一個 shell —— "
-               "同一個映像、同一個 workspace、同一批檔案,而不是在筆電上重現一次。",
-        panel_1="<strong>這個 shell 刻意沒有權限。</strong>它以 <code>uid 1000</code> 開啟,"
-                "沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證,"
-                "根檔案系統唯讀,workspace 用完即棄。",
-        panel_2="runtime 從不監聽可路由的位址。只有 Tailscale sidecar 擁有網路身分,"
+        p_what="你的 agent 跑在某處。它把事情做到一半時，你想要的是**那裡**的一個 shell —— "
+               "同一個映像、同一個 workspace、同一批檔案，而不是在筆電上重現一次。",
+        panel_1="<strong>這個 shell 刻意沒有權限。</strong>它以 <code>uid 1000</code> 開啟，"
+                "沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證，"
+                "根檔案系統唯讀，workspace 用完即棄。",
+        panel_2="runtime 從不監聽可路由的位址。只有 Tailscale sidecar 擁有網路身分，"
                 "兩者在 pod 內經 loopback 通訊。",
         h_own="兩端都是你的",
         li_1="<strong>這裡沒有任何服務。</strong>app 連上的每一台伺服器都是你自己部署的 —— "
-             "在你自己的 Kubernetes 叢集,或你自己的 AWS 帳號裡。",
+             "在你自己的 Kubernetes 叢集，或你自己的 AWS 帳號裡。",
         li_2="<strong>不需要帳號、不需要註冊、沒有遙測。</strong>你輸入的憑證留在 macOS Keychain,"
              "除了你自己的 runtime 之外不會送到任何地方。",
         li_3="<strong>runtime 是 MIT 開源的</strong>:"
              '<a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>。'
-             "你可以確認自己到底部署了什麼,也可以照 "
+             "你可以確認自己到底部署了什麼，也可以照 "
              '<a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">'
-             "客戶端契約</a>寫自己的客戶端。這個 app 只是其中一種實作,它不是開源的。",
+             "客戶端契約</a>寫自己的客戶端。這個 app 只是其中一種實作，它不是開源的。",
         h_deploy="部署",
-        p_deploy="你點三下,它做八件事:產生憑證存進 Keychain、確認 namespace、建立 secret 與儲存、"
+        p_deploy="你點三下，它做八件事:產生憑證存進 Keychain、確認 namespace、建立 secret 與儲存、"
                  "套用 pod、等它就緒、等它加入你的 tailnet、驗證管理端。"
-                 "不必寫 manifest,也不必開任何對外連接埠。",
+                 "不必寫 manifest，也不必開任何對外連接埠。",
         p_variants="每個 agent CLI 一個映像 —— Claude Code、Codex、Cursor、Kiro、Gemini、Copilot 等。"
                    "<code>native</code> 版本不含任何 agent。",
         h_demo="沒有叢集也能試",
-        p_demo="app 的應用程式選單裡有離線的 <strong>Demo Mode</strong>:兩個範例連線和一個預錄的終端,"
+        p_demo="app 的應用程式選單裡有離線的 <strong>Demo Mode</strong>:兩個範例連線和一個預錄的終端，"
                "完全不建立任何網路連線。它的存在就是為了讓你在部署任何東西之前先評估這個 app。",
+        feats=[
+            ('涵蓋所有頂尖廠商',
+             '13 種 agent CLI，各自一個映像 —— Claude Code、Codex、Cursor、Kiro、Gemini、Copilot 等，每個 session 分別選擇。<code>native</code> 版本不含任何 agent。'),
+            ('Session 活得比客戶端久',
+             'shell 跑在容器裡，不在你的 Mac 上。關掉 app 它繼續跑；再開啟就回到原本的分割版面，輸出從中斷的那個位元組接續。'),
+            ('什麼都不對外開放',
+             '不開連接埠、沒有 ingress、沒有公開端點。只有 Tailscale sidecar 擁有網路身分，runtime 只綁 loopback。'),
+        ],
         f=("隱私", "支援", "runtime 原始碼"),
     ),
     "ja": dict(
@@ -106,9 +123,9 @@ L = {
         title="OpenAB Connect — 主要ベンダーのエージェントを、ひとつのクライアントに",
         desc="主要ベンダーのエージェントをひとつのクライアントにまとめ、"
              "自分のプライベート環境に分散して、それぞれのサンドボックスで動かします。",
-        hero_h1="主要ベンダーのエージェントを、<br>ひとつのクライアントに",
-        hero_sub="自分のプライベート環境に分散して、それぞれのサンドボックスで動きます。"
-                 "<strong>アプリを閉じても、動き続けます。</strong>",
+        hero_h1='すべての主要ベンダーのエージェント。<br><span class="mark">ひとつのクライアント</span>、それぞれサンドボックス。',
+        hero_sub="暗号化されたまま、自分のプライベート環境に分散して動きます。"
+             "<strong>アプリを閉じても、動き続けます。</strong>",
         nav=("これは何か", "両端はあなたのもの", "デプロイ", "サポート"),
         shot_alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の "
                  "coding CLI に接続している OpenAB Connect",
@@ -146,6 +163,14 @@ L = {
         p_demo="アプリメニューにオフラインの <strong>Demo Mode</strong> があります。"
                "サンプル接続 2 つと収録済みのターミナルだけで、ネットワーク接続は一切行いません。"
                "何もデプロイする前に評価できるようにするためのものです。",
+        feats=[
+            ('主要ベンダーを網羅',
+             '13 種類のエージェント CLI に、それぞれのイメージ — Claude Code、Codex、Cursor、Kiro、Gemini、Copilot など。セッションごとに選べます。<code>native</code> はエージェントを含みません。'),
+            ('セッションはアプリより長生き',
+             'シェルはコンテナの中で動きます。アプリを閉じても動き続け、次に開くと同じ分割レイアウトに戻り、出力は止まったバイト位置から続きます。'),
+            ('外部には何も公開しない',
+             'ポートを開けず、ingress も公開エンドポイントもありません。ネットワーク上の識別を持つのは Tailscale サイドカーだけで、ランタイムは loopback だけを listen します。'),
+        ],
         f=("プライバシー", "サポート", "ランタイムのソース"),
     ),
     "ko": dict(
@@ -153,9 +178,9 @@ L = {
         title="OpenAB Connect — 주요 벤더의 에이전트를 클라이언트 하나로",
         desc="주요 벤더의 에이전트를 클라이언트 한곳에서. 여러분의 사설 인프라에 분산되어 "
              "각자 샌드박스에서 실행됩니다.",
-        hero_h1="주요 벤더의 에이전트를,<br>클라이언트 하나로",
-        hero_sub="여러분의 사설 인프라에 분산되어, 각자 샌드박스에서 실행됩니다. "
-                 "<strong>앱을 닫아도 계속 실행됩니다.</strong>",
+        hero_h1='주요 벤더의 모든 에이전트.<br><span class="mark">클라이언트 하나</span>, 각자 샌드박스.',
+        hero_sub="암호화된 채로 여러분의 사설 인프라에 분산되어 실행됩니다. "
+             "<strong>앱을 닫아도 계속 실행됩니다.</strong>",
         nav=("무엇인가", "양쪽 모두 내 것", "배포", "지원"),
         shot_alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 "
                  "열려 있는 OpenAB Connect",
@@ -191,11 +216,21 @@ L = {
         p_demo="앱 메뉴에 오프라인 <strong>Demo Mode</strong>가 있습니다. 샘플 연결 두 개와 "
                "미리 녹화된 터미널만 있고 어떤 네트워크 연결도 하지 않습니다. 아무것도 배포하기 "
                "전에 앱을 평가할 수 있도록 넣었습니다.",
+        feats=[
+            ('주요 벤더를 모두',
+             '에이전트 CLI 13종, 각각 별도의 이미지 — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot 등. 세션마다 선택합니다. <code>native</code>는 에이전트를 포함하지 않습니다.'),
+            ('세션이 앱보다 오래 삽니다',
+             '셸은 컨테이너 안에서 실행됩니다. 앱을 닫아도 계속 돌아가고, 다시 열면 같은 분할 레이아웃으로 돌아와 출력이 멈춘 바이트에서 이어집니다.'),
+            ('외부로 아무것도 열지 않습니다',
+             '포트를 열지 않고 ingress도 공개 엔드포인트도 없습니다. 네트워크 신원을 가진 것은 Tailscale 사이드카뿐이며 런타임은 loopback만 수신합니다.'),
+        ],
         f=("개인정보", "지원", "런타임 소스"),
     ),
 }
 
 ORDER = ["zh", "ja", "ko", "en"]
+
+ICONS = ['<path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="M9 12h6M12 9v6"/>', '<path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/>', '<rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>']
 
 def switcher(current):
     parts = []
@@ -239,10 +274,22 @@ TEMPLATE = """<!DOCTYPE html>
   <p class="tag">{hero_sub}</p>
 </header>
 
+</div>
+
+<div class="shotwrap">
 <figure>
   <img src="/screenshot.png" alt="{shot_alt}">
   <figcaption>{shot_cap}</figcaption>
 </figure>
+</div>
+
+<section class="features">
+<div class="features-grid">
+{features}
+</div>
+</section>
+
+<div class="wrap">
 
 <h2 id="what">{h_what}</h2>
 <p>{p_what}</p>
@@ -289,10 +336,15 @@ for code in ORDER:
     d = L[code]
     out = ROOT / d["dir"] / "index.html" if d["dir"] else ROOT / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    html = TEMPLATE.format(
+    features = "\n".join(
+        f'  <div class="feature">\n'
+        f'    <div class="icon"><svg viewBox="0 0 24 24">{ICONS[i]}</svg></div>\n'
+        f'    <h3>{h}</h3>\n    <p>{b}</p>\n  </div>'
+        for i, (h, b) in enumerate(d["feats"]))
+    html = TEMPLATE.format(features=features,
         code=code, alternates=alternates(), switcher=switcher(code),
         nav0=d["nav"][0], nav1=d["nav"][1], nav2=d["nav"][2], nav3=d["nav"][3],
         f0=d["f"][0], f1=d["f"][1], f2=d["f"][2],
-        **{k: v for k, v in d.items() if k not in ("nav", "f", "dir", "label")})
+        **{k: v for k, v in d.items() if k not in ("nav", "f", "feats", "dir", "label")})
     out.write_text(html, encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}")
