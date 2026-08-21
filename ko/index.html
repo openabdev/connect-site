@@ -81,7 +81,7 @@
 </details>
 <details id="faq-vs-herdr">
   <summary><span class="q">Herdr와는 무엇이 다릅니까?</span></summary>
-  <div class="a"><p>Herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 PTY를 주고, 연결이 끊겨도 계속 살려 두며, 각 패널을 working／blocked／idle로 분류하고, CLI와 socket API를 제공합니다. 지속성과 전체 조망이라는 점은 이 앱과 거의 그대로 겹칩니다. 다른 것은 에이전트가 어디서 실행되는가입니다:</p><ul><li><strong>Herdr</strong>는 실행한 그 머신 위에서 돌리므로 사용자, 파일시스템, 자격 증명을 공유합니다.</li><li><strong>OpenAB Connect</strong>는 각 세션을 클러스터 안의 독립된 컨테이너에서 실행합니다 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 없음, 루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 전혀 열지 않습니다.</li></ul><p>차이는 샌드박싱이며 멀티플렉싱이 아닙니다. Herdr가 할 수 있고 OpenAB Connect가 못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 전혀 필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 Herdr가 더 나은 답입니다.</p></div>
+  <div class="a"><p>Herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 PTY를 주고, 연결이 끊겨도 계속 살려 두며, 각 패널을 working／blocked／idle로 분류하고, CLI와 socket API를 제공합니다. 지속성과 전체 조망이라는 점은 이 앱과 거의 그대로 겹칩니다. 다른 것은 에이전트가 어디서 실행되는가입니다:</p><ul><li><strong>Herdr</strong>는 실행한 그 머신 위에서 돌리므로 사용자, 파일시스템, 자격 증명을 공유합니다 — 즉 영향 범위는 그 머신과 여러분 계정이 닿을 수 있는 모든 것입니다. 지속성은 연결 끊김에 대한 것이지 호스트 전원이 꺼지는 것에 대한 것이 아니므로, 노트북에서 돌린다면 덮는 순간 전부 끝납니다. (SSH 원격 모드는 이를 피할 수 있지만 영향 범위가 그 원격 호스트로 옮겨갑니다.)</li><li><strong>OpenAB Connect</strong>는 각 세션을 클러스터 안의 독립된 컨테이너에서 실행합니다 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 없음, 루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 전혀 열지 않습니다.</li></ul><p>차이는 샌드박싱이며 멀티플렉싱이 아닙니다. Herdr가 할 수 있고 OpenAB Connect가 못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 전혀 필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 Herdr가 더 나은 답입니다.</p></div>
 </details>
 <details id="faq-vs-local">
   <summary><span class="q">제 Mac에서 Claude Code나 Codex Desktop을 그냥 쓰는 것과 무엇이 다릅니까?</span></summary>

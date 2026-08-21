@@ -81,7 +81,7 @@
 </details>
 <details id="faq-vs-herdr">
   <summary><span class="q">Herdr とは何が違うのですか?</span></summary>
-  <div class="a"><p>Herdr はエージェントマルチプレクサ — コーディングエージェント版の tmux です。各エージェントに本物の PTY を与え、切断されても生かし続け、各ペインを working／blocked／idle に分類し、CLI と socket API を備えています。永続性と一覧性という点は、このアプリとほぼそのまま重なります。違うのはエージェントがどこで動くかです:</p><ul><li><strong>Herdr</strong> は起動したマシンの上で動かすので、ユーザー、ファイルシステム、資格情報を共有します。</li><li><strong>OpenAB Connect</strong> は各セッションをクラスタ内の独立したコンテナで動かします — <code>uid 1000</code>、<code>sudo</code> なし、ホストの資格情報なし、ルートは読み取り専用、ワークスペースは使い捨て — WireGuard の tailnet 経由で、ポートは一切開けません。</li></ul><p>違いはサンドボックス化であって、マルチプレクスではありません。Herdr にできて OpenAB Connect にできないこともあります。ペインの状態判定、スクリプト可能なローカル API、そしてインフラを一切必要としない点です。何もデプロイしたくないなら、Herdr のほうが適した答えです。</p></div>
+  <div class="a"><p>Herdr はエージェントマルチプレクサ — コーディングエージェント版の tmux です。各エージェントに本物の PTY を与え、切断されても生かし続け、各ペインを working／blocked／idle に分類し、CLI と socket API を備えています。永続性と一覧性という点は、このアプリとほぼそのまま重なります。違うのはエージェントがどこで動くかです:</p><ul><li><strong>Herdr</strong> は起動したマシンの上で動かすので、ユーザー、ファイルシステム、資格情報を共有します — つまり影響範囲はそのマシンと、あなたのアカウントが到達できるすべてです。永続するのは切断に対してで、ホストの電源が落ちることに対してではないため、ノート PC 上で動かしていれば閉じた時点ですべて終わります。（SSH リモートモードはこれを避けられますが、影響範囲がそのリモートホストに移ります。）</li><li><strong>OpenAB Connect</strong> は各セッションをクラスタ内の独立したコンテナで動かします — <code>uid 1000</code>、<code>sudo</code> なし、ホストの資格情報なし、ルートは読み取り専用、ワークスペースは使い捨て — WireGuard の tailnet 経由で、ポートは一切開けません。</li></ul><p>違いはサンドボックス化であって、マルチプレクスではありません。Herdr にできて OpenAB Connect にできないこともあります。ペインの状態判定、スクリプト可能なローカル API、そしてインフラを一切必要としない点です。何もデプロイしたくないなら、Herdr のほうが適した答えです。</p></div>
 </details>
 <details id="faq-vs-local">
   <summary><span class="q">自分の Mac で Claude Code や Codex Desktop を動かすのと何が違うのですか?</span></summary>
