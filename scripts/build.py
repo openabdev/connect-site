@@ -656,18 +656,19 @@ L = {
 
 
 def switcher(current):
-    """Language links carry ?lang=, which is what makes a choice stick.
+    """Plain links. No script, no stored preference, no guessing.
 
-    Without it the English link was unreachable: it pointed at "/", and lang.js on "/"
-    reads the stored preference — which was set to /zh/ merely by having visited /zh/ —
-    and redirected straight back. An explicit ?lang= is treated as a decision, recorded
-    and obeyed, so switching works in every direction.
+    "/" is always English. Detecting the browser language and redirecting looked helpful
+    and was not: it made "/" mean different things to different visitors, it broke the
+    English link (which pointed at "/" and was sent straight back), and a visitor who had
+    once chosen a language could not get back to English by typing the bare domain. The
+    hreflang set already tells search engines how the languages relate, so nothing here
+    needed JavaScript.
     """
     out = []
     for c in ORDER:
         cls = ' class="active"' if c == current else ""
-        href = L[c]["base"] + "?lang=" + c
-        out.append('<a' + cls + ' href="' + href + '">' + L[c]["label"] + '</a>')
+        out.append('<a' + cls + ' href="' + L[c]["base"] + '">' + L[c]["label"] + '</a>')
     return "|".join(out)
 
 
@@ -690,7 +691,6 @@ TEMPLATE = """<!DOCTYPE html>
 <link rel="icon" href="/icon.png">
 <link rel="stylesheet" href="{css}">
 {alternates}
-<script src="/lang.js"></script>
 </head>
 <body>
 
