@@ -85,17 +85,22 @@ L = {
     "client, no port-forward, and a credential that authorises one session rather than "
     "your whole cluster."),
    ("vs-herdr", "How is this different from herdr?",
-    "herdr is an agent multiplexer — tmux for coding agents. It gives each agent a real "
+    "<p>herdr is an agent multiplexer — tmux for coding agents. It gives each agent a real "
     "PTY, keeps them alive across disconnects, classifies every pane as working, blocked "
     "or idle, and exposes a CLI and a socket API. The persistence and the fleet view "
-    "overlap with this app almost exactly. What differs is <em>where the agents run</em>: "
-    "herdr runs them on the machine you invoke it on, sharing your user, your filesystem "
-    "and your credentials. Here each session is its own container in your cluster — "
-    "<code>uid 1000</code>, no <code>sudo</code>, no host credentials, read-only root, "
-    "ephemeral workspace — reached over a WireGuard tailnet with no port exposed. The "
-    "difference is sandboxing, not multiplexing. herdr also does things this does not: "
-    "pane state classification, a scriptable local API, and running with no infrastructure "
-    "at all. If you want nothing to deploy, herdr is the better answer."),
+    "overlap with this app almost exactly. What differs is where the agents run:"
+    "</p><ul>"
+    "<li><strong>herdr</strong> runs them on the machine you invoke it on, sharing your "
+    "user, your filesystem and your credentials.</li>"
+    "<li><strong>OpenAB Connect</strong> gives each session its own container in your "
+    "cluster — <code>uid 1000</code>, no <code>sudo</code>, no host credentials, "
+    "read-only root, ephemeral workspace — reached over a WireGuard tailnet with no port "
+    "exposed.</li>"
+    "</ul>"
+    "<p>The difference is sandboxing, not multiplexing. herdr also does things OpenAB "
+    "Connect does not: pane state classification, a scriptable local API, and running "
+    "with no infrastructure at all. If you want nothing to deploy, herdr is the better "
+    "answer.</p>"),
    ("vs-local", "How is this different from just running Claude Code or Codex on my Mac?",
     "An agent on your Mac runs as you. It can reach your SSH keys, your cloud credentials, "
     "your npm and GitHub tokens, and every repository on the disk — so a wrong command is a "
@@ -186,16 +191,19 @@ L = {
     "而是「那個運行環境」裡的 shell —— 同一個映像、同一個 workspace、同一批檔案，"
     "不是在筆電上重現一次。"),
    ("vs-herdr", "這跟 herdr 有什麼不同?",
-    "herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、"
+    "<p>herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、"
     "斷線後仍活著、把每個窗格分類成 working／blocked／idle，還有 CLI 和 socket API。"
-    "持久性和艦隊視圖這兩點和這個 app 幾乎完全重疊。"
-    "不同的是 <em>agent 跑在哪裡</em>:herdr 把它們跑在你叫它的那台機器上，"
-    "共用你的使用者、你的檔案系統、你的憑證。這裡每個 session 是你叢集裡自己的容器 —— "
+    "持久性和艦隊視圖這兩點和這個 app 幾乎完全重疊。不同的是 agent 跑在哪裡:"
+    "</p><ul>"
+    "<li><strong>herdr</strong> 把它們跑在你叫它的那台機器上，共用你的使用者、"
+    "你的檔案系統、你的憑證。</li>"
+    "<li><strong>OpenAB Connect</strong> 每個 session 是你叢集裡自己的容器 —— "
     "<code>uid 1000</code>、沒有 <code>sudo</code>、沒有主機憑證、根檔案系統唯讀、"
-    "workspace 用完即棄 —— 經 WireGuard tailnet 連上，不開任何連接埠。"
-    "分野是沙箱化，不是多工。herdr 也做得到一些這個做不到的事:窗格狀態判定、"
-    "可腳本化的本機 API，以及完全不需要任何基礎架構。如果你希望什麼都不用部署，"
-    "herdr 是更好的答案。"),
+    "workspace 用完即棄 —— 經 WireGuard tailnet 連上，不開任何連接埠。</li>"
+    "</ul>"
+    "<p>分野是沙箱化，不是多工。herdr 也做得到一些 OpenAB Connect 做不到的事:"
+    "窗格狀態判定、可腳本化的本機 API，以及完全不需要任何基礎架構。"
+    "如果你希望什麼都不用部署，herdr 是更好的答案。</p>"),
    ("vs-local", "這跟只在我的電腦上跑 Claude Code 或 Codex Desktop 有什麼不同?",
     "在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、"
     "你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，"
@@ -285,18 +293,22 @@ L = {
     "は不要、port-forward も不要で、資格情報が許可するのはクラスタ全体ではなく"
     "セッション 1 つです。"),
    ("vs-herdr", "herdr とは何が違うのですか?",
-    "herdr はエージェントマルチプレクサ — コーディングエージェント版の tmux です。"
+    "<p>herdr はエージェントマルチプレクサ — コーディングエージェント版の tmux です。"
     "各エージェントに本物の PTY を与え、切断されても生かし続け、各ペインを working／"
     "blocked／idle に分類し、CLI と socket API を備えています。永続性と一覧性という点は、"
-    "このアプリとほぼそのまま重なります。"
-    "違うのは <em>エージェントがどこで動くか</em>です。herdr は起動したマシンの上で"
-    "動かすので、ユーザー、ファイルシステム、資格情報を共有します。こちらは各セッションが"
-    "クラスタ内の独立したコンテナで — <code>uid 1000</code>、<code>sudo</code> なし、"
-    "ホストの資格情報なし、ルートは読み取り専用、ワークスペースは使い捨て — WireGuard の "
-    "tailnet 経由で、ポートは一切開けません。違いはサンドボックス化であって、"
-    "マルチプレクスではありません。herdr にできてこちらにできないこともあります。"
-    "ペインの状態判定、スクリプト可能なローカル API、そしてインフラを一切必要としない点です。"
-    "何もデプロイしたくないなら、herdr のほうが適した答えです。"),
+    "このアプリとほぼそのまま重なります。違うのはエージェントがどこで動くかです:"
+    "</p><ul>"
+    "<li><strong>herdr</strong> は起動したマシンの上で動かすので、ユーザー、"
+    "ファイルシステム、資格情報を共有します。</li>"
+    "<li><strong>OpenAB Connect</strong> は各セッションをクラスタ内の独立したコンテナで"
+    "動かします — <code>uid 1000</code>、<code>sudo</code> なし、ホストの資格情報なし、"
+    "ルートは読み取り専用、ワークスペースは使い捨て — WireGuard の tailnet 経由で、"
+    "ポートは一切開けません。</li>"
+    "</ul>"
+    "<p>違いはサンドボックス化であって、マルチプレクスではありません。herdr にできて "
+    "OpenAB Connect にできないこともあります。ペインの状態判定、スクリプト可能な"
+    "ローカル API、そしてインフラを一切必要としない点です。何もデプロイしたくないなら、"
+    "herdr のほうが適した答えです。</p>"),
    ("vs-local", "自分の Mac で Claude Code や Codex Desktop を動かすのと何が違うのですか?",
     "Mac 上のエージェントは、あなたとして動きます。SSH 鍵、クラウドの資格情報、npm や "
     "GitHub のトークン、ディスク上のすべてのリポジトリに手が届くので、間違ったコマンドは"
@@ -390,17 +402,21 @@ L = {
     "클라이언트에 kubeconfig가 없고 port-forward도 없으며, 자격 증명이 허용하는 범위는 "
     "클러스터 전체가 아니라 세션 하나입니다."),
    ("vs-herdr", "herdr와는 무엇이 다릅니까?",
-    "herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 "
+    "<p>herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 "
     "PTY를 주고, 연결이 끊겨도 계속 살려 두며, 각 패널을 working／blocked／idle로 "
     "분류하고, CLI와 socket API를 제공합니다. 지속성과 전체 조망이라는 점은 이 앱과 거의 "
-    "그대로 겹칩니다."
-    "다른 것은 <em>에이전트가 어디서 실행되는가</em>입니다. herdr는 실행한 그 머신 위에서 "
-    "돌리므로 사용자, 파일시스템, 자격 증명을 공유합니다. 여기서는 각 세션이 클러스터 안의 "
-    "독립된 컨테이너이며 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 "
-    "없음, 루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 "
-    "전혀 열지 않습니다. 차이는 샌드박싱이며 멀티플렉싱이 아닙니다. herdr가 할 수 있고 "
-    "이쪽이 못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 "
-    "전혀 필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 herdr가 더 나은 답입니다."),
+    "그대로 겹칩니다. 다른 것은 에이전트가 어디서 실행되는가입니다:"
+    "</p><ul>"
+    "<li><strong>herdr</strong>는 실행한 그 머신 위에서 돌리므로 사용자, 파일시스템, "
+    "자격 증명을 공유합니다.</li>"
+    "<li><strong>OpenAB Connect</strong>는 각 세션을 클러스터 안의 독립된 컨테이너에서 "
+    "실행합니다 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 없음, "
+    "루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 전혀 "
+    "열지 않습니다.</li>"
+    "</ul>"
+    "<p>차이는 샌드박싱이며 멀티플렉싱이 아닙니다. herdr가 할 수 있고 OpenAB Connect가 "
+    "못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 전혀 "
+    "필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 herdr가 더 나은 답입니다.</p>"),
    ("vs-local", "제 Mac에서 Claude Code나 Codex Desktop을 그냥 쓰는 것과 무엇이 다릅니까?",
     "Mac 위의 에이전트는 여러분 자신으로 실행됩니다. SSH 키, 클라우드 자격 증명, npm과 "
     "GitHub 토큰, 디스크의 모든 리포지터리에 닿을 수 있으므로 잘못된 명령은 여러분의 "
@@ -556,9 +572,12 @@ for code in ORDER:
         cards.append(f'  <div class="feature{" soon" if soon else ""}">\n{ribbon}'
                      f'    <div class="icon"><svg viewBox="0 0 24 24">{ICONS[i]}</svg></div>\n'
                      f'    <h3>{item[0]}</h3>\n    <p>{item[1]}</p>\n  </div>')
-    faqs = "\n".join(
-        f'<details id="faq-{qid}">\n  <summary><span class="q">{q}</span></summary>\n  <p>{a}</p>\n</details>'
-        for qid, q, a in d["faq"])
+    entries = []
+    for qid, q, a in d["faq"]:
+        body = a if "<ul>" in a or "<p>" in a else f"<p>{a}</p>"
+        entries.append(f'<details id="faq-{qid}">\n  <summary><span class="q">{q}</span>'
+                       f'</summary>\n  <div class="a">{body}</div>\n</details>')
+    faqs = "\n".join(entries)
 
     out = ROOT / d["dir"] / "index.html" if d["dir"] else ROOT / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
