@@ -84,6 +84,28 @@ L = {
     "the same split layout. The deployment model differs too: no kubeconfig on the "
     "client, no port-forward, and a credential that authorises one session rather than "
     "your whole cluster."),
+   ("vs-herdr", "How is this different from herdr?",
+    "herdr is an agent multiplexer — tmux for coding agents. It gives each agent a real "
+    "PTY, keeps them alive across disconnects, classifies every pane as working, blocked "
+    "or idle, and exposes a CLI and a socket API. The persistence and the fleet view "
+    "overlap with this app almost exactly. What differs is <em>where the agents run</em>: "
+    "herdr runs them on the machine you invoke it on, sharing your user, your filesystem "
+    "and your credentials. Here each session is its own container in your cluster — "
+    "<code>uid 1000</code>, no <code>sudo</code>, no host credentials, read-only root, "
+    "ephemeral workspace — reached over a WireGuard tailnet with no port exposed. The "
+    "difference is sandboxing, not multiplexing. herdr also does things this does not: "
+    "pane state classification, a scriptable local API, and running with no infrastructure "
+    "at all. If you want nothing to deploy, herdr is the better answer."),
+   ("vs-local", "How is this different from just running Claude Code or Codex on my Mac?",
+    "An agent on your Mac runs as you. It can reach your SSH keys, your cloud credentials, "
+    "your npm and GitHub tokens, and every repository on the disk — so a wrong command is a "
+    "wrong command on your machine. Here the shell has none of that, the workspace is "
+    "discarded with the session, and several agents can work at once without competing for "
+    "the same working tree or the same ports. Your laptop can sleep or close without "
+    "stopping anything. The cost is real: the agent cannot see your local files, so work "
+    "arrives by git; the first pull of an image takes a few minutes; and you need a cluster "
+    "or an AWS account. For a quick edit in a repo you already have open, running locally "
+    "is simpler and this adds nothing."),
    ("what-can-the-shell-do", "How much can the shell actually do?",
     "Deliberately little. It opens as <code>uid 1000</code> with no <code>sudo</code>, "
     "no service-account token and no host credentials, on a read-only root filesystem "
@@ -163,6 +185,26 @@ L = {
     "而且憑證授權的是一個 session，不是你的整個叢集。此外你要的往往不是「一個 shell」，"
     "而是「那個運行環境」裡的 shell —— 同一個映像、同一個 workspace、同一批檔案，"
     "不是在筆電上重現一次。"),
+   ("vs-herdr", "這跟 herdr 有什麼不同?",
+    "herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、"
+    "斷線後仍活著、把每個窗格分類成 working／blocked／idle，還有 CLI 和 socket API。"
+    "持久性和艦隊視圖這兩點和這個 app 幾乎完全重疊。"
+    "不同的是 <em>agent 跑在哪裡</em>:herdr 把它們跑在你叫它的那台機器上，"
+    "共用你的使用者、你的檔案系統、你的憑證。這裡每個 session 是你叢集裡自己的容器 —— "
+    "<code>uid 1000</code>、沒有 <code>sudo</code>、沒有主機憑證、根檔案系統唯讀、"
+    "workspace 用完即棄 —— 經 WireGuard tailnet 連上，不開任何連接埠。"
+    "分野是沙箱化，不是多工。herdr 也做得到一些這個做不到的事:窗格狀態判定、"
+    "可腳本化的本機 API，以及完全不需要任何基礎架構。如果你希望什麼都不用部署，"
+    "herdr 是更好的答案。"),
+   ("vs-local", "這跟只在我的電腦上跑 Claude Code 或 Codex Desktop 有什麼不同?",
+    "在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、"
+    "你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，"
+    "是在你的機器上下錯。這裡的 shell 什麼都沒有，workspace 隨 session 一起丟掉，"
+    "而且好幾個 agent 可以同時工作而不必爭同一個 working tree 或同一組連接埠。"
+    "你的筆電也可以睡眠或闔上，什麼都不會停。"
+    "代價是真的:agent 看不到你本機的檔案，工作要透過 git 送過去;某個映像第一次拉取"
+    "要幾分鐘;而且你需要一個叢集或一個 AWS 帳號。如果只是在一個已經開著的 repo 裡改一行，"
+    "在本機跑更簡單，這個東西沒有任何幫助。"),
    ("what-can-the-shell-do", "這個 shell 到底能做多少事?",
     "刻意很少。它以 <code>uid 1000</code> 開啟，沒有 <code>sudo</code>、沒有 "
     "service-account token、沒有主機憑證，根檔案系統唯讀，workspace 用完即棄。"
@@ -242,6 +284,30 @@ L = {
     "同じ分割レイアウトを復元します。デプロイの形も違います。クライアントに kubeconfig "
     "は不要、port-forward も不要で、資格情報が許可するのはクラスタ全体ではなく"
     "セッション 1 つです。"),
+   ("vs-herdr", "herdr とは何が違うのですか?",
+    "herdr はエージェントマルチプレクサ — コーディングエージェント版の tmux です。"
+    "各エージェントに本物の PTY を与え、切断されても生かし続け、各ペインを working／"
+    "blocked／idle に分類し、CLI と socket API を備えています。永続性と一覧性という点は、"
+    "このアプリとほぼそのまま重なります。"
+    "違うのは <em>エージェントがどこで動くか</em>です。herdr は起動したマシンの上で"
+    "動かすので、ユーザー、ファイルシステム、資格情報を共有します。こちらは各セッションが"
+    "クラスタ内の独立したコンテナで — <code>uid 1000</code>、<code>sudo</code> なし、"
+    "ホストの資格情報なし、ルートは読み取り専用、ワークスペースは使い捨て — WireGuard の "
+    "tailnet 経由で、ポートは一切開けません。違いはサンドボックス化であって、"
+    "マルチプレクスではありません。herdr にできてこちらにできないこともあります。"
+    "ペインの状態判定、スクリプト可能なローカル API、そしてインフラを一切必要としない点です。"
+    "何もデプロイしたくないなら、herdr のほうが適した答えです。"),
+   ("vs-local", "自分の Mac で Claude Code や Codex Desktop を動かすのと何が違うのですか?",
+    "Mac 上のエージェントは、あなたとして動きます。SSH 鍵、クラウドの資格情報、npm や "
+    "GitHub のトークン、ディスク上のすべてのリポジトリに手が届くので、間違ったコマンドは"
+    "あなたのマシンでの間違ったコマンドになります。こちらのシェルはそれらを一切持たず、"
+    "ワークスペースはセッションとともに破棄され、複数のエージェントが同じ作業ツリーや"
+    "同じポートを奪い合わずに同時に働けます。ノートを閉じてもスリープさせても、"
+    "何も止まりません。"
+    "代償は実在します。エージェントはローカルのファイルを見られないので作業は git 経由に"
+    "なり、イメージの初回取得には数分かかり、クラスタか AWS アカウントが必要です。"
+    "すでに開いているリポジトリを一行直すだけなら、ローカルで動かすほうが簡単で、"
+    "これは何の足しにもなりません。"),
    ("what-can-the-shell-do", "このシェルはどこまでできるのですか?",
     "意図的にほとんど何もできません。<code>uid 1000</code> で開き、<code>sudo</code> "
     "なし、サービスアカウントトークンなし、ホストの資格情報なし、ルートファイルシステムは"
@@ -323,6 +389,28 @@ L = {
     "바이트부터 다시 붙고 같은 분할 레이아웃을 복원합니다. 배포 방식도 다릅니다. "
     "클라이언트에 kubeconfig가 없고 port-forward도 없으며, 자격 증명이 허용하는 범위는 "
     "클러스터 전체가 아니라 세션 하나입니다."),
+   ("vs-herdr", "herdr와는 무엇이 다릅니까?",
+    "herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 "
+    "PTY를 주고, 연결이 끊겨도 계속 살려 두며, 각 패널을 working／blocked／idle로 "
+    "분류하고, CLI와 socket API를 제공합니다. 지속성과 전체 조망이라는 점은 이 앱과 거의 "
+    "그대로 겹칩니다."
+    "다른 것은 <em>에이전트가 어디서 실행되는가</em>입니다. herdr는 실행한 그 머신 위에서 "
+    "돌리므로 사용자, 파일시스템, 자격 증명을 공유합니다. 여기서는 각 세션이 클러스터 안의 "
+    "독립된 컨테이너이며 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 "
+    "없음, 루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 "
+    "전혀 열지 않습니다. 차이는 샌드박싱이며 멀티플렉싱이 아닙니다. herdr가 할 수 있고 "
+    "이쪽이 못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 "
+    "전혀 필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 herdr가 더 나은 답입니다."),
+   ("vs-local", "제 Mac에서 Claude Code나 Codex Desktop을 그냥 쓰는 것과 무엇이 다릅니까?",
+    "Mac 위의 에이전트는 여러분 자신으로 실행됩니다. SSH 키, 클라우드 자격 증명, npm과 "
+    "GitHub 토큰, 디스크의 모든 리포지터리에 닿을 수 있으므로 잘못된 명령은 여러분의 "
+    "기계에서의 잘못된 명령이 됩니다. 이쪽 셸은 그런 것을 하나도 갖지 않고, 워크스페이스는 "
+    "세션과 함께 버려지며, 여러 에이전트가 같은 작업 트리나 같은 포트를 두고 다투지 않고 "
+    "동시에 일할 수 있습니다. 노트북을 닫거나 잠자기로 두어도 아무것도 멈추지 않습니다."
+    "대가는 실재합니다. 에이전트는 로컬 파일을 볼 수 없어 작업은 git으로 오가고, 이미지의 "
+    "첫 내려받기는 몇 분이 걸리며, 클러스터나 AWS 계정이 필요합니다. 이미 열어 둔 "
+    "리포지터리에서 한 줄 고치는 정도라면 로컬 실행이 더 간단하고 이것은 아무 도움이 "
+    "되지 않습니다."),
    ("what-can-the-shell-do", "이 셸은 실제로 무엇을 할 수 있습니까?",
     "의도적으로 거의 못 합니다. <code>uid 1000</code>으로 열리며 <code>sudo</code>도, "
     "서비스 어카운트 토큰도, 호스트 자격 증명도 없습니다. 루트 파일시스템은 읽기 전용이고 "

@@ -79,6 +79,14 @@
   <summary><span class="q">這和 <code>kubectl exec</code> 或 SSH 有什麼不同?</span></summary>
   <p>兩者都給你一個 shell，但都不給你一個活得下去的 session。<code>exec</code> 進行中關掉終端，程序就跟著連線一起死。這裡的 session 活在容器裡，關掉 app 只是關掉一條 WebSocket，其他什麼都沒發生 —— 下次啟動從輸出中斷的那個位元組接回來，並還原同一個分割版面。部署模型也不同:客戶端上沒有 kubeconfig、不需要 port-forward，而且憑證授權的是一個 session，不是你的整個叢集。此外你要的往往不是「一個 shell」，而是「那個運行環境」裡的 shell —— 同一個映像、同一個 workspace、同一批檔案，不是在筆電上重現一次。</p>
 </details>
+<details id="faq-vs-herdr">
+  <summary><span class="q">這跟 herdr 有什麼不同?</span></summary>
+  <p>herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、斷線後仍活著、把每個窗格分類成 working／blocked／idle，還有 CLI 和 socket API。持久性和艦隊視圖這兩點和這個 app 幾乎完全重疊。不同的是 <em>agent 跑在哪裡</em>:herdr 把它們跑在你叫它的那台機器上，共用你的使用者、你的檔案系統、你的憑證。這裡每個 session 是你叢集裡自己的容器 —— <code>uid 1000</code>、沒有 <code>sudo</code>、沒有主機憑證、根檔案系統唯讀、workspace 用完即棄 —— 經 WireGuard tailnet 連上，不開任何連接埠。分野是沙箱化，不是多工。herdr 也做得到一些這個做不到的事:窗格狀態判定、可腳本化的本機 API，以及完全不需要任何基礎架構。如果你希望什麼都不用部署，herdr 是更好的答案。</p>
+</details>
+<details id="faq-vs-local">
+  <summary><span class="q">這跟只在我的電腦上跑 Claude Code 或 Codex Desktop 有什麼不同?</span></summary>
+  <p>在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，是在你的機器上下錯。這裡的 shell 什麼都沒有，workspace 隨 session 一起丟掉，而且好幾個 agent 可以同時工作而不必爭同一個 working tree 或同一組連接埠。你的筆電也可以睡眠或闔上，什麼都不會停。代價是真的:agent 看不到你本機的檔案，工作要透過 git 送過去;某個映像第一次拉取要幾分鐘;而且你需要一個叢集或一個 AWS 帳號。如果只是在一個已經開著的 repo 裡改一行，在本機跑更簡單，這個東西沒有任何幫助。</p>
+</details>
 <details id="faq-what-can-the-shell-do">
   <summary><span class="q">這個 shell 到底能做多少事?</span></summary>
   <p>刻意很少。它以 <code>uid 1000</code> 開啟，沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證，根檔案系統唯讀，workspace 用完即棄。session 的 shell 可以經 loopback 連到 runtime —— 這正是管理憑證從不放進容器的原因:attach token 只授權一個 session，而且會過期。</p>
