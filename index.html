@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenAB Connect — agents from every major vendor, one client</title>
-<meta name="description" content="Agents from every major vendor in one macOS client, running distributed across your own private infrastructure, each in its own sandbox.">
+<meta name="description" content="Agents from every major vendor in one macOS client. Encrypted and distributed across your own private infrastructure, each in its own sandbox.">
 <link rel="canonical" href="https://connect.openab.dev/">
 <link rel="icon" href="/icon.png">
 <link rel="stylesheet" href="/style.css">
@@ -20,15 +20,12 @@
 <nav>
   <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
   <div class="links">
-    <a href="#what">What it is</a>
-    <a href="#own">You own both ends</a>
-    <a href="#deploy">Deploy</a>
+    <a href="#features">Features</a>
+    <a href="#faq">FAQ</a>
     <a href="/support.html">Support</a>
     <span class="lang"><a href="/zh/">中文</a>|<a href="/ja/">日本語</a>|<a href="/ko/">한국어</a>|<a class="active" href="/">EN</a></span>
   </div>
 </nav>
-
-<div class="wrap">
 
 <header>
   <img class="appicon" src="/icon.png" alt="OpenAB Connect">
@@ -36,19 +33,14 @@
   <p class="tag">Encrypted and distributed across your own private infrastructure.<br><strong>Quit the app and they keep running.</strong></p>
 </header>
 
-</div>
-
 <div class="shotwrap">
-<figure>
-  <img src="/screenshot.png" alt="OpenAB Connect with seven agent connections in the sidebar and four terminal panes attached to different coding CLIs">
-  <figcaption>Seven agents deployed, four attached at once. Every header states the two things the runtime states about itself: the workspace is ephemeral, and teardown is best-effort.</figcaption>
-</figure>
+<figure><img src="/screenshot.png" alt="OpenAB Connect with seven agent connections in the sidebar and four terminal panes attached to different coding CLIs"></figure>
 </div>
 
-<section class="features">
+<section class="features" id="features">
 <div class="features-grid">
   <div class="feature">
-    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="M9 12h6M12 9v6"/></svg></div>
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/></svg></div>
     <h3>Every major vendor</h3>
     <p>Thirteen agent CLIs, one image each — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot and more. Chosen per session. The <code>native</code> variant carries no agent at all.</p>
   </div>
@@ -62,32 +54,60 @@
     <h3>Nothing is exposed</h3>
     <p>No ports opened, no ingress, no public endpoint. A Tailscale sidecar is the only thing with a network identity; the runtime binds loopback only.</p>
   </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+    <h3>Any Kubernetes, or ECS</h3>
+    <p>It deploys a plain pod, so any conformant cluster works — k3s on a spare box, EKS, GKE. Or AWS ECS Fargate, where there is no cluster to run at all.</p>
+  </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></svg></div>
+    <h3>The runtime is open source</h3>
+    <p>MIT licensed at <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>. Read exactly what you are about to run, or write your own client against the published contract.</p>
+  </div>
+  <div class="feature soon">
+    <span class="ribbon">coming soon</span>
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+    <h3>Just say it</h3>
+    <p>Talk to the agent instead of typing at it — the same session, driven by chat or voice through openab.</p>
+  </div>
 </div>
 </section>
 
-<div class="wrap">
-
-<h2 id="what">What it is</h2>
-<p>Your agent runs somewhere. When it leaves something half-finished you want a shell <em>there</em> — same image, same workspace, same files — not a reproduction of it on your laptop.</p>
-
-<div class="panel">
-<p style="margin-top:0"><strong>The shell is deliberately powerless.</strong> It opens as <code>uid 1000</code> with no <code>sudo</code>, no service-account token, no host credentials, a read-only root filesystem and an ephemeral workspace.</p>
-<p style="margin-bottom:0" class="dim">The runtime never listens on a routable address. A Tailscale sidecar is the only thing with a network identity, and the two talk over loopback inside the pod.</p>
-</div>
-
-<h2 id="own">You own both ends</h2>
-<ul>
-  <li><strong>There is no service here.</strong> Every server the app talks to is one you deployed, in your own Kubernetes cluster or your own AWS account.</li>
-  <li><strong>No account, no sign-up, no telemetry.</strong> Credentials you supply stay in your macOS Keychain and go nowhere except your own runtime.</li>
-  <li><strong>The runtime is open source</strong> under MIT: <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>. Read exactly what you are deploying, or write your own client against <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">the client contract</a>. This app is one implementation of it, and is not open source.</li>
-</ul>
-
-<h2 id="deploy">Deploy it</h2>
-<p>Three clicks, and the app does eight things: mints a credential into your Keychain, ensures the namespace, creates the secret and the volume, applies the pod, waits for it to run, waits for it to join your tailnet, and verifies the admin plane. No manifests to write, no ports to open.</p>
-<p class="dim">One image per agent CLI — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot and more. The <code>native</code> variant carries no agent at all.</p>
-
-<h2 id="demo">Trying it without a cluster</h2>
-<p class="note">The app ships an offline <strong>Demo Mode</strong> in its app menu: two sample connections and a canned terminal, with no network connection of any kind. It is there so the app can be evaluated before you deploy anything.</p>
+<section class="faq" id="faq">
+<h2>Questions</h2>
+<details id="faq-why-not-ssh">
+  <summary>How is this different from <code>kubectl exec</code> or SSH?</summary>
+  <p>Both give you a shell; neither gives you a session that survives. Quit your terminal mid-<code>exec</code> and the process dies with the connection. Here the session lives in the container, so closing the app closes a WebSocket and nothing else — the next launch re-attaches from the byte where output stopped and restores the same split layout. The deployment model differs too: no kubeconfig on the client, no port-forward, and a credential that authorises one session rather than your whole cluster.</p>
+</details>
+<details id="faq-what-can-the-shell-do">
+  <summary>How much can the shell actually do?</summary>
+  <p>Deliberately little. It opens as <code>uid 1000</code> with no <code>sudo</code>, no service-account token and no host credentials, on a read-only root filesystem with an ephemeral workspace. A session shell can reach the runtime over loopback, which is why the admin credential is never inside the container: an attach token authorises exactly one session and expires.</p>
+</details>
+<details id="faq-open-ports">
+  <summary>Do I have to open a port or set up ingress?</summary>
+  <p>No. The runtime binds <code>127.0.0.1</code> and holds no TLS key. A Tailscale sidecar in the same pod is the only thing with a network identity, and the two talk over loopback inside the pod's network namespace. Traffic reaches you over the WireGuard tailnet, which is what carries the encryption.</p>
+</details>
+<details id="faq-do-you-see-my-data">
+  <summary>What do you receive?</summary>
+  <p>Nothing. There is no service here — every server the app talks to is one you deployed, in your own cluster or your own AWS account. No account, no sign-up, no analytics, no telemetry. Credentials you supply stay in the macOS Keychain and go nowhere except your own runtime.</p>
+</details>
+<details id="faq-inspect-first">
+  <summary>Can I see what I am deploying before I deploy it?</summary>
+  <p>Yes. The runtime is MIT licensed at <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>, and the <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">client contract</a> is published, so you can write your own client instead of using this one. This app is one implementation of that contract and is not open source.</p>
+</details>
+<details id="faq-try-without-cluster">
+  <summary>Can I try it without a cluster?</summary>
+  <p>Yes. <strong>Demo Mode</strong> in the app menu runs two sample connections and a recorded terminal with no network connection of any kind. It exists so the app can be evaluated before you deploy anything.</p>
+</details>
+<details id="faq-what-deploy-does">
+  <summary>What happens when I deploy?</summary>
+  <p>Three clicks, then eight steps: a credential is minted into your Keychain, the namespace is ensured, the secret and volume are created, the pod is applied, and the app waits for it to run, waits for it to join your tailnet, and verifies the admin plane. No manifests to write. The first deploy of an image can take a couple of minutes because the cluster is pulling it.</p>
+</details>
+<details id="faq-teardown">
+  <summary>Is anything left behind when I delete a session?</summary>
+  <p>Teardown is best-effort, and the app says so wherever it matters. Only the first kill domain is implemented, so a process that leaves its process group may outlive its session until the pod or task is replaced. The workspace is ephemeral: deleting the session discards it.</p>
+</details>
+</section>
 
 <footer>
   <a href="/privacy.html">Privacy</a>
@@ -96,6 +116,28 @@
   <span class="dim">© 2026 openabdev</span>
 </footer>
 
-</div>
+<script>
+// Give every question a copyable anchor, so an answer can be linked to directly
+// rather than described. Added in script because the markup should stay readable.
+(function () {
+  var items = document.querySelectorAll(".faq details[id]");
+  Array.prototype.forEach.call(items, function (d) {
+    var a = document.createElement("a");
+    a.className = "faq-anchor";
+    a.href = "#" + d.id;
+    a.textContent = "#";
+    a.setAttribute("aria-label", "Link to this question");
+    d.querySelector("summary").appendChild(a);
+  });
+  // A linked question should already be open when it is arrived at. Looked up by id
+  // rather than built into a selector: location.hash needs escaping to be a valid
+  // selector, and getElementById needs none.
+  if (location.hash) {
+    var t = document.getElementById(location.hash.slice(1));
+    if (t && t.tagName === "DETAILS") { t.open = true; }
+  }
+})();
+</script>
+
 </body>
 </html>

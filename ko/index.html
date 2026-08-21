@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenAB Connect — 주요 벤더의 에이전트를 클라이언트 하나로</title>
-<meta name="description" content="주요 벤더의 에이전트를 클라이언트 한곳에서. 여러분의 사설 인프라에 분산되어 각자 샌드박스에서 실행됩니다.">
+<title>OpenAB Connect — 주요 벤더의 모든 에이전트를 클라이언트 하나로</title>
+<meta name="description" content="주요 벤더의 모든 에이전트를 클라이언트 하나로. 암호화된 채로 여러분의 사설 인프라에 분산되어 각자 샌드박스에서 실행됩니다.">
 <link rel="canonical" href="https://connect.openab.dev/ko/">
 <link rel="icon" href="/icon.png">
 <link rel="stylesheet" href="/style.css">
@@ -20,15 +20,12 @@
 <nav>
   <a class="brand" href="/ko/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
   <div class="links">
-    <a href="#what">무엇인가</a>
-    <a href="#own">양쪽 모두 내 것</a>
-    <a href="#deploy">배포</a>
+    <a href="#features">특징</a>
+    <a href="#faq">자주 묻는 질문</a>
     <a href="/support.html">지원</a>
     <span class="lang"><a href="/zh/">中文</a>|<a href="/ja/">日本語</a>|<a class="active" href="/ko/">한국어</a>|<a href="/">EN</a></span>
   </div>
 </nav>
-
-<div class="wrap">
 
 <header>
   <img class="appicon" src="/icon.png" alt="OpenAB Connect">
@@ -36,19 +33,14 @@
   <p class="tag">암호화된 채로 여러분의 사설 인프라에 분산되어 실행됩니다.<br><strong>앱을 닫아도 계속 실행됩니다.</strong></p>
 </header>
 
-</div>
-
 <div class="shotwrap">
-<figure>
-  <img src="/screenshot.png" alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 열려 있는 OpenAB Connect">
-  <figcaption>7개를 배포하고 4개를 동시에 연결한 화면. 각 헤더는 런타임이 스스로 밝히는 두 가지를 그대로 보여줍니다. 워크스페이스는 임시이며, 종료 처리는 best-effort입니다.</figcaption>
-</figure>
+<figure><img src="/screenshot.png" alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 열려 있는 OpenAB Connect"></figure>
 </div>
 
-<section class="features">
+<section class="features" id="features">
 <div class="features-grid">
   <div class="feature">
-    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="M9 12h6M12 9v6"/></svg></div>
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/></svg></div>
     <h3>주요 벤더를 모두</h3>
     <p>에이전트 CLI 13종, 각각 별도의 이미지 — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot 등. 세션마다 선택합니다. <code>native</code>는 에이전트를 포함하지 않습니다.</p>
   </div>
@@ -62,32 +54,60 @@
     <h3>외부로 아무것도 열지 않습니다</h3>
     <p>포트를 열지 않고 ingress도 공개 엔드포인트도 없습니다. 네트워크 신원을 가진 것은 Tailscale 사이드카뿐이며 런타임은 loopback만 수신합니다.</p>
   </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+    <h3>어떤 Kubernetes든, ECS든</h3>
+    <p>배포하는 것은 평범한 pod이므로 표준을 따르는 클러스터면 모두 동작합니다 — 남는 장비의 k3s, EKS, GKE. 또는 AWS ECS Fargate라면 운영할 클러스터 자체가 없습니다.</p>
+  </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></svg></div>
+    <h3>런타임은 오픈소스</h3>
+    <p>MIT 라이선스로 <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>에 있습니다. 무엇을 실행할지 먼저 확인할 수 있고, 공개된 계약에 맞춰 자신의 클라이언트도 만들 수 있습니다.</p>
+  </div>
+  <div class="feature soon">
+    <span class="ribbon">출시 예정</span>
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+    <h3>말로도 됩니다</h3>
+    <p>타이핑만이 아니라 — openab을 통해 같은 세션을 채팅이나 음성으로 움직입니다.</p>
+  </div>
 </div>
 </section>
 
-<div class="wrap">
-
-<h2 id="what">무엇인가</h2>
-<p>에이전트는 어딘가에서 돌아갑니다. 작업이 중간에 멈췄을 때 필요한 것은 <em>그곳</em>의 셸입니다. 같은 이미지, 같은 워크스페이스, 같은 파일. 노트북에서 재현한 것이 아닙니다.</p>
-
-<div class="panel">
-<p style="margin-top:0"><strong>이 셸은 의도적으로 권한이 없습니다.</strong><code>uid 1000</code>으로 열리며 <code>sudo</code>도, 서비스 어카운트 토큰도, 호스트 자격 증명도 없습니다. 루트 파일시스템은 읽기 전용이고 워크스페이스는 일회용입니다.</p>
-<p style="margin-bottom:0" class="dim">런타임은 라우팅 가능한 주소를 전혀 수신하지 않습니다. 네트워크 신원을 가진 것은 Tailscale 사이드카뿐이며, 둘은 pod 내부 loopback으로 통신합니다.</p>
-</div>
-
-<h2 id="own">양쪽 모두 내 것</h2>
-<ul>
-  <li><strong>여기에 서비스는 없습니다.</strong> 앱이 연결하는 서버는 모두 여러분이 자신의 Kubernetes 클러스터나 AWS 계정에 배포한 것입니다.</li>
-  <li><strong>계정도, 가입도, 텔레메트리도 없습니다.</strong> 입력한 자격 증명은 macOS 키체인에 남고, 여러분 자신의 런타임 외에는 어디로도 전송되지 않습니다.</li>
-  <li><strong>런타임은 MIT 오픈소스입니다</strong>: <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>. 무엇을 배포하는지 직접 확인할 수 있고, <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">클라이언트 계약</a>에 맞춰 자신의 클라이언트를 만들 수도 있습니다. 이 앱은 그 구현 중 하나이며 오픈소스가 아닙니다.</li>
-</ul>
-
-<h2 id="deploy">배포</h2>
-<p>세 번의 클릭으로 앱이 여덟 가지를 처리합니다. 자격 증명 생성과 키체인 저장, namespace 확인, secret과 볼륨 생성, pod 적용, 실행 대기, tailnet 참여 대기, 관리 평면 검증. 매니페스트를 쓸 필요도, 포트를 열 필요도 없습니다.</p>
-<p class="dim">에이전트 CLI마다 이미지 하나 — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot 등. <code>native</code>는 에이전트를 포함하지 않습니다.</p>
-
-<h2 id="demo">클러스터 없이 사용해 보기</h2>
-<p class="note">앱 메뉴에 오프라인 <strong>Demo Mode</strong>가 있습니다. 샘플 연결 두 개와 미리 녹화된 터미널만 있고 어떤 네트워크 연결도 하지 않습니다. 아무것도 배포하기 전에 앱을 평가할 수 있도록 넣었습니다.</p>
+<section class="faq" id="faq">
+<h2>자주 묻는 질문</h2>
+<details id="faq-why-not-ssh">
+  <summary><code>kubectl exec</code>이나 SSH와 무엇이 다릅니까?</summary>
+  <p>둘 다 셸은 주지만, 살아남는 세션은 주지 않습니다. <code>exec</code> 도중에 터미널을 닫으면 프로세스는 연결과 함께 죽습니다. 여기서는 세션이 컨테이너 안에 살아 있어서 앱을 닫는 것은 WebSocket 하나를 닫는 일에 그칩니다. 다음 실행에서 출력이 멈춘 바이트부터 다시 붙고 같은 분할 레이아웃을 복원합니다. 배포 방식도 다릅니다. 클라이언트에 kubeconfig가 없고 port-forward도 없으며, 자격 증명이 허용하는 범위는 클러스터 전체가 아니라 세션 하나입니다.</p>
+</details>
+<details id="faq-what-can-the-shell-do">
+  <summary>이 셸은 실제로 무엇을 할 수 있습니까?</summary>
+  <p>의도적으로 거의 못 합니다. <code>uid 1000</code>으로 열리며 <code>sudo</code>도, 서비스 어카운트 토큰도, 호스트 자격 증명도 없습니다. 루트 파일시스템은 읽기 전용이고 워크스페이스는 일회용입니다. 세션 셸은 loopback으로 런타임에 닿을 수 있는데, 바로 그래서 관리 자격 증명은 컨테이너 안에 두지 않습니다. 어태치 토큰은 세션 하나만 허용하고 만료됩니다.</p>
+</details>
+<details id="faq-open-ports">
+  <summary>포트를 열거나 ingress를 설정해야 합니까?</summary>
+  <p>아닙니다. 런타임은 <code>127.0.0.1</code>에 바인드하고 TLS 키를 갖지 않습니다. 같은 pod의 Tailscale 사이드카만 네트워크 신원을 가지며, 둘은 pod의 네트워크 네임스페이스 안에서 loopback으로 통신합니다. 트래픽은 WireGuard tailnet을 통해 도달하고 암호화는 그쪽이 담당합니다.</p>
+</details>
+<details id="faq-do-you-see-my-data">
+  <summary>그쪽에는 무엇이 전달됩니까?</summary>
+  <p>아무것도 전달되지 않습니다. 여기에 서비스가 없습니다. 앱이 연결하는 서버는 모두 여러분이 자신의 클러스터나 자신의 AWS 계정에 배포한 것입니다. 계정도, 가입도, 분석도, 텔레메트리도 없습니다. 입력한 자격 증명은 macOS 키체인에 남고 여러분 자신의 런타임 외에는 어디로도 전송되지 않습니다.</p>
+</details>
+<details id="faq-inspect-first">
+  <summary>배포하기 전에 무엇을 배포하는지 확인할 수 있습니까?</summary>
+  <p>가능합니다. 런타임은 MIT 라이선스로 <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>에 있고 <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">클라이언트 계약</a>도 공개되어 있어, 이 앱을 쓰지 않고 자신의 클라이언트를 만들 수도 있습니다. 이 앱은 그 계약의 한 구현이며 오픈소스가 아닙니다.</p>
+</details>
+<details id="faq-try-without-cluster">
+  <summary>클러스터 없이 사용해 볼 수 있습니까?</summary>
+  <p>가능합니다. 앱 메뉴의 <strong>Demo Mode</strong>는 샘플 연결 두 개와 미리 녹화된 터미널만으로 동작하며 어떤 네트워크 연결도 하지 않습니다. 아무것도 배포하기 전에 앱을 평가할 수 있도록 넣었습니다.</p>
+</details>
+<details id="faq-what-deploy-does">
+  <summary>배포를 누르면 무슨 일이 일어납니까?</summary>
+  <p>세 번의 클릭 뒤에 여덟 단계가 진행됩니다. 자격 증명을 만들어 키체인에 저장하고, namespace를 확인하고, secret과 볼륨을 만들고, pod을 적용한 뒤, 실행을 기다리고, tailnet 참여를 기다리고, 관리 평면을 검증합니다. 매니페스트를 쓸 필요가 없습니다. 어떤 이미지의 첫 배포는 클러스터가 이미지를 받아오는 동안 몇 분이 걸릴 수 있습니다.</p>
+</details>
+<details id="faq-teardown">
+  <summary>세션을 삭제한 뒤에 남는 것이 있습니까?</summary>
+  <p>종료 처리는 best-effort이고, 앱은 필요한 곳마다 그렇게 밝힙니다. 구현된 것은 첫 번째 kill domain뿐이므로, 자신의 프로세스 그룹을 벗어난 프로세스는 pod이나 task가 교체될 때까지 세션보다 오래 살아남을 수 있습니다. 워크스페이스는 임시이며 세션을 삭제하면 함께 버려집니다.</p>
+</details>
+</section>
 
 <footer>
   <a href="/privacy.html">개인정보</a>
@@ -96,6 +116,28 @@
   <span class="dim">© 2026 openabdev</span>
 </footer>
 
-</div>
+<script>
+// Give every question a copyable anchor, so an answer can be linked to directly
+// rather than described. Added in script because the markup should stay readable.
+(function () {
+  var items = document.querySelectorAll(".faq details[id]");
+  Array.prototype.forEach.call(items, function (d) {
+    var a = document.createElement("a");
+    a.className = "faq-anchor";
+    a.href = "#" + d.id;
+    a.textContent = "#";
+    a.setAttribute("aria-label", "Link to this question");
+    d.querySelector("summary").appendChild(a);
+  });
+  // A linked question should already be open when it is arrived at. Looked up by id
+  // rather than built into a selector: location.hash needs escaping to be a valid
+  // selector, and getElementById needs none.
+  if (location.hash) {
+    var t = document.getElementById(location.hash.slice(1));
+    if (t && t.tagName === "DETAILS") { t.open = true; }
+  }
+})();
+</script>
+
 </body>
 </html>

@@ -194,3 +194,51 @@ html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
 .shotwrap { max-width: 1080px; margin: 0 auto; padding: 8px 24px 0; }
 .shotwrap figure { margin: 0; }
 .shotwrap figcaption { max-width: 46em; }
+
+/* A terminal product's screenshot is mostly dark, and it always will be — the agent
+   CLIs draw ANSI colour tuned for a dark background. So rather than fighting it, the
+   showcase band tints toward the icon colour and fades out, which makes the dark
+   window read as deliberately inset instead of pasted onto the page. */
+.shotwrap {
+  background: linear-gradient(180deg, var(--mint-tint) 0%, transparent 82%);
+  padding-top: 28px; padding-bottom: 8px;
+}
+.shotwrap img { border-radius: 10px; }
+
+/* Ribbon on an unreleased card. A corner pill rather than a diagonal banner: the
+   point is to be unmissable while reading as part of the card, because an unmarked
+   roadmap item would put every other card's credibility on the footing of a plan. */
+.feature { position: relative; }
+.feature.soon { border-style: dashed; }
+.feature .ribbon {
+  position: absolute; top: 12px; right: 12px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--mint-deep); background: var(--mint-tint);
+  border: 1px solid var(--border); border-radius: 999px; padding: 3px 9px;
+}
+.feature.soon h3, .feature.soon p { opacity: 0.78; }
+
+/* FAQ. Same grammar as foldic.app: a bottom-ruled details list with +/- and a
+   copyable anchor per question. */
+section.faq { max-width: 760px; margin: 0 auto; padding: 3.5rem 24px 1rem; }
+section.faq h2 { text-align: center; margin-bottom: 1.6rem; }
+.faq details { border-bottom: 1px solid var(--border); padding: 1rem 0.2rem; }
+.faq summary {
+  cursor: pointer; font-weight: 600; font-size: 1rem; list-style: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--mint-deep); font-size: 1.3rem; font-weight: 400; }
+.faq details[open] summary::after { content: "–"; }
+.faq summary .faq-anchor {
+  margin-left: 0.55rem; margin-right: auto; color: var(--mint-deep);
+  opacity: 0.3; text-decoration: none; font-weight: 400; transition: opacity 0.15s;
+}
+.faq summary .faq-anchor:hover, .faq summary .faq-anchor:focus { opacity: 1; }
+.faq details p { color: var(--muted); font-size: 0.95rem; padding-top: 0.6rem; margin: 0; }
+html[data-lang="zh"] .faq summary,
+html[data-lang="ja"] .faq summary,
+html[data-lang="ko"] .faq summary { font-size: 1.06rem; font-weight: 700; }
+html[data-lang="zh"] .faq details p,
+html[data-lang="ja"] .faq details p,
+html[data-lang="ko"] .faq details p { font-size: 1rem; line-height: 1.85; }

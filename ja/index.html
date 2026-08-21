@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenAB Connect — 主要ベンダーのエージェントを、ひとつのクライアントに</title>
-<meta name="description" content="主要ベンダーのエージェントをひとつのクライアントにまとめ、自分のプライベート環境に分散して、それぞれのサンドボックスで動かします。">
+<title>OpenAB Connect — すべての主要ベンダーのエージェントを、ひとつのクライアントに</title>
+<meta name="description" content="すべての主要ベンダーのエージェントをひとつのクライアントに。暗号化されたまま、自分のプライベート環境に分散し、それぞれのサンドボックスで動きます。">
 <link rel="canonical" href="https://connect.openab.dev/ja/">
 <link rel="icon" href="/icon.png">
 <link rel="stylesheet" href="/style.css">
@@ -20,15 +20,12 @@
 <nav>
   <a class="brand" href="/ja/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
   <div class="links">
-    <a href="#what">これは何か</a>
-    <a href="#own">両端はあなたのもの</a>
-    <a href="#deploy">デプロイ</a>
+    <a href="#features">特徴</a>
+    <a href="#faq">よくある質問</a>
     <a href="/support.html">サポート</a>
     <span class="lang"><a href="/zh/">中文</a>|<a class="active" href="/ja/">日本語</a>|<a href="/ko/">한국어</a>|<a href="/">EN</a></span>
   </div>
 </nav>
-
-<div class="wrap">
 
 <header>
   <img class="appicon" src="/icon.png" alt="OpenAB Connect">
@@ -36,19 +33,14 @@
   <p class="tag">暗号化されたまま、自分のプライベート環境に分散して動きます。<br><strong>アプリを閉じても、動き続けます。</strong></p>
 </header>
 
-</div>
-
 <div class="shotwrap">
-<figure>
-  <img src="/screenshot.png" alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の coding CLI に接続している OpenAB Connect">
-  <figcaption>7 つデプロイし、4 つを同時に接続。各ヘッダーはランタイム自身が明言している 2 点をそのまま表示します。ワークスペースは一時的であること、そして終了処理は best-effort であること。</figcaption>
-</figure>
+<figure><img src="/screenshot.png" alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の coding CLI に接続している OpenAB Connect"></figure>
 </div>
 
-<section class="features">
+<section class="features" id="features">
 <div class="features-grid">
   <div class="feature">
-    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6z"/><path d="M9 12h6M12 9v6"/></svg></div>
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/></svg></div>
     <h3>主要ベンダーを網羅</h3>
     <p>13 種類のエージェント CLI に、それぞれのイメージ — Claude Code、Codex、Cursor、Kiro、Gemini、Copilot など。セッションごとに選べます。<code>native</code> はエージェントを含みません。</p>
   </div>
@@ -62,32 +54,60 @@
     <h3>外部には何も公開しない</h3>
     <p>ポートを開けず、ingress も公開エンドポイントもありません。ネットワーク上の識別を持つのは Tailscale サイドカーだけで、ランタイムは loopback だけを listen します。</p>
   </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
+    <h3>Kubernetes でも ECS でも</h3>
+    <p>デプロイするのはごく普通の pod なので、準拠したクラスタなら何でも動きます — 空いているマシンの k3s、EKS、GKE。あるいは AWS ECS Fargate なら、クラスタ自体を運用する必要がありません。</p>
+  </div>
+  <div class="feature">
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></svg></div>
+    <h3>ランタイムはオープンソース</h3>
+    <p>MIT ライセンスで <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a> にあります。何を動かすのかを先に確認できますし、公開された契約に沿って自分のクライアントも書けます。</p>
+  </div>
+  <div class="feature soon">
+    <span class="ribbon">近日公開</span>
+    <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
+    <h3>話しかけて動かす</h3>
+    <p>打ち込むだけでなく — openab を通じて、同じセッションをチャットや音声で動かせます。</p>
+  </div>
 </div>
 </section>
 
-<div class="wrap">
-
-<h2 id="what">これは何か</h2>
-<p>エージェントはどこかで動いています。作業が途中で止まったとき、必要なのは<em>その場所</em>のシェルです。同じイメージ、同じワークスペース、同じファイル。手元で再現したものではありません。</p>
-
-<div class="panel">
-<p style="margin-top:0"><strong>このシェルには意図的に権限がありません。</strong><code>uid 1000</code> で開き、<code>sudo</code> なし、サービスアカウントトークンなし、ホストの資格情報なし、ルートファイルシステムは読み取り専用、ワークスペースは使い捨てです。</p>
-<p style="margin-bottom:0" class="dim">ランタイムはルーティング可能なアドレスを一切リッスンしません。ネットワーク上の識別を持つのは Tailscale サイドカーだけで、両者は pod 内の loopback で会話します。</p>
-</div>
-
-<h2 id="own">両端はあなたのもの</h2>
-<ul>
-  <li><strong>ここにサービスはありません。</strong>アプリが接続する先はすべて、あなたが自分の Kubernetes クラスタか AWS アカウントにデプロイしたものです。</li>
-  <li><strong>アカウント登録なし、テレメトリなし。</strong>入力した資格情報は macOS のキーチェーンに留まり、あなた自身のランタイム以外へは送信されません。</li>
-  <li><strong>ランタイムは MIT ライセンスのオープンソースです</strong>:<a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>。何をデプロイしているかを自分で確認できますし、<a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">クライアント契約</a>に沿って自分のクライアントを書くこともできます。このアプリはその一実装で、オープンソースではありません。</li>
-</ul>
-
-<h2 id="deploy">デプロイ</h2>
-<p>3 クリックで、アプリが 8 つの作業を行います。資格情報の生成とキーチェーンへの保存、namespace の確認、secret とボリュームの作成、pod の適用、起動待ち、tailnet への参加待ち、管理プレーンの検証。マニフェストを書く必要も、ポートを開ける必要もありません。</p>
-<p class="dim">エージェント CLI ごとに 1 つのイメージ — Claude Code、Codex、Cursor、Kiro、Gemini、Copilot など。<code>native</code> はエージェントを含みません。</p>
-
-<h2 id="demo">クラスタなしで試す</h2>
-<p class="note">アプリメニューにオフラインの <strong>Demo Mode</strong> があります。サンプル接続 2 つと収録済みのターミナルだけで、ネットワーク接続は一切行いません。何もデプロイする前に評価できるようにするためのものです。</p>
+<section class="faq" id="faq">
+<h2>よくある質問</h2>
+<details id="faq-why-not-ssh">
+  <summary><code>kubectl exec</code> や SSH と何が違うのですか?</summary>
+  <p>どちらもシェルは得られますが、生き残るセッションは得られません。<code>exec</code> の途中でターミナルを閉じれば、プロセスは接続と一緒に死にます。ここではセッションがコンテナの中で生きているので、アプリを閉じても閉じるのは WebSocket ひとつだけです。次の起動で出力が止まったバイト位置から接続し直し、同じ分割レイアウトを復元します。デプロイの形も違います。クライアントに kubeconfig は不要、port-forward も不要で、資格情報が許可するのはクラスタ全体ではなくセッション 1 つです。</p>
+</details>
+<details id="faq-what-can-the-shell-do">
+  <summary>このシェルはどこまでできるのですか?</summary>
+  <p>意図的にほとんど何もできません。<code>uid 1000</code> で開き、<code>sudo</code> なし、サービスアカウントトークンなし、ホストの資格情報なし、ルートファイルシステムは読み取り専用、ワークスペースは使い捨てです。セッションのシェルは loopback でランタイムに到達できます。だからこそ管理用の資格情報はコンテナの中に置きません。アタッチトークンが許可するのは 1 セッションだけで、期限もあります。</p>
+</details>
+<details id="faq-open-ports">
+  <summary>ポートを開けたり ingress を用意する必要はありますか?</summary>
+  <p>ありません。ランタイムは <code>127.0.0.1</code> にバインドし、TLS 鍵を持ちません。同じ pod の Tailscale サイドカーだけがネットワーク上の識別を持ち、両者は pod のネットワーク名前空間の中で loopback を通して会話します。通信は WireGuard の tailnet を通って届き、暗号化はそこが担います。</p>
+</details>
+<details id="faq-do-you-see-my-data">
+  <summary>そちらには何が届くのですか?</summary>
+  <p>何も届きません。ここにサービスはありません。アプリが接続する先はすべて、あなたが自分のクラスタか自分の AWS アカウントにデプロイしたものです。アカウント登録も、解析も、テレメトリもありません。入力した資格情報は macOS のキーチェーンに留まり、あなた自身のランタイム以外へは送信されません。</p>
+</details>
+<details id="faq-inspect-first">
+  <summary>デプロイする前に中身を確認できますか?</summary>
+  <p>できます。ランタイムは MIT ライセンスで <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a> にあり、<a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">クライアント契約</a>も公開しているので、このアプリを使わずに自分のクライアントを書くこともできます。このアプリはその契約の一実装で、オープンソースではありません。</p>
+</details>
+<details id="faq-try-without-cluster">
+  <summary>クラスタなしで試せますか?</summary>
+  <p>試せます。アプリメニューの <strong>Demo Mode</strong> は、サンプル接続 2 つと収録済みのターミナルだけで動き、ネットワーク接続は一切行いません。何もデプロイする前に評価できるようにするためのものです。</p>
+</details>
+<details id="faq-what-deploy-does">
+  <summary>デプロイを押すと何が起きますか?</summary>
+  <p>3 クリックのあと、8 つの手順が走ります。資格情報を生成してキーチェーンに保存し、namespace を確認し、secret とボリュームを作成し、pod を適用し、起動を待ち、tailnet への参加を待ち、管理プレーンを検証します。マニフェストを書く必要はありません。あるイメージの初回デプロイは、クラスタがそれを取得するため数分かかることがあります。</p>
+</details>
+<details id="faq-teardown">
+  <summary>セッションを削除したあと、何か残りますか?</summary>
+  <p>終了処理は best-effort で、アプリは必要な場所すべてでそう明示します。実装されているのは最初の kill domain だけなので、自分のプロセスグループを離れたプロセスは、pod や task が置き換わるまでセッションより長く生き残ることがあります。ワークスペースは一時的で、セッションの削除とともに破棄されます。</p>
+</details>
+</section>
 
 <footer>
   <a href="/privacy.html">プライバシー</a>
@@ -96,6 +116,28 @@
   <span class="dim">© 2026 openabdev</span>
 </footer>
 
-</div>
+<script>
+// Give every question a copyable anchor, so an answer can be linked to directly
+// rather than described. Added in script because the markup should stay readable.
+(function () {
+  var items = document.querySelectorAll(".faq details[id]");
+  Array.prototype.forEach.call(items, function (d) {
+    var a = document.createElement("a");
+    a.className = "faq-anchor";
+    a.href = "#" + d.id;
+    a.textContent = "#";
+    a.setAttribute("aria-label", "Link to this question");
+    d.querySelector("summary").appendChild(a);
+  });
+  // A linked question should already be open when it is arrived at. Looked up by id
+  // rather than built into a selector: location.hash needs escaping to be a valid
+  // selector, and getElementById needs none.
+  if (location.hash) {
+    var t = document.getElementById(location.hash.slice(1));
+    if (t && t.tagName === "DETAILS") { t.open = true; }
+  }
+})();
+</script>
+
 </body>
 </html>
