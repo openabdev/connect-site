@@ -36,6 +36,10 @@
   footer { border-top: 1px solid var(--line); margin-top: 64px; padding: 28px 0 56px;
            color: var(--dim); font-size: 0.9rem; display: flex; gap: 20px; flex-wrap: wrap; }
   .note { border-left: 3px solid var(--mint); padding-left: 14px; color: var(--dim); }
+  figure { margin: 32px 0 8px; }
+  figure img { width: 100%; height: auto; display: block; border: 1px solid var(--line);
+               border-radius: 10px; background: #010409; }
+  figcaption { color: var(--dim); font-size: 0.9rem; margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -47,6 +51,13 @@
   <p class="tag">A terminal for the container your coding agent is working in — in your
   own cluster, reached over your own private network.</p>
 </header>
+
+<figure>
+  <img src="screenshot.png" alt="OpenAB Connect with seven agent connections in the sidebar and four terminal panes attached to different coding CLIs">
+  <figcaption>Seven agents deployed, four attached at once. Every header states the same two
+  things the runtime states about itself: the workspace is ephemeral, and teardown is
+  best-effort.</figcaption>
+</figure>
 
 <h2>What it is</h2>
 <p>Your agent runs somewhere. When it leaves something half-finished, you want a shell
