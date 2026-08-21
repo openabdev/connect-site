@@ -30,6 +30,9 @@ def rev(name):
 
 ORDER = ["zh", "ja", "ko", "en"]
 
+SITE = "https://connect.openab.dev"
+OG_LOCALE = {"en": "en_US", "zh": "zh_TW", "ja": "ja_JP", "ko": "ko_KR"}
+
 ICONS = [
     # stacked layers — many vendors, one surface
     '<path d="M12 2 2 7l10 5 10-5z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/>',
@@ -61,6 +64,7 @@ L = {
   hero_h1='Agents from every major vendor.<br><span class="mark">One client</span>, each sandboxed.',
   hero_sub="Encrypted and distributed across your own private infrastructure.<br>"
            "<strong>Quit the app and they keep running.</strong>",
+  og_alt='OpenAB Connect — agents from every major vendor, one client, each sandboxed',
   nav=("Features", "FAQ", "Support"),
   shot_alt="OpenAB Connect with seven agent connections in the sidebar and four terminal "
            "panes attached to different coding CLIs",
@@ -216,6 +220,7 @@ L = {
   hero_h1='所有頂尖廠商的 Agent，<br><span class="mark">一個客戶端</span>，各自沙箱。',
   hero_sub="加密分散運行在你的私有基礎架構，關掉 app，<br>"
            "<strong>它們繼續運行。</strong>",
+  og_alt='OpenAB Connect —— 所有頂尖廠商的 Agent，一個客戶端，各自沙箱',
   nav=("特色", "常見問題", "支援"),
   shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
   dev_label='開發中',
@@ -351,6 +356,7 @@ L = {
           '<span class="mark">ひとつのクライアント</span>、それぞれサンドボックス。',
   hero_sub="暗号化されたまま、自分のプライベート環境に分散して動きます。<br>"
            "<strong>アプリを閉じても、動き続けます。</strong>",
+  og_alt='OpenAB Connect — 主要ベンダーのエージェントを、ひとつのクライアントに',
   nav=("特徴", "よくある質問", "サポート"),
   shot_alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の "
            "coding CLI に接続している OpenAB Connect",
@@ -512,6 +518,7 @@ L = {
           '<span class="mark">클라이언트 하나</span>, 각자 샌드박스.',
   hero_sub="암호화된 채로 여러분의 사설 인프라에 분산되어 실행됩니다.<br>"
            "<strong>앱을 닫아도 계속 실행됩니다.</strong>",
+  og_alt='OpenAB Connect — 주요 벤더의 모든 에이전트, 클라이언트 하나, 각자 샌드박스',
   nav=("특징", "자주 묻는 질문", "지원"),
   shot_alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 "
            "열려 있는 OpenAB Connect",
@@ -688,6 +695,20 @@ TEMPLATE = """<!DOCTYPE html>
 <title>{title}</title>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="https://connect.openab.dev{base}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="{og_locale}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="https://connect.openab.dev{base}">
+<meta property="og:image" content="{og_image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{og_alt}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{og_image}">
 <link rel="icon" href="/icon.png">
 <link rel="stylesheet" href="{css}">
 {alternates}
@@ -784,9 +805,14 @@ for code in ORDER:
         code=code, alternates=alternates(), switcher=switcher(code),
         features="\n".join(cards), faqs=faqs, pty=PTY,
         css=rev("style.css"), shot=rev("screenshot.png"),
+        # Absolute, and content-hashed: scrapers cache the card by URL, so a new
+        # card only reaches Twitter and Facebook if its URL changes.
+        og_image=SITE + rev(f"og-{code}.png"), og_locale=OG_LOCALE[code],
+        og_alt=d["og_alt"],
         nav0=d["nav"][0], nav1=d["nav"][1], nav2=d["nav"][2],
         f0=d["f"][0], f1=d["f"][1], f2=d["f"][2],
         **{k: v for k, v in d.items()
-           if k not in ("nav", "f", "feats", "faq", "soon_label", "dev_label", "dir", "label")}),
+           if k not in ("nav", "f", "feats", "faq", "soon_label", "dev_label",
+                          "og_alt", "dir", "label")}),
         encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}  ({len(cards)} cards, {len(d['faq'])} questions)")
