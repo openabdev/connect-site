@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>支援 — OpenAB Connect</title>
+<meta name="description" content="如何在不部署任何東西的情況下試用 OpenAB Connect,以及值得事先知道的那些失敗情況。">
+<link rel="canonical" href="https://connect.openab.dev/zh/support.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="支援 — OpenAB Connect">
+<meta property="og:description" content="如何在不部署任何東西的情況下試用 OpenAB Connect,以及值得事先知道的那些失敗情況。">
+<meta property="og:url" content="https://connect.openab.dev/zh/support.html">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css?v=6100059d">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/support.html">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/support.html">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/support.html">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/support.html">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/support.html">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/zh/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/zh/#features">特色</a>
+    <a href="/zh/#faq">常見問題</a>
+    <a href="/zh/support.html">支援</a>
+    <span class="lang"><a class="active" href="/zh/support.html">中文</a>|<a href="/ja/support.html">日本語</a>|<a href="/ko/support.html">한국어</a>|<a href="/support.html">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap doc">
+<h1>支援</h1>
+<div class="panel"><p style="margin:0"><a href="mailto:support@openab.dev">support@openab.dev</a> —— 或者,任何關於 runtime 本身的問題,請在 <a href="https://github.com/openabdev/openab-pty/issues">openabdev/openab-pty</a> 開 issue。</p><p style="margin:10px 0 0" class="dim">安全性問題:請使用<a href="https://github.com/openabdev/openab-pty/security/advisories/new">私密 advisory</a>,不要開公開 issue 或寄信。</p></div>
+<h2>不部署任何東西也能試用</h2>
+<p>打開<strong>應用程式選單</strong>並選擇 <strong>Demo Mode</strong>。側邊欄會出現兩個範例連線;在其中任一個底下雙擊一個 session 就會開啟終端機。那是預錄的內容加上本機回顯 —— 不會建立任何網路連線,也不會執行任何東西。再選一次 Demo Mode 就會移除範例。</p>
+<h2>會出錯的事,以及為什麼</h2>
+<h3>第一次部署很久</h3><p>它在拉取容器映像,而任何 agent 版本的第一次拉取就是慢的那一段 —— 實測在普通連線下,156 MB 要超過兩分鐘。app 會回報它正在等什麼。在它說有問題之前,都不是有問題。</p>
+<h3>「沒有出現 tailnet 節點」</h3><p>註冊正常只要幾秒,所以這幾乎不是「慢」。依可能性排序:這台 Mac 登出了 tailnet,或在另一個 tailnet 上;auth key 被拒絕 —— 過期、已被用掉,或沒有標記為可重複使用;或者同名節點已經存在,所以新的註冊成了 <code>name-1</code> —— 非 ephemeral 的 key 每次部署都會這樣。<br><br>請使用同時是 <strong>Reusable</strong> 和 <strong>Ephemeral</strong> 的 key。Ephemeral 才能讓被刪掉的 pod 的節點離開 tailnet,而不是累積成一堆死掉的項目。</p>
+<h3>session 說它過期了,或被接手了</h3><p>session 的設計是單一附加:第二台裝置接上就拿走鍵盤。TTL 在你部署時設定。這兩種情況都會回報具體原因,而不是一個籠統的斷線。</p>
+<h3>workspace 把我的工作弄丟了</h3><p>除非你在部署時選了持久性的,workspace 是暫存的。它不會在 pod 被替換後存活。請把工作 push 出去;lifecycle hook 是備援,不是主要機制。app 在每個 session 的標題列都寫著這件事,原因就是這個。</p>
+<h3>我殺掉 session 之後還有程序在跑</h3><p>teardown 是 best-effort,而且在每個地方都這樣標示。目前只實作了一層 kill domain,而離開自己 process group 的程序可能活得比它的 session 久,直到 pod 或 task 被替換。這是有記錄的行為,不是故障。要確定什麼都不剩,刪掉那個 pod 或 task。</p>
+<h2>需求</h2><ul><li>macOS 13 或以上。</li><li>一個你能部署進去的 Kubernetes 叢集,或一個 AWS 帳號。</li><li>一個 Tailscale tailnet,以及它的 auth key。</li></ul>
+<h2>東西在你 Mac 上的位置</h2><pre>~/Library/Containers/dev.openab.connect/     app data, sandboxed
+Keychain (login)                             credentials, per connection</pre><p class="dim">移除 app 不會刪掉這些;如果你想完全清除,請自行刪除。</p>
+</div>
+
+<footer>
+  <a href="/zh/privacy.html">隱私</a>
+  <a href="/zh/support.html">支援</a>
+  <a href="https://github.com/openabdev/openab-pty">runtime 原始碼</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>지원 — OpenAB Connect</title>
+<meta name="description" content="아무것도 배포하지 않고 OpenAB Connect를 사용해 보는 방법과, 미리 알아 둘 만한 실패 사례들.">
+<link rel="canonical" href="https://connect.openab.dev/ko/support.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="지원 — OpenAB Connect">
+<meta property="og:description" content="아무것도 배포하지 않고 OpenAB Connect를 사용해 보는 방법과, 미리 알아 둘 만한 실패 사례들.">
+<meta property="og:url" content="https://connect.openab.dev/ko/support.html">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css?v=6100059d">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/support.html">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/support.html">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/support.html">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/support.html">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/support.html">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ko/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ko/#features">특징</a>
+    <a href="/ko/#faq">자주 묻는 질문</a>
+    <a href="/ko/support.html">지원</a>
+    <span class="lang"><a href="/zh/support.html">中文</a>|<a href="/ja/support.html">日本語</a>|<a class="active" href="/ko/support.html">한국어</a>|<a href="/support.html">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap doc">
+<h1>지원</h1>
+<div class="panel"><p style="margin:0"><a href="mailto:support@openab.dev">support@openab.dev</a> — 런타임 자체에 관한 것은 <a href="https://github.com/openabdev/openab-pty/issues">openabdev/openab-pty</a>에 이슈를 남겨 주십시오.</p><p style="margin:10px 0 0" class="dim">보안 문제는 공개 이슈나 메일이 아니라 <a href="https://github.com/openabdev/openab-pty/security/advisories/new">비공개 어드바이저리</a>를 이용해 주십시오.</p></div>
+<h2>아무것도 배포하지 않고 사용해 보기</h2>
+<p><strong>앱 메뉴</strong>에서 <strong>Demo Mode</strong>를 선택합니다. 샘플 연결 두 개가 나타나고, 그중 하나의 세션을 두 번 클릭하면 터미널이 열립니다. 미리 녹화된 내용과 로컬 에코뿐이며 네트워크 연결도 하지 않고 아무것도 실행하지 않습니다. Demo Mode를 다시 선택하면 샘플이 사라집니다.</p>
+<h2>잘 안 되는 것들, 그리고 그 이유</h2>
+<h3>첫 배포가 오래 걸립니다</h3><p>컨테이너 이미지를 받아오는 중이며, 어떤 variant든 첫 내려받기가 느린 부분입니다 — 일반 회선에서 156 MB에 2분 이상 걸리는 것을 측정했습니다. 앱은 무엇을 기다리는지 알려 줍니다. 그렇게 말하기 전까지는 문제가 아닙니다.</p>
+<h3>“tailnet 노드가 나타나지 않았습니다”</h3><p>등록은 보통 몇 초면 끝나므로 이것이 느림을 뜻하는 경우는 거의 없습니다. 가능성이 높은 순서대로, 이 Mac이 tailnet에서 로그아웃되어 있거나 다른 tailnet에 있습니다. auth key가 거부되었습니다 — 만료, 이미 사용됨, 또는 재사용 가능으로 표시되지 않음. 또는 같은 이름의 노드가 이미 있어 새 노드가 <code>name-1</code>로 등록되었습니다 — ephemeral이 아닌 키는 배포마다 이렇게 됩니다.<br><br><strong>Reusable</strong>이면서 <strong>Ephemeral</strong>인 키를 쓰십시오. Ephemeral이어야 삭제된 pod의 노드가 tailnet에서 빠져나가고, 죽은 항목이 쌓이지 않습니다.</p>
+<h3>세션이 만료되었다거나 다른 곳에서 가져갔다고 나옵니다</h3><p>세션은 설계상 단일 접속이며, 두 번째 기기가 붙으면 키보드를 가져갑니다. TTL은 배포할 때 설정됩니다. 두 경우 모두 일반적인 연결 끊김이 아니라 구체적인 이유와 함께 표시됩니다.</p>
+<h3>워크스페이스가 작업을 잃었습니다</h3><p>배포 시 영구 워크스페이스를 고르지 않았다면 워크스페이스는 임시입니다. pod이 교체되면 남지 않습니다. 작업은 push하십시오. 라이프사이클 훅은 백업이며 주된 수단이 아닙니다. 그래서 앱이 모든 세션 헤더에 그렇게 적어 둡니다.</p>
+<h3>세션을 종료한 뒤에도 프로세스가 계속 돌았습니다</h3><p>종료 처리는 best-effort이며 곳곳에 그렇게 명시합니다. 구현된 kill domain은 하나뿐이고, 자신의 프로세스 그룹을 벗어난 프로세스는 pod이나 task가 교체될 때까지 세션보다 오래 남을 수 있습니다. 이는 문서화된 동작이며 결함이 아닙니다. 아무것도 남지 않게 하려면 pod이나 task를 삭제하십시오.</p>
+<h2>요구 사항</h2><ul><li>macOS 13 이상.</li><li>배포할 수 있는 Kubernetes 클러스터 또는 AWS 계정.</li><li>Tailscale tailnet과 그 auth key.</li></ul>
+<h2>Mac에서 어디에 저장되는지</h2><pre>~/Library/Containers/dev.openab.connect/     app data, sandboxed
+Keychain (login)                             credentials, per connection</pre><p class="dim">앱을 지워도 이것들은 남습니다. 완전히 없애려면 직접 삭제하십시오.</p>
+</div>
+
+<footer>
+  <a href="/ko/privacy.html">개인정보</a>
+  <a href="/ko/support.html">지원</a>
+  <a href="https://github.com/openabdev/openab-pty">런타임 소스</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

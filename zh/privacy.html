@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>隱私政策 — OpenAB Connect</title>
+<meta name="description" content="OpenAB Connect 什麼都不收集:沒有帳號、沒有分析、沒有遙測,也沒有任何屬於我們的伺服器會被這個 app 連上。">
+<link rel="canonical" href="https://connect.openab.dev/zh/privacy.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="隱私政策 — OpenAB Connect">
+<meta property="og:description" content="OpenAB Connect 什麼都不收集:沒有帳號、沒有分析、沒有遙測,也沒有任何屬於我們的伺服器會被這個 app 連上。">
+<meta property="og:url" content="https://connect.openab.dev/zh/privacy.html">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css?v=6100059d">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/privacy.html">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/privacy.html">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/privacy.html">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/privacy.html">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/zh/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/zh/#features">特色</a>
+    <a href="/zh/#faq">常見問題</a>
+    <a href="/zh/support.html">支援</a>
+    <span class="lang"><a class="active" href="/zh/privacy.html">中文</a>|<a href="/ja/privacy.html">日本語</a>|<a href="/ko/privacy.html">한국어</a>|<a href="/privacy.html">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap doc">
+<h1>隱私政策</h1>
+<p class="date dim">OpenAB Connect · 最後更新 21 August 2026</p>
+<div class="panel"><p style="margin:0"><strong>OpenAB Connect 什麼都不收集。</strong>沒有帳號、沒有分析、沒有崩潰回報、沒有廣告,也沒有任何形式的遙測。我們沒有營運任何會被這個 app 連上的伺服器。</p></div>
+<p>這就是整份政策。以下的內容解釋這個 app 對它必然會處理到的資料做了什麼 —— 因為「什麼都不收集」值得被證實,而不只是被宣稱。</p>
+<h2>app 會處理什麼,以及那些東西去了哪裡</h2>
+<ul><li><strong>你輸入的伺服器位址。</strong>存在 app 自己的偏好設定裡,在你的 Mac 上,用來重新連線。它們描述的是你自己部署的機器。</li><li><strong>你輸入的憑證。</strong>存在 macOS Keychain。它們只會以 <code>Authorization</code> 標頭送到你為它輸入的那台伺服器,不會送到任何其他地方。app 不會傳輸、備份或同步它們。</li><li><strong>終端機的內容。</strong>在 session 附加期間,於你的 Mac 和你自己的伺服器之間串流。app 不會把它寫到磁碟,也不會經過我們。</li><li><strong>AWS 憑證(如果你部署到 ECS)。</strong>從你既有的 AWS 設定或你自己執行的登入讀取,用來呼叫你自己的帳號,而且只在當次操作期間留在記憶體裡。</li></ul>
+<h2>網路連線</h2>
+<p>只有對外,而且只連到你設定的端點:你自己的 runtime,以及 —— 如果你走 ECS 部署路徑 —— 代表你呼叫的 Amazon API。app 不會連到其他任何主機。它沒有更新服務、沒有授權檢查、也沒有任何回報信標。</p>
+<h2>我們收到什麼</h2>
+<p>什麼都沒有。我們沒有伺服器、沒有資料庫,也沒有任何與你使用這個 app 有關的紀錄。如果你寄信來詢問,我們收到的就是你信裡的內容,除此之外沒有別的;參見<a href="/zh/support.html">支援</a>。</p>
+<h2>第三方</h2>
+<p>app 內附 <code>kubectl</code> 和 <code>ecsctl</code> 兩個命令列工具,以便部署到你已經擁有的基礎架構。它們在 app 的沙箱內執行,只和你指定的叢集或帳號通訊。<br><br>app 部署的容器映像建置自 <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>,而除了 <code>native</code> 之外的每一個版本都包含一個第三方 coding CLI —— 它的條款與隱私做法由它的廠商決定,不是由我們決定。那個 agent 對你的程式碼或提示詞做了什麼,是你和那家廠商之間的事。</p>
+<h2>兒童</h2>
+<p>這個 app 是開發者工具,並非針對兒童設計。</p>
+<h2>變更</h2>
+<p>如果這份政策有變動,上方的日期會跟著改,而先前的版本會留在這個頁面的<a href="https://github.com/openabdev/connect-site/commits/main/privacy.html">git 歷史</a>裡,而不是被安靜地取代掉。</p>
+<h2>聯絡</h2>
+<p><a href="mailto:support@openab.dev">support@openab.dev</a></p>
+</div>
+
+<footer>
+  <a href="/zh/privacy.html">隱私</a>
+  <a href="/zh/support.html">支援</a>
+  <a href="https://github.com/openabdev/openab-pty">runtime 原始碼</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

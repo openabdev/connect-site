@@ -355,3 +355,26 @@ html[data-lang="ko"] .faq details ul li { font-size: 1rem; line-height: 1.85; }
 html[data-lang="zh"] .cta .badge,
 html[data-lang="ja"] .cta .badge,
 html[data-lang="ko"] .cta .badge { font-size: 1.02rem; }
+
+/* Document pages (privacy, support). They share the site's chrome, so only the prose
+   rhythm is set here. `.wrap` is narrower than the feature grid on purpose: this is
+   text to be read, not scanned. */
+.doc { padding-top: 44px; }
+.doc h1 { font-size: clamp(1.6rem, 4vw, 2.1rem); margin: 0 0 6px; letter-spacing: -0.02em; }
+.doc .date { margin: 0 0 30px; font-size: 0.92rem; }
+.doc h2 { font-size: 1.12rem; margin: 34px 0 10px; }
+.doc h3 { font-size: 1rem; margin: 24px 0 6px; }
+.doc p { margin: 0 0 14px; }
+.doc ul { padding-left: 1.15em; margin: 0 0 14px; }
+.doc li { margin: 8px 0; }
+.doc pre {
+  background: var(--card); border: 1px solid var(--border); border-radius: 9px;
+  padding: 13px 15px; overflow-x: auto; color: var(--mint-deep);
+  font: 0.85rem/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+html[data-lang="zh"] .doc h2,
+html[data-lang="ja"] .doc h2,
+html[data-lang="ko"] .doc h2 { font-size: 1.2rem; font-weight: 700; }
+html[data-lang="zh"] .doc,
+html[data-lang="ja"] .doc,
+html[data-lang="ko"] .doc { line-height: 1.85; }

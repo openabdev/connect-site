@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>サポート — OpenAB Connect</title>
+<meta name="description" content="何もデプロイせずに OpenAB Connect を試す方法と、前もって知っておく価値のある失敗の一覧。">
+<link rel="canonical" href="https://connect.openab.dev/ja/support.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="サポート — OpenAB Connect">
+<meta property="og:description" content="何もデプロイせずに OpenAB Connect を試す方法と、前もって知っておく価値のある失敗の一覧。">
+<meta property="og:url" content="https://connect.openab.dev/ja/support.html">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css?v=6100059d">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/support.html">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/support.html">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/support.html">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/support.html">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/support.html">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ja/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ja/#features">特徴</a>
+    <a href="/ja/#faq">よくある質問</a>
+    <a href="/ja/support.html">サポート</a>
+    <span class="lang"><a href="/zh/support.html">中文</a>|<a class="active" href="/ja/support.html">日本語</a>|<a href="/ko/support.html">한국어</a>|<a href="/support.html">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap doc">
+<h1>サポート</h1>
+<div class="panel"><p style="margin:0"><a href="mailto:support@openab.dev">support@openab.dev</a> — ランタイム自体に関することは <a href="https://github.com/openabdev/openab-pty/issues">openabdev/openab-pty</a> に issue を立ててください。</p><p style="margin:10px 0 0" class="dim">セキュリティに関する問題は、公開 issue やメールではなく<a href="https://github.com/openabdev/openab-pty/security/advisories/new">非公開のアドバイザリ</a>をお使いください。</p></div>
+<h2>何もデプロイせずに試す</h2>
+<p><strong>アプリメニュー</strong>から <strong>Demo Mode</strong> を選びます。サンプル接続が 2 つ現れるので、どちらかのセッションをダブルクリックするとターミナルが開きます。収録済みの内容とローカルエコーだけで、ネットワーク接続は行われず、何も実行されません。もう一度 Demo Mode を選ぶとサンプルは消えます。</p>
+<h2>うまくいかないこと、その理由</h2>
+<h3>最初のデプロイに時間がかかる</h3><p>コンテナイメージを取得しているところで、どの variant でも初回の取得が遅い部分です — 通常の回線で 156 MB に 2 分以上かかることを実測しています。アプリは何を待っているかを表示します。そう表示されるまでは、異常ではありません。</p>
+<h3>「tailnet ノードが現れません」</h3><p>登録は通常数秒なので、これが遅さを意味することはほぼありません。可能性の高い順に、この Mac が tailnet からサインアウトしている、または別の tailnet にいる。auth key が拒否された — 期限切れ、使用済み、または再利用可と設定されていない。あるいは同名のノードが既にあり、新しいものが <code>name-1</code> として登録された — ephemeral でない key は毎回これを起こします。<br><br><strong>Reusable</strong> かつ <strong>Ephemeral</strong> の key を使ってください。Ephemeral であることが、削除された pod のノードを tailnet から離脱させ、死んだ項目が溜まるのを防ぎます。</p>
+<h3>セッションが期限切れ、または引き継がれたと表示される</h3><p>セッションは設計上シングルアタッチで、2 台目が接続するとキーボードを持っていきます。TTL はデプロイ時に設定されます。どちらも一般的な切断ではなく、具体的な理由とともに表示されます。</p>
+<h3>ワークスペースの作業が失われた</h3><p>デプロイ時に永続的なものを選んでいない限り、ワークスペースは一時的です。pod が置き換わると残りません。作業は push してください。ライフサイクルフックはバックアップであって主たる仕組みではありません。そのためアプリは各セッションのヘッダーで毎回そう明示しています。</p>
+<h3>セッションを終了した後もプロセスが動き続けた</h3><p>終了処理は best-effort で、随所にそう明示しています。実装されている kill domain は1 つだけで、自分のプロセスグループを離れたプロセスは pod や task が置き換わるまでセッションより長く残ることがあります。これは仕様として記載された挙動で、不具合ではありません。何も残らないことを確実にするなら pod か task を削除してください。</p>
+<h2>必要なもの</h2><ul><li>macOS 13 以降。</li><li>デプロイ先にできる Kubernetes クラスタ、または AWS アカウント。</li><li>Tailscale の tailnet と、その auth key。</li></ul>
+<h2>Mac 上のどこに保存されるか</h2><pre>~/Library/Containers/dev.openab.connect/     app data, sandboxed
+Keychain (login)                             credentials, per connection</pre><p class="dim">アプリを削除してもこれらは残ります。完全に消すなら手で削除してください。</p>
+</div>
+
+<footer>
+  <a href="/ja/privacy.html">プライバシー</a>
+  <a href="/ja/support.html">サポート</a>
+  <a href="https://github.com/openabdev/openab-pty">ランタイムのソース</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

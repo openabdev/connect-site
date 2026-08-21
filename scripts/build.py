@@ -11,22 +11,15 @@ footer. The prose that used to sit between the cards and the footer is now FAQ
 entries — a visitor who wants the argument opens it, and one who wants to know
 whether it runs on their cluster does not have to read past it.
 """
-import hashlib
 import pathlib
+import sys
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import chrome
+
+ROOT = chrome.ROOT
 
 
-def rev(name):
-    """Return an asset path with a content hash, so a change is never served stale.
-
-    GitHub Pages sends cache-control: max-age=600 for assets. Without this a visitor
-    who loaded the page minutes ago keeps the old stylesheet or screenshot, which is
-    indistinguishable from the change not having been deployed.
-    """
-    f = ROOT / name
-    h = hashlib.md5(f.read_bytes()).hexdigest()[:8] if f.exists() else "0"
-    return f"/{name}?v={h}"
 
 ORDER = ["zh", "ja", "ko", "en"]
 
@@ -670,21 +663,6 @@ L = {
 }
 
 
-def switcher(current):
-    """Plain links. No script, no stored preference, no guessing.
-
-    "/" is always English. Detecting the browser language and redirecting looked helpful
-    and was not: it made "/" mean different things to different visitors, it broke the
-    English link (which pointed at "/" and was sent straight back), and a visitor who had
-    once chosen a language could not get back to English by typing the bare domain. The
-    hreflang set already tells search engines how the languages relate, so nothing here
-    needed JavaScript.
-    """
-    out = []
-    for c in ORDER:
-        cls = ' class="active"' if c == current else ""
-        out.append('<a' + cls + ' href="' + L[c]["base"] + '">' + L[c]["label"] + '</a>')
-    return "|".join(out)
 
 
 def alternates():
@@ -698,40 +676,11 @@ def alternates():
 TEMPLATE = """<!DOCTYPE html>
 <html lang="{htmllang}" data-lang="{code}" data-base="{base}">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title}</title>
-<meta name="description" content="{desc}">
-<link rel="canonical" href="https://connect.openab.dev{base}">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="OpenAB Connect">
-<meta property="og:locale" content="{og_locale}">
-<meta property="og:title" content="{title}">
-<meta property="og:description" content="{desc}">
-<meta property="og:url" content="https://connect.openab.dev{base}">
-<meta property="og:image" content="{og_image}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="{og_alt}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{title}">
-<meta name="twitter:description" content="{desc}">
-<meta name="twitter:image" content="{og_image}">
-<link rel="icon" href="/icon.png">
-<link rel="stylesheet" href="{css}">
-{alternates}
+{head}
 </head>
 <body>
 
-<nav>
-  <a class="brand" href="{base}"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
-  <div class="links">
-    <a href="#features">{nav0}</a>
-    <a href="#faq">{nav1}</a>
-    <a href="/support.html">{nav2}</a>
-    <span class="lang">{switcher}</span>
-  </div>
-</nav>
+{nav}
 
 <header>
   <img class="appicon" src="/icon.png" alt="OpenAB Connect">
@@ -755,16 +704,11 @@ TEMPLATE = """<!DOCTYPE html>
 {faqs}
 </section>
 
-<footer>
-  <a href="/privacy.html">{f0}</a>
-  <a href="/support.html">{f1}</a>
-  <a href="{pty}">{f2}</a>
-  <span class="dim">© 2026 openabdev</span>
-</footer>
+{footer}
 
 <script>
-// Give every question a copyable anchor, so an answer can be linked to directly
-// rather than described. Added in script because the markup should stay readable.
+// Give every question a copyable anchor, so an answer can be linked to directly rather
+// than described. Added in script because the markup should stay readable.
 (function () {{
   var items = document.querySelectorAll(".faq details[id]");
   Array.prototype.forEach.call(items, function (d) {{
@@ -811,17 +755,15 @@ for code in ORDER:
     out = ROOT / d["dir"] / "index.html" if d["dir"] else ROOT / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(TEMPLATE.format(
-        code=code, alternates=alternates(), switcher=switcher(code),
-        features="\n".join(cards), faqs=faqs, pty=PTY,
-        css=rev("style.css"), shot=rev("screenshot.png"),
-        # Absolute, and content-hashed: scrapers cache the card by URL, so a new
-        # card only reaches Twitter and Facebook if its URL changes.
-        og_image=SITE + rev(f"og-{code}.png"), og_locale=OG_LOCALE[code],
-        og_alt=d["og_alt"],
-        nav0=d["nav"][0], nav1=d["nav"][1], nav2=d["nav"][2],
-        f0=d["f"][0], f1=d["f"][1], f2=d["f"][2],
-        **{k: v for k, v in d.items()
-           if k not in ("nav", "f", "feats", "faq", "soon_label", "dev_label",
-                          "og_alt", "dir", "label")}),
+        code=code, htmllang=d["htmllang"], base=d["base"],
+        head=chrome.head(code, "index.html", d["title"], d["desc"],
+                         og_image=chrome.SITE + chrome.rev(f"og-{code}.png"),
+                         og_alt=d["og_alt"]),
+        nav=chrome.nav(code), footer=chrome.footer(code),
+        shot=chrome.rev("screenshot.png"),
+        features="\n".join(cards), faqs=faqs,
+        hero_h1=d["hero_h1"], hero_sub=d["hero_sub"],
+        cta=d["cta"], cta_meta=d["cta_meta"],
+        shot_alt=d["shot_alt"], faq_title=d["faq_title"]),
         encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}  ({len(cards)} cards, {len(d['faq'])} questions)")

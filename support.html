@@ -1,102 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Support — OpenAB Connect</title>
-<link rel="icon" href="icon.png">
-<style>
-  :root { --bg:#0d1117; --panel:#161b22; --line:#262d38; --text:#e6edf3; --dim:#8b949e; --mint:#a8e6dc; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text);
-         font:16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-         -webkit-font-smoothing:antialiased; }
-  a { color:#7cc4f8; }
-  .wrap { max-width:720px; margin:0 auto; padding:56px 24px 72px; }
-  h1 { font-size:1.9rem; margin:0 0 24px; letter-spacing:-0.02em; }
-  h2 { font-size:1.1rem; margin:36px 0 10px; }
-  h3 { font-size:1rem; margin:22px 0 6px; }
-  .panel { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:20px 0; }
-  code { font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:0.9em; }
-  pre { background:#010409; border:1px solid var(--line); border-radius:8px; padding:12px 14px;
-        overflow-x:auto; color:var(--mint); font-family:ui-monospace, Menlo, monospace; font-size:0.85rem; }
-  ul { padding-left:1.2em; } li { margin:7px 0; }
-  .dim { color:var(--dim); }
-  footer { border-top:1px solid var(--line); margin-top:48px; padding-top:24px; color:var(--dim); font-size:0.9rem; display:flex; gap:18px; }
-</style>
+<meta name="description" content="How to try OpenAB Connect without deploying anything, and the failures worth knowing about in advance.">
+<link rel="canonical" href="https://connect.openab.dev/support.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Support — OpenAB Connect">
+<meta property="og:description" content="How to try OpenAB Connect without deploying anything, and the failures worth knowing about in advance.">
+<meta property="og:url" content="https://connect.openab.dev/support.html">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css?v=6100059d">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/support.html">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/support.html">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/support.html">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/support.html">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/support.html">
 </head>
 <body>
-<div class="wrap">
 
+<nav>
+  <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/#features">Features</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/support.html">Support</a>
+    <span class="lang"><a href="/zh/support.html">中文</a>|<a href="/ja/support.html">日本語</a>|<a href="/ko/support.html">한국어</a>|<a class="active" href="/support.html">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap doc">
 <h1>Support</h1>
-
-<div class="panel">
-<p style="margin:0"><a href="mailto:support@openab.dev">support@openab.dev</a> — or open an
-issue at <a href="https://github.com/openabdev/openab-pty/issues">openabdev/openab-pty</a>
-for anything about the runtime itself.</p>
-<p style="margin:10px 0 0" class="dim">Security issues: please use
-<a href="https://github.com/openabdev/openab-pty/security/advisories/new">a private
-advisory</a> rather than a public issue or email.</p>
+<div class="panel"><p style="margin:0"><a href="mailto:support@openab.dev">support@openab.dev</a> — or open an issue at <a href="https://github.com/openabdev/openab-pty/issues">openabdev/openab-pty</a> for anything about the runtime itself.</p><p style="margin:10px 0 0" class="dim">Security issues: please use <a href="https://github.com/openabdev/openab-pty/security/advisories/new">a private advisory</a> rather than a public issue or email.</p></div>
+<h2>Trying the app without deploying anything</h2>
+<p>Open the <strong>OpenAB Connect</strong> menu and choose <strong>Demo Mode</strong>. Two sample connections appear; double-click a session under either one to open a terminal. It is a canned transcript with local echo — no network connection is made and nothing is executed. Choose Demo Mode again to remove the samples.</p>
+<h2>Things that go wrong, and why</h2>
+<h3>The first deployment takes a long time</h3><p>It is pulling a container image, and the first pull of any agent variant is the slow part — measured at over two minutes for 156 MB on an ordinary connection. The app reports what it is waiting on. Nothing is wrong until it says so.</p>
+<h3>“No tailnet node appeared”</h3><p>Registration normally takes seconds, so this almost never means slowness. In order of likelihood: this Mac is signed out of the tailnet, or on a different one; the auth key was rejected — expired, already consumed, or not marked reusable; or a node of that name already exists, so the new one registered as <code>name-1</code>, which a non-ephemeral key does on every deploy.<br><br>Use a key that is both <strong>Reusable</strong> and <strong>Ephemeral</strong>. Ephemeral is what lets a deleted pod's node leave the tailnet instead of accumulating dead entries.</p>
+<h3>A session says it expired, or was taken over</h3><p>Sessions are single-attach by design: a second device attaching takes the keyboard. TTLs are set when you deploy. Both are reported with a specific reason rather than a generic disconnect.</p>
+<h3>The workspace lost my work</h3><p>The workspace is ephemeral unless you chose a persistent one at deploy time. It does not survive the pod being replaced. Push your work; lifecycle hooks are a backup, not a primary mechanism. The app says so in every session's header for this reason.</p>
+<h3>A process kept running after I killed a session</h3><p>Teardown is best-effort and labelled as such throughout. Only one kill domain is implemented, and a process that leaves its process group may outlive its session until the pod or task is replaced. This is documented behaviour, not a fault. To be certain nothing remains, delete the pod or task.</p>
+<h2>Requirements</h2><ul><li>macOS 13 or later.</li><li>A Kubernetes cluster or an AWS account you can deploy into.</li><li>A Tailscale tailnet, and an auth key for it.</li></ul>
+<h2>Where things live on your Mac</h2><pre>~/Library/Containers/dev.openab.connect/     app data, sandboxed
+Keychain (login)                             credentials, per connection</pre><p class="dim">Removing the app leaves those; delete them if you want it gone entirely.</p>
 </div>
 
-<h2>Trying the app without deploying anything</h2>
-<p>Open the <strong>OpenAB Connect</strong> menu and choose <strong>Demo Mode</strong>. Two
-sample connections appear; double-click a session under either one to open a terminal. It is
-a canned transcript with local echo — no network connection is made and nothing is executed.
-Choose Demo Mode again to remove the samples.</p>
-
-<h2>Things that go wrong, and why</h2>
-
-<h3>The first deployment takes a long time</h3>
-<p>It is pulling a container image, and the first pull of any agent variant is the slow part
-— measured at over two minutes for 156 MB on an ordinary connection. The app reports what it
-is waiting on. Nothing is wrong until it says so.</p>
-
-<h3>"No tailnet node appeared"</h3>
-<p>Registration normally takes seconds, so this almost never means slowness. In order of
-likelihood:</p>
-<ul>
-  <li>this Mac is signed out of the tailnet, or on a different one;</li>
-  <li>the auth key was rejected — expired, already consumed, or not marked reusable;</li>
-  <li>a node of that name already exists, so the new one registered as <code>name-1</code>.
-  A non-ephemeral key does this on every deploy.</li>
-</ul>
-<p>Use a key that is both <strong>Reusable</strong> and <strong>Ephemeral</strong>. Ephemeral
-is what lets a deleted pod's node leave the tailnet instead of accumulating dead entries.</p>
-
-<h3>A session says it expired, or was taken over</h3>
-<p>Sessions are single-attach by design: a second device attaching takes the keyboard. TTLs
-are set when you deploy. Both are reported with a specific reason rather than a generic
-disconnect.</p>
-
-<h3>The workspace lost my work</h3>
-<p>The workspace is ephemeral unless you chose a persistent one at deploy time. It does not
-survive the pod being replaced. Push your work; lifecycle hooks are a backup, not a primary
-mechanism. The app says so in every session's header for this reason.</p>
-
-<h3>A process kept running after I killed a session</h3>
-<p>Teardown is best-effort and labelled as such throughout. Only one kill domain is
-implemented, and a process that leaves its process group may outlive its session until the
-pod or task is replaced. This is documented behaviour, not a fault.</p>
-
-<h2>Requirements</h2>
-<ul>
-  <li>macOS 13 or later.</li>
-  <li>A Kubernetes cluster or an AWS account you can deploy into.</li>
-  <li>A Tailscale tailnet, and an auth key for it.</li>
-</ul>
-
-<h2>Where things live on your Mac</h2>
-<pre>~/Library/Containers/dev.openab.connect/     app data, sandboxed
-Keychain (login)                             credentials, per connection</pre>
-<p class="dim">Removing the app leaves those; delete them if you want it gone entirely.</p>
-
 <footer>
-  <a href="index.html">Home</a>
-  <a href="privacy.html">Privacy</a>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/support.html">Support</a>
+  <a href="https://github.com/openabdev/openab-pty">Runtime source</a>
   <span class="dim">© 2026 openabdev</span>
 </footer>
 
-</div>
 </body>
 </html>

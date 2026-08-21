@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プライバシーポリシー — OpenAB Connect</title>
+<meta name="description" content="OpenAB Connect は何も収集しません。アカウントも解析もテレメトリもなく、アプリが接続する当方のサーバーも存在しません。">
+<link rel="canonical" href="https://connect.openab.dev/ja/privacy.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="プライバシーポリシー — OpenAB Connect">
+<meta property="og:description" content="OpenAB Connect は何も収集しません。アカウントも解析もテレメトリもなく、アプリが接続する当方のサーバーも存在しません。">
+<meta property="og:url" content="https://connect.openab.dev/ja/privacy.html">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css?v=6100059d">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/privacy.html">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/privacy.html">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/privacy.html">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/privacy.html">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/privacy.html">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ja/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ja/#features">特徴</a>
+    <a href="/ja/#faq">よくある質問</a>
+    <a href="/ja/support.html">サポート</a>
+    <span class="lang"><a href="/zh/privacy.html">中文</a>|<a class="active" href="/ja/privacy.html">日本語</a>|<a href="/ko/privacy.html">한국어</a>|<a href="/privacy.html">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap doc">
+<h1>プライバシーポリシー</h1>
+<p class="date dim">OpenAB Connect · 最終更新 21 August 2026</p>
+<div class="panel"><p style="margin:0"><strong>OpenAB Connect は何も収集しません。</strong>アカウント登録、解析、クラッシュレポート、広告、いかなる形のテレメトリもありません。このアプリが接続する当方のサーバーは存在しません。</p></div>
+<p>ポリシーとしてはこれで全部です。以下は、アプリが必然的に扱うデータをどう扱っているかの説明です。「何も収集しない」は主張するより裏づける価値があるからです。</p>
+<h2>アプリが扱うもの、そしてその行き先</h2>
+<ul><li><strong>入力したサーバーアドレス。</strong>再接続のために、お使いの Mac 上のアプリ自身の設定に保存されます。それはあなたがデプロイしたマシンを指すものです。</li><li><strong>入力した資格情報。</strong>macOS のキーチェーンに保存されます。<code>Authorization</code> ヘッダーとして、その資格情報を入力した先のサーバーへだけ送られ、それ以外のどこへも送られません。アプリが送信・バックアップ・同期することはありません。</li><li><strong>ターミナルの内容。</strong>セッションが接続されている間、お使いの Mac とあなた自身のサーバーの間でストリームされます。アプリがディスクへ書き出すことはなく、当方を経由することもありません。</li><li><strong>ECS にデプロイする場合の AWS 資格情報。</strong>既存の AWS 設定またはご自身で行うサインインから読み取り、あなた自身のアカウントを呼び出すために使い、その処理の間だけメモリに保持します。</li></ul>
+<h2>ネットワーク接続</h2>
+<p>送信方向のみ、しかもあなたが設定したエンドポイントだけです。あなた自身のランタイムと、ECS のデプロイ経路を使う場合はあなたの代理として呼び出す Amazon の API です。他のホストへは接続しません。更新サービスもライセンス確認もビーコンもありません。</p>
+<h2>当方が受け取るもの</h2>
+<p>何もありません。あなたのアプリ利用に関するサーバー、データベース、ログを当方は持っていません。サポートのためにメールをいただいた場合、受け取るのはそのメールの内容だけです。<a href="/ja/support.html">サポート</a>をご覧ください。</p>
+<h2>第三者</h2>
+<p>アプリは、あなたがすでに所有するインフラへデプロイできるように <code>kubectl</code> と <code>ecsctl</code> のコマンドラインツールを同梱しています。これらはアプリのサンドボックス内で動き、あなたが指定したクラスタまたはアカウントとだけ通信します。<br><br>アプリがデプロイするコンテナイメージは <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a> からビルドされ、<code>native</code> 以外のすべての variant にはサードパーティの coding CLI が含まれます。その規約とプライバシーの扱いは当方ではなくそのベンダーが定めるものです。そのエージェントがあなたのコードやプロンプトに対して何をするかは、あなたとそのベンダーの間の問題です。</p>
+<h2>子ども</h2>
+<p>このアプリは開発者向けのツールで、子どもを対象としていません。</p>
+<h2>変更</h2>
+<p>このポリシーが変わるときは上の日付も変わり、以前の版はこのページの<a href="https://github.com/openabdev/connect-site/commits/main/privacy.html">git 履歴</a>に残ります。黙って差し替えることはしません。</p>
+<h2>連絡先</h2>
+<p><a href="mailto:support@openab.dev">support@openab.dev</a></p>
+</div>
+
+<footer>
+  <a href="/ja/privacy.html">プライバシー</a>
+  <a href="/ja/support.html">サポート</a>
+  <a href="https://github.com/openabdev/openab-pty">ランタイムのソース</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>
