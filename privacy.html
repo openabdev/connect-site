@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — OpenAB Connect</title>
+<link rel="icon" href="icon.png">
+<style>
+  :root { --bg:#0d1117; --panel:#161b22; --line:#262d38; --text:#e6edf3; --dim:#8b949e; --mint:#a8e6dc; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+         font:16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+         -webkit-font-smoothing:antialiased; }
+  a { color:#7cc4f8; }
+  .wrap { max-width:720px; margin:0 auto; padding:56px 24px 72px; }
+  h1 { font-size:1.9rem; margin:0 0 6px; letter-spacing:-0.02em; }
+  h2 { font-size:1.1rem; margin:36px 0 10px; }
+  .date { color:var(--dim); margin:0 0 32px; }
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:20px 0; }
+  code { font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:0.9em; }
+  ul { padding-left:1.2em; } li { margin:7px 0; }
+  .dim { color:var(--dim); }
+  footer { border-top:1px solid var(--line); margin-top:48px; padding-top:24px; color:var(--dim); font-size:0.9rem; display:flex; gap:18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Privacy Policy</h1>
+<p class="date">OpenAB Connect · last updated 21 August 2026</p>
+
+<div class="panel">
+<p style="margin:0"><strong>OpenAB Connect collects nothing.</strong> There is no account,
+no analytics, no crash reporting, no advertising and no telemetry of any kind. We operate no
+server that the app contacts.</p>
+</div>
+
+<p>That is the whole policy. The rest of this page explains what the app does with the data
+it necessarily handles, because "collects nothing" is worth substantiating rather than
+asserting.</p>
+
+<h2>What the app handles, and where it goes</h2>
+<ul>
+  <li><strong>Server addresses you enter.</strong> Stored in the app's own preferences on
+  your Mac, so it can reconnect. They describe machines you deployed.</li>
+  <li><strong>Credentials you enter.</strong> Stored in the macOS Keychain. They are sent
+  only to the server you entered them for, as an <code>Authorization</code> header, and
+  never anywhere else. The app does not transmit, back up or sync them.</li>
+  <li><strong>Terminal contents.</strong> Streamed between your Mac and your own server for
+  as long as a session is attached. Nothing is written to disk by the app and nothing passes
+  through us.</li>
+  <li><strong>AWS credentials, if you deploy to ECS.</strong> Read from your existing AWS
+  configuration or an AWS sign-in you perform, used to make API calls to your own account,
+  and held only in memory for the duration.</li>
+</ul>
+
+<h2>Network connections</h2>
+<p>Outbound only, and only to endpoints you configure: your own runtime, and — if you use
+the ECS deployment path — Amazon's APIs on your behalf. The app contacts no other host. It
+has no update service, no licence check and no beacon.</p>
+
+<h2>Data we receive</h2>
+<p>None. We have no servers, no database and no logs relating to your use of the app. If you
+email us for support, we receive whatever is in your email and nothing else; see
+<a href="support.html">Support</a>.</p>
+
+<h2>Third parties</h2>
+<p>The app bundles the <code>kubectl</code> and <code>ecsctl</code> command-line tools so it
+can deploy into infrastructure you already own. They run inside the app's sandbox and talk
+only to the cluster or account you point them at.</p>
+<p>The container images the app deploys are built from
+<a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a> and, for every
+variant except <code>native</code>, include a third-party coding CLI whose own terms and
+privacy practices are set by its vendor, not by us. What that agent does with your code or
+prompts is between you and that vendor.</p>
+
+<h2>Children</h2>
+<p>The app is a developer tool and is not directed at children.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, the date above changes with it, and the previous versions remain
+in the page's
+<a href="https://github.com/openabdev/connect-site/commits/main/privacy.html">git history</a>
+rather than being quietly replaced.</p>
+
+<h2>Contact</h2>
+<p><a href="mailto:support@openab.dev">support@openab.dev</a></p>
+
+<footer>
+  <a href="index.html">Home</a>
+  <a href="support.html">Support</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</div>
+</body>
+</html>
