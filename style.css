@@ -97,10 +97,16 @@ nav .lang a.active { color: var(--ink); font-weight: 700; }
    these pages. text-align alone centred the text but left the measure to the
    viewport, so a wide monitor stretched the headline and a phone let it touch
    the edges. */
-header { max-width: 900px; margin: 0 auto; padding: 48px 24px 8px; text-align: center; }
+header { max-width: 1040px; margin: 0 auto; padding: 48px 24px 8px; text-align: center; }
 header img.appicon { width: 104px; height: 104px; }
-h1 { font-size: 2.1rem; margin: 22px 0 10px; letter-spacing: -0.02em; line-height: 1.25; }
-.tag { color: var(--muted); font-size: 1.08rem; margin: 0 auto; max-width: 34em; }
+/* clamp rather than a fixed size plus a breakpoint: the hero is two lines fixed by a
+   <br>, so its width is driven entirely by font-size, and a single desktop value is
+   either timid on a large display or overflowing on a small one. */
+h1 {
+  font-size: clamp(2.2rem, 5.6vw, 3.4rem); font-weight: 800;
+  margin: 22px 0 10px; letter-spacing: -0.022em; line-height: 1.2;
+}
+.tag { color: var(--muted); font-size: 1.16rem; margin: 0 auto; max-width: 34em; }
 
 /* The explicit <br> in each hero fixes the break at a clause boundary, but a narrow
    viewport wraps again below it, and CJK breaks between any two characters — which
@@ -121,8 +127,7 @@ h1, .tag { text-wrap: balance; }
 html[data-lang="zh"] h1,
 html[data-lang="ja"] h1,
 html[data-lang="ko"] h1 {
-  font-size: 3rem;
-  font-weight: 800;
+  font-size: clamp(2.1rem, 5vw, 3rem);
   letter-spacing: 0.01em;
   line-height: 1.28;
 }
@@ -136,11 +141,7 @@ html[data-lang="ko"] .tag {
 html[data-lang="zh"] h2,
 html[data-lang="ja"] h2,
 html[data-lang="ko"] h2 { font-size: 1.35rem; font-weight: 700; }
-@media (max-width: 620px) {
-  html[data-lang="zh"] h1,
-  html[data-lang="ja"] h1,
-  html[data-lang="ko"] h1 { font-size: 2.2rem; }
-}
+
 h2 { font-size: 1.15rem; margin: 40px 0 12px; }
 h3 { font-size: 1rem; margin: 22px 0 6px; }
 .grad {
