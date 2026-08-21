@@ -161,7 +161,10 @@ figure { margin: 30px 0 8px; }
    against the mint page is a deliberate edge rather than a near-miss.
    The card stays light under prefers-color-scheme: dark, because the screenshot itself
    is light and a dark card would reintroduce the mismatch it exists to remove. */
-figure img { width: 100%; height: auto; display: block; border-radius: 7px; }
+/* No radius here. The capture is masked to the window's own 71px corner with the card
+   colour outside it, so the curve is already in the pixels; a CSS radius on top would
+   clip that curve a second time at a different value. */
+figure img { width: 100%; height: auto; display: block; }
 .shotwrap figure {
   margin: 0; background: #FFFFFF;
   padding: 10px; border-radius: 16px;

@@ -656,10 +656,18 @@ L = {
 
 
 def switcher(current):
+    """Language links carry ?lang=, which is what makes a choice stick.
+
+    Without it the English link was unreachable: it pointed at "/", and lang.js on "/"
+    reads the stored preference — which was set to /zh/ merely by having visited /zh/ —
+    and redirected straight back. An explicit ?lang= is treated as a decision, recorded
+    and obeyed, so switching works in every direction.
+    """
     out = []
     for c in ORDER:
         cls = ' class="active"' if c == current else ""
-        out.append('<a' + cls + ' href="' + L[c]["base"] + '">' + L[c]["label"] + '</a>')
+        href = L[c]["base"] + "?lang=" + c
+        out.append('<a' + cls + ' href="' + href + '">' + L[c]["label"] + '</a>')
     return "|".join(out)
 
 
