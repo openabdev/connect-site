@@ -103,7 +103,7 @@ header img.appicon { width: 104px; height: 104px; }
    <br>, so its width is driven entirely by font-size, and a single desktop value is
    either timid on a large display or overflowing on a small one. */
 h1 {
-  font-size: clamp(2.2rem, 5.6vw, 3.4rem); font-weight: 800;
+  font-size: clamp(1.2rem, 5.4vw, 3.4rem); font-weight: 800;
   margin: 22px 0 10px; letter-spacing: -0.022em; line-height: 1.2;
 }
 .tag { color: var(--muted); font-size: 1.16rem; margin: 0 auto; max-width: 34em; }
@@ -127,7 +127,13 @@ h1, .tag { text-wrap: balance; }
 html[data-lang="zh"] h1,
 html[data-lang="ja"] h1,
 html[data-lang="ko"] h1 {
-  font-size: clamp(2.1rem, 5vw, 3rem);
+  /* 6.2vw is derived, not picked: the longest authored line is 14 units wide, and a
+     390px viewport leaves about 342px of measure, so 342/14 gives the largest size at
+     which the line the author wrote is still the line the reader sees. The floor holds
+     the authored breaks down to 360px; below that it wraps on purpose, because the size
+     needed to avoid wrapping at 320px is body-text size and a wrapped headline is the
+     better trade. text-wrap: balance keeps that wrap from leaving an orphan. */
+  font-size: clamp(1.4rem, 6.2vw, 3rem);
   letter-spacing: 0.01em;
   line-height: 1.28;
 }
@@ -310,3 +316,25 @@ html[data-lang="ko"] .faq details ul li { font-size: 1rem; line-height: 1.85; }
 }
 .faq summary .q .ribbon.inline { font-weight: 700; }
 .faq details a { color: var(--mint-deep); }
+
+/* Narrow screens. The nav is a row that wraps, and wrapping left-aligned it into three
+   stacked blocks — brand, links, switcher — which read as three separate things rather
+   than one bar. Centred and tightened, it reads as one. */
+@media (max-width: 620px) {
+  nav {
+    flex-direction: column; align-items: center; gap: 9px;
+    padding: 13px 18px;
+  }
+  nav .links { justify-content: center; gap: 0.85rem; font-size: 0.9rem; }
+  header { padding: 26px 18px 4px; }
+  header img.appicon { width: 78px; height: 78px; }
+  .tag { font-size: 1.02rem; }
+  html[data-lang="zh"] .tag,
+  html[data-lang="ja"] .tag,
+  html[data-lang="ko"] .tag { font-size: 1.04rem; line-height: 1.7; }
+  .shotwrap { padding: 16px 14px 6px; }
+  .shotwrap figure { padding: 6px; border-radius: 12px; }
+  section.features { padding: 2rem 18px 0; }
+  section.faq { padding: 2.4rem 18px 1rem; }
+  footer { padding: 22px 18px 36px; gap: 14px; }
+}
