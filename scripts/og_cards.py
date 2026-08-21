@@ -62,6 +62,59 @@ DOMAIN = "connect.openab.dev"
 WORDMARK = "OpenAB Connect"
 
 
+ICON_1024 = pathlib.Path.home() / "repo/oab-pty-mac/icon/icon_1024.png"
+WATERMARK = ROOT / "assets/watermark.png"
+
+
+def derive_watermark():
+    """Build assets/watermark.png from the app icon, if it is not already there.
+
+    Kept in this file so the method is reproducible rather than a remembered one-off.
+    Three things had to be true and only the third attempt got there:
+
+    - Pasting the icon shows its squircle, which at any opacity reads as a rounded box
+      rather than a watermark.
+    - Colour-keying the squircle away is impossible: it runs from white to pale mint and
+      the jellyfish dome is also white, so a single-tone key keeps the whole interior.
+      Saturation separates them, because the tentacles are pink, blue and violet against
+      a near-neutral field.
+    - Feathering with a blurred rectangle leaves a Gaussian tail of 2-5 at the border,
+      measured as a 3-unit step at the paste seam; clamping the tail did not remove it.
+      A linear ramp on distance-from-edge is zero at the border by construction.
+    """
+    if WATERMARK.exists():
+        return
+    if not ICON_1024.exists():
+        raise SystemExit(f"need {ICON_1024} to derive the watermark, or commit "
+                         f"{WATERMARK.relative_to(ROOT)} alongside this script")
+    im = Image.open(ICON_1024).convert("RGBA")
+    px = im.load()
+    w0, h0 = im.size
+    xs, ys = [], []
+    for x in range(0, w0, 2):
+        for y in range(0, h0, 2):
+            r, g, b, a = px[x, y]
+            if a > 200 and max(r, g, b) - min(r, g, b) > 34:
+                xs.append(x)
+                ys.append(y)
+    pad = 26
+    crop = im.crop((max(0, min(xs) - pad), max(0, min(ys) - pad),
+                    min(w0, max(xs) + pad), min(h0, max(ys) + pad)))
+    w, h = crop.size
+    feather = int(min(w, h) * 0.22)
+    src, out = crop.split()[3], Image.new("L", (w, h))
+    sp, op = src.load(), out.load()
+    for x in range(w):
+        dx = min(x, w - 1 - x)
+        for y in range(h):
+            d = min(dx, y, h - 1 - y)
+            op[x, y] = sp[x, y] * min(255, d * 255 // feather) // 255
+    crop.putalpha(out)
+    WATERMARK.parent.mkdir(parents=True, exist_ok=True)
+    crop.save(WATERMARK)
+    print(f"  derived {WATERMARK.relative_to(ROOT)} {crop.size}, feather {feather}px")
+
+
 def font(path, size, bold=False):
     idx = BOLD.get(path, 0) if bold else 0
     try:
@@ -105,7 +158,7 @@ def build(lang):
     # to pale mint and overlaps the dome's own white — so the asset is cropped to the
     # saturated region and its edges are feathered, which removes the boundary
     # regardless of what the artwork does.
-    wm = Image.open(ROOT / "assets/watermark.png").convert("RGBA")
+    wm = Image.open(WATERMARK).convert("RGBA")
     wm_h = 520
     wm = wm.resize((round(wm.width * wm_h / wm.height), wm_h), Image.LANCZOS)
     wm.putalpha(wm.split()[3].point(lambda a: int(a * 0.16)))
@@ -148,6 +201,7 @@ def build(lang):
 
 
 if __name__ == "__main__":
+    derive_watermark()
     for lang in ("en", "zh", "ja", "ko"):
         dest, hs, ss, name, over = build(lang)
         im = Image.open(dest)

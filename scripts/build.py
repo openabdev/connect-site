@@ -65,6 +65,8 @@ L = {
   hero_sub="Encrypted and distributed across your own private infrastructure.<br>"
            "<strong>Quit the app and they keep running.</strong>",
   og_alt='OpenAB Connect — agents from every major vendor, one client, each sandboxed',
+  cta='Coming soon to the Mac App Store',
+  cta_meta='Free · macOS 13 or later',
   nav=("Features", "FAQ", "Support"),
   shot_alt="OpenAB Connect with seven agent connections in the sidebar and four terminal "
            "panes attached to different coding CLIs",
@@ -221,6 +223,8 @@ L = {
   hero_sub="加密分散運行在你的私有基礎架構，關掉 app，<br>"
            "<strong>它們繼續運行。</strong>",
   og_alt='OpenAB Connect —— 所有頂尖廠商的 Agent，一個客戶端，各自沙箱',
+  cta='即將在 Mac App Store 開放下載',
+  cta_meta='免費 · macOS 13 或以上',
   nav=("特色", "常見問題", "支援"),
   shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
   dev_label='開發中',
@@ -357,6 +361,8 @@ L = {
   hero_sub="暗号化されたまま、自分のプライベート環境に分散して動きます。<br>"
            "<strong>アプリを閉じても、動き続けます。</strong>",
   og_alt='OpenAB Connect — 主要ベンダーのエージェントを、ひとつのクライアントに',
+  cta='Mac App Store でまもなく公開',
+  cta_meta='無料 · macOS 13 以降',
   nav=("特徴", "よくある質問", "サポート"),
   shot_alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の "
            "coding CLI に接続している OpenAB Connect",
@@ -519,6 +525,8 @@ L = {
   hero_sub="암호화된 채로 여러분의 사설 인프라에 분산되어 실행됩니다.<br>"
            "<strong>앱을 닫아도 계속 실행됩니다.</strong>",
   og_alt='OpenAB Connect — 주요 벤더의 모든 에이전트, 클라이언트 하나, 각자 샌드박스',
+  cta='Mac App Store에 곧 출시',
+  cta_meta='무료 · macOS 13 이상',
   nav=("특징", "자주 묻는 질문", "지원"),
   shot_alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 "
            "열려 있는 OpenAB Connect",
@@ -729,6 +737,7 @@ TEMPLATE = """<!DOCTYPE html>
   <img class="appicon" src="/icon.png" alt="OpenAB Connect">
   <h1>{hero_h1}</h1>
   <p class="tag">{hero_sub}</p>
+  <p class="cta"><span class="badge">{cta}</span><span class="dim">{cta_meta}</span></p>
 </header>
 
 <div class="shotwrap">
