@@ -69,9 +69,14 @@ nav {
   max-width: 940px; margin: 0 auto; padding: 20px 24px;
 }
 nav .brand {
-  display: flex; align-items: center; gap: 10px;
-  font-weight: 700; text-decoration: none; color: var(--ink); font-size: 1.05rem;
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 700; text-decoration: none; color: var(--ink); font-size: 1rem;
+  letter-spacing: -0.015em;
 }
+/* The mark is set smaller than its intrinsic 28px box and given a slight negative
+   offset so it optically aligns with the cap height of the wordmark rather than
+   its line box, which is what made the pair look loose. */
+nav .brand img { width: 24px; height: 24px; margin-top: -1px; }
 nav .links { display: flex; align-items: center; gap: 1.1rem; flex-wrap: wrap; font-size: 0.95rem; }
 nav .links a { text-decoration: none; color: var(--muted); }
 nav .links a:hover { color: var(--ink); }
@@ -223,15 +228,24 @@ html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
 section.faq { max-width: 760px; margin: 0 auto; padding: 3.5rem 24px 1rem; }
 section.faq h2 { text-align: center; margin-bottom: 1.6rem; }
 .faq details { border-bottom: 1px solid var(--border); padding: 1rem 0.2rem; }
+/* The question text is wrapped in one span deliberately. summary is a flex
+   container, so every inline element inside it — and these questions contain
+   <code> — would otherwise become its own flex item and be pushed apart by
+   space-between, scattering one sentence across the full width. */
 .faq summary {
   cursor: pointer; font-weight: 600; font-size: 1rem; list-style: none;
-  display: flex; justify-content: space-between; align-items: center; gap: 0.5rem;
+  display: flex; align-items: baseline; gap: 0.1rem;
 }
+.faq summary .q { flex: 1 1 auto; }
+.faq summary code { font-size: 0.92em; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; color: var(--mint-deep); font-size: 1.3rem; font-weight: 400; }
+.faq summary::after {
+  content: "+"; color: var(--mint-deep); font-size: 1.3rem; font-weight: 400;
+  flex: 0 0 auto; margin-left: 0.6rem; line-height: 1;
+}
 .faq details[open] summary::after { content: "–"; }
 .faq summary .faq-anchor {
-  margin-left: 0.55rem; margin-right: auto; color: var(--mint-deep);
+  margin-left: 0.4rem; color: var(--mint-deep); flex: 0 0 auto;
   opacity: 0.3; text-decoration: none; font-weight: 400; transition: opacity 0.15s;
 }
 .faq summary .faq-anchor:hover, .faq summary .faq-anchor:focus { opacity: 1; }

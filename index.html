@@ -76,35 +76,35 @@
 <section class="faq" id="faq">
 <h2>Questions</h2>
 <details id="faq-why-not-ssh">
-  <summary>How is this different from <code>kubectl exec</code> or SSH?</summary>
+  <summary><span class="q">How is this different from <code>kubectl exec</code> or SSH?</span></summary>
   <p>Both give you a shell; neither gives you a session that survives. Quit your terminal mid-<code>exec</code> and the process dies with the connection. Here the session lives in the container, so closing the app closes a WebSocket and nothing else — the next launch re-attaches from the byte where output stopped and restores the same split layout. The deployment model differs too: no kubeconfig on the client, no port-forward, and a credential that authorises one session rather than your whole cluster.</p>
 </details>
 <details id="faq-what-can-the-shell-do">
-  <summary>How much can the shell actually do?</summary>
+  <summary><span class="q">How much can the shell actually do?</span></summary>
   <p>Deliberately little. It opens as <code>uid 1000</code> with no <code>sudo</code>, no service-account token and no host credentials, on a read-only root filesystem with an ephemeral workspace. A session shell can reach the runtime over loopback, which is why the admin credential is never inside the container: an attach token authorises exactly one session and expires.</p>
 </details>
 <details id="faq-open-ports">
-  <summary>Do I have to open a port or set up ingress?</summary>
+  <summary><span class="q">Do I have to open a port or set up ingress?</span></summary>
   <p>No. The runtime binds <code>127.0.0.1</code> and holds no TLS key. A Tailscale sidecar in the same pod is the only thing with a network identity, and the two talk over loopback inside the pod's network namespace. Traffic reaches you over the WireGuard tailnet, which is what carries the encryption.</p>
 </details>
 <details id="faq-do-you-see-my-data">
-  <summary>What do you receive?</summary>
+  <summary><span class="q">What do you receive?</span></summary>
   <p>Nothing. There is no service here — every server the app talks to is one you deployed, in your own cluster or your own AWS account. No account, no sign-up, no analytics, no telemetry. Credentials you supply stay in the macOS Keychain and go nowhere except your own runtime.</p>
 </details>
 <details id="faq-inspect-first">
-  <summary>Can I see what I am deploying before I deploy it?</summary>
+  <summary><span class="q">Can I see what I am deploying before I deploy it?</span></summary>
   <p>Yes. The runtime is MIT licensed at <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>, and the <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">client contract</a> is published, so you can write your own client instead of using this one. This app is one implementation of that contract and is not open source.</p>
 </details>
 <details id="faq-try-without-cluster">
-  <summary>Can I try it without a cluster?</summary>
+  <summary><span class="q">Can I try it without a cluster?</span></summary>
   <p>Yes. <strong>Demo Mode</strong> in the app menu runs two sample connections and a recorded terminal with no network connection of any kind. It exists so the app can be evaluated before you deploy anything.</p>
 </details>
 <details id="faq-what-deploy-does">
-  <summary>What happens when I deploy?</summary>
+  <summary><span class="q">What happens when I deploy?</span></summary>
   <p>Three clicks, then eight steps: a credential is minted into your Keychain, the namespace is ensured, the secret and volume are created, the pod is applied, and the app waits for it to run, waits for it to join your tailnet, and verifies the admin plane. No manifests to write. The first deploy of an image can take a couple of minutes because the cluster is pulling it.</p>
 </details>
 <details id="faq-teardown">
-  <summary>Is anything left behind when I delete a session?</summary>
+  <summary><span class="q">Is anything left behind when I delete a session?</span></summary>
   <p>Teardown is best-effort, and the app says so wherever it matters. Only the first kill domain is implemented, so a process that leaves its process group may outlive its session until the pod or task is replaced. The workspace is ephemeral: deleting the session discards it.</p>
 </details>
 </section>

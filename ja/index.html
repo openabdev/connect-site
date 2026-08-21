@@ -76,35 +76,35 @@
 <section class="faq" id="faq">
 <h2>よくある質問</h2>
 <details id="faq-why-not-ssh">
-  <summary><code>kubectl exec</code> や SSH と何が違うのですか?</summary>
+  <summary><span class="q"><code>kubectl exec</code> や SSH と何が違うのですか?</span></summary>
   <p>どちらもシェルは得られますが、生き残るセッションは得られません。<code>exec</code> の途中でターミナルを閉じれば、プロセスは接続と一緒に死にます。ここではセッションがコンテナの中で生きているので、アプリを閉じても閉じるのは WebSocket ひとつだけです。次の起動で出力が止まったバイト位置から接続し直し、同じ分割レイアウトを復元します。デプロイの形も違います。クライアントに kubeconfig は不要、port-forward も不要で、資格情報が許可するのはクラスタ全体ではなくセッション 1 つです。</p>
 </details>
 <details id="faq-what-can-the-shell-do">
-  <summary>このシェルはどこまでできるのですか?</summary>
+  <summary><span class="q">このシェルはどこまでできるのですか?</span></summary>
   <p>意図的にほとんど何もできません。<code>uid 1000</code> で開き、<code>sudo</code> なし、サービスアカウントトークンなし、ホストの資格情報なし、ルートファイルシステムは読み取り専用、ワークスペースは使い捨てです。セッションのシェルは loopback でランタイムに到達できます。だからこそ管理用の資格情報はコンテナの中に置きません。アタッチトークンが許可するのは 1 セッションだけで、期限もあります。</p>
 </details>
 <details id="faq-open-ports">
-  <summary>ポートを開けたり ingress を用意する必要はありますか?</summary>
+  <summary><span class="q">ポートを開けたり ingress を用意する必要はありますか?</span></summary>
   <p>ありません。ランタイムは <code>127.0.0.1</code> にバインドし、TLS 鍵を持ちません。同じ pod の Tailscale サイドカーだけがネットワーク上の識別を持ち、両者は pod のネットワーク名前空間の中で loopback を通して会話します。通信は WireGuard の tailnet を通って届き、暗号化はそこが担います。</p>
 </details>
 <details id="faq-do-you-see-my-data">
-  <summary>そちらには何が届くのですか?</summary>
+  <summary><span class="q">そちらには何が届くのですか?</span></summary>
   <p>何も届きません。ここにサービスはありません。アプリが接続する先はすべて、あなたが自分のクラスタか自分の AWS アカウントにデプロイしたものです。アカウント登録も、解析も、テレメトリもありません。入力した資格情報は macOS のキーチェーンに留まり、あなた自身のランタイム以外へは送信されません。</p>
 </details>
 <details id="faq-inspect-first">
-  <summary>デプロイする前に中身を確認できますか?</summary>
+  <summary><span class="q">デプロイする前に中身を確認できますか?</span></summary>
   <p>できます。ランタイムは MIT ライセンスで <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a> にあり、<a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">クライアント契約</a>も公開しているので、このアプリを使わずに自分のクライアントを書くこともできます。このアプリはその契約の一実装で、オープンソースではありません。</p>
 </details>
 <details id="faq-try-without-cluster">
-  <summary>クラスタなしで試せますか?</summary>
+  <summary><span class="q">クラスタなしで試せますか?</span></summary>
   <p>試せます。アプリメニューの <strong>Demo Mode</strong> は、サンプル接続 2 つと収録済みのターミナルだけで動き、ネットワーク接続は一切行いません。何もデプロイする前に評価できるようにするためのものです。</p>
 </details>
 <details id="faq-what-deploy-does">
-  <summary>デプロイを押すと何が起きますか?</summary>
+  <summary><span class="q">デプロイを押すと何が起きますか?</span></summary>
   <p>3 クリックのあと、8 つの手順が走ります。資格情報を生成してキーチェーンに保存し、namespace を確認し、secret とボリュームを作成し、pod を適用し、起動を待ち、tailnet への参加を待ち、管理プレーンを検証します。マニフェストを書く必要はありません。あるイメージの初回デプロイは、クラスタがそれを取得するため数分かかることがあります。</p>
 </details>
 <details id="faq-teardown">
-  <summary>セッションを削除したあと、何か残りますか?</summary>
+  <summary><span class="q">セッションを削除したあと、何か残りますか?</span></summary>
   <p>終了処理は best-effort で、アプリは必要な場所すべてでそう明示します。実装されているのは最初の kill domain だけなので、自分のプロセスグループを離れたプロセスは、pod や task が置き換わるまでセッションより長く生き残ることがあります。ワークスペースは一時的で、セッションの削除とともに破棄されます。</p>
 </details>
 </section>

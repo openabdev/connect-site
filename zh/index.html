@@ -76,35 +76,35 @@
 <section class="faq" id="faq">
 <h2>常見問題</h2>
 <details id="faq-why-not-ssh">
-  <summary>這和 <code>kubectl exec</code> 或 SSH 有什麼不同?</summary>
+  <summary><span class="q">這和 <code>kubectl exec</code> 或 SSH 有什麼不同?</span></summary>
   <p>兩者都給你一個 shell，但都不給你一個活得下去的 session。<code>exec</code> 進行中關掉終端，程序就跟著連線一起死。這裡的 session 活在容器裡，關掉 app 只是關掉一條 WebSocket，其他什麼都沒發生 —— 下次啟動從輸出中斷的那個位元組接回來，並還原同一個分割版面。部署模型也不同:客戶端上沒有 kubeconfig、不需要 port-forward，而且憑證授權的是一個 session，不是你的整個叢集。此外你要的往往不是「一個 shell」，而是「那個運行環境」裡的 shell —— 同一個映像、同一個 workspace、同一批檔案，不是在筆電上重現一次。</p>
 </details>
 <details id="faq-what-can-the-shell-do">
-  <summary>這個 shell 到底能做多少事?</summary>
+  <summary><span class="q">這個 shell 到底能做多少事?</span></summary>
   <p>刻意很少。它以 <code>uid 1000</code> 開啟，沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證，根檔案系統唯讀，workspace 用完即棄。session 的 shell 可以經 loopback 連到 runtime —— 這正是管理憑證從不放進容器的原因:attach token 只授權一個 session，而且會過期。</p>
 </details>
 <details id="faq-open-ports">
-  <summary>我需要開連接埠或設定 ingress 嗎?</summary>
+  <summary><span class="q">我需要開連接埠或設定 ingress 嗎?</span></summary>
   <p>不需要。runtime 綁在 <code>127.0.0.1</code>，本身不持有 TLS 金鑰。同一個 pod 裡的 Tailscale sidecar 是唯一擁有網路身分的東西，兩者在 pod 的網路命名空間內經 loopback 通訊。流量走 WireGuard tailnet 到你手上，加密由它承擔。</p>
 </details>
 <details id="faq-do-you-see-my-data">
-  <summary>你們會收到什麼?</summary>
+  <summary><span class="q">你們會收到什麼?</span></summary>
   <p>什麼都沒有。這裡沒有任何服務 —— app 連上的每一台伺服器都是你自己部署的，在你自己的叢集或你自己的 AWS 帳號裡。不需要帳號、不需要註冊、沒有分析、沒有遙測。你輸入的憑證留在 macOS Keychain，除了你自己的 runtime 之外不會送到任何地方。</p>
 </details>
 <details id="faq-inspect-first">
-  <summary>我可以在部署前先確認要部署什麼嗎?</summary>
+  <summary><span class="q">我可以在部署前先確認要部署什麼嗎?</span></summary>
   <p>可以。runtime 是 MIT 授權的 <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>，而且 <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">客戶端契約</a>是公開的，所以你可以不用這個 app、自己寫一個客戶端。這個 app 只是那份契約的一種實作，它不是開源的。</p>
 </details>
 <details id="faq-try-without-cluster">
-  <summary>沒有叢集可以先試嗎?</summary>
+  <summary><span class="q">沒有叢集可以先試嗎?</span></summary>
   <p>可以。應用程式選單裡的 <strong>Demo Mode</strong> 會跑兩個範例連線和一個預錄的終端，完全不建立任何網路連線。它的存在就是為了讓你在部署任何東西之前先評估這個 app。</p>
 </details>
 <details id="faq-what-deploy-does">
-  <summary>按下部署之後發生什麼事?</summary>
+  <summary><span class="q">按下部署之後發生什麼事?</span></summary>
   <p>你點三下，然後是八個步驟:產生憑證存進你的 Keychain、確認 namespace、建立 secret 與儲存、套用 pod，然後 app 等它就緒、等它加入你的 tailnet、驗證管理端。不必寫 manifest。某個映像第一次部署可能要幾分鐘,因為叢集正在拉取它。</p>
 </details>
 <details id="faq-teardown">
-  <summary>刪掉 session 之後會留下東西嗎?</summary>
+  <summary><span class="q">刪掉 session 之後會留下東西嗎?</span></summary>
   <p>teardown 是 best-effort，而且 app 在每個該說的地方都這樣寫。目前只實作了第一層 kill domain，所以離開自己 process group 的程序可能活得比它的 session 久，直到 pod 或 task 被替換。workspace 是暫存的:刪除 session 就把它丟掉。</p>
 </details>
 </section>

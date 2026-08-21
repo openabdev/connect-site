@@ -469,7 +469,7 @@ for code in ORDER:
                      f'    <div class="icon"><svg viewBox="0 0 24 24">{ICONS[i]}</svg></div>\n'
                      f'    <h3>{item[0]}</h3>\n    <p>{item[1]}</p>\n  </div>')
     faqs = "\n".join(
-        f'<details id="faq-{qid}">\n  <summary>{q}</summary>\n  <p>{a}</p>\n</details>'
+        f'<details id="faq-{qid}">\n  <summary><span class="q">{q}</span></summary>\n  <p>{a}</p>\n</details>'
         for qid, q, a in d["faq"])
 
     out = ROOT / d["dir"] / "index.html" if d["dir"] else ROOT / "index.html"
