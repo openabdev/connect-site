@@ -80,8 +80,8 @@
   <div class="a"><p>둘 다 셸은 주지만, 살아남는 세션은 주지 않습니다. <code>exec</code> 도중에 터미널을 닫으면 프로세스는 연결과 함께 죽습니다. 여기서는 세션이 컨테이너 안에 살아 있어서 앱을 닫는 것은 WebSocket 하나를 닫는 일에 그칩니다. 다음 실행에서 출력이 멈춘 바이트부터 다시 붙고 같은 분할 레이아웃을 복원합니다. 배포 방식도 다릅니다. 클라이언트에 kubeconfig가 없고 port-forward도 없으며, 자격 증명이 허용하는 범위는 클러스터 전체가 아니라 세션 하나입니다.</p></div>
 </details>
 <details id="faq-vs-herdr">
-  <summary><span class="q">herdr와는 무엇이 다릅니까?</span></summary>
-  <div class="a"><p>herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 PTY를 주고, 연결이 끊겨도 계속 살려 두며, 각 패널을 working／blocked／idle로 분류하고, CLI와 socket API를 제공합니다. 지속성과 전체 조망이라는 점은 이 앱과 거의 그대로 겹칩니다. 다른 것은 에이전트가 어디서 실행되는가입니다:</p><ul><li><strong>herdr</strong>는 실행한 그 머신 위에서 돌리므로 사용자, 파일시스템, 자격 증명을 공유합니다.</li><li><strong>OpenAB Connect</strong>는 각 세션을 클러스터 안의 독립된 컨테이너에서 실행합니다 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 없음, 루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 전혀 열지 않습니다.</li></ul><p>차이는 샌드박싱이며 멀티플렉싱이 아닙니다. herdr가 할 수 있고 OpenAB Connect가 못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 전혀 필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 herdr가 더 나은 답입니다.</p></div>
+  <summary><span class="q">Herdr와는 무엇이 다릅니까?</span></summary>
+  <div class="a"><p>Herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 PTY를 주고, 연결이 끊겨도 계속 살려 두며, 각 패널을 working／blocked／idle로 분류하고, CLI와 socket API를 제공합니다. 지속성과 전체 조망이라는 점은 이 앱과 거의 그대로 겹칩니다. 다른 것은 에이전트가 어디서 실행되는가입니다:</p><ul><li><strong>Herdr</strong>는 실행한 그 머신 위에서 돌리므로 사용자, 파일시스템, 자격 증명을 공유합니다.</li><li><strong>OpenAB Connect</strong>는 각 세션을 클러스터 안의 독립된 컨테이너에서 실행합니다 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 없음, 루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 전혀 열지 않습니다.</li></ul><p>차이는 샌드박싱이며 멀티플렉싱이 아닙니다. Herdr가 할 수 있고 OpenAB Connect가 못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 전혀 필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 Herdr가 더 나은 답입니다.</p></div>
 </details>
 <details id="faq-vs-local">
   <summary><span class="q">제 Mac에서 Claude Code나 Codex Desktop을 그냥 쓰는 것과 무엇이 다릅니까?</span></summary>
@@ -113,7 +113,7 @@
 </details>
 <details id="faq-teardown">
   <summary><span class="q">세션을 삭제한 뒤에 남는 것이 있습니까?</span></summary>
-  <div class="a"><p>종료 처리는 best-effort이고, 앱은 필요한 곳마다 그렇게 밝힙니다. 구현된 것은 첫 번째 kill domain뿐이므로, 자신의 프로세스 그룹을 벗어난 프로세스는 pod이나 task가 교체될 때까지 세션보다 오래 살아남을 수 있습니다. 워크스페이스는 임시이며 세션을 삭제하면 함께 버려집니다.</p></div>
+  <div class="a"><p><strong>워크스페이스는 버려집니다.</strong> 이 부분은 확실합니다. 그 세션을 위해서만 존재하며, 세션을 삭제하면 함께 사라집니다.</p><p>확실하지 않은 것은 프로세스입니다. 세션을 삭제하면 해당 세션의 프로세스 그룹이 종료되지만, 그 그룹을 의도적으로 벗어난 프로세스 — <code>nohup</code>이나 <code>setsid</code>로 띄운 백그라운드 작업 — 는 pod이나 task가 교체될 때까지 살아남을 수 있습니다. 여전히 같은 샌드박스 안에 갇혀 있어 새로 닿을 수 있는 것은 없지만, 그 pod의 CPU와 메모리를 계속 씁니다.</p><p>그래서 앱에서는 깔끔하게 종료된다고 말하지 않고 best-effort라고 밝힙니다. 아무것도 남지 않게 하려면 pod이나 task를 삭제하십시오.</p></div>
 </details>
 </section>
 

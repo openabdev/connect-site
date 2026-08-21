@@ -80,8 +80,8 @@
   <div class="a"><p>兩者都給你一個 shell，但都不給你一個活得下去的 session。<code>exec</code> 進行中關掉終端，程序就跟著連線一起死。這裡的 session 活在容器裡，關掉 app 只是關掉一條 WebSocket，其他什麼都沒發生 —— 下次啟動從輸出中斷的那個位元組接回來，並還原同一個分割版面。部署模型也不同:客戶端上沒有 kubeconfig、不需要 port-forward，而且憑證授權的是一個 session，不是你的整個叢集。此外你要的往往不是「一個 shell」，而是「那個運行環境」裡的 shell —— 同一個映像、同一個 workspace、同一批檔案，不是在筆電上重現一次。</p></div>
 </details>
 <details id="faq-vs-herdr">
-  <summary><span class="q">這跟 herdr 有什麼不同?</span></summary>
-  <div class="a"><p>herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、斷線後仍活著、把每個窗格分類成 working／blocked／idle，還有 CLI 和 socket API。持久性和艦隊視圖這兩點和這個 app 幾乎完全重疊。不同的是 agent 跑在哪裡:</p><ul><li><strong>herdr</strong> 把它們跑在你叫它的那台機器上，共用你的使用者、你的檔案系統、你的憑證。</li><li><strong>OpenAB Connect</strong> 每個 session 是你叢集裡自己的容器 —— <code>uid 1000</code>、沒有 <code>sudo</code>、沒有主機憑證、根檔案系統唯讀、workspace 用完即棄 —— 經 WireGuard tailnet 連上，不開任何連接埠。</li></ul><p>分野是沙箱化，不是多工。herdr 也做得到一些 OpenAB Connect 做不到的事:窗格狀態判定、可腳本化的本機 API，以及完全不需要任何基礎架構。如果你希望什麼都不用部署，herdr 是更好的答案。</p></div>
+  <summary><span class="q">這跟 Herdr 有什麼不同?</span></summary>
+  <div class="a"><p>Herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、斷線後仍活著、把每個窗格分類成 working／blocked／idle，還有 CLI 和 socket API。持久性和艦隊視圖這兩點和這個 app 幾乎完全重疊。不同的是 agent 跑在哪裡:</p><ul><li><strong>Herdr</strong> 把它們跑在你叫它的那台機器上，共用你的使用者、你的檔案系統、你的憑證。</li><li><strong>OpenAB Connect</strong> 每個 session 是你叢集裡自己的容器 —— <code>uid 1000</code>、沒有 <code>sudo</code>、沒有主機憑證、根檔案系統唯讀、workspace 用完即棄 —— 經 WireGuard tailnet 連上，不開任何連接埠。</li></ul><p>分野是沙箱化，不是多工。Herdr 也做得到一些 OpenAB Connect 做不到的事:窗格狀態判定、可腳本化的本機 API，以及完全不需要任何基礎架構。如果你希望什麼都不用部署，Herdr 是更好的答案。</p></div>
 </details>
 <details id="faq-vs-local">
   <summary><span class="q">這跟只在我的電腦上跑 Claude Code 或 Codex Desktop 有什麼不同?</span></summary>
@@ -113,7 +113,7 @@
 </details>
 <details id="faq-teardown">
   <summary><span class="q">刪掉 session 之後會留下東西嗎?</span></summary>
-  <div class="a"><p>teardown 是 best-effort，而且 app 在每個該說的地方都這樣寫。目前只實作了第一層 kill domain，所以離開自己 process group 的程序可能活得比它的 session 久，直到 pod 或 task 被替換。workspace 是暫存的:刪除 session 就把它丟掉。</p></div>
+  <div class="a"><p><strong>workspace 會被丟掉</strong>，這部分是確定的:它只存在於那個 session，刪除就沒了。</p><p>不確定的是程序。刪除 session 時，runtime 會終止這個 session 的 process group，但一個刻意脫離那個 group 的程序 —— 例如用 <code>nohup</code> 或 <code>setsid</code> 啟動的背景工作 —— 可能活下來，直到那個 pod 或 task 被替換。它仍然關在同一個沙箱裡，不會因此碰到任何新的東西，但它會繼續佔用那個 pod 的 CPU 和記憶體。</p><p>所以這件事在 app 裡標示為 best-effort，而不是聲稱乾淨結束。要確定什麼都不剩，刪掉那個 pod 或 task。</p></div>
 </details>
 </section>
 

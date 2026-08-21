@@ -84,22 +84,22 @@ L = {
     "the same split layout. The deployment model differs too: no kubeconfig on the "
     "client, no port-forward, and a credential that authorises one session rather than "
     "your whole cluster."),
-   ("vs-herdr", "How is this different from herdr?",
-    "<p>herdr is an agent multiplexer — tmux for coding agents. It gives each agent a real "
+   ("vs-herdr", "How is this different from Herdr?",
+    "<p>Herdr is an agent multiplexer — tmux for coding agents. It gives each agent a real "
     "PTY, keeps them alive across disconnects, classifies every pane as working, blocked "
     "or idle, and exposes a CLI and a socket API. The persistence and the fleet view "
     "overlap with this app almost exactly. What differs is where the agents run:"
     "</p><ul>"
-    "<li><strong>herdr</strong> runs them on the machine you invoke it on, sharing your "
+    "<li><strong>Herdr</strong> runs them on the machine you invoke it on, sharing your "
     "user, your filesystem and your credentials.</li>"
     "<li><strong>OpenAB Connect</strong> gives each session its own container in your "
     "cluster — <code>uid 1000</code>, no <code>sudo</code>, no host credentials, "
     "read-only root, ephemeral workspace — reached over a WireGuard tailnet with no port "
     "exposed.</li>"
     "</ul>"
-    "<p>The difference is sandboxing, not multiplexing. herdr also does things OpenAB "
+    "<p>The difference is sandboxing, not multiplexing. Herdr also does things OpenAB "
     "Connect does not: pane state classification, a scriptable local API, and running "
-    "with no infrastructure at all. If you want nothing to deploy, herdr is the better "
+    "with no infrastructure at all. If you want nothing to deploy, Herdr is the better "
     "answer.</p>"),
    ("vs-local", "How is this different from just running Claude Code or Codex on my Mac?",
     "An agent on your Mac runs as you. It can reach your SSH keys, your cloud credentials, "
@@ -143,10 +143,15 @@ L = {
     "admin plane. No manifests to write. The first deploy of an image can take a couple "
     "of minutes because the cluster is pulling it."),
    ("teardown", "Is anything left behind when I delete a session?",
-    "Teardown is best-effort, and the app says so wherever it matters. Only the first "
-    "kill domain is implemented, so a process that leaves its process group may outlive "
-    "its session until the pod or task is replaced. The workspace is ephemeral: deleting "
-    "the session discards it."),
+    "<p><strong>The workspace is discarded.</strong> That part is certain: it exists only "
+    "for that session, and deleting the session deletes it.</p>"
+    "<p>What is not certain is processes. Deleting a session terminates that session's "
+    "process group, but a process that deliberately leaves that group — a background job "
+    "started with <code>nohup</code> or <code>setsid</code> — can outlive it until the pod "
+    "or task is replaced. It is still confined to the same sandbox and gains no new reach, "
+    "but it keeps consuming that pod's CPU and memory.</p>"
+    "<p>So this is labelled best-effort in the app rather than claimed as a clean kill. To "
+    "be certain nothing remains, delete the pod or task.</p>"),
   ],
   f=("Privacy", "Support", "Runtime source"),
  ),
@@ -190,20 +195,20 @@ L = {
     "而且憑證授權的是一個 session，不是你的整個叢集。此外你要的往往不是「一個 shell」，"
     "而是「那個運行環境」裡的 shell —— 同一個映像、同一個 workspace、同一批檔案，"
     "不是在筆電上重現一次。"),
-   ("vs-herdr", "這跟 herdr 有什麼不同?",
-    "<p>herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、"
+   ("vs-herdr", "這跟 Herdr 有什麼不同?",
+    "<p>Herdr 是 agent multiplexer —— coding agent 版的 tmux。它給每個 agent 一個真實 PTY、"
     "斷線後仍活著、把每個窗格分類成 working／blocked／idle，還有 CLI 和 socket API。"
     "持久性和艦隊視圖這兩點和這個 app 幾乎完全重疊。不同的是 agent 跑在哪裡:"
     "</p><ul>"
-    "<li><strong>herdr</strong> 把它們跑在你叫它的那台機器上，共用你的使用者、"
+    "<li><strong>Herdr</strong> 把它們跑在你叫它的那台機器上，共用你的使用者、"
     "你的檔案系統、你的憑證。</li>"
     "<li><strong>OpenAB Connect</strong> 每個 session 是你叢集裡自己的容器 —— "
     "<code>uid 1000</code>、沒有 <code>sudo</code>、沒有主機憑證、根檔案系統唯讀、"
     "workspace 用完即棄 —— 經 WireGuard tailnet 連上，不開任何連接埠。</li>"
     "</ul>"
-    "<p>分野是沙箱化，不是多工。herdr 也做得到一些 OpenAB Connect 做不到的事:"
+    "<p>分野是沙箱化，不是多工。Herdr 也做得到一些 OpenAB Connect 做不到的事:"
     "窗格狀態判定、可腳本化的本機 API，以及完全不需要任何基礎架構。"
-    "如果你希望什麼都不用部署，herdr 是更好的答案。</p>"),
+    "如果你希望什麼都不用部署，Herdr 是更好的答案。</p>"),
    ("vs-local", "這跟只在我的電腦上跑 Claude Code 或 Codex Desktop 有什麼不同?",
     "在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、"
     "你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，"
@@ -239,9 +244,14 @@ L = {
     "建立 secret 與儲存、套用 pod，然後 app 等它就緒、等它加入你的 tailnet、驗證管理端。"
     "不必寫 manifest。某個映像第一次部署可能要幾分鐘,因為叢集正在拉取它。"),
    ("teardown", "刪掉 session 之後會留下東西嗎?",
-    "teardown 是 best-effort，而且 app 在每個該說的地方都這樣寫。目前只實作了第一層 "
-    "kill domain，所以離開自己 process group 的程序可能活得比它的 session 久，"
-    "直到 pod 或 task 被替換。workspace 是暫存的:刪除 session 就把它丟掉。"),
+    "<p><strong>workspace 會被丟掉</strong>，這部分是確定的:它只存在於那個 session，"
+    "刪除就沒了。</p>"
+    "<p>不確定的是程序。刪除 session 時，runtime 會終止這個 session 的 process group，"
+    "但一個刻意脫離那個 group 的程序 —— 例如用 <code>nohup</code> 或 <code>setsid</code> "
+    "啟動的背景工作 —— 可能活下來，直到那個 pod 或 task 被替換。它仍然關在同一個沙箱裡，"
+    "不會因此碰到任何新的東西，但它會繼續佔用那個 pod 的 CPU 和記憶體。</p>"
+    "<p>所以這件事在 app 裡標示為 best-effort，而不是聲稱乾淨結束。"
+    "要確定什麼都不剩，刪掉那個 pod 或 task。</p>"),
   ],
   f=("隱私", "支援", "runtime 原始碼"),
  ),
@@ -292,23 +302,23 @@ L = {
     "同じ分割レイアウトを復元します。デプロイの形も違います。クライアントに kubeconfig "
     "は不要、port-forward も不要で、資格情報が許可するのはクラスタ全体ではなく"
     "セッション 1 つです。"),
-   ("vs-herdr", "herdr とは何が違うのですか?",
-    "<p>herdr はエージェントマルチプレクサ — コーディングエージェント版の tmux です。"
+   ("vs-herdr", "Herdr とは何が違うのですか?",
+    "<p>Herdr はエージェントマルチプレクサ — コーディングエージェント版の tmux です。"
     "各エージェントに本物の PTY を与え、切断されても生かし続け、各ペインを working／"
     "blocked／idle に分類し、CLI と socket API を備えています。永続性と一覧性という点は、"
     "このアプリとほぼそのまま重なります。違うのはエージェントがどこで動くかです:"
     "</p><ul>"
-    "<li><strong>herdr</strong> は起動したマシンの上で動かすので、ユーザー、"
+    "<li><strong>Herdr</strong> は起動したマシンの上で動かすので、ユーザー、"
     "ファイルシステム、資格情報を共有します。</li>"
     "<li><strong>OpenAB Connect</strong> は各セッションをクラスタ内の独立したコンテナで"
     "動かします — <code>uid 1000</code>、<code>sudo</code> なし、ホストの資格情報なし、"
     "ルートは読み取り専用、ワークスペースは使い捨て — WireGuard の tailnet 経由で、"
     "ポートは一切開けません。</li>"
     "</ul>"
-    "<p>違いはサンドボックス化であって、マルチプレクスではありません。herdr にできて "
+    "<p>違いはサンドボックス化であって、マルチプレクスではありません。Herdr にできて "
     "OpenAB Connect にできないこともあります。ペインの状態判定、スクリプト可能な"
     "ローカル API、そしてインフラを一切必要としない点です。何もデプロイしたくないなら、"
-    "herdr のほうが適した答えです。</p>"),
+    "Herdr のほうが適した答えです。</p>"),
    ("vs-local", "自分の Mac で Claude Code や Codex Desktop を動かすのと何が違うのですか?",
     "Mac 上のエージェントは、あなたとして動きます。SSH 鍵、クラウドの資格情報、npm や "
     "GitHub のトークン、ディスク上のすべてのリポジトリに手が届くので、間違ったコマンドは"
@@ -352,10 +362,15 @@ L = {
     "ありません。あるイメージの初回デプロイは、クラスタがそれを取得するため数分かかる"
     "ことがあります。"),
    ("teardown", "セッションを削除したあと、何か残りますか?",
-    "終了処理は best-effort で、アプリは必要な場所すべてでそう明示します。"
-    "実装されているのは最初の kill domain だけなので、自分のプロセスグループを離れた"
-    "プロセスは、pod や task が置き換わるまでセッションより長く生き残ることがあります。"
-    "ワークスペースは一時的で、セッションの削除とともに破棄されます。"),
+    "<p><strong>ワークスペースは破棄されます。</strong>ここは確実です。そのセッションのため"
+    "だけに存在し、セッションを削除すれば消えます。</p>"
+    "<p>確実でないのはプロセスです。セッションを削除するとそのセッションのプロセスグループ"
+    "は終了しますが、意図的にそのグループを離れたプロセス — <code>nohup</code> や "
+    "<code>setsid</code> で起動したバックグラウンドジョブなど — は、pod や task が"
+    "置き換わるまで生き残ることがあります。同じサンドボックスの中に閉じたままで、"
+    "新たに何かへ手が届くわけではありませんが、その pod の CPU とメモリを使い続けます。</p>"
+    "<p>そのためアプリでは、きれいに終了したとは言わず best-effort と明示しています。"
+    "何も残らないことを確実にするなら、pod か task を削除してください。</p>"),
   ],
   f=("プライバシー", "サポート", "ランタイムのソース"),
  ),
@@ -401,22 +416,22 @@ L = {
     "바이트부터 다시 붙고 같은 분할 레이아웃을 복원합니다. 배포 방식도 다릅니다. "
     "클라이언트에 kubeconfig가 없고 port-forward도 없으며, 자격 증명이 허용하는 범위는 "
     "클러스터 전체가 아니라 세션 하나입니다."),
-   ("vs-herdr", "herdr와는 무엇이 다릅니까?",
-    "<p>herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 "
+   ("vs-herdr", "Herdr와는 무엇이 다릅니까?",
+    "<p>Herdr는 에이전트 멀티플렉서 — 코딩 에이전트를 위한 tmux입니다. 각 에이전트에 실제 "
     "PTY를 주고, 연결이 끊겨도 계속 살려 두며, 각 패널을 working／blocked／idle로 "
     "분류하고, CLI와 socket API를 제공합니다. 지속성과 전체 조망이라는 점은 이 앱과 거의 "
     "그대로 겹칩니다. 다른 것은 에이전트가 어디서 실행되는가입니다:"
     "</p><ul>"
-    "<li><strong>herdr</strong>는 실행한 그 머신 위에서 돌리므로 사용자, 파일시스템, "
+    "<li><strong>Herdr</strong>는 실행한 그 머신 위에서 돌리므로 사용자, 파일시스템, "
     "자격 증명을 공유합니다.</li>"
     "<li><strong>OpenAB Connect</strong>는 각 세션을 클러스터 안의 독립된 컨테이너에서 "
     "실행합니다 — <code>uid 1000</code>, <code>sudo</code> 없음, 호스트 자격 증명 없음, "
     "루트는 읽기 전용, 워크스페이스는 일회용 — WireGuard tailnet으로 닿고 포트는 전혀 "
     "열지 않습니다.</li>"
     "</ul>"
-    "<p>차이는 샌드박싱이며 멀티플렉싱이 아닙니다. herdr가 할 수 있고 OpenAB Connect가 "
+    "<p>차이는 샌드박싱이며 멀티플렉싱이 아닙니다. Herdr가 할 수 있고 OpenAB Connect가 "
     "못 하는 일도 있습니다. 패널 상태 판정, 스크립트 가능한 로컬 API, 그리고 인프라가 전혀 "
-    "필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 herdr가 더 나은 답입니다.</p>"),
+    "필요 없다는 점입니다. 아무것도 배포하고 싶지 않다면 Herdr가 더 나은 답입니다.</p>"),
    ("vs-local", "제 Mac에서 Claude Code나 Codex Desktop을 그냥 쓰는 것과 무엇이 다릅니까?",
     "Mac 위의 에이전트는 여러분 자신으로 실행됩니다. SSH 키, 클라우드 자격 증명, npm과 "
     "GitHub 토큰, 디스크의 모든 리포지터리에 닿을 수 있으므로 잘못된 명령은 여러분의 "
@@ -457,10 +472,15 @@ L = {
     "tailnet 참여를 기다리고, 관리 평면을 검증합니다. 매니페스트를 쓸 필요가 없습니다. "
     "어떤 이미지의 첫 배포는 클러스터가 이미지를 받아오는 동안 몇 분이 걸릴 수 있습니다."),
    ("teardown", "세션을 삭제한 뒤에 남는 것이 있습니까?",
-    "종료 처리는 best-effort이고, 앱은 필요한 곳마다 그렇게 밝힙니다. 구현된 것은 첫 번째 "
-    "kill domain뿐이므로, 자신의 프로세스 그룹을 벗어난 프로세스는 pod이나 task가 교체될 "
-    "때까지 세션보다 오래 살아남을 수 있습니다. 워크스페이스는 임시이며 세션을 삭제하면 "
-    "함께 버려집니다."),
+    "<p><strong>워크스페이스는 버려집니다.</strong> 이 부분은 확실합니다. 그 세션을 위해서만 "
+    "존재하며, 세션을 삭제하면 함께 사라집니다.</p>"
+    "<p>확실하지 않은 것은 프로세스입니다. 세션을 삭제하면 해당 세션의 프로세스 그룹이 "
+    "종료되지만, 그 그룹을 의도적으로 벗어난 프로세스 — <code>nohup</code>이나 "
+    "<code>setsid</code>로 띄운 백그라운드 작업 — 는 pod이나 task가 교체될 때까지 살아남을 "
+    "수 있습니다. 여전히 같은 샌드박스 안에 갇혀 있어 새로 닿을 수 있는 것은 없지만, 그 pod의 "
+    "CPU와 메모리를 계속 씁니다.</p>"
+    "<p>그래서 앱에서는 깔끔하게 종료된다고 말하지 않고 best-effort라고 밝힙니다. 아무것도 "
+    "남지 않게 하려면 pod이나 task를 삭제하십시오.</p>"),
   ],
   f=("개인정보", "지원", "런타임 소스"),
  ),
