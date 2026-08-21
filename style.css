@@ -86,7 +86,11 @@ nav .lang a.active { color: var(--ink); font-weight: 700; }
 @media (max-width: 620px) { nav .lang { margin-left: 0; } }
 
 .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 72px; }
-header { padding: 48px 0 8px; text-align: center; }
+/* Every top-level section carries its own width now that .wrap is no longer in
+   these pages. text-align alone centred the text but left the measure to the
+   viewport, so a wide monitor stretched the headline and a phone let it touch
+   the edges. */
+header { max-width: 900px; margin: 0 auto; padding: 48px 24px 8px; text-align: center; }
 header img.appicon { width: 104px; height: 104px; }
 h1 { font-size: 2.1rem; margin: 22px 0 10px; letter-spacing: -0.02em; line-height: 1.25; }
 .tag { color: var(--muted); font-size: 1.08rem; margin: 0 auto; max-width: 34em; }
@@ -165,8 +169,11 @@ figure img { width: 100%; height: auto; display: block; border-radius: 7px; }
 }
 figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 12px; }
 footer {
-  border-top: 1px solid var(--border); margin-top: 56px; padding-top: 26px;
-  color: var(--muted); font-size: 0.9rem; display: flex; gap: 20px; flex-wrap: wrap;
+  max-width: 1080px; margin: 56px auto 0; padding: 26px 24px 48px;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.9rem;
+  display: flex; gap: 20px; flex-wrap: wrap;
+  justify-content: center; align-items: center;
 }
 .date { color: var(--muted); margin: 0 0 30px; }
 
@@ -211,11 +218,11 @@ html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
    CLIs draw ANSI colour tuned for a dark background. So rather than fighting it, the
    showcase band tints toward the icon colour and fades out, which makes the dark
    window read as deliberately inset instead of pasted onto the page. */
-.shotwrap {
-  max-width: 1080px; margin: 0 auto;
-  padding: 28px 24px 8px;
-  background: linear-gradient(180deg, var(--mint-tint) 0%, transparent 82%);
-}
+/* No background here. A tint on this element is 1080px wide and centred, so it ends
+   in a hard vertical edge against the page on both sides — which is exactly the
+   stray colour block it looked like. The card and its shadow already seat the
+   screenshot; the band was doing that job twice and badly. */
+.shotwrap { max-width: 1080px; margin: 0 auto; padding: 24px 24px 8px; }
 /* The capture is cropped to the window itself, with the macOS drop shadow removed.
    That shadow is dark and desaturated, so compositing it onto the mint page produced
    a grey ring that read as a mismatched frame — and CSS was drawing a second shadow
