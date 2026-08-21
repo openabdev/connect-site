@@ -84,7 +84,18 @@ nav .lang a.active { color: var(--ink); font-weight: 700; }
 header { padding: 48px 0 8px; text-align: center; }
 header img.appicon { width: 104px; height: 104px; }
 h1 { font-size: 2.1rem; margin: 22px 0 10px; letter-spacing: -0.02em; line-height: 1.25; }
-.tag { color: var(--muted); font-size: 1.08rem; margin: 0 auto; max-width: 32em; }
+.tag { color: var(--muted); font-size: 1.08rem; margin: 0 auto; max-width: 34em; }
+
+/* The explicit <br> in each hero fixes the break at a clause boundary, but a narrow
+   viewport wraps again below it, and CJK breaks between any two characters — which
+   is how 「它們繼續跑。」 ended up with 「跑。」 alone on a line. balance evens the
+   line lengths instead of filling greedily, so the last line is never one glyph. */
+h1, .tag { text-wrap: balance; }
+/* Keep the second half whole rather than letting it split mid-clause. inline-block
+   moves the whole run down instead of breaking inside it; it can still wrap
+   internally if the viewport is genuinely narrower than the run, so nothing
+   overflows. */
+.tag strong { display: inline-block; }
 
 /* The CJK hero is deliberately bigger and heavier than the Latin one. Han glyphs
    carry more ink per character, so a headline that is merely translated ends up

@@ -21,7 +21,7 @@ L = {
         desc="Agents from every major vendor in one macOS client, running distributed "
              "across your own private infrastructure, each in its own sandbox.",
         hero_h1='Agents from every major vendor.<br><span class="mark">One client</span>, each sandboxed.',
-        hero_sub="Encrypted and distributed across your own private infrastructure. "
+        hero_sub="Encrypted and distributed across your own private infrastructure.<br>"
              "<strong>Quit the app and they keep running.</strong>",
         nav=("What it is", "You own both ends", "Deploy", "Support"),
         shot_alt="OpenAB Connect with seven agent connections in the sidebar and four "
@@ -75,8 +75,8 @@ L = {
         title="OpenAB Connect — 所有頂尖廠商的 Agent，一個客戶端",
         desc="所有頂尖廠商的 Agent，一個客戶端，分散運行在你的私有基礎架構，各自沙箱。",
         hero_h1='所有頂尖廠商的 Agent，<br><span class="mark">一個客戶端</span>，各自沙箱。',
-        hero_sub="加密分散運行在你的私有基礎架構，"
-             "<strong>關掉 app，它們繼續跑。</strong>",
+        hero_sub="加密分散運行在你的私有基礎架構，關掉 app，<br>"
+             "<strong>它們繼續運行。</strong>",
         nav=("這是什麼", "兩端都是你的", "部署", "支援"),
         shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
         shot_cap="七個 agent 已部署，四個同時接上。每一條標題列都寫著 runtime 對自己的兩項聲明:"
@@ -124,7 +124,7 @@ L = {
         desc="主要ベンダーのエージェントをひとつのクライアントにまとめ、"
              "自分のプライベート環境に分散して、それぞれのサンドボックスで動かします。",
         hero_h1='すべての主要ベンダーのエージェント。<br><span class="mark">ひとつのクライアント</span>、それぞれサンドボックス。',
-        hero_sub="暗号化されたまま、自分のプライベート環境に分散して動きます。"
+        hero_sub="暗号化されたまま、自分のプライベート環境に分散して動きます。<br>"
              "<strong>アプリを閉じても、動き続けます。</strong>",
         nav=("これは何か", "両端はあなたのもの", "デプロイ", "サポート"),
         shot_alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の "
@@ -179,7 +179,7 @@ L = {
         desc="주요 벤더의 에이전트를 클라이언트 한곳에서. 여러분의 사설 인프라에 분산되어 "
              "각자 샌드박스에서 실행됩니다.",
         hero_h1='주요 벤더의 모든 에이전트.<br><span class="mark">클라이언트 하나</span>, 각자 샌드박스.',
-        hero_sub="암호화된 채로 여러분의 사설 인프라에 분산되어 실행됩니다. "
+        hero_sub="암호화된 채로 여러분의 사설 인프라에 분산되어 실행됩니다.<br>"
              "<strong>앱을 닫아도 계속 실행됩니다.</strong>",
         nav=("무엇인가", "양쪽 모두 내 것", "배포", "지원"),
         shot_alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 "
