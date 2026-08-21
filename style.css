@@ -274,3 +274,13 @@ html[data-lang="ko"] .faq details p,
 html[data-lang="zh"] .faq details ul li,
 html[data-lang="ja"] .faq details ul li,
 html[data-lang="ko"] .faq details ul li { font-size: 1rem; line-height: 1.85; }
+
+/* The same badge as the unreleased card, set inline so it can sit in a question.
+   A reader scanning closed summaries has to be able to tell a roadmap answer from a
+   feature without opening it. */
+.ribbon.inline {
+  position: static; display: inline-block; vertical-align: 0.12em;
+  margin-left: 0.45rem; font-size: 0.62rem;
+}
+.faq summary .q .ribbon.inline { font-weight: 700; }
+.faq details a { color: var(--mint-deep); }

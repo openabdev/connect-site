@@ -51,6 +51,7 @@ L = {
   nav=("Features", "FAQ", "Support"),
   shot_alt="OpenAB Connect with seven agent connections in the sidebar and four terminal "
            "panes attached to different coding CLIs",
+  dev_label='in development',
   soon_label="coming soon",
   feats=[
    ("Every major vendor",
@@ -156,6 +157,20 @@ L = {
     "but it keeps consuming that pod's CPU and memory.</p>"
     "<p>So this is labelled best-effort in the app rather than claimed as a clean kill. To "
     "be certain nothing remains, delete the pod or task.</p>"),
+   ("inter-agent", "Can agents talk to each other across devices, regions and networks?",
+    "<p><strong>Not yet — this is being built.</strong> Today each session is independent: you "
+    "instruct each agent, and they do not delegate work to one another.</p>"
+    "<p>The design is public. It follows OpenAB's <a href=\"https://github.com/openabdev/openab/pull/1465\">Agent Control Plane "
+    "ADR</a> — a hub-and-spoke registration and routing service that lets agents delegate "
+    "directly over ACP on WebSocket instead of round-tripping through a chat platform, which "
+    "costs rate limits, latency, and orchestration noise in channels meant for people. Three "
+    "parts: a registry of who is alive and how they are labelled, a router that dispatches by "
+    "name, label or namespace, and policy covering delegation depth, cycles, namespaces and "
+    "allowlists.</p>"
+    "<p>One decision there matches this app's model: agents <strong>dial out</strong> to the "
+    "control plane, so working across networks needs no inbound port at either end.</p>"
+    "<p>The ADR is merged; the implementation is not shipped. Contributions welcome — that "
+    "document is where the discussion starts.</p>", True),
   ],
   f=("Privacy", "Support", "Runtime source"),
  ),
@@ -169,6 +184,7 @@ L = {
            "<strong>它們繼續運行。</strong>",
   nav=("特色", "常見問題", "支援"),
   shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
+  dev_label='開發中',
   soon_label="即將推出",
   feats=[
    ("涵蓋所有頂尖廠商",
@@ -260,6 +276,17 @@ L = {
     "不會因此碰到任何新的東西，但它會繼續佔用那個 pod 的 CPU 和記憶體。</p>"
     "<p>所以這件事在 app 裡標示為 best-effort，而不是聲稱乾淨結束。"
     "要確定什麼都不剩，刪掉那個 pod 或 task。</p>"),
+   ("inter-agent", "Agent 之間能夠跨裝置、跨地理區、跨網路互相對話嗎?",
+    "<p><strong>還不行 —— 這正在開發中。</strong>今天每個 session 是獨立的:你對每個 agent "
+    "下指令，它們不會互相委派工作。</p>"
+    "<p>設計已經公開。它基於 OpenAB 的 <a href=\"https://github.com/openabdev/openab/pull/1465\">Agent Control Plane ADR</a> —— "
+    "一個 hub-and-spoke 的註冊與路由服務，讓 agent 直接經 ACP over WebSocket 互相委派，"
+    "而不是繞道聊天平台(那會撞上速率限制、延遲，以及把編排噪音倒進人看的頻道裡)。"
+    "裡面有三個部分:Registry 記錄誰活著與它的標籤、Router 按名稱／標籤／namespace 轉送、"
+    "Policy 管委派深度、環路、namespace 與 allowlist。</p>"
+    "<p>其中一個決定和這個 app 的模型剛好一致:agent 是<strong>向外撥出</strong>連到控制平面的，"
+    "所以跨網路運作不需要在任何一端開入向連接埠。</p>"
+    "<p>ADR 已經合併，實作還沒出貨。歡迎一起做 —— 那份文件就是討論的起點。</p>", True),
   ],
   f=("隱私", "支援", "runtime 原始碼"),
  ),
@@ -276,6 +303,7 @@ L = {
   nav=("特徴", "よくある質問", "サポート"),
   shot_alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の "
            "coding CLI に接続している OpenAB Connect",
+  dev_label='開発中',
   soon_label="近日公開",
   feats=[
    ("主要ベンダーを網羅",
@@ -384,6 +412,21 @@ L = {
     "新たに何かへ手が届くわけではありませんが、その pod の CPU とメモリを使い続けます。</p>"
     "<p>そのためアプリでは、きれいに終了したとは言わず best-effort と明示しています。"
     "何も残らないことを確実にするなら、pod か task を削除してください。</p>"),
+   ("inter-agent", "エージェント同士は、デバイスや地域やネットワークをまたいで会話できますか?",
+    "<p><strong>まだできません — 現在開発中です。</strong>今日は各セッションが独立していて、"
+    "あなたが個々のエージェントに指示を出し、エージェント同士が仕事を委譲することはありません。</p>"
+    "<p>設計は公開されています。OpenAB の <a href=\"https://github.com/openabdev/openab/pull/1465\">Agent Control Plane ADR</a> に"
+    "基づくもので、チャットプラットフォームを経由せず ACP over WebSocket でエージェントが"
+    "直接委譲できるようにする、ハブ&スポーク型の登録・ルーティングサービスです。"
+    "チャット経由はレート制限と遅延を招き、人間のためのチャンネルにオーケストレーションの"
+    "ノイズを流し込みます。構成は三つ:誰が生きていてどのラベルを持つかの Registry、"
+    "名前／ラベル／namespace で振り分ける Router、委譲の深さ・循環・namespace・"
+    "allowlist を扱う Policy です。</p>"
+    "<p>その設計のひとつはこのアプリの考え方と一致します。エージェントは制御プレーンへ"
+    "<strong>外向きに接続</strong>するので、ネットワークをまたいで動かすのに、"
+    "どちら側にも受信ポートは要りません。</p>"
+    "<p>ADR はマージ済みで、実装はまだ出荷していません。参加を歓迎します — "
+    "議論はあの文書から始まります。</p>", True),
   ],
   f=("プライバシー", "サポート", "ランタイムのソース"),
  ),
@@ -400,6 +443,7 @@ L = {
   nav=("특징", "자주 묻는 질문", "지원"),
   shot_alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 "
            "열려 있는 OpenAB Connect",
+  dev_label='개발 중',
   soon_label="출시 예정",
   feats=[
    ("주요 벤더를 모두",
@@ -498,6 +542,20 @@ L = {
     "CPU와 메모리를 계속 씁니다.</p>"
     "<p>그래서 앱에서는 깔끔하게 종료된다고 말하지 않고 best-effort라고 밝힙니다. 아무것도 "
     "남지 않게 하려면 pod이나 task를 삭제하십시오.</p>"),
+   ("inter-agent", "에이전트끼리 기기·지역·네트워크를 넘어 서로 대화할 수 있습니까?",
+    "<p><strong>아직 안 됩니다 — 개발 중입니다.</strong> 지금은 각 세션이 독립적이어서 "
+    "여러분이 각 에이전트에 지시하며, 에이전트끼리 일을 위임하지는 않습니다.</p>"
+    "<p>설계는 공개되어 있습니다. OpenAB의 <a href=\"https://github.com/openabdev/openab/pull/1465\">Agent Control Plane ADR</a>를 "
+    "따르며, 채팅 플랫폼을 거치지 않고 ACP over WebSocket으로 에이전트가 직접 위임하도록 하는 "
+    "허브앤스포크 등록·라우팅 서비스입니다. 채팅 경유는 레이트 리밋과 지연을 부르고, 사람을 위한 "
+    "채널에 오케스트레이션 잡음을 쏟아붓습니다. 구성은 세 가지입니다. 누가 살아 있고 어떤 라벨을 "
+    "가졌는지 아는 Registry, 이름·라벨·namespace로 보내는 Router, 위임 깊이·순환·namespace· "
+    "allowlist를 다루는 Policy입니다.</p>"
+    "<p>그 설계의 한 가지는 이 앱의 방식과 맞아떨어집니다. 에이전트가 컨트롤 플레인으로 "
+    "<strong>바깥으로 연결</strong>하므로, 네트워크를 넘어 동작시키는 데 어느 쪽에도 인바운드 "
+    "포트가 필요하지 않습니다.</p>"
+    "<p>ADR은 병합되었고 구현은 아직 출시되지 않았습니다. 함께 만들어 주세요 — 그 문서가 논의의 "
+    "출발점입니다.</p>", True),
   ],
   f=("개인정보", "지원", "런타임 소스"),
  ),
@@ -610,7 +668,10 @@ for code in ORDER:
                      f'    <div class="icon"><svg viewBox="0 0 24 24">{ICONS[i]}</svg></div>\n'
                      f'    <h3>{item[0]}</h3>\n    <p>{item[1]}</p>\n  </div>')
     entries = []
-    for qid, q, a in d["faq"]:
+    for item in d["faq"]:
+        qid, q, a = item[0], item[1], item[2]
+        if len(item) > 3 and item[3]:
+            q += f' <span class="ribbon inline">{d["dev_label"]}</span>'
         body = a if "<ul>" in a or "<p>" in a else f"<p>{a}</p>"
         entries.append(f'<details id="faq-{qid}">\n  <summary><span class="q">{q}</span>'
                        f'</summary>\n  <div class="a">{body}</div>\n</details>')
@@ -624,6 +685,6 @@ for code in ORDER:
         nav0=d["nav"][0], nav1=d["nav"][1], nav2=d["nav"][2],
         f0=d["f"][0], f1=d["f"][1], f2=d["f"][2],
         **{k: v for k, v in d.items()
-           if k not in ("nav", "f", "feats", "faq", "soon_label", "dir", "label")}),
+           if k not in ("nav", "f", "feats", "faq", "soon_label", "dev_label", "dir", "label")}),
         encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}  ({len(cards)} cards, {len(d['faq'])} questions)")

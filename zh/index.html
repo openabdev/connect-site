@@ -115,6 +115,10 @@
   <summary><span class="q">刪掉 session 之後會留下東西嗎?</span></summary>
   <div class="a"><p><strong>workspace 會被丟掉</strong>，這部分是確定的:它只存在於那個 session，刪除就沒了。</p><p>不確定的是程序。刪除 session 時，runtime 會終止這個 session 的 process group，但一個刻意脫離那個 group 的程序 —— 例如用 <code>nohup</code> 或 <code>setsid</code> 啟動的背景工作 —— 可能活下來，直到那個 pod 或 task 被替換。它仍然關在同一個沙箱裡，不會因此碰到任何新的東西，但它會繼續佔用那個 pod 的 CPU 和記憶體。</p><p>所以這件事在 app 裡標示為 best-effort，而不是聲稱乾淨結束。要確定什麼都不剩，刪掉那個 pod 或 task。</p></div>
 </details>
+<details id="faq-inter-agent">
+  <summary><span class="q">Agent 之間能夠跨裝置、跨地理區、跨網路互相對話嗎? <span class="ribbon inline">開發中</span></span></summary>
+  <div class="a"><p><strong>還不行 —— 這正在開發中。</strong>今天每個 session 是獨立的:你對每個 agent 下指令，它們不會互相委派工作。</p><p>設計已經公開。它基於 OpenAB 的 <a href="https://github.com/openabdev/openab/pull/1465">Agent Control Plane ADR</a> —— 一個 hub-and-spoke 的註冊與路由服務，讓 agent 直接經 ACP over WebSocket 互相委派，而不是繞道聊天平台(那會撞上速率限制、延遲，以及把編排噪音倒進人看的頻道裡)。裡面有三個部分:Registry 記錄誰活著與它的標籤、Router 按名稱／標籤／namespace 轉送、Policy 管委派深度、環路、namespace 與 allowlist。</p><p>其中一個決定和這個 app 的模型剛好一致:agent 是<strong>向外撥出</strong>連到控制平面的，所以跨網路運作不需要在任何一端開入向連接埠。</p><p>ADR 已經合併，實作還沒出貨。歡迎一起做 —— 那份文件就是討論的起點。</p></div>
+</details>
 </section>
 
 <footer>

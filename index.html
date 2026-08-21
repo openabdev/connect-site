@@ -115,6 +115,10 @@
   <summary><span class="q">Is anything left behind when I delete a session?</span></summary>
   <div class="a"><p><strong>The workspace is discarded.</strong> That part is certain: it exists only for that session, and deleting the session deletes it.</p><p>What is not certain is processes. Deleting a session terminates that session's process group, but a process that deliberately leaves that group — a background job started with <code>nohup</code> or <code>setsid</code> — can outlive it until the pod or task is replaced. It is still confined to the same sandbox and gains no new reach, but it keeps consuming that pod's CPU and memory.</p><p>So this is labelled best-effort in the app rather than claimed as a clean kill. To be certain nothing remains, delete the pod or task.</p></div>
 </details>
+<details id="faq-inter-agent">
+  <summary><span class="q">Can agents talk to each other across devices, regions and networks? <span class="ribbon inline">in development</span></span></summary>
+  <div class="a"><p><strong>Not yet — this is being built.</strong> Today each session is independent: you instruct each agent, and they do not delegate work to one another.</p><p>The design is public. It follows OpenAB's <a href="https://github.com/openabdev/openab/pull/1465">Agent Control Plane ADR</a> — a hub-and-spoke registration and routing service that lets agents delegate directly over ACP on WebSocket instead of round-tripping through a chat platform, which costs rate limits, latency, and orchestration noise in channels meant for people. Three parts: a registry of who is alive and how they are labelled, a router that dispatches by name, label or namespace, and policy covering delegation depth, cycles, namespaces and allowlists.</p><p>One decision there matches this app's model: agents <strong>dial out</strong> to the control plane, so working across networks needs no inbound port at either end.</p><p>The ADR is merged; the implementation is not shipped. Contributions welcome — that document is where the discussion starts.</p></div>
+</details>
 </section>
 
 <footer>

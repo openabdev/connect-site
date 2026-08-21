@@ -115,6 +115,10 @@
   <summary><span class="q">セッションを削除したあと、何か残りますか?</span></summary>
   <div class="a"><p><strong>ワークスペースは破棄されます。</strong>ここは確実です。そのセッションのためだけに存在し、セッションを削除すれば消えます。</p><p>確実でないのはプロセスです。セッションを削除するとそのセッションのプロセスグループは終了しますが、意図的にそのグループを離れたプロセス — <code>nohup</code> や <code>setsid</code> で起動したバックグラウンドジョブなど — は、pod や task が置き換わるまで生き残ることがあります。同じサンドボックスの中に閉じたままで、新たに何かへ手が届くわけではありませんが、その pod の CPU とメモリを使い続けます。</p><p>そのためアプリでは、きれいに終了したとは言わず best-effort と明示しています。何も残らないことを確実にするなら、pod か task を削除してください。</p></div>
 </details>
+<details id="faq-inter-agent">
+  <summary><span class="q">エージェント同士は、デバイスや地域やネットワークをまたいで会話できますか? <span class="ribbon inline">開発中</span></span></summary>
+  <div class="a"><p><strong>まだできません — 現在開発中です。</strong>今日は各セッションが独立していて、あなたが個々のエージェントに指示を出し、エージェント同士が仕事を委譲することはありません。</p><p>設計は公開されています。OpenAB の <a href="https://github.com/openabdev/openab/pull/1465">Agent Control Plane ADR</a> に基づくもので、チャットプラットフォームを経由せず ACP over WebSocket でエージェントが直接委譲できるようにする、ハブ&スポーク型の登録・ルーティングサービスです。チャット経由はレート制限と遅延を招き、人間のためのチャンネルにオーケストレーションのノイズを流し込みます。構成は三つ:誰が生きていてどのラベルを持つかの Registry、名前／ラベル／namespace で振り分ける Router、委譲の深さ・循環・namespace・allowlist を扱う Policy です。</p><p>その設計のひとつはこのアプリの考え方と一致します。エージェントは制御プレーンへ<strong>外向きに接続</strong>するので、ネットワークをまたいで動かすのに、どちら側にも受信ポートは要りません。</p><p>ADR はマージ済みで、実装はまだ出荷していません。参加を歓迎します — 議論はあの文書から始まります。</p></div>
+</details>
 </section>
 
 <footer>
