@@ -72,6 +72,13 @@ nav .brand {
   display: flex; align-items: center; gap: 6px;
   font-weight: 700; text-decoration: none; color: var(--ink); font-size: 1rem;
   letter-spacing: -0.015em;
+  /* Pinned, and not inherited. The per-language stacks are set on body, and
+     "OpenAB Connect" is Latin — so the wordmark was being drawn with whichever CJK
+     face the page happened to use for its Latin glyphs, and visibly changed shape on
+     every language switch. A wordmark has to be one shape. Apple SD Gothic Neo is
+     first because that is the rendering picked as the reference, on the Korean page. */
+  font-family: "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont, "Segoe UI",
+               system-ui, sans-serif;
 }
 /* The mark is set smaller than its intrinsic 28px box and given a slight negative
    offset so it optically aligns with the cap height of the wordmark rather than
