@@ -149,9 +149,19 @@ pre {
 ul { padding-left: 1.2em; } li { margin: 7px 0; }
 .dim { color: var(--muted); }
 figure { margin: 30px 0 8px; }
-figure img {
-  width: 100%; height: auto; display: block;
-  border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow);
+/* The window in the capture has its own light chrome — a white title bar and an
+   #F3F3F3 sidebar — so setting it directly on the mint page put two unrelated light
+   tones against each other, with a dark 1px border drawn between them for good
+   measure. Instead the figure is a white card and the image is inset in it: the card's
+   gutter meets the window's own chrome, so that boundary disappears, and the card
+   against the mint page is a deliberate edge rather than a near-miss.
+   The card stays light under prefers-color-scheme: dark, because the screenshot itself
+   is light and a dark card would reintroduce the mismatch it exists to remove. */
+figure img { width: 100%; height: auto; display: block; border-radius: 7px; }
+.shotwrap figure {
+  margin: 0; background: #FFFFFF;
+  padding: 10px; border-radius: 16px;
+  box-shadow: 0 18px 60px rgba(22, 48, 46, 0.14), 0 1px 0 rgba(22, 48, 46, 0.06);
 }
 figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 12px; }
 footer {
@@ -196,17 +206,15 @@ html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
 
 /* The screenshot earns more width than the reading column: it is the only place
    the product is actually visible. */
-.shotwrap { max-width: 1080px; margin: 0 auto; padding: 8px 24px 0; }
-.shotwrap figure { margin: 0; }
-.shotwrap figcaption { max-width: 46em; }
 
 /* A terminal product's screenshot is mostly dark, and it always will be — the agent
    CLIs draw ANSI colour tuned for a dark background. So rather than fighting it, the
    showcase band tints toward the icon colour and fades out, which makes the dark
    window read as deliberately inset instead of pasted onto the page. */
 .shotwrap {
+  max-width: 1080px; margin: 0 auto;
+  padding: 28px 24px 8px;
   background: linear-gradient(180deg, var(--mint-tint) 0%, transparent 82%);
-  padding-top: 28px; padding-bottom: 8px;
 }
 /* The capture is cropped to the window itself, with the macOS drop shadow removed.
    That shadow is dark and desaturated, so compositing it onto the mint page produced

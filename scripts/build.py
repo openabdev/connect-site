@@ -11,9 +11,22 @@ footer. The prose that used to sit between the cards and the footer is now FAQ
 entries — a visitor who wants the argument opens it, and one who wants to know
 whether it runs on their cluster does not have to read past it.
 """
+import hashlib
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+
+def rev(name):
+    """Return an asset path with a content hash, so a change is never served stale.
+
+    GitHub Pages sends cache-control: max-age=600 for assets. Without this a visitor
+    who loaded the page minutes ago keeps the old stylesheet or screenshot, which is
+    indistinguishable from the change not having been deployed.
+    """
+    f = ROOT / name
+    h = hashlib.md5(f.read_bytes()).hexdigest()[:8] if f.exists() else "0"
+    return f"/{name}?v={h}"
 
 ORDER = ["zh", "ja", "ko", "en"]
 
@@ -667,7 +680,7 @@ TEMPLATE = """<!DOCTYPE html>
 <meta name="description" content="{desc}">
 <link rel="canonical" href="https://connect.openab.dev{base}">
 <link rel="icon" href="/icon.png">
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="{css}">
 {alternates}
 <script src="/lang.js"></script>
 </head>
@@ -690,7 +703,7 @@ TEMPLATE = """<!DOCTYPE html>
 </header>
 
 <div class="shotwrap">
-<figure><img src="/screenshot.png" alt="{shot_alt}"></figure>
+<figure><img src="{shot}" alt="{shot_alt}"></figure>
 </div>
 
 <section class="features" id="features">
@@ -762,6 +775,7 @@ for code in ORDER:
     out.write_text(TEMPLATE.format(
         code=code, alternates=alternates(), switcher=switcher(code),
         features="\n".join(cards), faqs=faqs, pty=PTY,
+        css=rev("style.css"), shot=rev("screenshot.png"),
         nav0=d["nav"][0], nav1=d["nav"][1], nav2=d["nav"][2],
         f0=d["f"][0], f1=d["f"][1], f2=d["f"][2],
         **{k: v for k, v in d.items()
