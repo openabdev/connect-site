@@ -87,6 +87,10 @@
   <summary><span class="q">這跟只在我的電腦上跑 Claude Code 或 Codex Desktop 有什麼不同?</span></summary>
   <div class="a"><p>在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，是在你的機器上下錯。這裡的 shell 什麼都沒有，workspace 隨 session 一起丟掉，而且好幾個 agent 可以同時工作而不必爭同一個 working tree 或同一組連接埠。你的筆電也可以睡眠或闔上，什麼都不會停。代價是真的:agent 看不到你本機的檔案，工作要透過 git 送過去;某個映像第一次拉取要幾分鐘;而且你需要一個叢集或一個 AWS 帳號。如果只是在一個已經開著的 repo 裡改一行，在本機跑更簡單，這個東西沒有任何幫助。</p></div>
 </details>
+<details id="faq-vs-openab">
+  <summary><span class="q">這跟原本的 OpenAB 有何不同?</span></summary>
+  <div class="a"><p>兩者是<strong>刻意互補</strong>的兩種模式，差別在你在意什麼:</p><ul><li><strong><a href="https://github.com/openabdev/openab">OpenAB</a> 仲介 ACP</strong> —— 你從聊天客戶端下指令，在意的是 agent <em>交付的結果</em>，而不是它怎麼做到的。你是<strong>下指令的人</strong>，session 是一問一答的回合制。</li><li><strong>openab-pty 走 PTY</strong> —— 完整的可觀察性，原生終端體驗。你在意的是<em>現在正在發生什麼</em>，即時觀看、檢視、動手。你是<strong>坐在鍵盤前的操作者</strong>，session 是無界的位元組流。</li></ul><p>互補是結構上的，不是比喻:PTY 的映像是 <code>FROM ghcr.io/openabdev/openab</code>，所以 shell 開在<strong>和 agent 同一個映像裡</strong>，同一個 CLI、同一個 workspace。agent 把事情做到一半，你就地接上去看。兩者互不依賴，session 模型也刻意不共用 —— 位元組流的存活由位元組和 socket 定義，不是由回合定義。</p><p>完整說明在 openab-pty 的 <a href="https://github.com/openabdev/openab-pty/blob/main/DESIGN.md">設計文件</a>。而 <strong>OpenAB Connect 是 <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">openab-pty 客戶端契約</a>的第一個客戶端實作</strong> —— 契約是公開的，任何能持有憑證並講 WebSocket 的東西都可以是下一個。</p></div>
+</details>
 <details id="faq-what-can-the-shell-do">
   <summary><span class="q">這個 shell 到底能做多少事?</span></summary>
   <div class="a"><p>刻意很少。它以 <code>uid 1000</code> 開啟，沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證，根檔案系統唯讀，workspace 用完即棄。session 的 shell 可以經 loopback 連到 runtime —— 這正是管理憑證從不放進容器的原因:attach token 只授權一個 session，而且會過期。</p></div>

@@ -87,6 +87,10 @@
   <summary><span class="q">제 Mac에서 Claude Code나 Codex Desktop을 그냥 쓰는 것과 무엇이 다릅니까?</span></summary>
   <div class="a"><p>Mac 위의 에이전트는 여러분 자신으로 실행됩니다. SSH 키, 클라우드 자격 증명, npm과 GitHub 토큰, 디스크의 모든 리포지터리에 닿을 수 있으므로 잘못된 명령은 여러분의 기계에서의 잘못된 명령이 됩니다. 이쪽 셸은 그런 것을 하나도 갖지 않고, 워크스페이스는 세션과 함께 버려지며, 여러 에이전트가 같은 작업 트리나 같은 포트를 두고 다투지 않고 동시에 일할 수 있습니다. 노트북을 닫거나 잠자기로 두어도 아무것도 멈추지 않습니다.대가는 실재합니다. 에이전트는 로컬 파일을 볼 수 없어 작업은 git으로 오가고, 이미지의 첫 내려받기는 몇 분이 걸리며, 클러스터나 AWS 계정이 필요합니다. 이미 열어 둔 리포지터리에서 한 줄 고치는 정도라면 로컬 실행이 더 간단하고 이것은 아무 도움이 되지 않습니다.</p></div>
 </details>
+<details id="faq-vs-openab">
+  <summary><span class="q">원래의 OpenAB와는 무엇이 다릅니까?</span></summary>
+  <div class="a"><p>둘은 <strong>설계상 상호 보완적</strong>입니다. 갈림길은 무엇을 중요하게 보는가입니다:</p><ul><li><strong><a href="https://github.com/openabdev/openab">OpenAB</a>는 ACP를 중개합니다</strong> — 채팅 클라이언트에서 지시를 보내고, 중요한 것은 에이전트가 <em>내놓은 결과</em>이며 그 과정이 아닙니다. 여러분은 <strong>지시하는 쪽</strong>이고 세션은 턴 기반 요청·응답입니다.</li><li><strong>openab-pty는 PTY 모드</strong> — 네이티브 터미널로 완전한 관측 가능성을 제공합니다. 중요한 것은 <em>지금 무슨 일이 일어나는가</em>이며, 실시간으로 보고 살피고 직접 손을 씁니다. 여러분은 <strong>키보드 앞의 운영자</strong>이고 세션은 끝이 없는 바이트 스트림입니다.</li></ul><p>보완 관계는 비유가 아니라 구조입니다. PTY 이미지는 <code>FROM ghcr.io/openabdev/openab</code>이므로 셸은 <strong>에이전트가 돌아가는 것과 같은 이미지 안에서</strong> 열리며 같은 CLI와 같은 워크스페이스를 가집니다. 작업이 중간에 멈춰 있으면 그 자리에서 붙어 들여다봅니다. 어느 쪽도 다른 쪽을 필요로 하지 않고, 세션 모델은 의도적으로 아무것도 공유하지 않습니다 — 바이트 스트림의 생존은 바이트와 소켓으로 정의되며 턴으로 정의되지 않기 때문입니다.</p><p>자세한 내용은 openab-pty의 <a href="https://github.com/openabdev/openab-pty/blob/main/DESIGN.md">설계 문서</a>에 있습니다. 그리고 <strong>OpenAB Connect는 <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">openab-pty 클라이언트 계약</a>의 첫 클라이언트 구현</strong>입니다 — 계약이 공개되어 있으므로 자격 증명을 들고 WebSocket을 말할 수 있는 것이면 다음 구현이 될 수 있습니다.</p></div>
+</details>
 <details id="faq-what-can-the-shell-do">
   <summary><span class="q">이 셸은 실제로 무엇을 할 수 있습니까?</span></summary>
   <div class="a"><p>의도적으로 거의 못 합니다. <code>uid 1000</code>으로 열리며 <code>sudo</code>도, 서비스 어카운트 토큰도, 호스트 자격 증명도 없습니다. 루트 파일시스템은 읽기 전용이고 워크스페이스는 일회용입니다. 세션 셸은 loopback으로 런타임에 닿을 수 있는데, 바로 그래서 관리 자격 증명은 컨테이너 안에 두지 않습니다. 어태치 토큰은 세션 하나만 허용하고 만료됩니다.</p></div>

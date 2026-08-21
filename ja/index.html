@@ -87,6 +87,10 @@
   <summary><span class="q">自分の Mac で Claude Code や Codex Desktop を動かすのと何が違うのですか?</span></summary>
   <div class="a"><p>Mac 上のエージェントは、あなたとして動きます。SSH 鍵、クラウドの資格情報、npm や GitHub のトークン、ディスク上のすべてのリポジトリに手が届くので、間違ったコマンドはあなたのマシンでの間違ったコマンドになります。こちらのシェルはそれらを一切持たず、ワークスペースはセッションとともに破棄され、複数のエージェントが同じ作業ツリーや同じポートを奪い合わずに同時に働けます。ノートを閉じてもスリープさせても、何も止まりません。代償は実在します。エージェントはローカルのファイルを見られないので作業は git 経由になり、イメージの初回取得には数分かかり、クラスタか AWS アカウントが必要です。すでに開いているリポジトリを一行直すだけなら、ローカルで動かすほうが簡単で、これは何の足しにもなりません。</p></div>
 </details>
+<details id="faq-vs-openab">
+  <summary><span class="q">本家の OpenAB とは何が違うのですか?</span></summary>
+  <div class="a"><p>この二つは<strong>設計として補完的</strong>です。分かれ目は、何を気にするかです:</p><ul><li><strong><a href="https://github.com/openabdev/openab">OpenAB</a> は ACP を仲介します</strong> — チャットから指示を送り、気にするのはエージェントが<em>届けた結果</em>で、その過程ではありません。あなたは<strong>指示する側</strong>で、セッションはターン制のリクエストとレスポンスです。</li><li><strong>openab-pty は PTY のモード</strong> — ネイティブなターミナルで、完全な可観測性を持ちます。気にするのは<em>いま何が起きているか</em>で、リアルタイムに見て、調べて、手を動かします。あなたは<strong>キーボードの前の操作者</strong>で、セッションは終わりのないバイトストリームです。</li></ul><p>補完的であることは比喩ではなく構造です。PTY のイメージは <code>FROM ghcr.io/openabdev/openab</code> なので、シェルは<strong>エージェントが動いているのと同じイメージの中</strong>で開き、同じ CLI と同じワークスペースを持ちます。作業が途中で止まっていれば、その場で接続して見ます。どちらも他方を必要とせず、セッションモデルは意図的に何も共有しません — バイトストリームの生存はバイトとソケットで定義され、ターンでは定義されないからです。</p><p>詳しくは openab-pty の <a href="https://github.com/openabdev/openab-pty/blob/main/DESIGN.md">設計ドキュメント</a>にあります。そして <strong>OpenAB Connect は <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">openab-pty クライアント契約</a>の最初のクライアント実装</strong>です — 契約は公開されているので、資格情報を持てて WebSocket を話せるものなら、次の実装になれます。</p></div>
+</details>
 <details id="faq-what-can-the-shell-do">
   <summary><span class="q">このシェルはどこまでできるのですか?</span></summary>
   <div class="a"><p>意図的にほとんど何もできません。<code>uid 1000</code> で開き、<code>sudo</code> なし、サービスアカウントトークンなし、ホストの資格情報なし、ルートファイルシステムは読み取り専用、ワークスペースは使い捨てです。セッションのシェルは loopback でランタイムに到達できます。だからこそ管理用の資格情報はコンテナの中に置きません。アタッチトークンが許可するのは 1 セッションだけで、期限もあります。</p></div>
