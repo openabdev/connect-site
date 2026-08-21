@@ -208,7 +208,10 @@ html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
   background: linear-gradient(180deg, var(--mint-tint) 0%, transparent 82%);
   padding-top: 28px; padding-bottom: 8px;
 }
-.shotwrap img { border-radius: 10px; }
+/* The capture is cropped to the window itself, with the macOS drop shadow removed.
+   That shadow is dark and desaturated, so compositing it onto the mint page produced
+   a grey ring that read as a mismatched frame — and CSS was drawing a second shadow
+   underneath it. One shadow, from CSS, which then tints correctly in both schemes. */
 
 /* Ribbon on an unreleased card. A corner pill rather than a diagonal banner: the
    point is to be unmissable while reading as part of the card, because an unmarked
