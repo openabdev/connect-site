@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja" data-base="/ja/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenAB Connect — 主要ベンダーのエージェントを、ひとつのクライアントに</title>
+<meta name="description" content="主要ベンダーのエージェントをひとつのクライアントにまとめ、自分のプライベート環境に分散して、それぞれのサンドボックスで動かします。">
+<link rel="canonical" href="https://connect.openab.dev/ja/">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/">
+<script src="/lang.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ja/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="#what">これは何か</a>
+    <a href="#own">両端はあなたのもの</a>
+    <a href="#deploy">デプロイ</a>
+    <a href="/support.html">サポート</a>
+    <span class="lang"><a href="/zh/">中文</a>|<a class="active" href="/ja/">日本語</a>|<a href="/ko/">한국어</a>|<a href="/">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <img class="appicon" src="/icon.png" alt="OpenAB Connect">
+  <h1>主要ベンダーのエージェントを、<br>ひとつのクライアントに</h1>
+  <p class="tag">自分のプライベート環境に分散して、それぞれのサンドボックスで動きます。<strong>アプリを閉じても、動き続けます。</strong></p>
+</header>
+
+<figure>
+  <img src="/screenshot.png" alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の coding CLI に接続している OpenAB Connect">
+  <figcaption>7 つデプロイし、4 つを同時に接続。各ヘッダーはランタイム自身が明言している 2 点をそのまま表示します。ワークスペースは一時的であること、そして終了処理は best-effort であること。</figcaption>
+</figure>
+
+<h2 id="what">これは何か</h2>
+<p>エージェントはどこかで動いています。作業が途中で止まったとき、必要なのは<em>その場所</em>のシェルです。同じイメージ、同じワークスペース、同じファイル。手元で再現したものではありません。</p>
+
+<div class="panel">
+<p style="margin-top:0"><strong>このシェルには意図的に権限がありません。</strong><code>uid 1000</code> で開き、<code>sudo</code> なし、サービスアカウントトークンなし、ホストの資格情報なし、ルートファイルシステムは読み取り専用、ワークスペースは使い捨てです。</p>
+<p style="margin-bottom:0" class="dim">ランタイムはルーティング可能なアドレスを一切リッスンしません。ネットワーク上の識別を持つのは Tailscale サイドカーだけで、両者は pod 内の loopback で会話します。</p>
+</div>
+
+<h2 id="own">両端はあなたのもの</h2>
+<ul>
+  <li><strong>ここにサービスはありません。</strong>アプリが接続する先はすべて、あなたが自分の Kubernetes クラスタか AWS アカウントにデプロイしたものです。</li>
+  <li><strong>アカウント登録なし、テレメトリなし。</strong>入力した資格情報は macOS のキーチェーンに留まり、あなた自身のランタイム以外へは送信されません。</li>
+  <li><strong>ランタイムは MIT ライセンスのオープンソースです</strong>:<a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>。何をデプロイしているかを自分で確認できますし、<a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">クライアント契約</a>に沿って自分のクライアントを書くこともできます。このアプリはその一実装で、オープンソースではありません。</li>
+</ul>
+
+<h2 id="deploy">デプロイ</h2>
+<p>3 クリックで、アプリが 8 つの作業を行います。資格情報の生成とキーチェーンへの保存、namespace の確認、secret とボリュームの作成、pod の適用、起動待ち、tailnet への参加待ち、管理プレーンの検証。マニフェストを書く必要も、ポートを開ける必要もありません。</p>
+<p class="dim">エージェント CLI ごとに 1 つのイメージ — Claude Code、Codex、Cursor、Kiro、Gemini、Copilot など。<code>native</code> はエージェントを含みません。</p>
+
+<h2 id="demo">クラスタなしで試す</h2>
+<p class="note">アプリメニューにオフラインの <strong>Demo Mode</strong> があります。サンプル接続 2 つと収録済みのターミナルだけで、ネットワーク接続は一切行いません。何もデプロイする前に評価できるようにするためのものです。</p>
+
+<footer>
+  <a href="/privacy.html">プライバシー</a>
+  <a href="/support.html">サポート</a>
+  <a href="https://github.com/openabdev/openab-pty">ランタイムのソース</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</div>
+</body>
+</html>

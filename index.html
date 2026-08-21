@@ -1,106 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en" data-base="/">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenAB Connect — a terminal for the container your agent works in</title>
-<meta name="description" content="A macOS terminal client for openab-pty: a shell inside a locked-down container in your own cluster, reached over a WireGuard tailnet.">
-<link rel="icon" href="icon.png">
-<style>
-  :root {
-    --bg: #0d1117; --panel: #161b22; --line: #262d38;
-    --text: #e6edf3; --dim: #8b949e; --mint: #a8e6dc; --blue: #7cc4f8; --pink: #f9a8c8;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: var(--blue); }
-  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
-  header { padding: 80px 0 56px; text-align: center; }
-  header img { width: 112px; height: 112px; }
-  h1 { font-size: 2.1rem; margin: 24px 0 8px; letter-spacing: -0.02em; }
-  .tag { color: var(--dim); font-size: 1.1rem; margin: 0 auto; max-width: 30em; }
-  h2 { font-size: 1.15rem; margin: 40px 0 12px; }
-  .grad { background: linear-gradient(90deg, var(--mint), var(--blue), var(--pink));
-          -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
-           padding: 20px 22px; margin: 18px 0; }
-  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
-  pre { background: #010409; border: 1px solid var(--line); border-radius: 8px;
-        padding: 14px 16px; overflow-x: auto; color: var(--mint); }
-  ul { padding-left: 1.2em; } li { margin: 6px 0; }
-  .dim { color: var(--dim); }
-  footer { border-top: 1px solid var(--line); margin-top: 64px; padding: 28px 0 56px;
-           color: var(--dim); font-size: 0.9rem; display: flex; gap: 20px; flex-wrap: wrap; }
-  .note { border-left: 3px solid var(--mint); padding-left: 14px; color: var(--dim); }
-  figure { margin: 32px 0 8px; }
-  figure img { width: 100%; height: auto; display: block; border: 1px solid var(--line);
-               border-radius: 10px; background: #010409; }
-  figcaption { color: var(--dim); font-size: 0.9rem; margin-top: 10px; }
-</style>
+<title>OpenAB Connect — agents from every major vendor, one client</title>
+<meta name="description" content="Agents from every major vendor in one macOS client, running distributed across your own private infrastructure, each in its own sandbox.">
+<link rel="canonical" href="https://connect.openab.dev/">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/">
+<script src="/lang.js"></script>
 </head>
 <body>
+
+<nav>
+  <a class="brand" href="/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="#what">What it is</a>
+    <a href="#own">You own both ends</a>
+    <a href="#deploy">Deploy</a>
+    <a href="/support.html">Support</a>
+    <span class="lang"><a href="/zh/">中文</a>|<a href="/ja/">日本語</a>|<a href="/ko/">한국어</a>|<a class="active" href="/">EN</a></span>
+  </div>
+</nav>
+
 <div class="wrap">
 
 <header>
-  <img src="icon.png" alt="OpenAB Connect">
-  <h1>OpenAB <span class="grad">Connect</span></h1>
-  <p class="tag">A terminal for the container your coding agent is working in — in your
-  own cluster, reached over your own private network.</p>
+  <img class="appicon" src="/icon.png" alt="OpenAB Connect">
+  <h1>Agents from every major vendor,<br>one client</h1>
+  <p class="tag">Running distributed across your own private infrastructure, each in its own sandbox. <strong>Quit the app and they keep running.</strong></p>
 </header>
 
 <figure>
-  <img src="screenshot.png" alt="OpenAB Connect with seven agent connections in the sidebar and four terminal panes attached to different coding CLIs">
-  <figcaption>Seven agents deployed, four attached at once. Every header states the same two
-  things the runtime states about itself: the workspace is ephemeral, and teardown is
-  best-effort.</figcaption>
+  <img src="/screenshot.png" alt="OpenAB Connect with seven agent connections in the sidebar and four terminal panes attached to different coding CLIs">
+  <figcaption>Seven agents deployed, four attached at once. Every header states the two things the runtime states about itself: the workspace is ephemeral, and teardown is best-effort.</figcaption>
 </figure>
 
-<h2>What it is</h2>
-<p>Your agent runs somewhere. When it leaves something half-finished, you want a shell
-<em>there</em> — same image, same workspace, same files — not a reproduction of it on your
-laptop. OpenAB Connect opens that shell.</p>
+<h2 id="what">What it is</h2>
+<p>Your agent runs somewhere. When it leaves something half-finished you want a shell <em>there</em> — same image, same workspace, same files — not a reproduction of it on your laptop.</p>
 
 <div class="panel">
-<p style="margin-top:0"><strong>The shell is deliberately powerless.</strong> It opens as
-<code>uid 1000</code> with no <code>sudo</code>, no service-account token, no host
-credentials, a read-only root filesystem and an ephemeral workspace.</p>
-<p style="margin-bottom:0" class="dim">The runtime never listens on a routable address. A
-Tailscale sidecar is the only thing on the network, and the two talk over loopback inside
-the pod.</p>
+<p style="margin-top:0"><strong>The shell is deliberately powerless.</strong> It opens as <code>uid 1000</code> with no <code>sudo</code>, no service-account token, no host credentials, a read-only root filesystem and an ephemeral workspace.</p>
+<p style="margin-bottom:0" class="dim">The runtime never listens on a routable address. A Tailscale sidecar is the only thing with a network identity, and the two talk over loopback inside the pod.</p>
 </div>
 
-<h2>You own both ends</h2>
+<h2 id="own">You own both ends</h2>
 <ul>
-  <li><strong>There is no service here.</strong> Every server the app talks to is one you
-  deployed, in your own Kubernetes cluster or your own AWS account.</li>
-  <li><strong>No account, no sign-up, no telemetry.</strong> Credentials you supply stay in
-  your macOS Keychain and go nowhere except your own runtime.</li>
-  <li><strong>The runtime is open source</strong> under MIT:
-  <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>. You can read
-  exactly what you are deploying, or write your own client against
-  <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">the
-  client contract</a>. This app is one implementation of it and is not open source.</li>
+  <li><strong>There is no service here.</strong> Every server the app talks to is one you deployed, in your own Kubernetes cluster or your own AWS account.</li>
+  <li><strong>No account, no sign-up, no telemetry.</strong> Credentials you supply stay in your macOS Keychain and go nowhere except your own runtime.</li>
+  <li><strong>The runtime is open source</strong> under MIT: <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>. Read exactly what you are deploying, or write your own client against <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">the client contract</a>. This app is one implementation of it, and is not open source.</li>
 </ul>
 
-<h2>Deploy it</h2>
-<p>Kubernetes or ECS Fargate. The app does the deployment; these are the same manifests it
-uses, if you would rather read them first.</p>
-<pre>kubectl apply -f deploy/k8s/pod-tailscale.yaml    # openabdev/openab-pty</pre>
-<p class="dim">One image per agent CLI — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot
-and others. The <code>native</code> variant carries no agent at all.</p>
+<h2 id="deploy">Deploy it</h2>
+<p>Three clicks, and the app does eight things: mints a credential into your Keychain, ensures the namespace, creates the secret and the volume, applies the pod, waits for it to run, waits for it to join your tailnet, and verifies the admin plane. No manifests to write, no ports to open.</p>
+<p class="dim">One image per agent CLI — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot and more. The <code>native</code> variant carries no agent at all.</p>
 
-<h2 id="evaluating">Trying it without a cluster</h2>
-<p class="note">The app ships an offline <strong>Demo Mode</strong> in its app menu: two
-sample connections and a canned terminal, with no network connection of any kind. It is
-there so the app can be evaluated before you deploy anything.</p>
+<h2 id="demo">Trying it without a cluster</h2>
+<p class="note">The app ships an offline <strong>Demo Mode</strong> in its app menu: two sample connections and a canned terminal, with no network connection of any kind. It is there so the app can be evaluated before you deploy anything.</p>
 
 <footer>
-  <a href="privacy.html">Privacy</a>
-  <a href="support.html">Support</a>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/support.html">Support</a>
   <a href="https://github.com/openabdev/openab-pty">Runtime source</a>
   <span class="dim">© 2026 openabdev</span>
 </footer>

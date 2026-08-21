@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko" data-base="/ko/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenAB Connect — 주요 벤더의 에이전트를 클라이언트 하나로</title>
+<meta name="description" content="주요 벤더의 에이전트를 클라이언트 한곳에서. 여러분의 사설 인프라에 분산되어 각자 샌드박스에서 실행됩니다.">
+<link rel="canonical" href="https://connect.openab.dev/ko/">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/">
+<script src="/lang.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ko/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="#what">무엇인가</a>
+    <a href="#own">양쪽 모두 내 것</a>
+    <a href="#deploy">배포</a>
+    <a href="/support.html">지원</a>
+    <span class="lang"><a href="/zh/">中文</a>|<a href="/ja/">日本語</a>|<a class="active" href="/ko/">한국어</a>|<a href="/">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <img class="appicon" src="/icon.png" alt="OpenAB Connect">
+  <h1>주요 벤더의 에이전트를,<br>클라이언트 하나로</h1>
+  <p class="tag">여러분의 사설 인프라에 분산되어, 각자 샌드박스에서 실행됩니다. <strong>앱을 닫아도 계속 실행됩니다.</strong></p>
+</header>
+
+<figure>
+  <img src="/screenshot.png" alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 열려 있는 OpenAB Connect">
+  <figcaption>7개를 배포하고 4개를 동시에 연결한 화면. 각 헤더는 런타임이 스스로 밝히는 두 가지를 그대로 보여줍니다. 워크스페이스는 임시이며, 종료 처리는 best-effort입니다.</figcaption>
+</figure>
+
+<h2 id="what">무엇인가</h2>
+<p>에이전트는 어딘가에서 돌아갑니다. 작업이 중간에 멈췄을 때 필요한 것은 <em>그곳</em>의 셸입니다. 같은 이미지, 같은 워크스페이스, 같은 파일. 노트북에서 재현한 것이 아닙니다.</p>
+
+<div class="panel">
+<p style="margin-top:0"><strong>이 셸은 의도적으로 권한이 없습니다.</strong><code>uid 1000</code>으로 열리며 <code>sudo</code>도, 서비스 어카운트 토큰도, 호스트 자격 증명도 없습니다. 루트 파일시스템은 읽기 전용이고 워크스페이스는 일회용입니다.</p>
+<p style="margin-bottom:0" class="dim">런타임은 라우팅 가능한 주소를 전혀 수신하지 않습니다. 네트워크 신원을 가진 것은 Tailscale 사이드카뿐이며, 둘은 pod 내부 loopback으로 통신합니다.</p>
+</div>
+
+<h2 id="own">양쪽 모두 내 것</h2>
+<ul>
+  <li><strong>여기에 서비스는 없습니다.</strong> 앱이 연결하는 서버는 모두 여러분이 자신의 Kubernetes 클러스터나 AWS 계정에 배포한 것입니다.</li>
+  <li><strong>계정도, 가입도, 텔레메트리도 없습니다.</strong> 입력한 자격 증명은 macOS 키체인에 남고, 여러분 자신의 런타임 외에는 어디로도 전송되지 않습니다.</li>
+  <li><strong>런타임은 MIT 오픈소스입니다</strong>: <a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>. 무엇을 배포하는지 직접 확인할 수 있고, <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">클라이언트 계약</a>에 맞춰 자신의 클라이언트를 만들 수도 있습니다. 이 앱은 그 구현 중 하나이며 오픈소스가 아닙니다.</li>
+</ul>
+
+<h2 id="deploy">배포</h2>
+<p>세 번의 클릭으로 앱이 여덟 가지를 처리합니다. 자격 증명 생성과 키체인 저장, namespace 확인, secret과 볼륨 생성, pod 적용, 실행 대기, tailnet 참여 대기, 관리 평면 검증. 매니페스트를 쓸 필요도, 포트를 열 필요도 없습니다.</p>
+<p class="dim">에이전트 CLI마다 이미지 하나 — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot 등. <code>native</code>는 에이전트를 포함하지 않습니다.</p>
+
+<h2 id="demo">클러스터 없이 사용해 보기</h2>
+<p class="note">앱 메뉴에 오프라인 <strong>Demo Mode</strong>가 있습니다. 샘플 연결 두 개와 미리 녹화된 터미널만 있고 어떤 네트워크 연결도 하지 않습니다. 아무것도 배포하기 전에 앱을 평가할 수 있도록 넣었습니다.</p>
+
+<footer>
+  <a href="/privacy.html">개인정보</a>
+  <a href="/support.html">지원</a>
+  <a href="https://github.com/openabdev/openab-pty">런타임 소스</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</div>
+</body>
+</html>

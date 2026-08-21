@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh" data-base="/zh/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenAB Connect — 所有頂尖廠商的 Agent,一個客戶端</title>
+<meta name="description" content="所有頂尖廠商的 Agent,一個客戶端,分散運行在你的私有基礎架構,各自沙箱。">
+<link rel="canonical" href="https://connect.openab.dev/zh/">
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/">
+<script src="/lang.js"></script>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/zh/"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="#what">這是什麼</a>
+    <a href="#own">兩端都是你的</a>
+    <a href="#deploy">部署</a>
+    <a href="/support.html">支援</a>
+    <span class="lang"><a class="active" href="/zh/">中文</a>|<a href="/ja/">日本語</a>|<a href="/ko/">한국어</a>|<a href="/">EN</a></span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <img class="appicon" src="/icon.png" alt="OpenAB Connect">
+  <h1>所有頂尖廠商的 Agent,<br>一個客戶端</h1>
+  <p class="tag">分散運行在你的私有基礎架構,各自沙箱。<strong>關掉 app,它們繼續跑。</strong></p>
+</header>
+
+<figure>
+  <img src="/screenshot.png" alt="OpenAB Connect 側邊欄有七個 agent 連線,四個終端分割視窗分別接著不同的 coding CLI">
+  <figcaption>七個 agent 已部署,四個同時接上。每一條標題列都寫著 runtime 對自己的兩項聲明:workspace 是暫存的,teardown 是 best-effort。</figcaption>
+</figure>
+
+<h2 id="what">這是什麼</h2>
+<p>你的 agent 跑在某處。它把事情做到一半時,你想要的是**那裡**的一個 shell —— 同一個映像、同一個 workspace、同一批檔案,而不是在筆電上重現一次。</p>
+
+<div class="panel">
+<p style="margin-top:0"><strong>這個 shell 刻意沒有權限。</strong>它以 <code>uid 1000</code> 開啟,沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證,根檔案系統唯讀,workspace 用完即棄。</p>
+<p style="margin-bottom:0" class="dim">runtime 從不監聽可路由的位址。只有 Tailscale sidecar 擁有網路身分,兩者在 pod 內經 loopback 通訊。</p>
+</div>
+
+<h2 id="own">兩端都是你的</h2>
+<ul>
+  <li><strong>這裡沒有任何服務。</strong>app 連上的每一台伺服器都是你自己部署的 —— 在你自己的 Kubernetes 叢集,或你自己的 AWS 帳號裡。</li>
+  <li><strong>不需要帳號、不需要註冊、沒有遙測。</strong>你輸入的憑證留在 macOS Keychain,除了你自己的 runtime 之外不會送到任何地方。</li>
+  <li><strong>runtime 是 MIT 開源的</strong>:<a href="https://github.com/openabdev/openab-pty">openabdev/openab-pty</a>。你可以確認自己到底部署了什麼,也可以照 <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">客戶端契約</a>寫自己的客戶端。這個 app 只是其中一種實作,它不是開源的。</li>
+</ul>
+
+<h2 id="deploy">部署</h2>
+<p>你點三下,它做八件事:產生憑證存進 Keychain、確認 namespace、建立 secret 與儲存、套用 pod、等它就緒、等它加入你的 tailnet、驗證管理端。不必寫 manifest,也不必開任何對外連接埠。</p>
+<p class="dim">每個 agent CLI 一個映像 —— Claude Code、Codex、Cursor、Kiro、Gemini、Copilot 等。<code>native</code> 版本不含任何 agent。</p>
+
+<h2 id="demo">沒有叢集也能試</h2>
+<p class="note">app 的應用程式選單裡有離線的 <strong>Demo Mode</strong>:兩個範例連線和一個預錄的終端,完全不建立任何網路連線。它的存在就是為了讓你在部署任何東西之前先評估這個 app。</p>
+
+<footer>
+  <a href="/privacy.html">隱私</a>
+  <a href="/support.html">支援</a>
+  <a href="https://github.com/openabdev/openab-pty">runtime 原始碼</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</div>
+</body>
+</html>
