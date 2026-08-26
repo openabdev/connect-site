@@ -4,8 +4,8 @@
 The layout is measured from deepsrt.com's card rather than eyeballed — margin x=75,
 icon 78px at y=63, headline lines at y=255 and y=328, subtitle at y=424, domain at
 y=557, and a vertical gradient whose luminance runs from about #1E3A5F to #0B1726.
-The hue is ours: the same progression rendered in the brand's deep mint, so the card
-is recognisably from this site while keeping the reference's proportions.
+The hue is ours: the same deep navy and warm peach used by the shipping icon, so the
+card is recognisably from this site while keeping the reference's proportions.
 
 Headline size is measured and reduced until the longest line fits, rather than chosen
 by eye — a card is only ever seen at final size, so an overflow is invisible until it
@@ -27,10 +27,10 @@ HEAD_Y1, HEAD_Y2 = 250, 326
 SUB_Y, DOMAIN_Y = 424, 557
 
 # Ours, in the reference's luminance range.
-GRAD_TOP, GRAD_BOTTOM = (0x1E, 0x4F, 0x49), (0x08, 0x17, 0x16)
+GRAD_TOP, GRAD_BOTTOM = (0x20, 0x30, 0x40), (0x08, 0x10, 0x18)
 INK = (0xFF, 0xFF, 0xFF)
-MUTED = (0x93, 0xB2, 0xAD)
-ACCENT = (0x7F, 0xC8, 0xBC)
+MUTED = (0xB8, 0xC3, 0xCC)
+ACCENT = (0xF8, 0xC0, 0x90)
 
 LATIN = "/System/Library/Fonts/HelveticaNeue.ttc"
 MONO = "/System/Library/Fonts/SFNSMono.ttf"
@@ -62,7 +62,7 @@ DOMAIN = "connect.openab.dev"
 WORDMARK = "OpenAB Connect"
 
 
-ICON_1024 = pathlib.Path.home() / "repo/oab-pty-mac/icon/icon_1024.png"
+ICON_SOURCE = ROOT / "icon.png"
 WATERMARK = ROOT / "assets/watermark.png"
 
 
@@ -74,20 +74,18 @@ def derive_watermark():
 
     - Pasting the icon shows its squircle, which at any opacity reads as a rounded box
       rather than a watermark.
-    - Colour-keying the squircle away is impossible: it runs from white to pale mint and
-      the jellyfish dome is also white, so a single-tone key keeps the whole interior.
-      Saturation separates them, because the tentacles are pink, blue and violet against
-      a near-neutral field.
+    - Colour-keying the squircle away would keep the textured navy background.
+      Saturation separates the warm jellyfish from that field without assuming one
+      exact background colour.
     - Feathering with a blurred rectangle leaves a Gaussian tail of 2-5 at the border,
       measured as a 3-unit step at the paste seam; clamping the tail did not remove it.
       A linear ramp on distance-from-edge is zero at the border by construction.
     """
-    if WATERMARK.exists():
-        return
-    if not ICON_1024.exists():
-        raise SystemExit(f"need {ICON_1024} to derive the watermark, or commit "
-                         f"{WATERMARK.relative_to(ROOT)} alongside this script")
-    im = Image.open(ICON_1024).convert("RGBA")
+    if not ICON_SOURCE.exists():
+        raise SystemExit(f"need {ICON_SOURCE} to derive the watermark")
+    # Always rebuild: icon.png is versioned content, and a committed watermark
+    # must never silently remain from the previous icon family.
+    im = Image.open(ICON_SOURCE).convert("RGBA")
     px = im.load()
     w0, h0 = im.size
     xs, ys = [], []
@@ -154,10 +152,9 @@ def build(lang):
     # Watermark first, so text sits over it rather than under. It is a pre-feathered
     # crop of the jellyfish (assets/watermark.png), not the app icon: pasting the icon
     # showed its squircle, and at any alpha that reads as a rounded box instead of a
-    # watermark. Colour-keying the squircle away is not possible — it runs from white
-    # to pale mint and overlaps the dome's own white — so the asset is cropped to the
-    # saturated region and its edges are feathered, which removes the boundary
-    # regardless of what the artwork does.
+    # watermark. The asset is cropped to the saturated peach region and its edges
+    # are feathered, which removes the dark squircle boundary regardless of what
+    # the artwork does.
     wm = Image.open(WATERMARK).convert("RGBA")
     wm_h = 520
     wm = wm.resize((round(wm.width * wm_h / wm.height), wm_h), Image.LANCZOS)

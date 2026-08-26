@@ -65,6 +65,9 @@ L = {
            "panes attached to different coding CLIs",
   dev_label='in development',
   soon_label="coming soon",
+  remote_desc="Your iPhone becomes a private push-to-talk remote. Speech is transcribed "
+              "on-device, and only terminal-safe text is sent to the selected Mac session.",
+  remote_meta="iPhone companion · on-device speech",
   feats=[
    ("Every major vendor",
     "Thirteen agent CLIs, one image each — Claude Code, Codex, Cursor, Kiro, Gemini, "
@@ -222,6 +225,9 @@ L = {
   shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
   dev_label='開發中',
   soon_label="即將推出",
+  remote_desc="把 iPhone 變成私有的按住說話遙控器。語音在手機上完成辨識，只把終端安全文字"
+              "送到 Mac 上選定的 session。",
+  remote_meta="iPhone 伴侶 App · 裝置端語音辨識",
   feats=[
    ("涵蓋所有頂尖廠商",
     "13 種 agent CLI，各自一個映像 —— Claude Code、Codex、Cursor、Kiro、Gemini、"
@@ -361,6 +367,9 @@ L = {
            "coding CLI に接続している OpenAB Connect",
   dev_label='開発中',
   soon_label="近日公開",
+  remote_desc="iPhone がプライベートなプッシュ・トゥ・トークリモコンに。音声は端末上で"
+              "文字化され、安全なテキストだけを選択中の Mac セッションへ送ります。",
+  remote_meta="iPhone コンパニオン · オンデバイス音声認識",
   feats=[
    ("主要ベンダーを網羅",
     "13 種類のエージェント CLI に、それぞれのイメージ — Claude Code、Codex、Cursor、"
@@ -525,6 +534,9 @@ L = {
            "열려 있는 OpenAB Connect",
   dev_label='개발 중',
   soon_label="출시 예정",
+  remote_desc="iPhone을 개인용 푸시투토크 리모컨으로 사용하세요. 음성은 기기에서 텍스트로 "
+              "변환되고, 터미널에 안전한 텍스트만 선택한 Mac 세션으로 전송됩니다.",
+  remote_meta="iPhone 컴패니언 · 온디바이스 음성 인식",
   feats=[
    ("주요 벤더를 모두",
     "에이전트 CLI 13종, 각각 별도의 이미지 — Claude Code, Codex, Cursor, Kiro, Gemini, "
@@ -683,7 +695,7 @@ TEMPLATE = """<!DOCTYPE html>
 {nav}
 
 <header>
-  <img class="appicon" src="/icon.png" alt="OpenAB Connect">
+  <img class="appicon" src="{icon}" alt="OpenAB Connect">
   <h1>{hero_h1}</h1>
   <p class="tag">{hero_sub}</p>
   <p class="cta"><span class="badge">{cta}</span><span class="dim">{cta_meta}</span></p>
@@ -697,6 +709,18 @@ TEMPLATE = """<!DOCTYPE html>
 <div class="features-grid">
 {features}
 </div>
+</section>
+
+<section class="companion" aria-labelledby="remote-title">
+  <div class="companion-card">
+    <img class="companion-icon" src="{remote_icon}" alt="OpenAB Remote">
+    <div class="companion-copy">
+      <span class="companion-badge">{soon_label}</span>
+      <h2 id="remote-title">OpenAB Remote</h2>
+      <p>{remote_desc}</p>
+      <span class="companion-meta">{remote_meta}</span>
+    </div>
+  </div>
 </section>
 
 <section class="faq" id="faq">
@@ -760,10 +784,13 @@ for code in ORDER:
                          og_image=chrome.SITE + chrome.rev(f"og-{code}.png"),
                          og_alt=d["og_alt"]),
         nav=chrome.nav(code), footer=chrome.footer(code),
+        icon=chrome.rev("icon.png"), remote_icon=chrome.rev("remote-icon.png"),
         shot=chrome.rev("screenshot.png"),
         features="\n".join(cards), faqs=faqs,
         hero_h1=d["hero_h1"], hero_sub=d["hero_sub"],
         cta=d["cta"], cta_meta=d["cta_meta"],
+        remote_desc=d["remote_desc"], remote_meta=d["remote_meta"],
+        soon_label=d["soon_label"],
         shot_alt=d["shot_alt"], faq_title=d["faq_title"]),
         encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}  ({len(cards)} cards, {len(d['faq'])} questions)")

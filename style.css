@@ -1,36 +1,30 @@
-/* connect.openab.dev — light theme, palette drawn from the app icon rather than
-   invented: the mint of the squircle, the blue and pink of the jellyfish.
-   Follows the structure foldic.app uses, including the dark-mode override, so the
-   two sites are recognisably from the same hand. */
+/* connect.openab.dev — light theme derived from the shipping icon:
+   deep navy fabric (#182838) and warm peach jellyfish (#F8C090). */
 :root {
-  /* Sampled from the app icon rather than chosen: the squircle fill is #D6F0F2,
-     and the page tones are that colour mixed toward white. Using the fill at full
-     strength behind body text reads as a coloured box and drops the contrast, so
-     --bg is the palest relative of it and --tint the closest. */
-  --mint: #7FC8BC;
-  --mint-deep: #1B4A46;
-  --mint-tint: #DCF2F4;
-  --brush: rgba(127, 200, 188, 0.62);
-  --blue: #5B9BD5;
-  --pink: #E88FB4;
-  --ink: #16302E;
-  --muted: #59736F;
-  --bg: #EDF8F9;
-  --card: #E4F5F7;
-  --border: rgba(27, 74, 70, 0.15);
-  --shadow: 0 24px 80px rgba(22, 48, 46, 0.16);
+  --accent: #F0A06E;
+  --accent-deep: #884521;
+  --accent-tint: #FCE7D6;
+  --brush: rgba(248, 192, 144, 0.72);
+  --blue: #6B86A0;
+  --pink: #E17A55;
+  --ink: #17283A;
+  --muted: #617185;
+  --bg: #FFF8F1;
+  --card: #FFF0E3;
+  --border: rgba(24, 40, 56, 0.16);
+  --shadow: 0 24px 80px rgba(24, 40, 56, 0.16);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --mint: #7FC8BC;
-    --mint-deep: #A8E0D6;
-    --mint-tint: #12302F;
-    --brush: rgba(127, 200, 188, 0.42);
-    --ink: #E6F2F1;
-    --muted: #90A8A5;
-    --bg: #0D1717;
-    --card: #142020;
-    --border: rgba(127, 200, 188, 0.2);
+    --accent: #F8C090;
+    --accent-deep: #FFD8B5;
+    --accent-tint: #2B211C;
+    --brush: rgba(248, 192, 144, 0.42);
+    --ink: #FFF5E9;
+    --muted: #B9AA9C;
+    --bg: #0E1824;
+    --card: #172637;
+    --border: rgba(248, 192, 144, 0.22);
     --shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
   }
 }
@@ -42,7 +36,7 @@ body {
   font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-a { color: var(--mint-deep); }
+a { color: var(--accent-deep); }
 
 /* CJK typography, per language rather than one stack for all three.
    Two things differ from Latin and both need saying:
@@ -151,28 +145,28 @@ html[data-lang="ko"] h2 { font-size: 1.35rem; font-weight: 700; }
 h2 { font-size: 1.15rem; margin: 40px 0 12px; }
 h3 { font-size: 1rem; margin: 22px 0 6px; }
 .grad {
-  background: linear-gradient(90deg, var(--mint), var(--blue), var(--pink));
+  background: linear-gradient(90deg, var(--accent), var(--blue), var(--pink));
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .panel {
   background: var(--card); border: 1px solid var(--border);
   border-radius: 12px; padding: 20px 22px; margin: 20px 0;
 }
-.note { border-left: 3px solid var(--mint); padding-left: 14px; color: var(--muted); }
+.note { border-left: 3px solid var(--accent); padding-left: 14px; color: var(--muted); }
 code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
 pre {
-  background: var(--mint-tint); border: 1px solid var(--border);
-  border-radius: 10px; padding: 14px 16px; overflow-x: auto; color: var(--mint-deep);
+  background: var(--accent-tint); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px; overflow-x: auto; color: var(--accent-deep);
 }
 ul { padding-left: 1.2em; } li { margin: 7px 0; }
 .dim { color: var(--muted); }
 figure { margin: 30px 0 8px; }
 /* The window in the capture has its own light chrome — a white title bar and an
-   #F3F3F3 sidebar — so setting it directly on the mint page put two unrelated light
+   #F3F3F3 sidebar — so setting it directly on the warm page put two unrelated light
    tones against each other, with a dark 1px border drawn between them for good
    measure. Instead the figure is a white card and the image is inset in it: the card's
    gutter meets the window's own chrome, so that boundary disappears, and the card
-   against the mint page is a deliberate edge rather than a near-miss.
+   against the warm page is a deliberate edge rather than a near-miss.
    The card stays light under prefers-color-scheme: dark, because the screenshot itself
    is light and a dark card would reintroduce the mismatch it exists to remove. */
 /* No radius here. The capture is masked to the window's own 71px corner with the card
@@ -182,7 +176,7 @@ figure img { width: 100%; height: auto; display: block; }
 .shotwrap figure {
   margin: 0; background: #FFFFFF;
   padding: 10px; border-radius: 16px;
-  box-shadow: 0 18px 60px rgba(22, 48, 46, 0.14), 0 1px 0 rgba(22, 48, 46, 0.06);
+  box-shadow: 0 18px 60px rgba(24, 40, 56, 0.16), 0 1px 0 rgba(24, 40, 56, 0.07);
 }
 figcaption { color: var(--muted); font-size: 0.9rem; margin-top: 12px; }
 footer {
@@ -205,7 +199,7 @@ footer {
 
 /* Feature blocks. Same grammar as foldic.app: auto-fit grid, card background, a
    tinted icon tile. The icons are inline SVG rather than an icon font or emoji so
-   they inherit --mint-deep and stay crisp at any scale. */
+   they inherit --accent-deep and stay crisp at any scale. */
 section.features { max-width: 1080px; margin: 0 auto; padding: 3rem 24px 0; }
 .features-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); gap: 1.1rem;
@@ -215,11 +209,11 @@ section.features { max-width: 1080px; margin: 0 auto; padding: 3rem 24px 0; }
   border-radius: 18px; padding: 1.5rem 1.6rem;
 }
 .feature .icon {
-  width: 42px; height: 42px; border-radius: 11px; background: var(--mint-tint);
+  width: 42px; height: 42px; border-radius: 11px; background: var(--accent-tint);
   display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem;
 }
 .feature .icon svg {
-  width: 22px; height: 22px; stroke: var(--mint-deep); fill: none;
+  width: 22px; height: 22px; stroke: var(--accent-deep); fill: none;
   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
 }
 .feature h3 { margin: 0 0 0.4rem; font-size: 1.02rem; }
@@ -241,7 +235,7 @@ html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
    screenshot; the band was doing that job twice and badly. */
 .shotwrap { max-width: 1080px; margin: 0 auto; padding: 24px 24px 8px; }
 /* The capture is cropped to the window itself, with the macOS drop shadow removed.
-   That shadow is dark and desaturated, so compositing it onto the mint page produced
+   That shadow is dark and desaturated, so compositing it onto the warm page produced
    a grey ring that read as a mismatched frame — and CSS was drawing a second shadow
    underneath it. One shadow, from CSS, which then tints correctly in both schemes. */
 
@@ -253,10 +247,36 @@ html[data-lang="ko"] .feature h3 { font-size: 1.12rem; font-weight: 700; }
 .feature .ribbon {
   position: absolute; top: 12px; right: 12px;
   font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
-  color: var(--mint-deep); background: var(--mint-tint);
+  color: var(--accent-deep); background: var(--accent-tint);
   border: 1px solid var(--border); border-radius: 999px; padding: 3px 9px;
 }
 .feature.soon h3, .feature.soon p { opacity: 0.78; }
+
+/* iPhone companion. Separate from the six runtime features because it is a
+   second app, with its own icon and release status. */
+section.companion { max-width: 1080px; margin: 0 auto; padding: 1.25rem 24px 0; }
+.companion-card {
+  display: grid; grid-template-columns: 116px 1fr; align-items: center; gap: 1.5rem;
+  background: linear-gradient(135deg, var(--card), var(--accent-tint));
+  border: 1px solid var(--border); border-radius: 22px; padding: 1.35rem 1.6rem;
+  box-shadow: 0 14px 42px rgba(24, 40, 56, 0.10);
+}
+.companion-icon {
+  width: 116px; height: 116px; object-fit: contain;
+  filter: drop-shadow(0 8px 14px rgba(24, 40, 56, 0.22));
+}
+.companion-copy h2 { margin: 0.25rem 0 0.35rem; font-size: 1.3rem; }
+.companion-copy p { margin: 0; color: var(--muted); line-height: 1.65; }
+.companion-meta { display: block; margin-top: 0.55rem; color: var(--muted); font-size: 0.86rem; }
+.companion-badge {
+  display: inline-block; color: var(--accent-deep); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 999px; padding: 3px 9px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+}
+@media (max-width: 620px) {
+  .companion-card { grid-template-columns: 82px 1fr; gap: 1rem; padding: 1.1rem; }
+  .companion-icon { width: 82px; height: 82px; }
+}
 
 /* FAQ. Same grammar as foldic.app: a bottom-ruled details list with +/- and a
    copyable anchor per question. */
@@ -275,12 +295,12 @@ section.faq h2 { text-align: center; margin-bottom: 1.6rem; }
 .faq summary code { font-size: 0.92em; }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after {
-  content: "+"; color: var(--mint-deep); font-size: 1.3rem; font-weight: 400;
+  content: "+"; color: var(--accent-deep); font-size: 1.3rem; font-weight: 400;
   flex: 0 0 auto; margin-left: 0.6rem; line-height: 1;
 }
 .faq details[open] summary::after { content: "–"; }
 .faq summary .faq-anchor {
-  margin-left: 0.4rem; color: var(--mint-deep); flex: 0 0 auto;
+  margin-left: 0.4rem; color: var(--accent-deep); flex: 0 0 auto;
   opacity: 0.3; text-decoration: none; font-weight: 400; transition: opacity 0.15s;
 }
 .faq summary .faq-anchor:hover, .faq summary .faq-anchor:focus { opacity: 1; }
@@ -315,7 +335,7 @@ html[data-lang="ko"] .faq details ul li { font-size: 1rem; line-height: 1.85; }
   margin-left: 0.45rem; font-size: 0.62rem;
 }
 .faq summary .q .ribbon.inline { font-weight: 700; }
-.faq details a { color: var(--mint-deep); }
+.faq details a { color: var(--accent-deep); }
 
 /* Narrow screens. The nav is a row that wraps, and wrapping left-aligned it into three
    stacked blocks — brand, links, switcher — which read as three separate things rather
@@ -348,7 +368,7 @@ html[data-lang="ko"] .faq details ul li { font-size: 1rem; line-height: 1.85; }
 }
 .cta .badge {
   display: inline-block; font-weight: 700; font-size: 0.97rem;
-  color: var(--mint-deep); background: var(--mint-tint);
+  color: var(--accent-deep); background: var(--accent-tint);
   border: 1px solid var(--border); border-radius: 999px; padding: 8px 18px;
 }
 .cta .dim { font-size: 0.86rem; }
@@ -369,7 +389,7 @@ html[data-lang="ko"] .cta .badge { font-size: 1.02rem; }
 .doc li { margin: 8px 0; }
 .doc pre {
   background: var(--card); border: 1px solid var(--border); border-radius: 9px;
-  padding: 13px 15px; overflow-x: auto; color: var(--mint-deep);
+  padding: 13px 15px; overflow-x: auto; color: var(--accent-deep);
   font: 0.85rem/1.6 ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 html[data-lang="zh"] .doc h2,

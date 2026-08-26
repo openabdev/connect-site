@@ -111,7 +111,8 @@ def head(code, filename, title, desc, og_image=None, og_alt=None, og_type="websi
             f'<meta name="twitter:image" content="{og_image}">',
         ]
     tags += [
-        '<link rel="icon" href="/icon.png">',
+        f'<link rel="icon" href="{rev("icon.png")}">',
+        f'<link rel="apple-touch-icon" href="{rev("icon.png")}">',
         f'<link rel="stylesheet" href="{rev("style.css")}">',
         alternates(filename),
     ]
@@ -124,8 +125,9 @@ def nav(code, filename="index.html"):
     # On a document page the section anchors belong to the landing page, so they are
     # absolute links back to it rather than fragments that would resolve to nothing.
     home = p if filename == "index.html" else p
+    icon = rev("icon.png")
     return f"""<nav>
-  <a class="brand" href="{home}"><img src="/icon.png" alt="" width="28" height="28">OpenAB Connect</a>
+  <a class="brand" href="{home}"><img src="{icon}" alt="" width="28" height="28">OpenAB Connect</a>
   <div class="links">
     <a href="{p}#features">{d["nav"][0]}</a>
     <a href="{p}#faq">{d["nav"][1]}</a>
