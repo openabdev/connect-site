@@ -219,7 +219,8 @@ L = {
   hero_sub="加密分散運行在你的私有基礎架構，關掉 app，<br>"
            "<strong>它們繼續運行。</strong>",
   og_alt='OpenAB Connect —— 所有頂尖廠商的 Agent，一個客戶端，各自沙箱',
-  cta='即將在 Mac App Store 開放下載',
+  cta='前往 Mac App Store 下載',
+  cta_url='https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12',
   cta_meta='免費 · macOS 13 或以上',
   nav=("特色", "常見問題", "支援"),
   shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
@@ -698,7 +699,7 @@ TEMPLATE = """<!DOCTYPE html>
   <img class="appicon" src="{icon}" alt="OpenAB Connect">
   <h1>{hero_h1}</h1>
   <p class="tag">{hero_sub}</p>
-  <p class="cta"><span class="badge">{cta}</span><span class="dim">{cta_meta}</span></p>
+  <p class="cta">{cta_badge}<span class="dim">{cta_meta}</span></p>
 </header>
 
 <div class="shotwrap">
@@ -775,6 +776,11 @@ for code in ORDER:
         entries.append(f'<details id="faq-{qid}">\n  <summary><span class="q">{q}</span>'
                        f'</summary>\n  <div class="a">{body}</div>\n</details>')
     faqs = "\n".join(entries)
+    cta_badge = (
+        f'<a class="badge" href="{d["cta_url"]}">{d["cta"]}</a>'
+        if d.get("cta_url")
+        else f'<span class="badge">{d["cta"]}</span>'
+    )
 
     out = ROOT / d["dir"] / "index.html" if d["dir"] else ROOT / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -788,7 +794,7 @@ for code in ORDER:
         shot=chrome.rev("screenshot.png"),
         features="\n".join(cards), faqs=faqs,
         hero_h1=d["hero_h1"], hero_sub=d["hero_sub"],
-        cta=d["cta"], cta_meta=d["cta_meta"],
+        cta_badge=cta_badge, cta_meta=d["cta_meta"],
         remote_desc=d["remote_desc"], remote_meta=d["remote_meta"],
         soon_label=d["soon_label"],
         shot_alt=d["shot_alt"], faq_title=d["faq_title"]),

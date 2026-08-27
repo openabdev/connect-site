@@ -359,9 +359,8 @@ html[data-lang="ko"] .faq details ul li { font-size: 1rem; line-height: 1.85; }
   footer { padding: 22px 18px 36px; gap: 14px; }
 }
 
-/* Availability, under the hero. A status line rather than a button: the app is in
-   review, and a button linking to a page that does not exist yet is worse than a
-   sentence that is true. Swap the badge for a real App Store link on approval. */
+/* Availability under the hero. Locales not yet switched over remain truthful status
+   badges; an approved locale renders the same badge as an App Store link. */
 .cta {
   margin: 22px 0 0; display: flex; flex-direction: column;
   align-items: center; gap: 7px;
@@ -371,6 +370,15 @@ html[data-lang="ko"] .faq details ul li { font-size: 1rem; line-height: 1.85; }
   color: var(--accent-deep); background: var(--accent-tint);
   border: 1px solid var(--border); border-radius: 999px; padding: 8px 18px;
 }
+.cta a.badge {
+  text-decoration: none;
+  transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+.cta a.badge:hover {
+  transform: translateY(-1px); border-color: var(--accent);
+  box-shadow: 0 5px 14px rgba(24, 40, 56, 0.12);
+}
+.cta a.badge:focus-visible { outline: 3px solid var(--brush); outline-offset: 3px; }
 .cta .dim { font-size: 0.86rem; }
 html[data-lang="zh"] .cta .badge,
 html[data-lang="ja"] .cta .badge,
