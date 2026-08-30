@@ -58,7 +58,8 @@ L = {
   hero_sub="Encrypted and distributed across your own private infrastructure.<br>"
            "<strong>Quit the app and they keep running.</strong>",
   og_alt='OpenAB Connect — agents from every major vendor, one client, each sandboxed',
-  cta='Coming soon to the Mac App Store',
+  cta='Download on the Mac App Store',
+  cta_url='https://apps.apple.com/app/openab-connect/id6803728097?mt=12',
   cta_meta='Free · macOS 13 or later',
   nav=("Features", "FAQ", "Support"),
   shot_alt="OpenAB Connect with seven agent connections in the sidebar and four terminal "
@@ -361,7 +362,8 @@ L = {
   hero_sub="暗号化されたまま、自分のプライベート環境に分散して動きます。<br>"
            "<strong>アプリを閉じても、動き続けます。</strong>",
   og_alt='OpenAB Connect — 主要ベンダーのエージェントを、ひとつのクライアントに',
-  cta='Mac App Store でまもなく公開',
+  cta='Mac App Store でダウンロード',
+  cta_url='https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12',
   cta_meta='無料 · macOS 13 以降',
   nav=("特徴", "よくある質問", "サポート"),
   shot_alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の "
@@ -528,7 +530,8 @@ L = {
   hero_sub="암호화된 채로 여러분의 사설 인프라에 분산되어 실행됩니다.<br>"
            "<strong>앱을 닫아도 계속 실행됩니다.</strong>",
   og_alt='OpenAB Connect — 주요 벤더의 모든 에이전트, 클라이언트 하나, 각자 샌드박스',
-  cta='Mac App Store에 곧 출시',
+  cta='Mac App Store에서 다운로드',
+  cta_url='https://apps.apple.com/kr/app/openab-connect/id6803728097?mt=12',
   cta_meta='무료 · macOS 13 이상',
   nav=("특징", "자주 묻는 질문", "지원"),
   shot_alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 "
