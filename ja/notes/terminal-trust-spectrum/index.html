@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hashimoto の Superlogical、Herdr、そして私たち——ターミナル信頼スペクトラム、三つの賭け — OpenAB Connect</title>
+<meta name="description" content="Hashimoto の Superlogical、ローカル側の Herdr、反対側の OpenAB Connect——三つのターミナルプロダクトが、同じ信頼スペクトラムの上で三つの異なる賭けをしている。横並びの比較表つき。">
+<link rel="canonical" href="https://connect.openab.dev/ja/notes/terminal-trust-spectrum/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="Hashimoto の Superlogical、Herdr、そして私たち——ターミナル信頼スペクトラム、三つの賭け — OpenAB Connect">
+<meta property="og:description" content="Hashimoto の Superlogical、ローカル側の Herdr、反対側の OpenAB Connect——三つのターミナルプロダクトが、同じ信頼スペクトラムの上で三つの異なる賭けをしている。横並びの比較表つき。">
+<meta property="og:url" content="https://connect.openab.dev/ja/notes/terminal-trust-spectrum/">
+<meta property="og:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-ja.png?v=c7e49904">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Herdr・Superlogical・OpenAB Connect——ターミナル信頼スペクトラム、三つの賭け">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hashimoto の Superlogical、Herdr、そして私たち——ターミナル信頼スペクトラム、三つの賭け — OpenAB Connect">
+<meta name="twitter:description" content="Hashimoto の Superlogical、ローカル側の Herdr、反対側の OpenAB Connect——三つのターミナルプロダクトが、同じ信頼スペクトラムの上で三つの異なる賭けをしている。横並びの比較表つき。">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-ja.png?v=c7e49904">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=d5043da2">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ja/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ja/#features">特徴</a>
+    <a href="/ja/#faq">よくある質問</a>
+    <a href="/ja/support.html">サポート</a>
+    <span class="lang"><a href="/zh/notes/terminal-trust-spectrum/">中文</a>|<a class="active" href="/ja/notes/terminal-trust-spectrum/">日本語</a>|<a href="/ko/notes/terminal-trust-spectrum/">한국어</a>|<a href="/notes/terminal-trust-spectrum/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/ja/notes/">開発ノート</a></p>
+  <h1>Hashimoto の Superlogical、Herdr、そして私たち——ターミナル信頼スペクトラム、三つの賭け</h1>
+  <p class="byline">OpenAB Connect · 2026年8月30日</p>
+  <p class="lede">2026 年 7 月末、HashiCorp 共同創業者で Ghostty の作者でもある Mitchell Hashimoto が<a href="https://mitchellh.com/writing/superlogical">新会社 Superlogical の設立を発表した</a>。最初のプロダクトは server-side のターミナルマルチプレクサだ。同じ夏、ローカルターミナルの側では Herdr が勢いを増し、私たちの OpenAB Connect は反対側でリリースされた。三つとも同じ問いに答えている——AI エージェントがターミナルの常駐者になったとき、セッションはどこに住み、どこまで信頼されるべきか？——そして、それぞれ違う答えに賭けた。</p>
+
+<h2>一本のスペクトラム、二本の軸</h2>
+<p>「セッションがどこに住むか」で並べると、<a href="https://github.com/ogulcancelik/herdr">Herdr</a> はあなたのターミナルの中、
+<a href="https://superlogical.com/">Superlogical</a> は環境を横断する server-side の daemon、OpenAB Connect は
+WireGuard tailnet の向こうのリモートのサンドボックスコンテナになる。「信頼の前提」で並べ直しても
+順序は変わらない。Herdr はセッションを全面的に信頼し（中身はあなた自身だ）、Superlogical は信頼
+モデルを未公表のままにし、OpenAB Connect は初日から中身を信頼しない前提に立つ。二本の軸が同じ
+一本のスペクトラムを描く——Herdr と OpenAB Connect が両極、Superlogical がちょうど中間だ。</p>
+<div class="tablewrap"><table class="cmp">
+<thead><tr><th></th><th>Herdr</th><th>Superlogical</th><th>OpenAB Connect</th></tr></thead>
+<tbody>
+<tr><th>セッションの住処</th><td>ローカルの daemon（SSH リモートモードあり）</td><td>server-side の daemon。ローカル／リモート／production を横断する構想</td><td>リモートのサンドボックスコンテナ（k8s pod／ECS task）</td></tr>
+<tr><th>信頼の前提</th><td>全面的に信頼——あなたの身分であなたのプロセスを実行</td><td>未公表——認証・権限分離・監査はすべて未定</td><td>ゼロトラスト——中身を信頼しない前提</td></tr>
+<tr><th>隔離</th><td>なし（あなたの環境をそのまま保つことが売り）</td><td>なし（daemon があなたの権限をそのまま持つ）</td><td>uid 1000、sudo なし、read-only rootfs、SA トークンなし</td></tr>
+<tr><th>クレデンシャルモデル</th><td>なし（ローカルの socket API）</td><td>未発表</td><td>初日から：管理面と接続面を分離。セッション毎トークンは TTL 付き、署名鍵なし</td></tr>
+<tr><th>エージェント状態のセマンティクス</th><td>一級市民：blocked／working／done、socket API でエージェント同士が編成</td><td>構想段階（三段階ビジョンの第三段）</td><td>なし——意図的に扱わない。エージェントのセマンティクスは openab 本体の領分</td></tr>
+<tr><th>再接続</th><td>切断をまたいで存続（ホストの電源断はまたがない）</td><td>画面スナップショット＋raw stream の続行。完全な端末状態</td><td>リングバッファの再生。状態のセマンティクスは薄い</td></tr>
+<tr><th>体感レイテンシ</th><td>ローカルなので問題にならない</td><td>クライアント内蔵の libghostty が自前で描画し、設計上サーバーと分離（未計測）</td><td>クライアント次第。runtime 自測 1.0 ms、WiFi のラップトップから 78–82 ms</td></tr>
+<tr><th>成熟度</th><td>現在利用可能、オープンソース</td><td>pre-beta。waitlist のみ、ベンチマークも仕様もなし</td><td>Phase 1。k3s と ECS Fargate で実運用中</td></tr>
+<tr><th>賭けているもの</th><td>オーケストレーション</td><td>永続性</td><td>信頼</td></tr>
+<tr><th>手放しているもの</th><td>隔離と、ホストを越えた永続性</td><td>信頼モデル（今のところ）</td><td>環境の自由度と、端末状態のセマンティクス</td></tr>
+</tbody></table></div>
+<h2>Herdr——オーケストレーションを極め、隔離はゼロ</h2>
+<p>Herdr は、いま使っているターミナルの中で動くエージェントマルチプレクサだ（Rust + Ratatui、
+オープンソース）。エージェントはランタイムの一級市民で、サイドバーには各エージェントが blocked か
+working か done かがリアルタイムに並ぶ。socket API を通じて、エージェント自身が pane を開き、
+互いの出力を読み、互いを待てる。セッションは daemon の中で切断をまたいで生き続けるが、ホストの
+電源断はまたがない。SSH リモートモードで他のマシンにも届く。</p>
+<p>すべてはあなたの身分で、あなたのマシンの上で動く。隔離ゼロは欠陥ではなく売りだ——シェルも
+SSH 設定もフォントもキーバインドも、そのまま使える。Herdr の賭けは<strong>オーケストレーション</strong>：
+マルチエージェント時代に一番価値があるのは、エージェント状態のリアルタイムな可視性だという賭けだ。</p>
+<h2>Superlogical——永続性を極め、信頼は空欄</h2>
+<p>Superlogical はセッションをターミナルから引き剥がし、server-side の daemon に移す。daemon が
+PTY を持ち、libghostty で出力を権威ある状態（authoritative state）にパースしながら、同じ raw bytes
+をそのまま各クライアントに配る。クライアントは同じ libghostty を内蔵し、自分でパースし自分で描画
+する。再接続時は daemon が PTY を一時停止して画面のスナップショットを送り、クライアントの準備が
+できてから raw stream を再開する。構想は、ローカルもリモートもサンドボックスも production も横断
+する「multiplexer for all work」だ。</p>
+<p>Superlogical の賭けは<strong>永続性</strong>：どのクライアントからも独立したセッションという
+持続層こそ、いちばん価値のある抽象だという賭けだ——かつて Terraform が state 層に賭けたのと同じ
+種類の賭けである。ただし現状は正確に言っておく。本稿の時点であるのは waitlist だけで、ベンチマーク
+も、プロトコル仕様もない。そして認証・権限分離・監査という production の必需品は、一つも発表されて
+いない。永続性は極限まで押し込み、信頼はまるごと空欄だ。</p>
+<h2>OpenAB Connect——信頼を極め、環境は固定</h2>
+<p>私たちは反対側の極に賭けた。Connect がつなぐシェルは、意図的に無権限にしたコンテナに住む。
+uid 1000、sudo なし、read-only rootfs、service-account トークンなし、ワークスペースはセッションと
+ともに破棄される。クレデンシャルモデルは初日からある。管理面と接続面は分離され、セッション毎の
+トークンは TTL 付きで署名鍵を持たない——乗っ取られたシェルが loopback から管理 API を叩いても
+返るのは 401 で、これは敵対テストが明示的に検証している不変条件だ。経路全体は WireGuard tailnet
+の上を通り、runtime はルーティング可能なアドレスでは決して待ち受けない
+（<a href="https://github.com/openabdev/openab-pty">runtime は MIT ライセンスのオープンソース</a>）。</p>
+<p>私たちの賭けは<strong>信頼</strong>：エージェントは暴走するし、シェルは騙される。だから環境は、
+中身を信頼できないものとして扱わなければならない、という賭けだ。コストも率直に言う。環境は固定され、
+raw byte pipe のアーキテクチャでは体感レイテンシがほぼクライアント側で決まる——runtime は自分の
+ホストからのエコーレイテンシを 1.0 ms、WiFi のラップトップからは 78–82 ms と計測している。
+Superlogical のクライアント側 state rendering が正面から解こうとしているのは、まさに私たちが README
+で最大のギャップだと認めている部分だ。</p>
+<h2>三つの賭け、三つの層</h2>
+<p>面白いのは、三つが互いを排除しないことだ。Herdr 式のエージェント状態インターフェースが、
+Superlogical 式の永続セッションの上で動き、そのセッションが OpenAB 式のサンドボックスに住む——
+オーケストレーション、永続性、信頼は、それぞれ別の層を解いている。いまは三つのプロダクトが、
+それぞれの端から中間に向かって伸びている途中にすぎない。</p>
+<p>中間に立つことは、両側から挟まれることでもある。ローカルの編成では Herdr の即時性に敵わず、
+ゼロトラストのサンドボックスについては安全モデルがまだ卓上にない。Hashimoto は durable session
+という層そのものが総取りすると賭けている。私たちは、エージェントが本当に野に放たれた日に、
+誰もが最初に問うのは——それは何に届くのか？——だと賭けている。</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/ja/privacy.html">プライバシー</a>
+  <a href="/ja/support.html">サポート</a>
+  <a href="https://github.com/openabdev/openab-pty">ランタイムのソース</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

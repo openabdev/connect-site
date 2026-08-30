@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hashimoto 的 Superlogical、Herdr、與我們：終端信任光譜的三個賭注 — OpenAB Connect</title>
+<meta name="description" content="Hashimoto 的 Superlogical、本機端的 Herdr、我們的 OpenAB Connect——三個終端產品在同一條信任光譜上押了三個不同的賭注。一張表格橫向對比。">
+<link rel="canonical" href="https://connect.openab.dev/zh/notes/terminal-trust-spectrum/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="Hashimoto 的 Superlogical、Herdr、與我們：終端信任光譜的三個賭注 — OpenAB Connect">
+<meta property="og:description" content="Hashimoto 的 Superlogical、本機端的 Herdr、我們的 OpenAB Connect——三個終端產品在同一條信任光譜上押了三個不同的賭注。一張表格橫向對比。">
+<meta property="og:url" content="https://connect.openab.dev/zh/notes/terminal-trust-spectrum/">
+<meta property="og:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-zh.png?v=08fe2cc4">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Herdr、Superlogical、OpenAB Connect——終端信任光譜的三個賭注">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hashimoto 的 Superlogical、Herdr、與我們：終端信任光譜的三個賭注 — OpenAB Connect">
+<meta name="twitter:description" content="Hashimoto 的 Superlogical、本機端的 Herdr、我們的 OpenAB Connect——三個終端產品在同一條信任光譜上押了三個不同的賭注。一張表格橫向對比。">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-zh.png?v=08fe2cc4">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=d5043da2">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/zh/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/zh/#features">特色</a>
+    <a href="/zh/#faq">常見問題</a>
+    <a href="/zh/support.html">支援</a>
+    <span class="lang"><a class="active" href="/zh/notes/terminal-trust-spectrum/">中文</a>|<a href="/ja/notes/terminal-trust-spectrum/">日本語</a>|<a href="/ko/notes/terminal-trust-spectrum/">한국어</a>|<a href="/notes/terminal-trust-spectrum/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/zh/notes/">開發筆記</a></p>
+  <h1>Hashimoto 的 Superlogical、Herdr、與我們：終端信任光譜的三個賭注</h1>
+  <p class="byline">OpenAB Connect · 2026 年 8 月 30 日</p>
+  <p class="lede">2026 年 7 月底，HashiCorp 共同創辦人、Ghostty 作者 Mitchell Hashimoto <a href="https://mitchellh.com/writing/superlogical">宣布成立新公司 Superlogical</a>，第一個產品是 server-side terminal multiplexer。同一個夏天，Herdr 在本機終端這一端快速竄紅，我們的 OpenAB Connect 則在另一端上線。三個產品都在回答同一個問題——當 AI agent 成為終端的常駐使用者，session 應該住在哪裡、又該被信任到什麼程度？——而它們押了三個不同的答案。</p>
+
+<h2>一條光譜，兩條軸</h2>
+<p>用「session 住在哪」排序：<a href="https://github.com/ogulcancelik/herdr">Herdr</a> 在你的終端裡；<a href="https://superlogical.com/">Superlogical</a>
+在一個跨環境的 server-side daemon；OpenAB Connect 在 WireGuard tailnet 之後的遠端沙箱容器。
+換用「信任假設」排序，順序一模一樣：Herdr 完全信任（session 裡的就是你）；Superlogical 的信任模型
+尚未公布；OpenAB Connect 從第一天就假設 session 內容不可信。兩條軸給出同一條光譜——Herdr 和
+OpenAB Connect 站在兩個極端，Superlogical 剛好在中間。</p>
+<div class="tablewrap"><table class="cmp">
+<thead><tr><th></th><th>Herdr</th><th>Superlogical</th><th>OpenAB Connect</th></tr></thead>
+<tbody>
+<tr><th>Session 住在哪</th><td>本機 daemon（另有 SSH remote mode）</td><td>server-side daemon，目標橫跨本機／遠端／production</td><td>遠端沙箱容器（k8s pod／ECS task）</td></tr>
+<tr><th>信任假設</th><td>完全信任——以你的身份跑你的 process</td><td>尚未公布——auth、權限分離、audit 均待定</td><td>零信任——假設 session 內容不可信</td></tr>
+<tr><th>隔離</th><td>無（保留你的環境正是賣點）</td><td>無（daemon 直接持有你的權限）</td><td>uid 1000、無 sudo、read-only rootfs、無 SA token</td></tr>
+<tr><th>憑證模型</th><td>無（本機 socket API）</td><td>未公布</td><td>第一天就有：管理面／連線面分離，per-session token 有 TTL、不帶 signing key</td></tr>
+<tr><th>Agent 狀態語意</th><td>一等物件：blocked／working／done，socket API 供 agent 互相編排</td><td>規劃中（三階段願景的第三階）</td><td>無——刻意不碰，agent 語意屬於 openab 本體</td></tr>
+<tr><th>斷線重連</th><td>跨斷線存活（非跨主機關機）</td><td>畫面快照＋raw stream 續流，含完整終端狀態</td><td>ring buffer 重播，狀態語意較薄</td></tr>
+<tr><th>感知延遲</th><td>本機，無此問題</td><td>client 端 libghostty 自行 render，設計上與 server 脫鉤（未量測）</td><td>由 client 決定；runtime 自測 1.0 ms，WiFi 筆電 78–82 ms</td></tr>
+<tr><th>成熟度</th><td>已可用，開源</td><td>pre-beta，僅 waitlist，無 benchmark、無規格</td><td>Phase 1，已在 k3s 與 ECS Fargate 上實際使用</td></tr>
+<tr><th>它押的是</th><td>編排</td><td>持久</td><td>信任</td></tr>
+<tr><th>它放掉的是</th><td>隔離與跨主機持久</td><td>信任模型（目前）</td><td>環境自由度與終端狀態語意</td></tr>
+</tbody></table></div>
+<h2>Herdr：編排做到極致，隔離為零</h2>
+<p>Herdr 是跑在你現有終端裡的 agent multiplexer（Rust + Ratatui，開源）。它把 agent 當成 runtime
+的一等物件：sidebar 即時顯示每個 agent 是 blocked、working 還是 done；socket API 讓 agent 自己
+spawn pane、讀取彼此的輸出、互相等待。session 在 daemon 裡跨斷線存活——但不跨主機關機——另有
+SSH remote mode 可以管到遠端主機。</p>
+<p>一切以你的身份、在你的機器上跑。隔離為零是它的賣點而不是缺陷：保留你的 shell、SSH 設定、字型和
+keybinds。它賭的是<strong>編排</strong>：agent 狀態的即時可見性，是多 agent 時代最值錢的東西。</p>
+<h2>Superlogical：持久做到極致，信任留白</h2>
+<p>Superlogical 把 session 從終端抽出來，放進 server-side daemon。daemon 持有 PTY，用 libghostty
+把輸出 parse 成 authoritative state，同時把同一份 raw bytes 原樣分發給每個 client——client 內建
+同一套 libghostty，自己 parse、自己 render。重連時 daemon 暫停 PTY、送出畫面快照，client 就緒後
+續流 raw bytes。願景是橫跨本機、遠端主機、沙箱與 production 的「multiplexer for all work」。</p>
+<p>它賭的是<strong>持久</strong>：session 本身作為一個獨立於任何 client 的持久層，是最值錢的抽象——
+這跟當年 Terraform 賭 state 層是同一種賭法。但要把現況說清楚：截至本文寫作，它只有 waitlist，沒有
+benchmark、沒有協定規格，而 auth、權限分離、audit 這些 production 的必需品，一項都尚未公布。
+持久性被推到最遠，信任整個留白。</p>
+<h2>OpenAB Connect：信任做到極致，環境被規定死</h2>
+<p>我們押相反的一端。Connect 連上的 shell 住在一個刻意無權限的容器裡：uid 1000、沒有 sudo、
+read-only rootfs、沒有 service-account token，workspace 是暫時的。憑證模型從第一天就在：管理面與
+連線面分離，per-session token 有 TTL、不帶 signing key——一個被入侵的 shell 就算從 loopback 打
+管理 API，拿到的也只是 401，這是對抗測試裡明確驗證的不變量。整條路徑走 WireGuard tailnet，runtime
+從不監聽可路由位址（<a href="https://github.com/openabdev/openab-pty">runtime 是 MIT 開源</a>）。</p>
+<p>我們賭的是<strong>信任</strong>：agent 會失控、shell 會被騙，所以環境必須假設其中的東西不可信。
+代價也直說：環境被規定死，而 raw byte pipe 的架構讓感知延遲幾乎全由 client 決定——runtime 在自己
+主機上量到 1.0 ms 的 echo latency，從 WiFi 筆電量到 78–82 ms。Superlogical 那套 client 端 state
+rendering，正面解的就是我們自己在 README 裡承認的最大缺口。</p>
+<h2>三個賭注，三層問題</h2>
+<p>有意思的是三者並不互斥：Herdr 式的 agent 狀態介面，跑在 Superlogical 式的持久 session 上，而
+session 住在 OpenAB 式的沙箱裡——編排、持久、信任，各解一層。現在只是三個產品各自從光譜的一端
+往中間長。</p>
+<p>站在中間也意味著兩頭夾擊：本機編排的即時性比不過 Herdr，零信任沙箱的安全模型還沒亮出來。
+Hashimoto 賭的是 durable session 層本身贏者全拿；我們賭的是，在 agent 真正被放出去亂跑的那天，
+大家最先問的是——它能碰到什麼。</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/zh/privacy.html">隱私</a>
+  <a href="/zh/support.html">支援</a>
+  <a href="https://github.com/openabdev/openab-pty">runtime 原始碼</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

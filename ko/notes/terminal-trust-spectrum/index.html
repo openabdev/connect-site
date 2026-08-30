@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hashimoto의 Superlogical, Herdr, 그리고 우리 — 터미널 신뢰 스펙트럼의 세 가지 베팅 — OpenAB Connect</title>
+<meta name="description" content="Hashimoto의 Superlogical, 로컬 쪽의 Herdr, 반대쪽 끝의 OpenAB Connect — 세 터미널 제품이 같은 신뢰 스펙트럼 위에서 서로 다른 베팅을 하고 있습니다. 나란히 비교한 표와 함께.">
+<link rel="canonical" href="https://connect.openab.dev/ko/notes/terminal-trust-spectrum/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="Hashimoto의 Superlogical, Herdr, 그리고 우리 — 터미널 신뢰 스펙트럼의 세 가지 베팅 — OpenAB Connect">
+<meta property="og:description" content="Hashimoto의 Superlogical, 로컬 쪽의 Herdr, 반대쪽 끝의 OpenAB Connect — 세 터미널 제품이 같은 신뢰 스펙트럼 위에서 서로 다른 베팅을 하고 있습니다. 나란히 비교한 표와 함께.">
+<meta property="og:url" content="https://connect.openab.dev/ko/notes/terminal-trust-spectrum/">
+<meta property="og:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-ko.png?v=614cf355">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Herdr · Superlogical · OpenAB Connect — 터미널 신뢰 스펙트럼의 세 가지 베팅">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hashimoto의 Superlogical, Herdr, 그리고 우리 — 터미널 신뢰 스펙트럼의 세 가지 베팅 — OpenAB Connect">
+<meta name="twitter:description" content="Hashimoto의 Superlogical, 로컬 쪽의 Herdr, 반대쪽 끝의 OpenAB Connect — 세 터미널 제품이 같은 신뢰 스펙트럼 위에서 서로 다른 베팅을 하고 있습니다. 나란히 비교한 표와 함께.">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-ko.png?v=614cf355">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=d5043da2">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ko/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ko/#features">특징</a>
+    <a href="/ko/#faq">자주 묻는 질문</a>
+    <a href="/ko/support.html">지원</a>
+    <span class="lang"><a href="/zh/notes/terminal-trust-spectrum/">中文</a>|<a href="/ja/notes/terminal-trust-spectrum/">日本語</a>|<a class="active" href="/ko/notes/terminal-trust-spectrum/">한국어</a>|<a href="/notes/terminal-trust-spectrum/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/ko/notes/">개발 노트</a></p>
+  <h1>Hashimoto의 Superlogical, Herdr, 그리고 우리 — 터미널 신뢰 스펙트럼의 세 가지 베팅</h1>
+  <p class="byline">OpenAB Connect · 2026년 8월 30일</p>
+  <p class="lede">2026년 7월 말, HashiCorp 공동 창업자이자 Ghostty의 작자인 Mitchell Hashimoto가 <a href="https://mitchellh.com/writing/superlogical">새 회사 Superlogical의 설립을 발표했습니다</a>. 첫 제품은 server-side 터미널 멀티플렉서입니다. 같은 여름, 로컬 터미널 쪽에서는 Herdr가 빠르게 주목받았고, 우리의 OpenAB Connect는 반대쪽 끝에서 출시되었습니다. 셋 다 같은 질문에 답하고 있습니다 — AI 에이전트가 터미널의 상주자가 될 때, 세션은 어디에 살아야 하고 어디까지 신뢰받아야 하는가? — 그리고 각자 다른 답에 베팅했습니다.</p>
+
+<h2>하나의 스펙트럼, 두 개의 축</h2>
+<p>“세션이 어디에 사는가”로 줄을 세우면 <a href="https://github.com/ogulcancelik/herdr">Herdr</a>는 여러분의 터미널 안,
+<a href="https://superlogical.com/">Superlogical</a>은 환경을 가로지르는 서버 사이드 데몬, OpenAB Connect는 WireGuard
+tailnet 너머의 원격 샌드박스 컨테이너입니다. “신뢰 가정”으로 다시 줄을 세워도 순서는 같습니다.
+Herdr는 세션을 전적으로 신뢰하고(그 안은 곧 여러분입니다), Superlogical은 신뢰 모델을 아직
+공개하지 않았으며, OpenAB Connect는 첫날부터 내용물을 신뢰하지 않는다는 전제에 서 있습니다.
+두 축이 같은 스펙트럼 하나를 그립니다 — Herdr와 OpenAB Connect가 양 극단, Superlogical이 딱
+중간입니다.</p>
+<div class="tablewrap"><table class="cmp">
+<thead><tr><th></th><th>Herdr</th><th>Superlogical</th><th>OpenAB Connect</th></tr></thead>
+<tbody>
+<tr><th>세션이 사는 곳</th><td>로컬 데몬(SSH 원격 모드 있음)</td><td>서버 사이드 데몬. 로컬/원격/프로덕션을 아우르는 구상</td><td>원격 샌드박스 컨테이너(k8s pod/ECS task)</td></tr>
+<tr><th>신뢰 가정</th><td>전적으로 신뢰 — 여러분의 신원으로 여러분의 프로세스를 실행</td><td>미공개 — 인증·권한 분리·감사 모두 미정</td><td>제로 트러스트 — 내용물을 신뢰하지 않는다는 전제</td></tr>
+<tr><th>격리</th><td>없음(여러분의 환경을 그대로 두는 것이 장점)</td><td>없음(데몬이 여러분의 권한을 그대로 가짐)</td><td>uid 1000, sudo 없음, read-only rootfs, SA 토큰 없음</td></tr>
+<tr><th>자격 증명 모델</th><td>없음(로컬 socket API)</td><td>미발표</td><td>첫날부터: 관리 평면과 연결 평면 분리. 세션별 토큰은 TTL이 있고 서명 키가 없음</td></tr>
+<tr><th>에이전트 상태 시맨틱</th><td>일급 객체: blocked/working/done, 에이전트끼리 편성하는 socket API</td><td>계획 단계(3단계 비전의 세 번째)</td><td>없음 — 의도적으로 다루지 않음. 에이전트 시맨틱은 openab 본체의 몫</td></tr>
+<tr><th>재접속</th><td>접속 끊김은 견딤(호스트 전원이 꺼지는 것은 못 견딤)</td><td>화면 스냅숏 + raw 스트림 이어받기. 완전한 터미널 상태</td><td>링 버퍼 재생. 상태 시맨틱은 얇음</td></tr>
+<tr><th>체감 지연</th><td>로컬이라 문제가 되지 않음</td><td>클라이언트 내장 libghostty가 직접 렌더링, 설계상 서버와 분리(미측정)</td><td>클라이언트가 좌우. 런타임 자체 측정 1.0 ms, WiFi 노트북에서 78–82 ms</td></tr>
+<tr><th>성숙도</th><td>지금 사용 가능, 오픈 소스</td><td>pre-beta. waitlist뿐, 벤치마크도 스펙도 없음</td><td>Phase 1. k3s와 ECS Fargate에서 실사용 중</td></tr>
+<tr><th>베팅한 것</th><td>오케스트레이션</td><td>지속성</td><td>신뢰</td></tr>
+<tr><th>포기한 것</th><td>격리, 그리고 호스트 너머의 지속성</td><td>신뢰 모델(아직은)</td><td>환경의 자유도와 터미널 상태 시맨틱</td></tr>
+</tbody></table></div>
+<h2>Herdr — 오케스트레이션의 극단, 격리는 제로</h2>
+<p>Herdr는 지금 쓰는 터미널 안에서 도는 에이전트 멀티플렉서입니다(Rust + Ratatui, 오픈 소스).
+에이전트는 런타임의 일급 객체입니다. 사이드바에 각 에이전트가 blocked인지 working인지 done인지
+실시간으로 표시되고, socket API로 에이전트가 스스로 pane을 열고, 서로의 출력을 읽고, 서로를
+기다릴 수 있습니다. 세션은 데몬 안에서 접속 끊김을 넘어 살아남지만 — 호스트 전원이 꺼지는 것은
+넘지 못합니다 — SSH 원격 모드로 다른 머신에도 닿습니다.</p>
+<p>모든 것이 여러분의 신원으로, 여러분의 머신 위에서 돕니다. 격리 제로는 결함이 아니라 장점입니다.
+셸, SSH 설정, 폰트, 키바인딩을 그대로 쓸 수 있으니까요. Herdr의 베팅은
+<strong>오케스트레이션</strong>입니다. 멀티 에이전트 시대에 가장 값진 것은 에이전트 상태의 실시간
+가시성이라는 베팅입니다.</p>
+<h2>Superlogical — 지속성의 극단, 신뢰는 공란</h2>
+<p>Superlogical은 세션을 터미널에서 떼어내 서버 사이드 데몬으로 옮깁니다. 데몬이 PTY를 쥐고
+libghostty로 출력을 권위 있는 상태(authoritative state)로 파싱하는 동시에, 같은 raw bytes를
+그대로 각 클라이언트에 나눠 줍니다. 클라이언트는 같은 libghostty를 내장해 스스로 파싱하고 스스로
+렌더링합니다. 재접속 때는 데몬이 PTY를 잠시 멈추고 화면 스냅숏을 보낸 뒤, 클라이언트가 준비되면
+raw 스트림을 이어 갑니다. 비전은 로컬·원격·샌드박스·프로덕션을 모두 아우르는 “multiplexer for
+all work”입니다.</p>
+<p>Superlogical의 베팅은 <strong>지속성</strong>입니다. 어떤 클라이언트와도 무관하게 살아 있는
+세션이라는 지속 계층이야말로 가장 값진 추상이라는 베팅 — Terraform이 state 계층에 걸었던 것과
+같은 종류의 베팅입니다. 다만 현재 상태는 정확히 말해 두겠습니다. 이 글을 쓰는 시점에 있는 것은
+waitlist뿐이고, 벤치마크도 프로토콜 스펙도 없으며, 인증·권한 분리·감사라는 프로덕션 필수 요소는
+하나도 발표되지 않았습니다. 지속성은 끝까지 밀어붙였고, 신뢰는 통째로 공란입니다.</p>
+<h2>OpenAB Connect — 신뢰의 극단, 환경은 고정</h2>
+<p>우리는 반대쪽 극단에 베팅했습니다. Connect가 붙는 셸은 의도적으로 무권한으로 만든 컨테이너에
+삽니다. uid 1000, sudo 없음, read-only rootfs, service-account 토큰 없음, 워크스페이스는 세션과
+함께 버려집니다. 자격 증명 모델은 첫날부터 있습니다. 관리 평면과 연결 평면이 분리되어 있고,
+세션별 토큰은 TTL이 있으며 서명 키를 갖지 않습니다 — 탈취된 셸이 loopback으로 관리 API를 때려도
+돌아오는 것은 401이고, 이는 적대 테스트가 명시적으로 검증하는 불변 조건입니다. 경로 전체는
+WireGuard tailnet 위를 지나며, 런타임은 라우팅 가능한 주소에서 절대 수신 대기하지 않습니다
+(<a href="https://github.com/openabdev/openab-pty">런타임은 MIT 라이선스 오픈 소스</a>).</p>
+<p>우리의 베팅은 <strong>신뢰</strong>입니다. 에이전트는 폭주하고 셸은 속아 넘어가므로, 환경은
+그 안의 것을 신뢰할 수 없다고 가정해야 한다는 베팅입니다. 대가도 솔직히 말하겠습니다. 환경은
+고정되어 있고, raw byte pipe 아키텍처에서는 체감 지연이 거의 전부 클라이언트 쪽에서 결정됩니다 —
+런타임은 자기 호스트에서 에코 지연 1.0 ms를, WiFi 노트북에서는 78–82 ms를 측정했습니다.
+Superlogical의 클라이언트 사이드 state rendering이 정면으로 풀려는 것이 바로, 우리가 README에서
+가장 큰 공백이라고 인정한 그 부분입니다.</p>
+<h2>세 가지 베팅, 세 개의 층</h2>
+<p>흥미로운 점은 셋이 서로를 배제하지 않는다는 것입니다. Herdr식 에이전트 상태 인터페이스가
+Superlogical식 지속 세션 위에서 돌고, 그 세션이 OpenAB식 샌드박스 안에 사는 그림 —
+오케스트레이션, 지속성, 신뢰는 각자 다른 층을 풉니다. 지금은 세 제품이 각자의 끝에서 중간을 향해
+자라고 있는 중일 뿐입니다.</p>
+<p>중간에 선다는 것은 양쪽에서 협공당한다는 뜻이기도 합니다. 로컬 편성의 즉시성은 Herdr를 못
+따라가고, 제로 트러스트 샌드박스의 보안 모델은 아직 테이블 위에 없습니다. Hashimoto는 durable
+session 계층 자체가 승자독식한다는 데 베팅했습니다. 우리는 에이전트가 정말로 풀려나는 날, 모두가
+가장 먼저 묻는 것은 — 그것이 무엇에 닿을 수 있는가? — 라는 데 베팅했습니다.</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/ko/privacy.html">개인정보</a>
+  <a href="/ko/support.html">지원</a>
+  <a href="https://github.com/openabdev/openab-pty">런타임 소스</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hashimoto's Superlogical, Herdr, and us: three bets on the terminal trust spectrum — OpenAB Connect</title>
+<meta name="description" content="Hashimoto's Superlogical, Herdr at the local end, our OpenAB Connect at the other — three terminal products placing three different bets on one trust spectrum. With a side-by-side table.">
+<link rel="canonical" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Hashimoto's Superlogical, Herdr, and us: three bets on the terminal trust spectrum — OpenAB Connect">
+<meta property="og:description" content="Hashimoto's Superlogical, Herdr at the local end, our OpenAB Connect at the other — three terminal products placing three different bets on one trust spectrum. With a side-by-side table.">
+<meta property="og:url" content="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+<meta property="og:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-en.png?v=74d260ef">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Herdr, Superlogical, OpenAB Connect — three bets on the terminal trust spectrum">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hashimoto's Superlogical, Herdr, and us: three bets on the terminal trust spectrum — OpenAB Connect">
+<meta name="twitter:description" content="Hashimoto's Superlogical, Herdr at the local end, our OpenAB Connect at the other — three terminal products placing three different bets on one trust spectrum. With a side-by-side table.">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-en.png?v=74d260ef">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=d5043da2">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/terminal-trust-spectrum/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/#features">Features</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/support.html">Support</a>
+    <span class="lang"><a href="/zh/notes/terminal-trust-spectrum/">中文</a>|<a href="/ja/notes/terminal-trust-spectrum/">日本語</a>|<a href="/ko/notes/terminal-trust-spectrum/">한국어</a>|<a class="active" href="/notes/terminal-trust-spectrum/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/notes/">Dev notes</a></p>
+  <h1>Hashimoto's Superlogical, Herdr, and us: three bets on the terminal trust spectrum</h1>
+  <p class="byline">OpenAB Connect · 30 August 2026</p>
+  <p class="lede">In late July 2026, Mitchell Hashimoto — HashiCorp co-founder and the author of Ghostty — <a href="https://mitchellh.com/writing/superlogical">announced his new company, Superlogical</a>, whose first product is a server-side terminal multiplexer. The same summer, Herdr was gathering momentum at the local end of the terminal, and our OpenAB Connect shipped at the other. All three answer the same question — when AI agents become permanent residents of the terminal, where should a session live, and how far should it be trusted? — and each placed a different bet.</p>
+
+<h2>One spectrum, two axes</h2>
+<p>Sort by where the session lives: <a href="https://github.com/ogulcancelik/herdr">Herdr</a> is inside your terminal;
+<a href="https://superlogical.com/">Superlogical</a> is a server-side daemon meant to span environments; OpenAB
+Connect is a remote sandboxed container behind a WireGuard tailnet. Sort by trust assumption
+instead and the order does not change: Herdr trusts the session fully (it is you); Superlogical
+has not published a trust model; OpenAB Connect assumes from day one that what is inside cannot
+be trusted. Two axes, one spectrum — Herdr and OpenAB Connect at the two ends, Superlogical in
+the middle.</p>
+<div class="tablewrap"><table class="cmp">
+<thead><tr><th></th><th>Herdr</th><th>Superlogical</th><th>OpenAB Connect</th></tr></thead>
+<tbody>
+<tr><th>Where the session lives</th><td>a local daemon (plus an SSH remote mode)</td><td>a server-side daemon, aiming to span local, remote and production</td><td>a remote sandboxed container (k8s pod or ECS task)</td></tr>
+<tr><th>Trust assumption</th><td>full trust — runs your processes as you</td><td>unpublished — auth, permission separation and audit all pending</td><td>zero trust — assumes what is inside cannot be trusted</td></tr>
+<tr><th>Isolation</th><td>none (keeping your environment is the point)</td><td>none (the daemon holds your privileges)</td><td>uid 1000, no sudo, read-only rootfs, no SA token</td></tr>
+<tr><th>Credential model</th><td>none (a local socket API)</td><td>unannounced</td><td>day one: admin and attach planes split; per-session tokens with a TTL and no signing key</td></tr>
+<tr><th>Agent state semantics</th><td>first-class: blocked / working / done, and a socket API for agents to orchestrate each other</td><td>planned (stage three of the vision)</td><td>none — deliberately out of scope; agent semantics belong to openab</td></tr>
+<tr><th>Reconnect</th><td>survives disconnects (not the host powering off)</td><td>screen snapshot, then the raw stream resumes — full terminal state</td><td>ring-buffer replay; thinner state semantics</td></tr>
+<tr><th>Perceived latency</th><td>local, so not a question</td><td>each client renders with embedded libghostty, decoupled from the server by design (unmeasured)</td><td>set by the client; the runtime measures 1.0 ms, 78–82 ms from a laptop over WiFi</td></tr>
+<tr><th>Maturity</th><td>usable today, open source</td><td>pre-beta: a waitlist, no benchmarks, no spec</td><td>Phase 1, in real use on k3s and ECS Fargate</td></tr>
+<tr><th>Its bet</th><td>orchestration</td><td>durability</td><td>trust</td></tr>
+<tr><th>What it gives up</th><td>isolation, and persistence beyond the host</td><td>the trust model (for now)</td><td>environment freedom, and terminal state semantics</td></tr>
+</tbody></table></div>
+<h2>Herdr: orchestration at full depth, zero isolation</h2>
+<p>Herdr is an agent multiplexer that runs inside your existing terminal (Rust + Ratatui, open
+source). Agents are first-class runtime objects: a sidebar shows each one as blocked, working
+or done; a socket API lets agents spawn panes, read each other's output and wait on one
+another. Sessions survive disconnects in a daemon — though not the host powering off — and an
+SSH remote mode reaches other machines.</p>
+<p>Everything runs as you, on your machine. Zero isolation is the selling point, not a defect:
+you keep your shell, your SSH setup, your fonts and keybinds. Its bet is
+<strong>orchestration</strong>: real-time visibility of agent state is the most valuable thing
+in a multi-agent world.</p>
+<h2>Superlogical: durability at full depth, trust left blank</h2>
+<p>Superlogical pulls the session out of the terminal and into a server-side daemon. The daemon
+owns the PTY and parses its output into authoritative state with libghostty, while distributing
+the same raw bytes to every client — each client embeds the same libghostty and parses and
+renders on its own. On reconnect the daemon pauses the PTY, ships a snapshot of the screen, and
+resumes the raw stream once the client signals ready. The vision is a “multiplexer for all
+work” spanning local machines, remote hosts, sandboxes and production.</p>
+<p>Its bet is <strong>durability</strong>: the session itself, as a layer independent of any
+client, is the most valuable abstraction — the same kind of bet Terraform placed on the state
+layer. To be plain about what exists: as of this writing there is a waitlist, no benchmark, no
+protocol spec, and auth, permission separation and audit — the things production requires —
+are all unannounced. Durability is pushed as far as it goes; trust is left blank.</p>
+<h2>OpenAB Connect: trust at full depth, the environment pinned down</h2>
+<p>We bet on the opposite end. The shell Connect attaches to lives in a deliberately
+unprivileged container: uid 1000, no sudo, a read-only rootfs, no service-account token, and a
+workspace that is discarded with the session. The credential model is there from day one: the
+admin plane and the attach plane are separate, and per-session tokens carry a TTL and no
+signing key — a compromised shell hitting the admin API over loopback gets a 401, an invariant
+the adversary test asserts explicitly. The whole path runs over a WireGuard tailnet, and the
+runtime never listens on a routable address (<a href="https://github.com/openabdev/openab-pty">the runtime is MIT-licensed open
+source</a>).</p>
+<p>Our bet is <strong>trust</strong>: agents will run away and shells will be tricked, so the
+environment must assume what is inside is hostile. The costs are stated too: the environment is
+pinned down, and a raw byte pipe leaves perceived latency almost entirely to the client — the
+runtime measures 1.0 ms of echo latency from its own host, against 78–82 ms from a laptop over
+WiFi. Superlogical's client-side state rendering attacks exactly the gap our README names as
+our largest.</p>
+<h2>Three bets, three layers</h2>
+<p>The interesting part is that the three do not exclude each other: a Herdr-style agent-state
+interface, on a Superlogical-style durable session, living in an OpenAB-style sandbox —
+orchestration, durability and trust each solve one layer. For now, three products are growing
+toward the middle from their own ends.</p>
+<p>The middle also means being squeezed from both sides: for local orchestration it will not
+match Herdr's immediacy, and its zero-trust story is not yet on the table. Hashimoto is betting
+the durable-session layer wins outright. We are betting that on the day agents are truly let
+loose, the first question anyone asks is — what can it reach?</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/support.html">Support</a>
+  <a href="https://github.com/openabdev/openab-pty">Runtime source</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>
