@@ -20,7 +20,13 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import chrome
 
 ROOT = chrome.ROOT
-APP_STORE = "https://apps.apple.com/app/openab-connect/id6803728097?mt=12"
+# Per-storefront, matching each landing page's CTA.
+APP_STORE = {
+    "en": "https://apps.apple.com/app/openab-connect/id6803728097?mt=12",
+    "zh": "https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12",
+    "ja": "https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12",
+    "ko": "https://apps.apple.com/kr/app/openab-connect/id6803728097?mt=12",
+}
 
 # Newest first. status: "review" | "latest" | ""
 RELEASES = [
@@ -123,7 +129,7 @@ PAGE = """<!DOCTYPE html>
 </head>
 <body>
 {nav}
-<main class="notes-index">
+<main class="wrap notes-index">
   <h1>{h1}</h1>
   <p class="lede">{lede} <a href="{store_url}">{store}</a></p>
 {entries}
@@ -155,7 +161,7 @@ def main():
             htmllang=d["htmllang"], code=code,
             head=chrome.head(code, "releases/", t["title"], t["desc"]),
             nav=chrome.nav(code, "releases/"),
-            h1=t["h1"], lede=t["lede"], store=t["store"], store_url=APP_STORE,
+            h1=t["h1"], lede=t["lede"], store=t["store"], store_url=APP_STORE[code],
             entries=entries, footer=chrome.footer(code),
         )
         out = chrome.out_path(code, "releases/index.html")
