@@ -476,3 +476,24 @@ table.cmp tbody tr:nth-last-child(-n+2) td { font-weight: 700; }
 .note-entry .when { color: var(--muted); font-size: 0.85rem; }
 .note-entry .ntitle { font-weight: 700; font-size: 1.08rem; margin: 4px 0 6px; }
 .note-entry p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
+
+/* Releases — newest first; a version under review is listed before it ships,
+   with a distinct badge so a plan is never dressed as a fact. */
+.rel { border-bottom: 1px solid var(--border); padding: 22px 0; }
+.rel:last-of-type { border-bottom: 0; }
+.rel .rhead { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.rel .ver { font-size: 1.3rem; font-weight: 800; }
+.rel .when { color: var(--muted); font-size: 0.85rem; margin-left: auto; }
+.rel .plat { color: var(--muted); font-size: 0.85rem; }
+.rel p { margin: 10px 0 0; }
+.rel ul { margin: 10px 0 0; padding-left: 1.2em; }
+.rel li { margin: 4px 0; }
+.relbadge {
+  font-size: 0.72rem; font-weight: 700; padding: 2px 9px; border-radius: 99px;
+  letter-spacing: 0.02em; white-space: nowrap;
+}
+.relbadge.latest { background: var(--accent-tint); color: var(--accent-deep); }
+.relbadge.review {
+  background: transparent; color: var(--accent-deep);
+  border: 1px solid var(--accent-deep);
+}
