@@ -458,6 +458,15 @@ table.cmp tbody th {
 /* The verdict rows read as a conclusion, so they look like one. */
 table.cmp tbody tr:nth-last-child(-n+2) td { font-weight: 700; }
 
+/* The zh note carries the comparison as a designed graphic instead of the HTML
+   table. The source is 2560px against a ~730px column, so it only ever scales
+   down; width/height attributes reserve the box before the image arrives. */
+.cmp-shot { margin: 28px 0; }
+.cmp-shot img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--border); border-radius: 12px;
+}
+
 /* Notes index entries. */
 .note-entry {
   display: block; text-decoration: none; color: var(--ink);

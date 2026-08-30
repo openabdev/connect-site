@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://connect.openab.dev/notes/terminal-trust-spectrum/og-zh.png?v=08fe2cc4">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=d5043da2">
+<link rel="stylesheet" href="/style.css?v=b0ec3fce">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/terminal-trust-spectrum/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/terminal-trust-spectrum/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/terminal-trust-spectrum/">
@@ -36,6 +36,7 @@
   <div class="links">
     <a href="/zh/#features">特色</a>
     <a href="/zh/#faq">常見問題</a>
+    <a href="/zh/notes/">開發筆記</a>
     <a href="/zh/support.html">支援</a>
     <span class="lang"><a class="active" href="/zh/notes/terminal-trust-spectrum/">中文</a>|<a href="/ja/notes/terminal-trust-spectrum/">日本語</a>|<a href="/ko/notes/terminal-trust-spectrum/">한국어</a>|<a href="/notes/terminal-trust-spectrum/">EN</a></span>
   </div>
@@ -54,20 +55,11 @@
 換用「信任假設」排序，順序一模一樣：Herdr 完全信任（session 裡的就是你）；Superlogical 的信任模型
 尚未公布；OpenAB Connect 從第一天就假設 session 內容不可信。兩條軸給出同一條光譜——Herdr 和
 OpenAB Connect 站在兩個極端，Superlogical 剛好在中間。</p>
-<div class="tablewrap"><table class="cmp">
-<thead><tr><th></th><th>Herdr</th><th>Superlogical</th><th>OpenAB Connect</th></tr></thead>
-<tbody>
-<tr><th>Session 住在哪</th><td>本機 daemon（另有 SSH remote mode）</td><td>server-side daemon，目標橫跨本機／遠端／production</td><td>遠端沙箱容器（k8s pod／ECS task）</td></tr>
-<tr><th>信任假設</th><td>完全信任——以你的身份跑你的 process</td><td>尚未公布——auth、權限分離、audit 均待定</td><td>零信任——假設 session 內容不可信</td></tr>
-<tr><th>隔離</th><td>無（保留你的環境正是賣點）</td><td>無（daemon 直接持有你的權限）</td><td>uid 1000、無 sudo、read-only rootfs、無 SA token</td></tr>
-<tr><th>憑證模型</th><td>無（本機 socket API）</td><td>未公布</td><td>第一天就有：管理面／連線面分離，per-session token 有 TTL、不帶 signing key</td></tr>
-<tr><th>Agent 狀態語意</th><td>一等物件：blocked／working／done，socket API 供 agent 互相編排</td><td>規劃中（三階段願景的第三階）</td><td>無——刻意不碰，agent 語意屬於 openab 本體</td></tr>
-<tr><th>斷線重連</th><td>跨斷線存活（非跨主機關機）</td><td>畫面快照＋raw stream 續流，含完整終端狀態</td><td>ring buffer 重播，狀態語意較薄</td></tr>
-<tr><th>感知延遲</th><td>本機，無此問題</td><td>client 端 libghostty 自行 render，設計上與 server 脫鉤（未量測）</td><td>由 client 決定；runtime 自測 1.0 ms，WiFi 筆電 78–82 ms</td></tr>
-<tr><th>成熟度</th><td>已可用，開源</td><td>pre-beta，僅 waitlist，無 benchmark、無規格</td><td>Phase 1，已在 k3s 與 ECS Fargate 上實際使用</td></tr>
-<tr><th>它押的是</th><td>編排</td><td>持久</td><td>信任</td></tr>
-<tr><th>它放掉的是</th><td>隔離與跨主機持久</td><td>信任模型（目前）</td><td>環境自由度與終端狀態語意</td></tr>
-</tbody></table></div>
+<figure class="cmp-shot">
+  <img src="/notes/terminal-trust-spectrum/session-architecture-comparison.png?v=d262d0af"
+       width="2560" height="1600"
+       alt="三種 Session 架構的十維度對照圖：Herdr 是本機 daemon，完全信任、零隔離，押注編排；Superlogical 是 server-side daemon，信任模型尚未公布，押注持久；OpenAB Connect 是遠端沙箱容器，零信任、day 1 憑證模型，押注信任">
+</figure>
 <h2>Herdr：編排做到極致，隔離為零</h2>
 <p>Herdr 是跑在你現有終端裡的 agent multiplexer（Rust + Ratatui，開源）。它把 agent 當成 runtime
 的一等物件：sidebar 即時顯示每個 agent 是 blocked、working 還是 done；socket API 讓 agent 自己

@@ -106,7 +106,11 @@ N["zh"] = dict(
 換用「信任假設」排序，順序一模一樣：Herdr 完全信任（session 裡的就是你）；Superlogical 的信任模型
 尚未公布；OpenAB Connect 從第一天就假設 session 內容不可信。兩條軸給出同一條光譜——Herdr 和
 OpenAB Connect 站在兩個極端，Superlogical 剛好在中間。</p>
-{{table}}
+<figure class="cmp-shot">
+  <img src="{chrome.rev("notes/terminal-trust-spectrum/session-architecture-comparison.png")}"
+       width="2560" height="1600"
+       alt="三種 Session 架構的十維度對照圖：Herdr 是本機 daemon，完全信任、零隔離，押注編排；Superlogical 是 server-side daemon，信任模型尚未公布，押注持久；OpenAB Connect 是遠端沙箱容器，零信任、day 1 憑證模型，押注信任">
+</figure>
 <h2>Herdr：編排做到極致，隔離為零</h2>
 <p>Herdr 是跑在你現有終端裡的 agent multiplexer（Rust + Ratatui，開源）。它把 agent 當成 runtime
 的一等物件：sidebar 即時顯示每個 agent 是 blocked、working 還是 done；socket API 讓 agent 自己
