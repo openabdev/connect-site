@@ -30,9 +30,9 @@ APP_STORE = {
 
 # Newest first. status: "review" | "latest" | ""
 RELEASES = [
- dict(v="1.1.0", status="review", date=dict(
-   en="Submitted August 30, 2026", zh="2026 年 8 月 30 日送審",
-   ja="2026 年 8 月 30 日申請", ko="2026년 8월 30일 심사 제출"),
+ dict(v="1.1.0", status="latest", date=dict(
+   en="August 30, 2026", zh="2026 年 8 月 30 日",
+   ja="2026 年 8 月 30 日", ko="2026년 8월 30일"),
   body=dict(
    en="<ul>"
       "<li>Links in terminal output are clickable: hold Command to highlight a "
@@ -63,7 +63,7 @@ RELEASES = [
       "설정할 수 있습니다. 모든 세션은 최대 1주일 후 종료됩니다.</li>"
       "<li>백그라운드 새로 고침 때마다 사이드바 선택이 사라지던 문제를 수정했습니다.</li></ul>"),
  ),
- dict(v="1.0.1", status="latest", date=dict(
+ dict(v="1.0.1", status="", date=dict(
    en="August 28, 2026", zh="2026 年 8 月 28 日",
    ja="2026 年 8 月 28 日", ko="2026년 8월 28일"),
   body=dict(
