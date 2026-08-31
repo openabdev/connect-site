@@ -30,6 +30,40 @@ APP_STORE = {
 
 # Newest first. status: "review" | "latest" | ""
 RELEASES = [
+ dict(v="1.2.0", status="review", date=dict(
+   en="Submitted August 31, 2026", zh="2026 年 8 月 31 日送審",
+   ja="2026 年 8 月 31 日申請", ko="2026년 8월 31일 심사 제출"),
+  body=dict(
+   en="<ul>"
+      "<li>Copy on select: releasing a text selection in the terminal copies "
+      "it to the clipboard automatically, iTerm-style.</li>"
+      "<li>Dictation language: choose English or Traditional Chinese (台灣) "
+      "for Press to Speak.</li>"
+      "<li>Dictation is now fully on-device — the Groq Cloud option was "
+      "removed and audio never leaves your Mac.</li>"
+      "<li>Dictation setup problems now explain themselves in a dialog with "
+      "the exact System Settings switch to flip.</li></ul>",
+   zh="<ul>"
+      "<li>選取即複製：在終端機放開選取的瞬間自動複製到剪貼簿，和 iTerm 一樣。</li>"
+      "<li>聽寫語言：Press to Speak 可選英文或繁體中文（台灣）。</li>"
+      "<li>聽寫全面改為裝置端處理 —— 移除 Groq Cloud 選項，語音永不離開你的 Mac。</li>"
+      "<li>聽寫設定問題（未開啟聽寫、缺語言模型、權限被拒）現在會以對話框說明，"
+      "並指出要開啟的系統設定。</li></ul>",
+   ja="<ul>"
+      "<li>選択でコピー：ターミナルで選択を離した瞬間、iTerm と同様に自動で"
+      "クリップボードへコピーします。</li>"
+      "<li>音声入力の言語：Press to Speak で英語または繁体字中国語（台湾）を選べます。</li>"
+      "<li>音声入力は完全にオンデバイスに — Groq Cloud オプションを削除し、"
+      "音声が Mac の外に出ることはありません。</li>"
+      "<li>音声入力の設定問題はダイアログで、開くべきシステム設定とともに表示されます。</li></ul>",
+   ko="<ul>"
+      "<li>선택 시 복사: 터미널에서 선택을 놓는 순간 iTerm 처럼 자동으로 "
+      "클립보드에 복사됩니다.</li>"
+      "<li>받아쓰기 언어: Press to Speak 에서 영어 또는 번체 중국어(대만)를 선택할 수 있습니다.</li>"
+      "<li>받아쓰기가 완전히 온디바이스로 — Groq Cloud 옵션이 제거되어 오디오가 "
+      "Mac 을 떠나지 않습니다.</li>"
+      "<li>받아쓰기 설정 문제는 열어야 할 시스템 설정과 함께 대화 상자로 안내됩니다.</li></ul>"),
+ ),
  dict(v="1.1.0", status="latest", date=dict(
    en="August 30, 2026", zh="2026 年 8 月 30 日",
    ja="2026 年 8 月 30 日", ko="2026년 8월 30일"),
