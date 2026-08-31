@@ -30,9 +30,9 @@ APP_STORE = {
 
 # Newest first. status: "review" | "latest" | ""
 RELEASES = [
- dict(v="1.2.0", status="review", date=dict(
-   en="Submitted August 31, 2026", zh="2026 年 8 月 31 日送審",
-   ja="2026 年 8 月 31 日申請", ko="2026년 8월 31일 심사 제출"),
+ dict(v="1.2.0", status="latest", date=dict(
+   en="August 31, 2026", zh="2026 年 8 月 31 日",
+   ja="2026 年 8 月 31 日", ko="2026년 8월 31일"),
   body=dict(
    en="<ul>"
       "<li>Copy on select: releasing a text selection in the terminal copies "
@@ -64,7 +64,7 @@ RELEASES = [
       "Mac 을 떠나지 않습니다.</li>"
       "<li>받아쓰기 설정 문제는 열어야 할 시스템 설정과 함께 대화 상자로 안내됩니다.</li></ul>"),
  ),
- dict(v="1.1.0", status="latest", date=dict(
+ dict(v="1.1.0", status="", date=dict(
    en="August 30, 2026", zh="2026 年 8 月 30 日",
    ja="2026 年 8 月 30 日", ko="2026년 8월 30일"),
   body=dict(
