@@ -30,6 +30,44 @@ APP_STORE = {
 
 # Newest first. status: "review" | "latest" | ""
 RELEASES = [
+ dict(v="1.3.0", status="review", date=dict(
+   en="Submitted September 1, 2026", zh="2026 年 9 月 1 日送審",
+   ja="2026 年 9 月 1 日申請", ko="2026년 9월 1일 심사 제출"),
+  body=dict(
+   en="<ul>"
+      "<li>A dark, unified window chrome with Ghostty-style session tabs. "
+      "Press Command-T or use the trailing + to open a new session on the "
+      "selected connection.</li>"
+      "<li>Redesigned connection cards group each host and show Kubernetes or "
+      "ECS platform marks at a glance.</li>"
+      "<li>The tab context menu can detach and close, rename, or colour a tab; "
+      "the inactive pane now dims when a split is focused.</li>"
+      "<li>More reliable recovery from dropped attaches, Devin TUI support, "
+      "and an ephemeral-workspace disclosure that fades after eight seconds.</li></ul>",
+   zh="<ul>"
+      "<li>全新的深色一致介面，加入 Ghostty 風格的 session 分頁。按 Command-T 或分頁列末端的 "
+      "+，即可在目前選取的連線開啟新 session。</li>"
+      "<li>重新設計連線卡片，將每台 host 清楚分組，並以 Kubernetes 或 ECS 圖示標示平台。</li>"
+      "<li>分頁右鍵選單可中斷連線並關閉、重新命名或加上顏色；聚焦分割畫面時，非作用中的窗格會變暗。</li>"
+      "<li>更可靠地從 attach 連線中斷恢復，支援 Devin TUI，並加入暫時性 workspace 提示，"
+      "顯示八秒後自動淡出。</li></ul>",
+   ja="<ul>"
+      "<li>ダークで統一されたウインドウに、Ghostty 風のセッションタブを追加。Command-T "
+      "またはタブ列末尾の + で、選択中の接続に新しいセッションを開けます。</li>"
+      "<li>接続カードを刷新し、ホストごとにまとめて Kubernetes または ECS のマークを表示します。</li>"
+      "<li>タブのコンテキストメニューから切断して閉じる、名前を変更する、色を付ける操作が可能に。"
+      "分割表示ではフォーカスされていないペインが暗くなります。</li>"
+      "<li>切断されたアタッチからの復旧を改善し、Devin TUI に対応。エフェメラルなワークスペースの"
+      "案内は 8 秒後にフェードアウトします。</li></ul>",
+   ko="<ul>"
+      "<li>어둡고 통일된 창에 Ghostty 스타일 세션 탭을 추가했습니다. Command-T 또는 탭 막대 "
+      "끝의 +로 선택한 연결에서 새 세션을 열 수 있습니다.</li>"
+      "<li>연결 카드를 새롭게 디자인해 호스트별로 묶고 Kubernetes 또는 ECS 플랫폼 표시를 보여 줍니다.</li>"
+      "<li>탭 컨텍스트 메뉴에서 연결을 해제하고 닫기, 이름 변경, 색상 지정이 가능하며 분할 화면에서 "
+      "포커스되지 않은 창은 어두워집니다.</li>"
+      "<li>끊어진 연결의 복구를 개선하고 Devin TUI를 지원하며, 임시 워크스페이스 안내는 "
+      "8초 후 사라집니다.</li></ul>"),
+ ),
  dict(v="1.2.0", status="latest", date=dict(
    en="August 31, 2026", zh="2026 年 8 月 31 日",
    ja="2026 年 8 月 31 日", ko="2026년 8월 31일"),
