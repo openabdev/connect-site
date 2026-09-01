@@ -62,8 +62,8 @@ L = {
   cta_url='https://apps.apple.com/app/openab-connect/id6803728097?mt=12',
   cta_meta='Free · macOS 13 or later',
   nav=("Features", "FAQ", "Support"),
-  shot_alt="OpenAB Connect with seven agent connections in the sidebar and four terminal "
-           "panes attached to different coding CLIs",
+  shot_alt="OpenAB Connect 1.3.0 with three connection cards, colour-coded session tabs, "
+           "and split terminal panes running OpenCode, Claude Code, and Kiro",
   dev_label='in development',
   soon_label="coming soon",
   remote_desc="Your iPhone becomes a private push-to-talk remote. Speech is transcribed "
@@ -224,7 +224,8 @@ L = {
   cta_url='https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12',
   cta_meta='免費 · macOS 13 或以上',
   nav=("特色", "常見問題", "支援"),
-  shot_alt="OpenAB Connect 側邊欄有七個 agent 連線，四個終端分割視窗分別接著不同的 coding CLI",
+  shot_alt="OpenAB Connect 1.3.0 顯示三張連線卡片、彩色 session 分頁，以及同時執行 "
+           "OpenCode、Claude Code 與 Kiro 的分割終端機",
   dev_label='開發中',
   soon_label="即將推出",
   remote_desc="把 iPhone 變成私有的按住說話遙控器。語音在手機上完成辨識，只把終端安全文字"
@@ -366,8 +367,8 @@ L = {
   cta_url='https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12',
   cta_meta='無料 · macOS 13 以降',
   nav=("特徴", "よくある質問", "サポート"),
-  shot_alt="サイドバーに 7 つのエージェント接続、4 つのターミナルペインがそれぞれ別の "
-           "coding CLI に接続している OpenAB Connect",
+  shot_alt="3 枚の接続カード、色分けされたセッションタブ、OpenCode、Claude Code、Kiro を"
+           "実行する分割ターミナルを表示した OpenAB Connect 1.3.0",
   dev_label='開発中',
   soon_label="近日公開",
   remote_desc="iPhone がプライベートなプッシュ・トゥ・トークリモコンに。音声は端末上で"
@@ -534,8 +535,8 @@ L = {
   cta_url='https://apps.apple.com/kr/app/openab-connect/id6803728097?mt=12',
   cta_meta='무료 · macOS 13 이상',
   nav=("특징", "자주 묻는 질문", "지원"),
-  shot_alt="사이드바에 에이전트 연결 7개, 서로 다른 coding CLI에 연결된 터미널 패널 4개가 "
-           "열려 있는 OpenAB Connect",
+  shot_alt="연결 카드 3개, 색상으로 구분된 세션 탭, OpenCode·Claude Code·Kiro가 실행 중인 "
+           "분할 터미널을 보여 주는 OpenAB Connect 1.3.0",
   dev_label='개발 중',
   soon_label="출시 예정",
   remote_desc="iPhone을 개인용 푸시투토크 리모컨으로 사용하세요. 음성은 기기에서 텍스트로 "
