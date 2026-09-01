@@ -89,7 +89,7 @@ L = {
     "are about to run, or write your own client against the published contract."),
    ("Just say it",
     "Talk to the agent instead of typing at it — the same session, driven by chat or "
-    "voice through openab.", True),
+    "voice through openab."),
   ],
   faq_title="Questions",
   faq=[
@@ -247,8 +247,8 @@ L = {
    ("核心 runtime 開放原始碼",
     f'MIT 授權，位於 <a href="{PTY}">openabdev/openab-pty</a>。你可以先確認自己要跑的'
     "到底是什麼，也可以照公開的契約寫自己的客戶端。"),
-   ("用說的也可以通",
-    "不只打字 —— 透過 openab 用聊天或語音對同一個 session 下指令。", True),
+   ("用說的也可以",
+    "不只打字 —— 透過 openab 用聊天或語音對同一個 session 下指令。"),
   ],
   faq_title="常見問題",
   faq=[
@@ -394,8 +394,7 @@ L = {
     "何を動かすのかを先に確認できますし、公開された契約に沿って自分のクライアントも"
     "書けます。"),
    ("話しかけて動かす",
-    "打ち込むだけでなく — openab を通じて、同じセッションをチャットや音声で動かせます。",
-    True),
+    "打ち込むだけでなく — openab を通じて、同じセッションをチャットや音声で動かせます。"),
   ],
   faq_title="よくある質問",
   faq=[
@@ -559,7 +558,7 @@ L = {
     f'MIT 라이선스로 <a href="{PTY}">openabdev/openab-pty</a>에 있습니다. 무엇을 '
     "실행할지 먼저 확인할 수 있고, 공개된 계약에 맞춰 자신의 클라이언트도 만들 수 있습니다."),
    ("말로도 됩니다",
-    "타이핑만이 아니라 — openab을 통해 같은 세션을 채팅이나 음성으로 움직입니다.", True),
+    "타이핑만이 아니라 — openab을 통해 같은 세션을 채팅이나 음성으로 움직입니다."),
   ],
   faq_title="자주 묻는 질문",
   faq=[
