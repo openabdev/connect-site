@@ -38,9 +38,9 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.3.1", status="review", date=dict(
-   en="Submitted September 2, 2026", zh="2026 年 9 月 2 日送審",
-   ja="2026 年 9 月 2 日申請", ko="2026년 9월 2일 심사 제출"),
+ dict(v="1.3.1", status="latest", date=dict(
+   en="September 2, 2026", zh="2026 年 9 月 2 日",
+   ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
   body=dict(
    en="<ul>"
       "<li>New sessions on the Nightly channel now always pull the latest "
@@ -67,7 +67,7 @@ CONNECT_RELEASES = [
       "<li>Pre-beta 채널 표시를 \u2018stable\u2019 에서 \u2018testing\u2019 으로 "
       "변경했습니다 —— 기존 이름은 아직 존재하지 않는 지원 수준을 약속했습니다.</li></ul>"),
  ),
- dict(v="1.3.0", status="latest", date=dict(
+ dict(v="1.3.0", status="", date=dict(
    en="September 2, 2026", zh="2026 年 9 月 2 日",
    ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
   body=dict(
