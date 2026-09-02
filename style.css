@@ -497,3 +497,11 @@ table.cmp tbody tr:nth-last-child(-n+2) td { font-weight: 700; }
   background: transparent; color: var(--accent-deep);
   border: 1px solid var(--accent-deep);
 }
+
+/* The companion badge as a live App Store link (OpenAB Remote shipped). */
+.companion-badge--link {
+  text-decoration: none; margin-top: 10px; cursor: pointer;
+  background: var(--accent-deep); color: #fff; border-color: var(--accent-deep);
+}
+.companion-badge--link:hover { filter: brightness(1.08); }
+.companion-badge--link:focus-visible { outline: 3px solid var(--brush); outline-offset: 3px; }

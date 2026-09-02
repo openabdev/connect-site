@@ -66,6 +66,8 @@ L = {
            "and split terminal panes running OpenCode, Claude Code, and Kiro",
   dev_label='in development',
   soon_label="coming soon",
+  remote_cta="Download on the App Store",
+  remote_url="https://apps.apple.com/us/app/openab-remote/id6805733009",
   remote_desc="Your iPhone becomes a private push-to-talk remote. Speech is transcribed "
               "on-device, and only terminal-safe text is sent to the selected Mac session.",
   remote_meta="iPhone companion · on-device speech",
@@ -228,6 +230,8 @@ L = {
            "OpenCode、Claude Code 與 Kiro 的分割終端機",
   dev_label='開發中',
   soon_label="即將推出",
+  remote_cta="前往 App Store 下載",
+  remote_url="https://apps.apple.com/tw/app/openab-remote/id6805733009",
   remote_desc="把 iPhone 變成私有的按住說話遙控器。語音在手機上完成辨識，只把終端安全文字"
               "送到 Mac 上選定的 session。",
   remote_meta="iPhone 伴侶 App · 裝置端語音辨識",
@@ -371,6 +375,8 @@ L = {
            "実行する分割ターミナルを表示した OpenAB Connect 1.3.0",
   dev_label='開発中',
   soon_label="近日公開",
+  remote_cta="App Store でダウンロード",
+  remote_url="https://apps.apple.com/jp/app/openab-remote/id6805733009",
   remote_desc="iPhone がプライベートなプッシュ・トゥ・トークリモコンに。音声は端末上で"
               "文字化され、安全なテキストだけを選択中の Mac セッションへ送ります。",
   remote_meta="iPhone コンパニオン · オンデバイス音声認識",
@@ -538,6 +544,8 @@ L = {
            "분할 터미널을 보여 주는 OpenAB Connect 1.3.0",
   dev_label='개발 중',
   soon_label="출시 예정",
+  remote_cta="App Store에서 다운로드",
+  remote_url="https://apps.apple.com/kr/app/openab-remote/id6805733009",
   remote_desc="iPhone을 개인용 푸시투토크 리모컨으로 사용하세요. 음성은 기기에서 텍스트로 "
               "변환되고, 터미널에 안전한 텍스트만 선택한 Mac 세션으로 전송됩니다.",
   remote_meta="iPhone 컴패니언 · 온디바이스 음성 인식",
@@ -719,10 +727,10 @@ TEMPLATE = """<!DOCTYPE html>
   <div class="companion-card">
     <img class="companion-icon" src="{remote_icon}" alt="OpenAB Remote">
     <div class="companion-copy">
-      <span class="companion-badge">{soon_label}</span>
       <h2 id="remote-title">OpenAB Remote</h2>
       <p>{remote_desc}</p>
       <span class="companion-meta">{remote_meta}</span>
+      {remote_badge}
     </div>
   </div>
 </section>
@@ -784,6 +792,11 @@ for code in ORDER:
         if d.get("cta_url")
         else f'<span class="badge">{d["cta"]}</span>'
     )
+    remote_badge = (
+        f'<a class="companion-badge companion-badge--link" href="{d["remote_url"]}">{d["remote_cta"]}</a>'
+        if d.get("remote_url")
+        else f'<span class="companion-badge">{d["soon_label"]}</span>'
+    )
 
     out = ROOT / d["dir"] / "index.html" if d["dir"] else ROOT / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -799,7 +812,7 @@ for code in ORDER:
         hero_h1=d["hero_h1"], hero_sub=d["hero_sub"],
         cta_badge=cta_badge, cta_meta=d["cta_meta"],
         remote_desc=d["remote_desc"], remote_meta=d["remote_meta"],
-        soon_label=d["soon_label"],
+        soon_label=d["soon_label"], remote_badge=remote_badge,
         shot_alt=d["shot_alt"], faq_title=d["faq_title"]),
         encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}  ({len(cards)} cards, {len(d['faq'])} questions)")
