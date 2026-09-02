@@ -208,9 +208,9 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.2.1", status="review", date=dict(
-   en="Submitted September 2, 2026", zh="2026 年 9 月 2 日送審",
-   ja="2026 年 9 月 2 日申請", ko="2026년 9월 2일 심사 제출"),
+ dict(v="0.2.1", status="latest", date=dict(
+   en="September 2, 2026", zh="2026 年 9 月 2 日",
+   ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
   body=dict(
    en="<ul>"
       "<li>Importing connections from your Mac now mirrors the Mac exactly — "
@@ -232,7 +232,7 @@ REMOTE_RELEASES = [
       "<li>다른 기기가 이미 열어 둔 세션에 연결할 때 깨진 문자가 나타날 수 있던 "
       "문제를 수정했습니다.</li></ul>"),
  ),
- dict(v="0.2.0", status="latest", date=dict(
+ dict(v="0.2.0", status="", date=dict(
    en="September 2, 2026", zh="2026 年 9 月 2 日",
    ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
   body=dict(
