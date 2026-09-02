@@ -20,19 +20,27 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import chrome
 
 ROOT = chrome.ROOT
-# Per-storefront, matching each landing page's CTA.
-APP_STORE = {
+# Per-storefront, matching each landing page's CTA. OpenAB Connect is a Mac app
+# (?mt=12); OpenAB Remote is the iPhone companion, a separate App Store listing.
+CONNECT_STORE = {
     "en": "https://apps.apple.com/app/openab-connect/id6803728097?mt=12",
     "zh": "https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12",
     "ja": "https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12",
     "ko": "https://apps.apple.com/kr/app/openab-connect/id6803728097?mt=12",
 }
+REMOTE_STORE = {
+    "en": "https://apps.apple.com/us/app/openab-remote/id6805733009",
+    "zh": "https://apps.apple.com/tw/app/openab-remote/id6805733009",
+    "ja": "https://apps.apple.com/jp/app/openab-remote/id6805733009",
+    "ko": "https://apps.apple.com/kr/app/openab-remote/id6805733009",
+}
 
+# ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
-RELEASES = [
- dict(v="1.3.0", status="review", date=dict(
-   en="Submitted September 1, 2026", zh="2026 年 9 月 1 日送審",
-   ja="2026 年 9 月 1 日申請", ko="2026년 9월 1일 심사 제출"),
+CONNECT_RELEASES = [
+ dict(v="1.3.0", status="latest", date=dict(
+   en="September 2, 2026", zh="2026 年 9 月 2 日",
+   ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
   body=dict(
    en="<ul>"
       "<li>A dark, unified window chrome with Ghostty-style session tabs. "
@@ -68,7 +76,7 @@ RELEASES = [
       "<li>끊어진 연결의 복구를 개선하고 Devin TUI를 지원하며, 임시 워크스페이스 안내는 "
       "8초 후 사라집니다.</li></ul>"),
  ),
- dict(v="1.2.0", status="latest", date=dict(
+ dict(v="1.2.0", status="", date=dict(
    en="August 31, 2026", zh="2026 年 8 月 31 日",
    ja="2026 年 8 月 31 日", ko="2026년 8월 31일"),
   body=dict(
@@ -167,31 +175,90 @@ RELEASES = [
  ),
 ]
 
+# ------------------------------------------------------------------ OpenAB Remote (iPhone)
+# The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
+# Newest first. status: "review" | "latest" | ""
+REMOTE_RELEASES = [
+ dict(v="0.2.1", status="review", date=dict(
+   en="Submitted September 2, 2026", zh="2026 年 9 月 2 日送審",
+   ja="2026 年 9 月 2 日申請", ko="2026년 9월 2일 심사 제출"),
+  body=dict(
+   en="<ul>"
+      "<li>Importing connections from your Mac now mirrors the Mac exactly — "
+      "connections you removed there no longer linger here.</li>"
+      "<li>Fixed stray characters that could appear when attaching to a "
+      "session another device had already opened.</li></ul>",
+   zh="<ul>"
+      "<li>從 Mac 匯入連線時，會完全對齊 Mac 目前的連線 —— 你在 Mac 移除的連線，"
+      "這裡也不再殘留。</li>"
+      "<li>修正接手其他裝置已開啟的 session 時，畫面可能出現的亂碼字元。</li></ul>",
+   ja="<ul>"
+      "<li>Mac から接続をインポートすると、Mac の現在の接続と完全に一致します —— "
+      "Mac で削除した接続がこちらに残ることはありません。</li>"
+      "<li>他のデバイスがすでに開いていたセッションにアタッチした際に、文字化けが"
+      "表示されることがある問題を修正しました。</li></ul>",
+   ko="<ul>"
+      "<li>Mac 에서 연결을 가져오면 Mac 의 현재 연결과 정확히 일치합니다 —— "
+      "Mac 에서 제거한 연결이 여기에 더 이상 남지 않습니다.</li>"
+      "<li>다른 기기가 이미 열어 둔 세션에 연결할 때 깨진 문자가 나타날 수 있던 "
+      "문제를 수정했습니다.</li></ul>"),
+ ),
+ dict(v="0.2.0", status="latest", date=dict(
+   en="September 2, 2026", zh="2026 年 9 月 2 日",
+   ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
+  body=dict(
+   en="<p>First release on the App Store. Pair with your Mac running OpenAB "
+      "Connect and attach to any running session from your iPhone — the "
+      "transcript replays and you can type or dictate. Press to Speak turns "
+      "your voice into text on-device, and an offline demo lets you try every "
+      "screen without pairing.</p>",
+   zh="<p>首度在 App Store 上架。與執行 OpenAB Connect 的 Mac 配對，就能從 iPhone "
+      "接手任何進行中的 session —— 內容會重播，你可以打字或口述。Press to Speak 在"
+      "裝置端把語音轉成文字，離線 demo 則讓你不必配對就能試用每個畫面。</p>",
+   ja="<p>App Store で初公開。OpenAB Connect を実行している Mac とペアリングすれば、"
+      "iPhone から実行中のセッションにアタッチできます —— トランスクリプトが再生され、"
+      "入力や音声入力ができます。Press to Speak は音声をオンデバイスでテキストに変換し、"
+      "オフラインデモではペアリングなしですべての画面を試せます。</p>",
+   ko="<p>App Store 첫 출시. OpenAB Connect 를 실행하는 Mac 과 페어링하면 iPhone 에서 "
+      "실행 중인 세션에 연결할 수 있습니다 —— 기록이 재생되고 입력하거나 받아쓸 수 "
+      "있습니다. Press to Speak 는 음성을 온디바이스로 텍스트로 변환하며, 오프라인 "
+      "데모로 페어링 없이 모든 화면을 사용해 볼 수 있습니다.</p>"),
+ ),
+]
+
 T = {
  "en": dict(title="OpenAB Connect — Releases",
-   desc="What each OpenAB Connect release brought, newest first — including the "
-        "version currently in App Review.",
+   desc="What each OpenAB Connect and OpenAB Remote release brought, newest "
+        "first — including the versions currently in App Review.",
    h1="Releases", lede="What each version brought, newest first. A version "
    "that has been submitted but not yet approved is listed here too.",
-   store="Mac App Store ↗", badge_review="In review", badge_latest="Latest",
-   plat="Mac"),
+   connect_h="OpenAB Connect for Mac", remote_h="OpenAB Remote for iPhone",
+   connect_store="Mac App Store ↗", remote_store="App Store ↗",
+   badge_review="In review", badge_latest="Latest",
+   plat_mac="Mac", plat_iphone="iPhone"),
  "zh": dict(title="OpenAB Connect — 版本紀錄",
-   desc="OpenAB Connect 每個版本帶來了什麼，由新到舊 —— 包含目前正在送審的版本。",
+   desc="OpenAB Connect 與 OpenAB Remote 每個版本帶來了什麼，由新到舊 —— 包含目前正在送審的版本。",
    h1="版本紀錄", lede="每個版本帶來了什麼，由新到舊。已送審、尚未通過的版本也會先列在這裡。",
-   store="Mac App Store ↗", badge_review="審核中", badge_latest="最新",
-   plat="Mac"),
+   connect_h="OpenAB Connect for Mac", remote_h="OpenAB Remote for iPhone",
+   connect_store="Mac App Store ↗", remote_store="App Store ↗",
+   badge_review="審核中", badge_latest="最新",
+   plat_mac="Mac", plat_iphone="iPhone"),
  "ja": dict(title="OpenAB Connect — リリース",
-   desc="OpenAB Connect の各リリースの内容を新しい順に。現在審査中のバージョンも掲載。",
+   desc="OpenAB Connect と OpenAB Remote の各リリースの内容を新しい順に。現在審査中のバージョンも掲載。",
    h1="リリース", lede="各バージョンの内容を新しい順に。提出済みでまだ承認されていない"
    "バージョンもここに掲載されます。",
-   store="Mac App Store ↗", badge_review="審査中", badge_latest="最新",
-   plat="Mac"),
+   connect_h="OpenAB Connect for Mac", remote_h="OpenAB Remote for iPhone",
+   connect_store="Mac App Store ↗", remote_store="App Store ↗",
+   badge_review="審査中", badge_latest="最新",
+   plat_mac="Mac", plat_iphone="iPhone"),
  "ko": dict(title="OpenAB Connect — 릴리스",
-   desc="OpenAB Connect 각 릴리스의 내용을 최신순으로 — 현재 심사 중인 버전 포함.",
+   desc="OpenAB Connect 와 OpenAB Remote 각 릴리스의 내용을 최신순으로 — 현재 심사 중인 버전 포함.",
    h1="릴리스", lede="각 버전의 내용을 최신순으로 정리했습니다. 제출되어 아직 승인되지 "
    "않은 버전도 함께 표시됩니다.",
-   store="Mac App Store ↗", badge_review="심사 중", badge_latest="최신",
-   plat="Mac"),
+   connect_h="OpenAB Connect for Mac", remote_h="OpenAB Remote for iPhone",
+   connect_store="Mac App Store ↗", remote_store="App Store ↗",
+   badge_review="심사 중", badge_latest="최신",
+   plat_mac="Mac", plat_iphone="iPhone"),
 }
 
 PAGE = """<!DOCTYPE html>
@@ -203,8 +270,8 @@ PAGE = """<!DOCTYPE html>
 {nav}
 <main class="wrap notes-index">
   <h1>{h1}</h1>
-  <p class="lede">{lede} <a href="{store_url}">{store}</a></p>
-{entries}
+  <p class="lede">{lede}</p>
+{sections}
 </main>
 {footer}
 </body>
@@ -212,29 +279,42 @@ PAGE = """<!DOCTYPE html>
 """
 
 
-def entry(code, r, t):
+def entry(code, r, t, plat):
     badge = ""
     if r["status"] == "review":
         badge = f'<span class="relbadge review">{t["badge_review"]}</span>'
     elif r["status"] == "latest":
         badge = f'<span class="relbadge latest">{t["badge_latest"]}</span>'
     return f"""<article class="rel">
-  <div class="rhead"><span class="ver">{r["v"]}</span>{badge}<span class="plat">{t["plat"]}</span><span class="when">{r["date"][code]}</span></div>
+  <div class="rhead"><span class="ver">{r["v"]}</span>{badge}<span class="plat">{plat}</span><span class="when">{r["date"][code]}</span></div>
   {r["body"][code]}
 </article>"""
+
+
+def section(code, t, heading, store_label, store_url, releases, plat):
+    entries = "\n".join(entry(code, r, t, plat) for r in releases)
+    return f"""<section class="relgroup">
+  <h2 class="relgroup-h">{heading} <a href="{store_url}">{store_label}</a></h2>
+{entries}
+</section>"""
 
 
 def main():
     for code in chrome.ORDER:
         t = T[code]
         d = chrome.CHROME[code]
-        entries = "\n".join(entry(code, r, t) for r in RELEASES)
+        sections = "\n".join([
+            section(code, t, t["connect_h"], t["connect_store"],
+                    CONNECT_STORE[code], CONNECT_RELEASES, t["plat_mac"]),
+            section(code, t, t["remote_h"], t["remote_store"],
+                    REMOTE_STORE[code], REMOTE_RELEASES, t["plat_iphone"]),
+        ])
         html = PAGE.format(
             htmllang=d["htmllang"], code=code,
             head=chrome.head(code, "releases/", t["title"], t["desc"]),
             nav=chrome.nav(code, "releases/"),
-            h1=t["h1"], lede=t["lede"], store=t["store"], store_url=APP_STORE[code],
-            entries=entries, footer=chrome.footer(code),
+            h1=t["h1"], lede=t["lede"], sections=sections,
+            footer=chrome.footer(code),
         )
         out = chrome.out_path(code, "releases/index.html")
         out.parent.mkdir(parents=True, exist_ok=True)

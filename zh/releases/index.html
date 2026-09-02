@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenAB Connect — 版本紀錄</title>
-<meta name="description" content="OpenAB Connect 每個版本帶來了什麼，由新到舊 —— 包含目前正在送審的版本。">
+<meta name="description" content="OpenAB Connect 與 OpenAB Remote 每個版本帶來了什麼，由新到舊 —— 包含目前正在送審的版本。">
 <link rel="canonical" href="https://connect.openab.dev/zh/releases/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OpenAB Connect">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:title" content="OpenAB Connect — 版本紀錄">
-<meta property="og:description" content="OpenAB Connect 每個版本帶來了什麼，由新到舊 —— 包含目前正在送審的版本。">
+<meta property="og:description" content="OpenAB Connect 與 OpenAB Remote 每個版本帶來了什麼，由新到舊 —— 包含目前正在送審的版本。">
 <meta property="og:url" content="https://connect.openab.dev/zh/releases/">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=78856269">
+<link rel="stylesheet" href="/style.css?v=720d49cc">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/releases/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/releases/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/releases/">
@@ -35,13 +35,15 @@
 </nav>
 <main class="wrap notes-index">
   <h1>版本紀錄</h1>
-  <p class="lede">每個版本帶來了什麼，由新到舊。已送審、尚未通過的版本也會先列在這裡。 <a href="https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></p>
+  <p class="lede">每個版本帶來了什麼，由新到舊。已送審、尚未通過的版本也會先列在這裡。</p>
+<section class="relgroup">
+  <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.3.0</span><span class="relbadge review">審核中</span><span class="plat">Mac</span><span class="when">2026 年 9 月 1 日送審</span></div>
+  <div class="rhead"><span class="ver">1.3.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 9 月 2 日</span></div>
   <ul><li>全新的深色一致介面，加入 Ghostty 風格的 session 分頁。按 Command-T 或分頁列末端的 +，即可在目前選取的連線開啟新 session。</li><li>重新設計連線卡片，將每台 host 清楚分組，並以 Kubernetes 或 ECS 圖示標示平台。</li><li>分頁右鍵選單可中斷連線並關閉、重新命名或加上顏色；聚焦分割畫面時，非作用中的窗格會變暗。</li><li>更可靠地從 attach 連線中斷恢復，支援 Devin TUI，並加入暫時性 workspace 提示，顯示八秒後自動淡出。</li></ul>
 </article>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.2.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 8 月 31 日</span></div>
+  <div class="rhead"><span class="ver">1.2.0</span><span class="plat">Mac</span><span class="when">2026 年 8 月 31 日</span></div>
   <ul><li>選取即複製：在終端機放開選取的瞬間自動複製到剪貼簿，和 iTerm 一樣。</li><li>聽寫語言：Press to Speak 可選英文或繁體中文（台灣）。</li><li>聽寫全面改為裝置端處理 —— 移除 Groq Cloud 選項，語音永不離開你的 Mac。</li><li>聽寫設定問題（未開啟聽寫、缺語言模型、權限被拒）現在會以對話框說明，並指出要開啟的系統設定。</li></ul>
 </article>
 <article class="rel">
@@ -56,6 +58,18 @@
   <div class="rhead"><span class="ver">1.0</span><span class="plat">Mac</span><span class="when">2026 年 8 月 27 日</span></div>
   <p>首度在 Mac App Store 上架。所有頂尖廠商的 agent，一個客戶端，各自在你的 Kubernetes 叢集或 AWS ECS Fargate 上的沙箱容器裡運行 —— session 活得比 app 久、什麼都不對外開放，iPhone 還能當按住說話的遙控器。</p>
 </article>
+</section>
+<section class="relgroup">
+  <h2 class="relgroup-h">OpenAB Remote for iPhone <a href="https://apps.apple.com/tw/app/openab-remote/id6805733009">App Store ↗</a></h2>
+<article class="rel">
+  <div class="rhead"><span class="ver">0.2.1</span><span class="relbadge review">審核中</span><span class="plat">iPhone</span><span class="when">2026 年 9 月 2 日送審</span></div>
+  <ul><li>從 Mac 匯入連線時，會完全對齊 Mac 目前的連線 —— 你在 Mac 移除的連線，這裡也不再殘留。</li><li>修正接手其他裝置已開啟的 session 時，畫面可能出現的亂碼字元。</li></ul>
+</article>
+<article class="rel">
+  <div class="rhead"><span class="ver">0.2.0</span><span class="relbadge latest">最新</span><span class="plat">iPhone</span><span class="when">2026 年 9 月 2 日</span></div>
+  <p>首度在 App Store 上架。與執行 OpenAB Connect 的 Mac 配對，就能從 iPhone 接手任何進行中的 session —— 內容會重播，你可以打字或口述。Press to Speak 在裝置端把語音轉成文字，離線 demo 則讓你不必配對就能試用每個畫面。</p>
+</article>
+</section>
 </main>
 <footer>
   <a href="/zh/privacy.html">隱私</a>

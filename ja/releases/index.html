@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenAB Connect — リリース</title>
-<meta name="description" content="OpenAB Connect の各リリースの内容を新しい順に。現在審査中のバージョンも掲載。">
+<meta name="description" content="OpenAB Connect と OpenAB Remote の各リリースの内容を新しい順に。現在審査中のバージョンも掲載。">
 <link rel="canonical" href="https://connect.openab.dev/ja/releases/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="OpenAB Connect">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:title" content="OpenAB Connect — リリース">
-<meta property="og:description" content="OpenAB Connect の各リリースの内容を新しい順に。現在審査中のバージョンも掲載。">
+<meta property="og:description" content="OpenAB Connect と OpenAB Remote の各リリースの内容を新しい順に。現在審査中のバージョンも掲載。">
 <meta property="og:url" content="https://connect.openab.dev/ja/releases/">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=78856269">
+<link rel="stylesheet" href="/style.css?v=720d49cc">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/releases/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/releases/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/releases/">
@@ -35,13 +35,15 @@
 </nav>
 <main class="wrap notes-index">
   <h1>リリース</h1>
-  <p class="lede">各バージョンの内容を新しい順に。提出済みでまだ承認されていないバージョンもここに掲載されます。 <a href="https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></p>
+  <p class="lede">各バージョンの内容を新しい順に。提出済みでまだ承認されていないバージョンもここに掲載されます。</p>
+<section class="relgroup">
+  <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.3.0</span><span class="relbadge review">審査中</span><span class="plat">Mac</span><span class="when">2026 年 9 月 1 日申請</span></div>
+  <div class="rhead"><span class="ver">1.3.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 9 月 2 日</span></div>
   <ul><li>ダークで統一されたウインドウに、Ghostty 風のセッションタブを追加。Command-T またはタブ列末尾の + で、選択中の接続に新しいセッションを開けます。</li><li>接続カードを刷新し、ホストごとにまとめて Kubernetes または ECS のマークを表示します。</li><li>タブのコンテキストメニューから切断して閉じる、名前を変更する、色を付ける操作が可能に。分割表示ではフォーカスされていないペインが暗くなります。</li><li>切断されたアタッチからの復旧を改善し、Devin TUI に対応。エフェメラルなワークスペースの案内は 8 秒後にフェードアウトします。</li></ul>
 </article>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.2.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 8 月 31 日</span></div>
+  <div class="rhead"><span class="ver">1.2.0</span><span class="plat">Mac</span><span class="when">2026 年 8 月 31 日</span></div>
   <ul><li>選択でコピー：ターミナルで選択を離した瞬間、iTerm と同様に自動でクリップボードへコピーします。</li><li>音声入力の言語：Press to Speak で英語または繁体字中国語（台湾）を選べます。</li><li>音声入力は完全にオンデバイスに — Groq Cloud オプションを削除し、音声が Mac の外に出ることはありません。</li><li>音声入力の設定問題はダイアログで、開くべきシステム設定とともに表示されます。</li></ul>
 </article>
 <article class="rel">
@@ -56,6 +58,18 @@
   <div class="rhead"><span class="ver">1.0</span><span class="plat">Mac</span><span class="when">2026 年 8 月 27 日</span></div>
   <p>Mac App Store で初公開。主要ベンダーすべてのエージェントをひとつのクライアントに。各エージェントは自分の Kubernetes クラスタや AWS ECS Fargate 上のサンドボックス化されたコンテナで動き、セッションはアプリより長生きし、外部には何も公開されません。iPhone はプッシュ・トゥ・トークのリモコンになります。</p>
 </article>
+</section>
+<section class="relgroup">
+  <h2 class="relgroup-h">OpenAB Remote for iPhone <a href="https://apps.apple.com/jp/app/openab-remote/id6805733009">App Store ↗</a></h2>
+<article class="rel">
+  <div class="rhead"><span class="ver">0.2.1</span><span class="relbadge review">審査中</span><span class="plat">iPhone</span><span class="when">2026 年 9 月 2 日申請</span></div>
+  <ul><li>Mac から接続をインポートすると、Mac の現在の接続と完全に一致します —— Mac で削除した接続がこちらに残ることはありません。</li><li>他のデバイスがすでに開いていたセッションにアタッチした際に、文字化けが表示されることがある問題を修正しました。</li></ul>
+</article>
+<article class="rel">
+  <div class="rhead"><span class="ver">0.2.0</span><span class="relbadge latest">最新</span><span class="plat">iPhone</span><span class="when">2026 年 9 月 2 日</span></div>
+  <p>App Store で初公開。OpenAB Connect を実行している Mac とペアリングすれば、iPhone から実行中のセッションにアタッチできます —— トランスクリプトが再生され、入力や音声入力ができます。Press to Speak は音声をオンデバイスでテキストに変換し、オフラインデモではペアリングなしですべての画面を試せます。</p>
+</article>
+</section>
 </main>
 <footer>
   <a href="/ja/privacy.html">プライバシー</a>
