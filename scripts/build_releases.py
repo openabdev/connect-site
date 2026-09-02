@@ -38,6 +38,35 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
+ dict(v="1.3.1", status="review", date=dict(
+   en="Submitted September 2, 2026", zh="2026 年 9 月 2 日送審",
+   ja="2026 年 9 月 2 日申請", ko="2026년 9월 2일 심사 제출"),
+  body=dict(
+   en="<ul>"
+      "<li>New sessions on the Nightly channel now always pull the latest "
+      "image. A nightly tag moves with every build, so a cached copy on your "
+      "cluster meant a new session could silently run an older runtime.</li>"
+      "<li>The Pre-beta channel is labelled \u201ctesting\u201d rather than "
+      "\u201cstable\u201d — the name promised a support level that does not "
+      "exist yet.</li></ul>",
+   zh="<ul>"
+      "<li>使用 Nightly channel 開啟新 session 時，一律拉取最新的 image。nightly 標籤"
+      "每次建置都會移動，叢集上的快取副本會讓新 session 靜默地跑到舊版 runtime。</li>"
+      "<li>Pre-beta channel 的標示從「stable」改為「testing」—— 原本的名稱承諾了目前"
+      "還不存在的支援層級。</li></ul>",
+   ja="<ul>"
+      "<li>Nightly チャンネルで新しいセッションを開くと、常に最新のイメージを取得します。"
+      "nightly タグはビルドごとに移動するため、クラスタ上のキャッシュが残っていると新しい"
+      "セッションが古いランタイムで静かに動くことがありました。</li>"
+      "<li>Pre-beta チャンネルの表示を「stable」から「testing」に変更しました —— "
+      "この名称は、まだ存在しないサポート水準を約束していました。</li></ul>",
+   ko="<ul>"
+      "<li>Nightly 채널에서 새 세션을 열면 항상 최신 이미지를 가져옵니다. nightly 태그는 "
+      "빌드마다 이동하므로, 클러스터에 캐시된 사본이 있으면 새 세션이 이전 런타임에서 "
+      "조용히 실행될 수 있었습니다.</li>"
+      "<li>Pre-beta 채널 표시를 \u2018stable\u2019 에서 \u2018testing\u2019 으로 "
+      "변경했습니다 —— 기존 이름은 아직 존재하지 않는 지원 수준을 약속했습니다.</li></ul>"),
+ ),
  dict(v="1.3.0", status="latest", date=dict(
    en="September 2, 2026", zh="2026 年 9 月 2 日",
    ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),

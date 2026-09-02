@@ -43,6 +43,10 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
+  <div class="rhead"><span class="ver">1.3.1</span><span class="relbadge review">審核中</span><span class="plat">Mac</span><span class="when">2026 年 9 月 2 日送審</span></div>
+  <ul><li>使用 Nightly channel 開啟新 session 時，一律拉取最新的 image。nightly 標籤每次建置都會移動，叢集上的快取副本會讓新 session 靜默地跑到舊版 runtime。</li><li>Pre-beta channel 的標示從「stable」改為「testing」—— 原本的名稱承諾了目前還不存在的支援層級。</li></ul>
+</article>
+<article class="rel">
   <div class="rhead"><span class="ver">1.3.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 9 月 2 日</span></div>
   <ul><li>全新的深色一致介面，加入 Ghostty 風格的 session 分頁。按 Command-T 或分頁列末端的 +，即可在目前選取的連線開啟新 session。</li><li>重新設計連線卡片，將每台 host 清楚分組，並以 Kubernetes 或 ECS 圖示標示平台。</li><li>分頁右鍵選單可中斷連線並關閉、重新命名或加上顏色；聚焦分割畫面時，非作用中的窗格會變暗。</li><li>更可靠地從 attach 連線中斷恢復，支援 Devin TUI，並加入暫時性 workspace 提示，顯示八秒後自動淡出。</li></ul>
 </article>
