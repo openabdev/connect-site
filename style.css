@@ -481,24 +481,34 @@ table.cmp tbody tr:nth-last-child(-n+2) td { font-weight: 700; }
    with a distinct badge so a plan is never dressed as a fact. */
 .rel { border-bottom: 1px solid var(--border); padding: 22px 0; }
 .relgroup .rel:last-of-type { border-bottom: 0; }
-/* Top-of-page app switcher: one tab per app, JS toggles which section shows.
-   Without JS both sections stay visible (no [hidden] applied). */
-.apptabs {
-  display: flex; gap: 8px; margin: 20px 0 8px;
-  border-bottom: 1px solid var(--border); padding-bottom: 0;
+/* App switch, ported from deepsrt.com's releases page: a pill segmented
+   control, one segment per app, because stacking both histories buried
+   Remote below five Connect rows. */
+.app-switch {
+  display: inline-flex; gap: 0.25rem; margin: 1.6rem 0 0;
+  padding: 0.25rem; border-radius: 999px;
+  background: var(--card); border: 1px solid var(--border);
 }
-.apptab {
-  appearance: none; background: transparent; border: 0; cursor: pointer;
-  font: inherit; font-weight: 700; color: var(--muted);
-  padding: 10px 4px; margin-bottom: -1px;
-  border-bottom: 2px solid transparent;
-  display: inline-flex; align-items: baseline; gap: 7px;
+.app-switch button {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font: inherit; font-size: 0.92rem; font-weight: 600; color: var(--muted);
+  background: none; border: 0; cursor: pointer;
+  padding: 0.42rem 1.05rem; border-radius: 999px;
 }
-.apptab:hover { color: var(--ink); }
-.apptab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent-deep); }
-.apptab-plat { font-size: 0.72rem; font-weight: 600; color: var(--muted); }
+.app-switch button[aria-selected="true"] {
+  background: var(--bg); color: var(--ink);
+  box-shadow: 0 1px 3px rgba(29, 94, 140, 0.14);
+}
+.app-switch svg {
+  width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8;
+}
+/* The attribute is set by script, never in the markup: with JS off no rule
+   matches and BOTH sections stay visible, rather than one app's history
+   being permanently hidden. */
+body[data-app="connect"] .relgroup[data-app="remote"],
+body[data-app="remote"] .relgroup[data-app="connect"] { display: none; }
 /* Each app is its own section with a heading that carries its own store link. */
-.relgroup { margin-top: 28px; }
+.relgroup { margin-top: 2.2rem; }
 .relgroup-h {
   font-size: 1.05rem; font-weight: 800; margin: 0 0 4px;
   padding-bottom: 10px; border-bottom: 2px solid var(--border);

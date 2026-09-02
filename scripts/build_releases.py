@@ -236,7 +236,7 @@ T = {
    connect_store="Mac App Store ↗", remote_store="App Store ↗",
    badge_review="In review", badge_latest="Latest",
    plat_mac="Mac", plat_iphone="iPhone",
-   tab_connect="Connect", tab_remote="Remote"),
+   switch_label="Choose app"),
  "zh": dict(title="OpenAB Connect — 版本紀錄",
    desc="OpenAB Connect 與 OpenAB Remote 每個版本帶來了什麼，由新到舊 —— 包含目前正在送審的版本。",
    h1="版本紀錄", lede="每個版本帶來了什麼，由新到舊。已送審、尚未通過的版本也會先列在這裡。",
@@ -244,7 +244,7 @@ T = {
    connect_store="Mac App Store ↗", remote_store="App Store ↗",
    badge_review="審核中", badge_latest="最新",
    plat_mac="Mac", plat_iphone="iPhone",
-   tab_connect="Connect", tab_remote="Remote"),
+   switch_label="選擇 App"),
  "ja": dict(title="OpenAB Connect — リリース",
    desc="OpenAB Connect と OpenAB Remote の各リリースの内容を新しい順に。現在審査中のバージョンも掲載。",
    h1="リリース", lede="各バージョンの内容を新しい順に。提出済みでまだ承認されていない"
@@ -253,7 +253,7 @@ T = {
    connect_store="Mac App Store ↗", remote_store="App Store ↗",
    badge_review="審査中", badge_latest="最新",
    plat_mac="Mac", plat_iphone="iPhone",
-   tab_connect="Connect", tab_remote="Remote"),
+   switch_label="アプリを選択"),
  "ko": dict(title="OpenAB Connect — 릴리스",
    desc="OpenAB Connect 와 OpenAB Remote 각 릴리스의 내용을 최신순으로 — 현재 심사 중인 버전 포함.",
    h1="릴리스", lede="각 버전의 내용을 최신순으로 정리했습니다. 제출되어 아직 승인되지 "
@@ -262,7 +262,7 @@ T = {
    connect_store="Mac App Store ↗", remote_store="App Store ↗",
    badge_review="심사 중", badge_latest="최신",
    plat_mac="Mac", plat_iphone="iPhone",
-   tab_connect="Connect", tab_remote="Remote"),
+   switch_label="앱 선택"),
 }
 
 PAGE = """<!DOCTYPE html>
@@ -275,28 +275,28 @@ PAGE = """<!DOCTYPE html>
 <main class="wrap notes-index">
   <h1>{h1}</h1>
   <p class="lede">{lede}</p>
-  <div class="apptabs" role="tablist">
-    <button class="apptab" role="tab" aria-selected="true" aria-controls="rel-connect" data-target="rel-connect">{tab_connect}<span class="apptab-plat">Mac</span></button>
-    <button class="apptab" role="tab" aria-selected="false" aria-controls="rel-remote" data-target="rel-remote">{tab_remote}<span class="apptab-plat">iPhone</span></button>
+  <div class="app-switch" role="tablist" aria-label="{switch_label}">
+    <button type="button" role="tab" data-app-tab="connect" aria-controls="app-connect" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Mac</button>
+    <button type="button" role="tab" data-app-tab="remote" aria-controls="app-remote" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 19h2"/></svg>iPhone</button>
   </div>
 {sections}
 </main>
 <script>
 (function () {{
-  var tabs = document.querySelectorAll('.apptab');
-  var groups = document.querySelectorAll('.relgroup[data-app]');
-  function show(id) {{
+  var tabs = document.querySelectorAll('.app-switch [data-app-tab]');
+  if (!tabs.length) return;
+  function select(name) {{
+    // Set on <body>, never in the markup: with JS off no rule matches and BOTH
+    // sections stay visible instead of one being permanently hidden.
+    document.body.setAttribute('data-app', name);
     tabs.forEach(function (t) {{
-      var on = t.dataset.target === id;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.setAttribute('aria-selected', t.dataset.appTab === name ? 'true' : 'false');
     }});
-    groups.forEach(function (g) {{ g.hidden = g.id !== id; }});
   }}
   tabs.forEach(function (t) {{
-    t.addEventListener('click', function () {{ show(t.dataset.target); }});
+    t.addEventListener('click', function () {{ select(t.dataset.appTab); }});
   }});
-  // Progressive enhancement: only collapse to one section once JS runs.
-  show('rel-connect');
+  select('connect');
 }})();
 </script>
 {footer}
@@ -317,9 +317,9 @@ def entry(code, r, t, plat):
 </article>"""
 
 
-def section(code, t, sid, heading, store_label, store_url, releases, plat):
+def section(code, t, app, heading, store_label, store_url, releases, plat):
     entries = "\n".join(entry(code, r, t, plat) for r in releases)
-    return f"""<section class="relgroup" id="{sid}" data-app>
+    return f"""<section class="relgroup" id="app-{app}" data-app="{app}">
   <h2 class="relgroup-h">{heading} <a href="{store_url}">{store_label}</a></h2>
 {entries}
 </section>"""
@@ -330,9 +330,9 @@ def main():
         t = T[code]
         d = chrome.CHROME[code]
         sections = "\n".join([
-            section(code, t, "rel-connect", t["connect_h"], t["connect_store"],
+            section(code, t, "connect", t["connect_h"], t["connect_store"],
                     CONNECT_STORE[code], CONNECT_RELEASES, t["plat_mac"]),
-            section(code, t, "rel-remote", t["remote_h"], t["remote_store"],
+            section(code, t, "remote", t["remote_h"], t["remote_store"],
                     REMOTE_STORE[code], REMOTE_RELEASES, t["plat_iphone"]),
         ])
         html = PAGE.format(
@@ -340,7 +340,7 @@ def main():
             head=chrome.head(code, "releases/", t["title"], t["desc"]),
             nav=chrome.nav(code, "releases/"),
             h1=t["h1"], lede=t["lede"], sections=sections,
-            tab_connect=t["tab_connect"], tab_remote=t["tab_remote"],
+            switch_label=t["switch_label"],
             footer=chrome.footer(code),
         )
         out = chrome.out_path(code, "releases/index.html")

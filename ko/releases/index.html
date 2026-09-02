@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://connect.openab.dev/ko/releases/">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=a8537335">
+<link rel="stylesheet" href="/style.css?v=d4079a77">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/releases/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/releases/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/releases/">
@@ -36,11 +36,11 @@
 <main class="wrap notes-index">
   <h1>릴리스</h1>
   <p class="lede">각 버전의 내용을 최신순으로 정리했습니다. 제출되어 아직 승인되지 않은 버전도 함께 표시됩니다.</p>
-  <div class="apptabs" role="tablist">
-    <button class="apptab" role="tab" aria-selected="true" aria-controls="rel-connect" data-target="rel-connect">Connect<span class="apptab-plat">Mac</span></button>
-    <button class="apptab" role="tab" aria-selected="false" aria-controls="rel-remote" data-target="rel-remote">Remote<span class="apptab-plat">iPhone</span></button>
+  <div class="app-switch" role="tablist" aria-label="앱 선택">
+    <button type="button" role="tab" data-app-tab="connect" aria-controls="app-connect" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Mac</button>
+    <button type="button" role="tab" data-app-tab="remote" aria-controls="app-remote" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 19h2"/></svg>iPhone</button>
   </div>
-<section class="relgroup" id="rel-connect" data-app>
+<section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/kr/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
   <div class="rhead"><span class="ver">1.3.0</span><span class="relbadge latest">최신</span><span class="plat">Mac</span><span class="when">2026년 9월 2일</span></div>
@@ -63,7 +63,7 @@
   <p>Mac App Store 첫 출시. 모든 주요 벤더의 에이전트를 하나의 클라이언트로 — 각 에이전트는 사용자의 Kubernetes 클러스터 또는 AWS ECS Fargate 의 샌드박스 컨테이너에서 실행되고, 세션은 앱보다 오래 살아남으며, 네트워크에 아무것도 노출하지 않습니다. iPhone 은 푸시 투 토크 리모컨이 됩니다.</p>
 </article>
 </section>
-<section class="relgroup" id="rel-remote" data-app>
+<section class="relgroup" id="app-remote" data-app="remote">
   <h2 class="relgroup-h">OpenAB Remote for iPhone <a href="https://apps.apple.com/kr/app/openab-remote/id6805733009">App Store ↗</a></h2>
 <article class="rel">
   <div class="rhead"><span class="ver">0.2.1</span><span class="relbadge review">심사 중</span><span class="plat">iPhone</span><span class="when">2026년 9월 2일 심사 제출</span></div>
@@ -77,20 +77,20 @@
 </main>
 <script>
 (function () {
-  var tabs = document.querySelectorAll('.apptab');
-  var groups = document.querySelectorAll('.relgroup[data-app]');
-  function show(id) {
+  var tabs = document.querySelectorAll('.app-switch [data-app-tab]');
+  if (!tabs.length) return;
+  function select(name) {
+    // Set on <body>, never in the markup: with JS off no rule matches and BOTH
+    // sections stay visible instead of one being permanently hidden.
+    document.body.setAttribute('data-app', name);
     tabs.forEach(function (t) {
-      var on = t.dataset.target === id;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.setAttribute('aria-selected', t.dataset.appTab === name ? 'true' : 'false');
     });
-    groups.forEach(function (g) { g.hidden = g.id !== id; });
   }
   tabs.forEach(function (t) {
-    t.addEventListener('click', function () { show(t.dataset.target); });
+    t.addEventListener('click', function () { select(t.dataset.appTab); });
   });
-  // Progressive enhancement: only collapse to one section once JS runs.
-  show('rel-connect');
+  select('connect');
 })();
 </script>
 <footer>

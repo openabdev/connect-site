@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://connect.openab.dev/releases/">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=a8537335">
+<link rel="stylesheet" href="/style.css?v=d4079a77">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/releases/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/releases/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/releases/">
@@ -36,11 +36,11 @@
 <main class="wrap notes-index">
   <h1>Releases</h1>
   <p class="lede">What each version brought, newest first. A version that has been submitted but not yet approved is listed here too.</p>
-  <div class="apptabs" role="tablist">
-    <button class="apptab" role="tab" aria-selected="true" aria-controls="rel-connect" data-target="rel-connect">Connect<span class="apptab-plat">Mac</span></button>
-    <button class="apptab" role="tab" aria-selected="false" aria-controls="rel-remote" data-target="rel-remote">Remote<span class="apptab-plat">iPhone</span></button>
+  <div class="app-switch" role="tablist" aria-label="Choose app">
+    <button type="button" role="tab" data-app-tab="connect" aria-controls="app-connect" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Mac</button>
+    <button type="button" role="tab" data-app-tab="remote" aria-controls="app-remote" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 19h2"/></svg>iPhone</button>
   </div>
-<section class="relgroup" id="rel-connect" data-app>
+<section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
   <div class="rhead"><span class="ver">1.3.0</span><span class="relbadge latest">Latest</span><span class="plat">Mac</span><span class="when">September 2, 2026</span></div>
@@ -63,7 +63,7 @@
   <p>First release on the Mac App Store. Agents from every major vendor in one client, each in its own sandboxed container on your Kubernetes cluster or AWS ECS Fargate — sessions outlive the app, nothing is exposed to the network, and your iPhone works as a push-to-talk remote.</p>
 </article>
 </section>
-<section class="relgroup" id="rel-remote" data-app>
+<section class="relgroup" id="app-remote" data-app="remote">
   <h2 class="relgroup-h">OpenAB Remote for iPhone <a href="https://apps.apple.com/us/app/openab-remote/id6805733009">App Store ↗</a></h2>
 <article class="rel">
   <div class="rhead"><span class="ver">0.2.1</span><span class="relbadge review">In review</span><span class="plat">iPhone</span><span class="when">Submitted September 2, 2026</span></div>
@@ -77,20 +77,20 @@
 </main>
 <script>
 (function () {
-  var tabs = document.querySelectorAll('.apptab');
-  var groups = document.querySelectorAll('.relgroup[data-app]');
-  function show(id) {
+  var tabs = document.querySelectorAll('.app-switch [data-app-tab]');
+  if (!tabs.length) return;
+  function select(name) {
+    // Set on <body>, never in the markup: with JS off no rule matches and BOTH
+    // sections stay visible instead of one being permanently hidden.
+    document.body.setAttribute('data-app', name);
     tabs.forEach(function (t) {
-      var on = t.dataset.target === id;
-      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.setAttribute('aria-selected', t.dataset.appTab === name ? 'true' : 'false');
     });
-    groups.forEach(function (g) { g.hidden = g.id !== id; });
   }
   tabs.forEach(function (t) {
-    t.addEventListener('click', function () { show(t.dataset.target); });
+    t.addEventListener('click', function () { select(t.dataset.appTab); });
   });
-  // Progressive enhancement: only collapse to one section once JS runs.
-  show('rel-connect');
+  select('connect');
 })();
 </script>
 <footer>
