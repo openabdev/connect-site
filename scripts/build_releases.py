@@ -38,9 +38,9 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.4.0", status="review", date=dict(
-   en="Submitted September 3, 2026", zh="2026 年 9 月 3 日送審",
-   ja="2026 年 9 月 3 日申請", ko="2026년 9월 3일 심사 제출"),
+ dict(v="1.4.0", status="latest", date=dict(
+   en="September 3, 2026", zh="2026 年 9 月 3 日",
+   ja="2026 年 9 月 3 日", ko="2026년 9월 3일"),
   body=dict(
    en="<ul>"
       "<li>New \u201cCopy files\u201d button in the sidebar: pick a source and one "
@@ -79,7 +79,7 @@ CONNECT_RELEASES = [
       "<li>Kubernetes 연결을 오른쪽 클릭해 \u2018Copy files\u2026\u2019를 선택하면 해당 호스트를 "
       "소스로 시작합니다.</li></ul>"),
  ),
- dict(v="1.3.1", status="latest", date=dict(
+ dict(v="1.3.1", status="", date=dict(
    en="September 2, 2026", zh="2026 年 9 月 2 日",
    ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
   body=dict(
