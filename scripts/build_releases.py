@@ -38,6 +38,47 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
+ dict(v="1.4.0", status="review", date=dict(
+   en="Submitted September 3, 2026", zh="2026 年 9 月 3 日送審",
+   ja="2026 年 9 月 3 日申請", ko="2026년 9월 3일 심사 제출"),
+  body=dict(
+   en="<ul>"
+      "<li>New \u201cCopy files\u201d button in the sidebar: pick a source and one "
+      "or more destinations, and copy files or folders between your Mac and "
+      "session hosts \u2014 and between hosts \u2014 scp-style over your existing "
+      "kubectl access. Nothing new to install on the host.</li>"
+      "<li>Drag and drop a file or folder straight into the sheet, or click to "
+      "choose.</li>"
+      "<li>Host-to-host copies stream through your Mac, so one source can fan "
+      "out to several hosts in a single run.</li>"
+      "<li>Right-click a Kubernetes connection and choose \u201cCopy files\u2026\u201d "
+      "to start with that host as the source.</li></ul>",
+   zh="<ul>"
+      "<li>側邊欄新增「Copy files」按鈕：選擇一個來源、一個或多個目的地，即可在 Mac 與 "
+      "session host 之間——以及 host 之間——透過既有的 kubectl 連線，以類似 scp 的方式複製"
+      "檔案或資料夾，host 端不需安裝任何東西。</li>"
+      "<li>直接把檔案或資料夾拖放進視窗，或點一下選取。</li>"
+      "<li>host 之間的複製會經由你的 Mac 串流，因此一個來源可以在一次操作中分送到多個 host。</li>"
+      "<li>在 Kubernetes 連線上按右鍵選「Copy files…」，即以該 host 作為來源開始。</li></ul>",
+   ja="<ul>"
+      "<li>サイドバーに「Copy files」ボタンを追加。ソースと 1 つ以上のコピー先を選ぶだけで、"
+      "Mac とセッションホストの間——ホスト同士の間でも——既存の kubectl 接続を使って scp の"
+      "ようにファイルやフォルダをコピーできます。ホスト側に追加インストールは不要です。</li>"
+      "<li>ファイルやフォルダをシートへ直接ドラッグ＆ドロップ、またはクリックして選択できます。</li>"
+      "<li>ホスト間のコピーは Mac を経由してストリームされるため、1 つのソースを一度の操作で"
+      "複数のホストへ配布できます。</li>"
+      "<li>Kubernetes 接続を右クリックして「Copy files…」を選ぶと、そのホストをソースとして"
+      "開始します。</li></ul>",
+   ko="<ul>"
+      "<li>사이드바에 \u2018Copy files\u2019 버튼을 추가했습니다. 소스와 하나 이상의 대상을 "
+      "선택하면 기존 kubectl 연결을 통해 Mac과 세션 호스트 사이 \u2014 호스트 사이에서도 \u2014 "
+      "scp 방식으로 파일이나 폴더를 복사할 수 있습니다. 호스트에 추가로 설치할 것은 없습니다.</li>"
+      "<li>파일이나 폴더를 시트에 바로 드래그 앤 드롭하거나 클릭해서 선택할 수 있습니다.</li>"
+      "<li>호스트 간 복사는 Mac을 경유해 스트리밍되므로 하나의 소스를 한 번에 여러 호스트로 "
+      "보낼 수 있습니다.</li>"
+      "<li>Kubernetes 연결을 오른쪽 클릭해 \u2018Copy files\u2026\u2019를 선택하면 해당 호스트를 "
+      "소스로 시작합니다.</li></ul>"),
+ ),
  dict(v="1.3.1", status="latest", date=dict(
    en="September 2, 2026", zh="2026 年 9 月 2 日",
    ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
