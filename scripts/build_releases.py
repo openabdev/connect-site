@@ -249,6 +249,45 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
+ dict(v="0.2.2", status="review", date=dict(
+   en="September 5, 2026", zh="2026 年 9 月 5 日",
+   ja="2026 年 9 月 5 日", ko="2026년 9월 5일"),
+  body=dict(
+   en="<ul>"
+      "<li>New Settings screen — tap the gear in the top bar.</li>"
+      "<li>Choose your language: Traditional Chinese, Simplified Chinese, "
+      "English, Japanese, or Korean.</li>"
+      "<li>Press Enter after inserting — automatically send a newline after "
+      "dictated or typed text reaches your Mac (on by default).</li>"
+      "<li>Microphone mode — hold to talk, or tap once to start and tap again "
+      "to stop.</li>"
+      "<li>Fixed terminal sessions rendering at the wrong width on first open, "
+      "and removed stray color-query characters when attaching some sessions.</li></ul>",
+   zh="<ul>"
+      "<li>全新設定畫面 —— 點右上角齒輪即可開啟。</li>"
+      "<li>選擇語言：繁體中文、簡體中文、English、日本語、한국어。</li>"
+      "<li>插入後自動按 Enter —— 語音或輸入的文字送到 Mac 後自動換行（預設開啟）。</li>"
+      "<li>麥克風模式 —— 按住說話，或點一下開始、再點一下結束。</li>"
+      "<li>修正首次開啟終端 session 時內容寬度錯誤的問題，並移除接上部分 session 時"
+      "出現的顏色查詢亂碼。</li></ul>",
+   ja="<ul>"
+      "<li>設定画面を追加 —— 上部バーの歯車をタップして開きます。</li>"
+      "<li>言語を選択：繁体字中国語、簡体字中国語、英語、日本語、韓国語。</li>"
+      "<li>挿入後に Enter —— 音声入力や入力したテキストが Mac に届いた後、自動的に"
+      "改行を送ります（既定でオン）。</li>"
+      "<li>マイクのモード —— 押している間だけ話す、または一度タップで開始し"
+      "もう一度で終了。</li>"
+      "<li>初回にターミナルセッションの表示幅がずれる問題を修正し、一部のセッションへ"
+      "アタッチした際の文字化けを取り除きました。</li></ul>",
+   ko="<ul>"
+      "<li>설정 화면 추가 —— 상단 막대의 톱니바퀴를 탭하세요.</li>"
+      "<li>언어 선택: 번체 중국어, 간체 중국어, 영어, 일본어, 한국어.</li>"
+      "<li>삽입 후 Enter —— 받아쓰거나 입력한 텍스트가 Mac 에 도착한 뒤 자동으로 "
+      "줄바꿈을 보냅니다(기본 켜짐).</li>"
+      "<li>마이크 모드 —— 누르고 말하기, 또는 한 번 탭해 시작하고 다시 탭해 종료.</li>"
+      "<li>처음 열 때 터미널 세션이 잘못된 너비로 표시되던 문제를 수정하고, 일부 "
+      "세션에 연결할 때 나타나던 색상 조회 문자를 제거했습니다.</li></ul>"),
+ ),
  dict(v="0.2.1", status="latest", date=dict(
    en="September 2, 2026", zh="2026 年 9 月 2 日",
    ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
