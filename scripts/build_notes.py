@@ -511,6 +511,11 @@ NOTE_SHARE["zh"] = dict(
       "「工作需要有狀態」之間，設計出一層可共享的狀態。",
  rows=[],
  body=f"""
+<figure class="cmp-shot">
+  <img src="{chrome.rev("notes/shareable-state-for-stateless-agents/hero-zh.png")}"
+       width="1672" height="941"
+       alt="概念插圖：三個虛線描邊的暫時性沙箱（其中一個正在消散成粒子）都指向下方同一顆實心的持久磁碟，磁碟旁有一把鎖，並複製出另一顆較小的磁碟——沙箱用完即棄，資料持久、共享、可攜">
+</figure>
 <h2>先分清楚：哪些是 stateless，哪些不該是</h2>
 <p>agent 的執行環境該是 stateless 的——每個 session 是一個可拋棄的沙箱，壞了就丟、重開一個
 乾淨的。但 /workspace 裡的資料是另一回事。把這兩者綁在一起，是最容易犯、也最痛的錯：你關掉
