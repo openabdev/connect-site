@@ -43,6 +43,10 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
+  <div class="rhead"><span class="ver">1.5.0</span><span class="relbadge review">審核中</span><span class="plat">Mac</span><span class="when">2026 年 9 月 6 日送審</span></div>
+  <ul><li>持久 workspace：可將既有 PVC 掛載為 session 的 <code>/workspace</code>，或選擇用完即棄。你指定給 app 的磁碟屬於「借用」而非「擁有」——移除連線永遠不會刪除它，資料因此能活得比單一 session 久，並供下一個 session 重用。</li><li>新增 Kubernetes 管理面板（Kubernetes 選單）：建立、列出、刪除獨立於任何連線之外的共享 PVC 與 Secret。</li><li>可將共享 Secret 的某個 key 直接指定為 agent 環境變數，不需把內容輸入到 app。</li><li>可在 app 內把既有 PVC 的內容複製到一顆新的 PVC——不需 CSI。</li><li>正被執行中的 pod 使用的磁碟會被標示，避免誤掛第二次。</li></ul>
+</article>
+<article class="rel">
   <div class="rhead"><span class="ver">1.4.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 9 月 3 日</span></div>
   <ul><li>側邊欄新增「Copy files」按鈕：選擇一個來源、一個或多個目的地，即可在 Mac 與 session host 之間——以及 host 之間——透過既有的 kubectl 連線，以類似 scp 的方式複製檔案或資料夾，host 端不需安裝任何東西。</li><li>直接把檔案或資料夾拖放進視窗，或點一下選取。</li><li>host 之間的複製會經由你的 Mac 串流，因此一個來源可以在一次操作中分送到多個 host。</li><li>在 Kubernetes 連線上按右鍵選「Copy files…」，即以該 host 作為來源開始。</li></ul>
 </article>

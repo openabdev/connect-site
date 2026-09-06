@@ -38,6 +38,55 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
+ dict(v="1.5.0", status="review", date=dict(
+   en="Submitted September 6, 2026", zh="2026 年 9 月 6 日送審",
+   ja="2026 年 9 月 6 日申請", ko="2026년 9월 6일 심사 제출"),
+  body=dict(
+   en="<ul>"
+      "<li>Persistent workspaces: mount an existing PVC as a session's "
+      "<code>/workspace</code>, or keep it ephemeral. A volume you point the app "
+      "at is borrowed, not owned \u2014 removing the connection never deletes it, so "
+      "data can outlive any one session and be reused by the next.</li>"
+      "<li>New Kubernetes management panel (Kubernetes menu): create, list and "
+      "delete shared PVCs and Secrets that live independently of any "
+      "connection.</li>"
+      "<li>Expose a key from a shared Secret as an agent environment variable, "
+      "without typing the value into the app.</li>"
+      "<li>Copy an existing PVC\u2019s contents into a new one, right from the "
+      "app \u2014 no CSI required.</li>"
+      "<li>Volumes already in use by a running pod are marked and can\u2019t be "
+      "mounted twice by mistake.</li></ul>",
+   zh="<ul>"
+      "<li>持久 workspace：可將既有 PVC 掛載為 session 的 <code>/workspace</code>，或選擇"
+      "用完即棄。你指定給 app 的磁碟屬於「借用」而非「擁有」——移除連線永遠不會刪除它，"
+      "資料因此能活得比單一 session 久，並供下一個 session 重用。</li>"
+      "<li>新增 Kubernetes 管理面板（Kubernetes 選單）：建立、列出、刪除獨立於任何連線之外"
+      "的共享 PVC 與 Secret。</li>"
+      "<li>可將共享 Secret 的某個 key 直接指定為 agent 環境變數，不需把內容輸入到 app。</li>"
+      "<li>可在 app 內把既有 PVC 的內容複製到一顆新的 PVC——不需 CSI。</li>"
+      "<li>正被執行中的 pod 使用的磁碟會被標示，避免誤掛第二次。</li></ul>",
+   ja="<ul>"
+      "<li>永続ワークスペース：既存の PVC をセッションの <code>/workspace</code> として"
+      "マウントするか、エフェメラルのままにできます。アプリに指定したボリュームは「所有」"
+      "ではなく「借用」で、接続を削除しても消えません。データは 1 つのセッションより長く"
+      "残り、次のセッションで再利用できます。</li>"
+      "<li>Kubernetes 管理パネルを追加（Kubernetes メニュー）：どの接続からも独立して存続する"
+      "共有 PVC・Secret を作成・一覧・削除できます。</li>"
+      "<li>共有 Secret のキーを、値をアプリに入力することなくエージェントの環境変数として"
+      "公開できます。</li>"
+      "<li>既存 PVC の内容を新しい PVC へ、アプリから直接コピーできます（CSI 不要）。</li>"
+      "<li>実行中の Pod が使用中のボリュームは印が付き、二重マウントの誤操作を防ぎます。</li></ul>",
+   ko="<ul>"
+      "<li>영구 워크스페이스: 기존 PVC를 세션의 <code>/workspace</code>로 마운트하거나 "
+      "임시로 둘 수 있습니다. 앱에 지정한 볼륨은 \u2018소유\u2019가 아니라 \u2018대여\u2019이며, "
+      "연결을 제거해도 삭제되지 않습니다. 데이터는 한 세션보다 오래 남아 다음 세션에서 "
+      "재사용됩니다.</li>"
+      "<li>Kubernetes 관리 패널 추가(Kubernetes 메뉴): 어떤 연결과도 독립적으로 존속하는 "
+      "공유 PVC와 Secret을 생성·나열·삭제합니다.</li>"
+      "<li>공유 Secret의 키를 값 입력 없이 에이전트 환경 변수로 노출할 수 있습니다.</li>"
+      "<li>기존 PVC의 내용을 새 PVC로 앱에서 바로 복사할 수 있습니다(CSI 불필요).</li>"
+      "<li>실행 중인 Pod가 사용 중인 볼륨은 표시되어 실수로 이중 마운트되지 않습니다.</li></ul>"),
+ ),
  dict(v="1.4.0", status="latest", date=dict(
    en="September 3, 2026", zh="2026 年 9 月 3 日",
    ja="2026 年 9 月 3 日", ko="2026년 9월 3일"),
