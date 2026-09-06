@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>永続・共有・可搬——stateless エージェントの「共有できる状態」を、こう設計した — OpenAB Connect</title>
+<meta name="description" content="エージェントの実行環境は意図的に stateless で使い捨て。だが実際の仕事には状態が要る。状態を永続化し、セッションを越えて共有し、持ち運べるようにした方法——そして他人のデータを消さないために引き受けたトレードオフの話。">
+<link rel="canonical" href="https://connect.openab.dev/ja/notes/shareable-state-for-stateless-agents/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="永続・共有・可搬——stateless エージェントの「共有できる状態」を、こう設計した — OpenAB Connect">
+<meta property="og:description" content="エージェントの実行環境は意図的に stateless で使い捨て。だが実際の仕事には状態が要る。状態を永続化し、セッションを越えて共有し、持ち運べるようにした方法——そして他人のデータを消さないために引き受けたトレードオフの話。">
+<meta property="og:url" content="https://connect.openab.dev/ja/notes/shareable-state-for-stateless-agents/">
+<meta property="og:image" content="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/og-ja.png?v=6367af95">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="永続・共有・可搬——stateless エージェントの共有できる状態">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="永続・共有・可搬——stateless エージェントの「共有できる状態」を、こう設計した — OpenAB Connect">
+<meta name="twitter:description" content="エージェントの実行環境は意図的に stateless で使い捨て。だが実際の仕事には状態が要る。状態を永続化し、セッションを越えて共有し、持ち運べるようにした方法——そして他人のデータを消さないために引き受けたトレードオフの話。">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/og-ja.png?v=6367af95">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=d4079a77">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ja/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ja/#features">特徴</a>
+    <a href="/ja/#faq">よくある質問</a>
+    <a href="/ja/notes/">開発ノート</a>
+    <a href="/ja/releases/">リリース</a>
+    <a href="/ja/support.html">サポート</a>
+    <span class="lang"><a href="/zh/notes/shareable-state-for-stateless-agents/">中文</a>|<a class="active" href="/ja/notes/shareable-state-for-stateless-agents/">日本語</a>|<a href="/ko/notes/shareable-state-for-stateless-agents/">한국어</a>|<a href="/notes/shareable-state-for-stateless-agents/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/ja/notes/">開発ノート</a></p>
+  <h1>永続・共有・可搬——stateless エージェントの「共有できる状態」を、こう設計した</h1>
+  <p class="byline">OpenAB Connect · 2026 年 9 月 6 日</p>
+  <p class="lede">OpenAB Connect は初日から、エージェントの実行環境を stateless に設計してきた。uid 1000、sudo なし、root ファイルシステムは読み取り専用、ワークスペースはセッションとともに破棄。これは意図的だ——エージェントは暴走するし、シェルは騙される。環境は中身を信頼できないものとして扱わなければならない。だが矛盾はすぐに現れた。実際の仕事には状態が要る。半日かけて育てたワークスペース、複数のエージェントで共用する API キー、新しい環境に持ち込んで再実行したいデータ——どれもセッションと生死をともにすべきものではない。今回のアップデートは、「実行環境は無状態」と「仕事には状態が要る」のあいだに、共有できる状態の層をどう設計したかという話だ。</p>
+
+<h2>まず切り分ける——何が stateless で、何がそうであってはならないか</h2>
+<p>エージェントの実行環境は stateless であるべきだ。各セッションは使い捨てのサンドボックスで、
+壊れたら捨てて、きれいなものを立ち上げ直せばいい。だが /workspace の中のデータは別の話だ。
+この二つを縛り付けてしまうのは、いちばん犯しやすく、いちばん痛い間違いでもある。接続を閉じて
+そのエージェントを片付けたかっただけなのに、三時間ぶんの成果が一緒に消える。</p>
+<p>そこで最初の決定：ワークスペースのライフサイクルは、セッションのライフサイクルから独立
+できなければならない。今回のリリースでは、デプロイ時に三つから選べる——使い捨て（emptyDir）、
+新しい永続ディスクの作成（PVC）、既存ディスクのマウント。前の二つは以前からあった。要は三つ目
+で、これによって「データ」は、複数のセッションが代わる代わる使える一級市民になる。</p>
+<h2>「借り物」は「持ち物」ではない——誤削除を防ぐ一線</h2>
+<p>既存ディスクのマウントを許した瞬間、危険が一つ現れる。接続を削除するとき、そのディスクを
+消していいのか？</p>
+<p>私たちの答えは一つの固い規則だ。この app が作ったものだけを、この app が消す。あなたが
+マウントするよう指定したものは、一切消さない。事前に作っておいたディスクや、ほかのエージェント
+が共用しているディスクは、この接続にとって「借り物」であって「持ち物」ではない——接続を削除
+すれば pod は片付くが、ディスクは元のまま残る。</p>
+<p>当たり前に聞こえるが、正しくやるには、所有権が証拠に基づかなければならない。推測では
+だめだ。私たちが踏んだ穴はこうだった。初期のクリーンアップロジックは、「記録にディスク名が
+ある」だけで削除していた。自分が作ったディスクしか記録されない時代には安全だった——だが既存
+ディスクのマウントを開放した瞬間、同じロジックが、ユーザーが削除を許可した覚えのないディスク
+を消しに行く。修正後の原則はこうだ。所有権は、デプロイ時点の実際の証拠で決める（これは本当に、
+今回、私が作ったものか？）。名前がたまたま一致することから推論しない。慣習から推測した名前は
+証明されていない所有権であり、証明されていないなら、消さない。</p>
+<h2>共有——セッションだけでなく、エージェントも越える</h2>
+<figure class="cmp-shot"><img src="/notes/shareable-state-for-stateless-agents/management-panel.png?v=bf2487f1" width="1504" height="1328" alt="OpenAB Connect の Kubernetes 管理パネル：context は macmini-orbstack、namespace は openab-pty。共有 volume claims に kiro-shared-pvc と kiroshared-pvc2（Bound・10Gi・local-path）が並び、下に New PVC / Delete / Copy ボタン。共有 secrets には oab-kiro-shared-secrets（key は KIRO_API_KEY）"></figure>
+<p>永続化だけでは足りない。一つの OpenAI キー、複数のエージェントが読む設定——エージェントを
+立ち上げるたびに打ち直し、それぞれに保存するようなものではない。そこで今回、Kubernetes の管理
+パネルを追加した。ここで作った PVC と Secret は共有で、どの接続からも独立している——特定の
+接続に属さず、どの接続を削除しても影響を受けず、消えるのはパネルで手動で削除したときだけだ。</p>
+<p>Secret については、一つの原則にこだわった。平文はこの app を通らない。デプロイ時に、共有
+Secret の特定の key をエージェントの環境変数として直接指定できる——使うのは Kubernetes の
+secretKeyRef で、値は最初から最後までクラスタの中に留まる。app が運ぶのは名前だけで、中身には
+触れない。「キーを入力欄に貼り付ける」のとは、セキュリティの等級が違う。</p>
+<h2>可搬——汚染ではなく、複製</h2>
+<p>状態が共有できるようになると、次の要求は自然に出てくる。既存のディスクを起点に、複製を
+一つ作って新しいエージェントに遊ばせたい。ただし元のディスクには触れずに。</p>
+<p>ここで私たちは、Kubernetes の CSI clone をあえて使わなかった。下層のストレージドライバの
+対応が必要で、多くの環境（開発でよく使う local-path を含む）にはそれがないからだ。使ったのは、
+もっと素朴だが、どこでも動くやり方だ。ごく短命の job を立ち上げ、コピー元（読み取り専用）と
+コピー先を同時にマウントし、cp -a で中身を写して、自分で消える。この job は厳格に harden して
+ある（非 root、全 capability の破棄、読み取り専用の root fs、service-account トークンなし、
+コピー元は読み取り専用）。あなたのデータに触れるコードなのだから、信頼できないコードを扱う
+やり方で扱うべきだ。</p>
+<p>正直な境界を一つ。この方法で複製できるのは、遊んでいるディスクだけだ。いまどこかの pod に
+使われているディスク（RWO——マウントできるのは一度に一つ）については、選べないようにして
+「使用中」と明示する。job をタイムアウトまで待たせたりはしない。「使用中」のディスクを邪魔
+せずに複製するには、本当に CSI スナップショットが要る——それは未来に残した一歩だ。</p>
+<h2>あの矛盾に戻る</h2>
+<p>「stateless なエージェント」と「共有できる状態」は、衝突しているように聞こえて、実は
+していない。stateless なのは実行環境だ——その層は使い捨てで、信頼せず、いつでも捨てられて
+ほしい。状態を持つのは仕事そのものだ——その層は永続し、共有でき、持ち運べてほしい。今回の
+アップデートがやったのは、この二つの層をきれいに分けることだ。サンドボックスは使い捨ての
+ままに、データには、どのセッションよりも長く生き、明示的に所有されるか明示的に借りられ、複製
+して運べる住処を与える。</p>
+<p>app を閉じても、エージェントは走り続ける。接続を削除しても、データは残る。同じ信念の
+両面だ。短命であるべきものは短命に。永続すべきものには、吟味に耐える所有権のモデルを。</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/ja/privacy.html">プライバシー</a>
+  <a href="/ja/support.html">サポート</a>
+  <a href="https://github.com/openabdev/openab-pty">ランタイムのソース</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

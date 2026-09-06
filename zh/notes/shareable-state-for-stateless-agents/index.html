@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>持久、共享、可攜：stateless agent 的可共享狀態，我們怎麼設計 — OpenAB Connect</title>
+<meta name="description" content="agent 的執行環境刻意 stateless、用完即棄，但真實工作需要狀態。這篇談我們如何讓狀態持久、可跨 session 共享、可攜——以及為了不刪別人的資料所做的取捨。">
+<link rel="canonical" href="https://connect.openab.dev/zh/notes/shareable-state-for-stateless-agents/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="持久、共享、可攜：stateless agent 的可共享狀態，我們怎麼設計 — OpenAB Connect">
+<meta property="og:description" content="agent 的執行環境刻意 stateless、用完即棄，但真實工作需要狀態。這篇談我們如何讓狀態持久、可跨 session 共享、可攜——以及為了不刪別人的資料所做的取捨。">
+<meta property="og:url" content="https://connect.openab.dev/zh/notes/shareable-state-for-stateless-agents/">
+<meta property="og:image" content="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/og-zh.png?v=38a70937">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="持久、共享、可攜——stateless agent 的可共享狀態">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="持久、共享、可攜：stateless agent 的可共享狀態，我們怎麼設計 — OpenAB Connect">
+<meta name="twitter:description" content="agent 的執行環境刻意 stateless、用完即棄，但真實工作需要狀態。這篇談我們如何讓狀態持久、可跨 session 共享、可攜——以及為了不刪別人的資料所做的取捨。">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/og-zh.png?v=38a70937">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=d4079a77">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/zh/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/zh/#features">特色</a>
+    <a href="/zh/#faq">常見問題</a>
+    <a href="/zh/notes/">開發筆記</a>
+    <a href="/zh/releases/">版本紀錄</a>
+    <a href="/zh/support.html">支援</a>
+    <span class="lang"><a class="active" href="/zh/notes/shareable-state-for-stateless-agents/">中文</a>|<a href="/ja/notes/shareable-state-for-stateless-agents/">日本語</a>|<a href="/ko/notes/shareable-state-for-stateless-agents/">한국어</a>|<a href="/notes/shareable-state-for-stateless-agents/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/zh/notes/">開發筆記</a></p>
+  <h1>持久、共享、可攜：stateless agent 的可共享狀態，我們怎麼設計</h1>
+  <p class="byline">OpenAB Connect · 2026 年 9 月 6 日</p>
+  <p class="lede">OpenAB Connect 從第一天就把 agent 的執行環境設計成 stateless：uid 1000、沒有 sudo、root 檔案系統唯讀、workspace 用完即棄。這是刻意的——agent 會失控、shell 會被騙，環境必須假設裡面的東西不可信。但一個矛盾很快浮現：真實的工作需要狀態。一個跑了半天的 workspace、一把多個 agent 共用的 API key、一份想搬去新環境重跑的資料——這些都不該跟著 session 一起生死。這次更新，講的就是我們怎麼在「執行環境無狀態」和「工作需要有狀態」之間，設計出一層可共享的狀態。</p>
+
+<h2>先分清楚：哪些是 stateless，哪些不該是</h2>
+<p>agent 的執行環境該是 stateless 的——每個 session 是一個可拋棄的沙箱，壞了就丟、重開一個
+乾淨的。但 /workspace 裡的資料是另一回事。把這兩者綁在一起，是最容易犯、也最痛的錯：你關掉
+一個連線，只是想收掉那個 agent，結果連它三小時的產出一起沒了。</p>
+<p>所以第一個決定：workspace 的生命週期，要能獨立於 session 的生命週期。這一版讓你在部署時
+三選一——用完即棄（emptyDir）、新建一顆持久磁碟（PVC）、或掛一顆既有的。前兩個是舊有的，
+第三個是這次的重點，因為它把「資料」變成一個可以被多個 session 輪流使用的一等公民。</p>
+<h2>「借用」不是「擁有」：一條防誤刪的紅線</h2>
+<p>一旦允許掛既有的磁碟，一個危險立刻出現：移除連線時，該不該刪那顆磁碟？</p>
+<p>我們的答案是一條硬規則：這個 app 建的，才由這個 app 刪；你指定給它掛的，一律不刪。一顆你
+事先建好、或別的 agent 正在共用的磁碟，對這個連線來說是「借用」，不是「擁有」——移除連線只
+收掉 pod，磁碟原封不動。</p>
+<p>這聽起來理所當然，但要做對，關鍵在於所有權必須有證據，不能用猜的。我們踩過的洞是：早期的
+清理邏輯只要看到「記錄裡有磁碟名字」就刪。這在「只有自己建的磁碟才會被記錄」的年代是安全的
+——但一旦開放掛既有磁碟，同樣的邏輯就會去刪一顆使用者根本沒授權刪的磁碟。修正的原則是：
+所有權由部署當下的實際證據決定（這顆真的是我這次建的嗎？），而不是由名字碰巧對得上來推斷。
+用慣例猜出來的名字，是未經證實的所有權；未經證實，就不刪。</p>
+<h2>共享：狀態不只跨 session，也跨 agent</h2>
+<figure class="cmp-shot"><img src="/notes/shareable-state-for-stateless-agents/management-panel.png?v=bf2487f1" width="1504" height="1328" alt="OpenAB Connect 的 Kubernetes 管理面板：context macmini-orbstack、namespace openab-pty；共享 volume claims 列出 kiro-shared-pvc 與 kiroshared-pvc2（Bound、10Gi、local-path），下方有 New PVC / Delete / Copy 按鈕；共享 secrets 列出 oab-kiro-shared-secrets（key KIRO_API_KEY）"></figure>
+<p>持久還不夠。一把 OpenAI key、一份多個 agent 都要讀的設定，不該每開一個 agent 就重打一次、
+各存一份。所以這一版加了一個 Kubernetes 管理面板：在這裡建立的 PVC 與 Secret 是共享的、獨立
+於任何連線的——它們不屬於某一條連線，移除任何連線都不會動到它們，只有在面板裡才會被手動刪除。</p>
+<p>Secret 的部分特別講究一個原則：明文不該經過這個 app。部署時你可以把共享 Secret 的某個 key
+直接指定成 agent 的環境變數——用的是 Kubernetes 的 secretKeyRef，值從頭到尾留在叢集裡，app
+只搬名字，不碰內容。這跟「把 key 貼進一個輸入框」是兩種安全等級。</p>
+<h2>可攜：複製，而不是污染</h2>
+<p>有了共享狀態，下一個需求很自然：我想拿一顆現有磁碟當起點，複製一份出來給新的 agent 玩，
+但不動到原本那顆。</p>
+<p>這裡我們刻意沒用 Kubernetes 的 CSI clone——因為那需要底層儲存驅動支援，而很多環境（包括
+開發常用的 local-path）根本沒有。我們用的是一個更樸素、但到處都能跑的做法：起一個極短命的
+job，同時掛來源（唯讀）和目的，cp -a 把內容複製過去，然後自己消失。這個 job 被嚴格 harden
+（非 root、丟掉所有 capability、唯讀 root fs、不掛 service-account token、來源唯讀），因為它
+是一段會碰到你資料的程式，就該用對待不可信程式的方式對待它。</p>
+<p>一個誠實的邊界：這條路只能複製閒置的磁碟。一顆正被某個 pod 用著的磁碟（RWO，一次只能一個
+掛載者），我們的做法是不讓你選、清楚標示「使用中」，而不是讓 job 卡在那裡等到逾時。要複製
+「使用中」的磁碟而不打擾它，那才真的需要 CSI 快照——那是我們留給未來的一步。</p>
+<h2>回到那個矛盾</h2>
+<p>「stateless agent」和「可共享的狀態」聽起來衝突，其實不是。stateless 的是執行環境——那層
+我們要它可拋棄、不可信、隨時能丟。有狀態的是工作本身——那層我們要它持久、可共享、可搬。這次
+更新做的，就是把這兩層乾淨地分開：讓沙箱繼續用完即棄，同時給資料一個能活得比任何單一 session
+更久、被明確擁有或明確借用、能被複製搬移的家。</p>
+<p>關掉 app，agent 繼續跑。移除連線，資料還在。這是同一個信念的兩面：該短暫的東西讓它短暫，
+該持久的東西，值得一個經得起推敲的所有權模型。</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/zh/privacy.html">隱私</a>
+  <a href="/zh/support.html">支援</a>
+  <a href="https://github.com/openabdev/openab-pty">runtime 原始碼</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

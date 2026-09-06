@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Durable, shared, portable: how we designed shareable state for stateless agents — OpenAB Connect</title>
+<meta name="description" content="The agent's execution environment is deliberately stateless and disposable — but real work needs state. How we made state durable, shareable across sessions, and portable — and the trade-offs we accepted so we never delete someone else's data.">
+<link rel="canonical" href="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Durable, shared, portable: how we designed shareable state for stateless agents — OpenAB Connect">
+<meta property="og:description" content="The agent's execution environment is deliberately stateless and disposable — but real work needs state. How we made state durable, shareable across sessions, and portable — and the trade-offs we accepted so we never delete someone else's data.">
+<meta property="og:url" content="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+<meta property="og:image" content="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/og-en.png?v=b6b62159">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Durable, shared, portable — shareable state for stateless agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Durable, shared, portable: how we designed shareable state for stateless agents — OpenAB Connect">
+<meta name="twitter:description" content="The agent's execution environment is deliberately stateless and disposable — but real work needs state. How we made state durable, shareable across sessions, and portable — and the trade-offs we accepted so we never delete someone else's data.">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/og-en.png?v=b6b62159">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=d4079a77">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/shareable-state-for-stateless-agents/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/#features">Features</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/notes/">Dev notes</a>
+    <a href="/releases/">Releases</a>
+    <a href="/support.html">Support</a>
+    <span class="lang"><a href="/zh/notes/shareable-state-for-stateless-agents/">中文</a>|<a href="/ja/notes/shareable-state-for-stateless-agents/">日本語</a>|<a href="/ko/notes/shareable-state-for-stateless-agents/">한국어</a>|<a class="active" href="/notes/shareable-state-for-stateless-agents/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/notes/">Dev notes</a></p>
+  <h1>Durable, shared, portable: how we designed shareable state for stateless agents</h1>
+  <p class="byline">OpenAB Connect · September 6, 2026</p>
+  <p class="lede">OpenAB Connect has kept the agent's execution environment stateless from day one: uid 1000, no sudo, a read-only root filesystem, a workspace discarded with the session. That is deliberate — agents run away and shells get tricked, so the environment must assume nothing inside it can be trusted. But a contradiction surfaced quickly: real work needs state. A workspace half a day in the making, an API key several agents share, data you want to carry into a fresh environment and rerun — none of it should live and die with a session. This update is about the layer of shareable state we designed between a stateless environment and stateful work.</p>
+
+<h2>First, draw the line: what is stateless, and what must not be</h2>
+<p>The agent's execution environment should be stateless — each session a disposable sandbox:
+if it breaks, throw it away and start a clean one. But the data in /workspace is a different
+matter. Tying the two together is the easiest mistake to make and the most painful one: you
+close a connection meaning only to retire that agent, and three hours of its output go with
+it.</p>
+<p>So the first decision: a workspace's lifecycle must be able to run independently of the
+session's. This release gives you three choices at deploy time — disposable (emptyDir), a
+freshly created persistent disk (a PVC), or an existing one mounted in. The first two existed
+before; the third is the point of this release, because it turns data into a first-class
+citizen that successive sessions can take turns using.</p>
+<h2>Borrowed is not owned: a hard line against deleting other people's data</h2>
+<p>The moment you allow mounting an existing disk, a danger appears: when a connection is
+removed, should that disk be deleted?</p>
+<p>Our answer is one hard rule: this app deletes only what this app created; anything you told
+it to mount is never touched. A disk you provisioned beforehand, or one other agents are
+sharing, is borrowed by this connection, not owned — removing the connection tears down the
+pod and leaves the disk exactly as it was.</p>
+<p>That sounds obvious, but getting it right hinges on ownership being evidenced, never
+guessed. The hole we fell into: our early cleanup logic deleted any disk whose name appeared
+in its records. That was safe in the era when only self-created disks were ever recorded —
+but the moment existing disks could be mounted, the same logic would delete a disk the user
+never authorized it to touch. The corrected principle: ownership is decided by actual evidence
+at deploy time (did I really create this one, this time?), not inferred from a name that
+happens to match. A name guessed from convention is unproven ownership; unproven means not
+deleted.</p>
+<h2>Shared: state across agents, not just across sessions</h2>
+<figure class="cmp-shot"><img src="/notes/shareable-state-for-stateless-agents/management-panel.png?v=bf2487f1" width="1504" height="1328" alt="OpenAB Connect's Kubernetes management panel: context macmini-orbstack, namespace openab-pty; shared volume claims list kiro-shared-pvc and kiroshared-pvc2 (Bound, 10Gi, local-path) with New PVC / Delete / Copy buttons below; shared secrets list oab-kiro-shared-secrets (key KIRO_API_KEY)"></figure>
+<p>Durable is not enough. An OpenAI key, a config several agents all read — these should not
+be retyped and stored once per agent. So this release adds a Kubernetes management panel: PVCs
+and Secrets created there are shared and independent of any connection — they belong to no
+connection, removing any connection leaves them untouched, and only a manual action in the
+panel deletes them.</p>
+<p>The Secret side is strict about one principle: plaintext should never pass through this
+app. At deploy time you can bind a key of a shared Secret directly to an agent's environment
+variable — via Kubernetes's secretKeyRef, so the value stays inside the cluster end to end;
+the app moves names, never contents. That is a different security class from pasting a key
+into a text field.</p>
+<h2>Portable: copy, don't contaminate</h2>
+<p>Once state is shared, the next need follows naturally: take an existing disk as a starting
+point, copy it for a new agent to play with, and leave the original alone.</p>
+<p>Here we deliberately did not use Kubernetes CSI cloning — it needs support from the
+underlying storage driver, which many environments (including local-path, the usual choice in
+development) simply lack. We use something plainer that runs everywhere: a very short-lived
+job that mounts the source (read-only) and the destination side by side, copies the contents
+across with cp -a, and then disappears. The job is strictly hardened (non-root, all
+capabilities dropped, read-only root filesystem, no service-account token, source mounted
+read-only), because it is a piece of code that touches your data, and such code deserves to
+be treated the way untrusted code is treated.</p>
+<p>An honest boundary: this path can only copy an idle disk. For a disk currently in use by a
+pod (RWO — one mounter at a time), our choice is to make it unselectable and label it clearly
+as in use, rather than let the job hang until it times out. Copying a live disk without
+disturbing it genuinely requires CSI snapshots — a step we have left for the future.</p>
+<h2>Back to the contradiction</h2>
+<p>“Stateless agent” and “shareable state” sound like a conflict. They are not. What is
+stateless is the execution environment — the layer we want disposable, untrusted, discardable
+at any moment. What is stateful is the work itself — the layer we want durable, shareable,
+movable. What this update does is separate the two layers cleanly: the sandbox stays
+disposable, while the data gets a home that outlives any single session, is explicitly owned
+or explicitly borrowed, and can be copied and moved.</p>
+<p>Close the app, and the agent keeps running. Remove the connection, and the data is still
+there. Two faces of the same conviction: let what should be ephemeral be ephemeral — and what
+should persist deserves an ownership model that stands up to scrutiny.</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/support.html">Support</a>
+  <a href="https://github.com/openabdev/openab-pty">Runtime source</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>
