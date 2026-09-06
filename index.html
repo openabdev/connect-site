@@ -103,6 +103,10 @@
 
 <section class="faq" id="faq">
 <h2>Questions</h2>
+<details id="faq-gke">
+  <summary><span class="q">Does it support GKE?</span></summary>
+  <div class="a"><p>Yes, with one setup step. GKE's default kubeconfig authenticates by running <code>gke-gcloud-auth-plugin</code> — an external credential helper — every time it needs a token. OpenAB Connect ships on the Mac App Store, and the App Sandbox does not allow a sandboxed app to execute an external helper like that, so a kubeconfig that relies on it cannot deploy.</p><p>The workaround is a <strong>static kubeconfig</strong>: one that carries a token or client certificate directly instead of an <code>exec</code> block. Generate it on your own machine (where <code>gcloud</code> runs unrestricted) and point the app at that file. A kubeconfig backed by a Google service account key is the durable form; a short-lived token works too but expires. EKS avoids this because the app talks to AWS through its own SDK rather than an external plugin — native GCP credentials are on the roadmap to close the same gap for GKE.</p></div>
+</details>
 <details id="faq-why-not-ssh">
   <summary><span class="q">How is this different from <code>kubectl exec</code> or SSH?</span></summary>
   <div class="a"><p>Both give you a shell; neither gives you a session that survives. Quit your terminal mid-<code>exec</code> and the process dies with the connection. Here the session lives in the container, so closing the app closes a WebSocket and nothing else — the next launch re-attaches from the byte where output stopped and restores the same split layout. The deployment model differs too: no kubeconfig on the client, no port-forward, and a credential that authorises one session rather than your whole cluster.</p></div>

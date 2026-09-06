@@ -95,6 +95,19 @@ L = {
   ],
   faq_title="Questions",
   faq=[
+   ("gke", "Does it support GKE?",
+    "<p>Yes, with one setup step. GKE's default kubeconfig authenticates by running "
+    "<code>gke-gcloud-auth-plugin</code> — an external credential helper — every time it "
+    "needs a token. OpenAB Connect ships on the Mac App Store, and the App Sandbox does "
+    "not allow a sandboxed app to execute an external helper like that, so a kubeconfig "
+    "that relies on it cannot deploy.</p>"
+    "<p>The workaround is a <strong>static kubeconfig</strong>: one that carries a token "
+    "or client certificate directly instead of an <code>exec</code> block. Generate it on "
+    "your own machine (where <code>gcloud</code> runs unrestricted) and point the app at "
+    "that file. A kubeconfig backed by a Google service account key is the durable form; "
+    "a short-lived token works too but expires. EKS avoids this because the app talks to "
+    "AWS through its own SDK rather than an external plugin — native GCP credentials are "
+    "on the roadmap to close the same gap for GKE.</p>"),
    ("why-not-ssh", "How is this different from <code>kubectl exec</code> or SSH?",
     "Both give you a shell; neither gives you a session that survives. Quit your "
     "terminal mid-<code>exec</code> and the process dies with the connection. Here the "
@@ -256,6 +269,17 @@ L = {
   ],
   faq_title="常見問題",
   faq=[
+   ("gke", "支援 GKE 嗎?",
+    "<p>支援,但需要一個設定步驟。GKE 預設的 kubeconfig 每次要取得 token 時,都會執行 "
+    "<code>gke-gcloud-auth-plugin</code> —— 一個外部憑證 helper。OpenAB Connect 在 Mac App "
+    "Store 上架,而 App Sandbox 不允許沙箱化的 app 執行這類外部 helper,所以依賴它的 "
+    "kubeconfig 無法部署。</p>"
+    "<p>解法是使用 <strong>static kubeconfig</strong>:直接內含 token 或 client "
+    "憑證,而不是一個 <code>exec</code> 區塊。請在你自己的機器上(<code>gcloud</code> 不"
+    "受限制的地方)產生它,再讓 app 指向那個檔案。以 Google service account key 為底的 "
+    "kubeconfig 是較持久的形式;短效 token 也可以,但會過期。EKS 沒有這個問題,是因為 app "
+    "透過自己的 SDK 與 AWS 溝通,而不是外部 plugin —— 原生 GCP 憑證已列入 roadmap,"
+    "用來為 GKE 補上同樣的路徑。</p>"),
    ("why-not-ssh", "這和 <code>kubectl exec</code> 或 SSH 有什麼不同?",
     "兩者都給你一個 shell，但都不給你一個活得下去的 session。<code>exec</code> 進行中"
     "關掉終端，程序就跟著連線一起死。這裡的 session 活在容器裡，關掉 app 只是關掉一條 "
@@ -404,6 +428,18 @@ L = {
   ],
   faq_title="よくある質問",
   faq=[
+   ("gke", "GKE に対応していますか?",
+    "<p>対応していますが、ひと手間の設定が必要です。GKE の既定の kubeconfig は、トークンが"
+    "必要になるたびに外部の認証ヘルパー <code>gke-gcloud-auth-plugin</code> を実行します。"
+    "OpenAB Connect は Mac App Store で配布されており、App Sandbox はサンドボックス化された"
+    "アプリがそのような外部ヘルパーを実行することを許可しません。そのため、それに依存する "
+    "kubeconfig ではデプロイできません。</p>"
+    "<p>回避策は <strong>static kubeconfig</strong> です。<code>exec</code> ブロックの代わりに"
+    "トークンやクライアント証明書を直接持つ kubeconfig を、<code>gcloud</code> が制限なく動く"
+    "自分のマシンで生成し、アプリにそのファイルを指定します。Google サービスアカウントキーに"
+    "基づく kubeconfig が持続的な形です。短命トークンでも動きますが期限切れになります。EKS で"
+    "この問題が起きないのは、アプリが外部プラグインではなく独自の SDK で AWS と通信するから"
+    "です。GKE でも同じ隙間を埋めるため、ネイティブな GCP 認証情報がロードマップにあります。</p>"),
    ("why-not-ssh", "<code>kubectl exec</code> や SSH と何が違うのですか?",
     "どちらもシェルは得られますが、生き残るセッションは得られません。"
     "<code>exec</code> の途中でターミナルを閉じれば、プロセスは接続と一緒に死にます。"
@@ -570,6 +606,17 @@ L = {
   ],
   faq_title="자주 묻는 질문",
   faq=[
+   ("gke", "GKE를 지원하나요?",
+    "<p>지원하지만 설정 한 단계가 필요합니다. GKE의 기본 kubeconfig는 토큰이 필요할 때마다 "
+    "외부 자격 증명 헬퍼인 <code>gke-gcloud-auth-plugin</code>을 실행합니다. OpenAB Connect는 "
+    "Mac App Store로 배포되며, App Sandbox는 샌드박스 앱이 그런 외부 헬퍼를 실행하는 것을 "
+    "허용하지 않으므로, 그에 의존하는 kubeconfig로는 배포할 수 없습니다.</p>"
+    "<p>해결책은 <strong>static kubeconfig</strong>입니다. <code>exec</code> 블록 대신 토큰이나 "
+    "클라이언트 인증서를 직접 담은 kubeconfig를 <code>gcloud</code>가 제한 없이 동작하는 자신의 "
+    "기기에서 만든 뒤 앱이 그 파일을 가리키게 하세요. Google 서비스 계정 키 기반 kubeconfig가 "
+    "지속적인 형태이고, 짧은 수명의 토큰도 되지만 만료됩니다. EKS에서 이 문제가 없는 것은 앱이 "
+    "외부 플러그인이 아니라 자체 SDK로 AWS와 통신하기 때문입니다. GKE에도 같은 간극을 메우기 "
+    "위해 네이티브 GCP 자격 증명이 로드맵에 있습니다.</p>"),
    ("why-not-ssh", "<code>kubectl exec</code>이나 SSH와 무엇이 다릅니까?",
     "둘 다 셸은 주지만, 살아남는 세션은 주지 않습니다. <code>exec</code> 도중에 터미널을 "
     "닫으면 프로세스는 연결과 함께 죽습니다. 여기서는 세션이 컨테이너 안에 살아 있어서 "
