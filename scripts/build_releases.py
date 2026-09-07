@@ -298,9 +298,9 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.2.2", status="review", date=dict(
-   en="September 5, 2026", zh="2026 年 9 月 5 日",
-   ja="2026 年 9 月 5 日", ko="2026년 9월 5일"),
+ dict(v="0.2.2", status="latest", date=dict(
+   en="September 7, 2026", zh="2026 年 9 月 7 日",
+   ja="2026 年 9 月 7 日", ko="2026년 9월 7일"),
   body=dict(
    en="<ul>"
       "<li>New Settings screen — tap the gear in the top bar.</li>"
@@ -337,7 +337,7 @@ REMOTE_RELEASES = [
       "<li>처음 열 때 터미널 세션이 잘못된 너비로 표시되던 문제를 수정하고, 일부 "
       "세션에 연결할 때 나타나던 색상 조회 문자를 제거했습니다.</li></ul>"),
  ),
- dict(v="0.2.1", status="latest", date=dict(
+ dict(v="0.2.1", status="", date=dict(
    en="September 2, 2026", zh="2026 年 9 月 2 日",
    ja="2026 年 9 月 2 日", ko="2026년 9월 2일"),
   body=dict(
