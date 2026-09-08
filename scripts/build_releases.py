@@ -38,9 +38,9 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.5.0", status="review", date=dict(
-   en="Submitted September 6, 2026", zh="2026 年 9 月 6 日送審",
-   ja="2026 年 9 月 6 日申請", ko="2026년 9월 6일 심사 제출"),
+ dict(v="1.5.0", status="latest", date=dict(
+   en="September 7, 2026", zh="2026 年 9 月 7 日",
+   ja="2026 年 9 月 7 日", ko="2026년 9월 7일"),
   body=dict(
    en="<ul>"
       "<li>Persistent workspaces: mount an existing PVC as a session's "
@@ -87,7 +87,7 @@ CONNECT_RELEASES = [
       "<li>기존 PVC의 내용을 새 PVC로 앱에서 바로 복사할 수 있습니다(CSI 불필요).</li>"
       "<li>실행 중인 Pod가 사용 중인 볼륨은 표시되어 실수로 이중 마운트되지 않습니다.</li></ul>"),
  ),
- dict(v="1.4.0", status="latest", date=dict(
+ dict(v="1.4.0", status="", date=dict(
    en="September 3, 2026", zh="2026 年 9 月 3 日",
    ja="2026 年 9 月 3 日", ko="2026년 9월 3일"),
   body=dict(
