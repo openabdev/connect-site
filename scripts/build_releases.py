@@ -298,7 +298,19 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.2.2", status="latest", date=dict(
+ dict(v="0.2.3", status="latest", date=dict(
+   en="September 8, 2026", zh="2026 年 9 月 8 日",
+   ja="2026 年 9 月 8 日", ko="2026년 9월 8일"),
+  body=dict(
+   en="<ul><li>Maintenance update: refreshed App Store screenshots and minor "
+      "housekeeping. No functional changes.</li></ul>",
+   zh="<ul><li>維護性更新：更新 App Store 截圖並進行小幅整理。功能沒有變更。</li></ul>",
+   ja="<ul><li>メンテナンス更新：App Store のスクリーンショットを更新し、細部を整理"
+      "しました。機能の変更はありません。</li></ul>",
+   ko="<ul><li>유지보수 업데이트: App Store 스크린샷을 새로 고치고 사소한 정리를 "
+      "했습니다. 기능 변경은 없습니다.</li></ul>"),
+ ),
+ dict(v="0.2.2", status="", date=dict(
    en="September 7, 2026", zh="2026 年 9 月 7 日",
    ja="2026 年 9 月 7 日", ko="2026년 9월 7일"),
   body=dict(
