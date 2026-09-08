@@ -103,6 +103,10 @@
 
 <section class="faq" id="faq">
 <h2>常見問題</h2>
+<details id="faq-controllers">
+  <summary><span class="q">支援 Apple TV 遙控器或遊戲手把嗎?</span></summary>
+  <div class="a"><p>支援——因為 app 把切換窗格與聽寫都做成了一般的鍵盤快捷鍵(<code>⌘[</code> / <code>⌘]</code> 在分割窗格間移動、<code>⌃⌘M</code> 聽寫),任何能合成鍵盤事件的東西都能隔著房間駕馭它。兩篇 step-by-step 教學:</p><ul><li><a href="https://eli5.openab.dev/howto-appletv-remote-vibe-coding/">用 Apple TV 遙控器 Vibe Coding</a>——配對第三代 Siri Remote,用 HyperVibe 常駐程式重對應。</li><li><a href="https://eli5.openab.dev/8bitdo-vibe-coding-howto/">用 8BitDo Zero 2 手把 Vibe Coding</a>——不到 20 美元的藍牙手把切到鍵盤模式,用 Karabiner-Elements 重對應。</li></ul><p>十字鍵或方向環切換窗格(畫面浮現 HUD 顯示切到哪個),一顆鍵送出,另一顆啟動在裝置端的聽寫,用你 Mac 的麥克風——包含 AirPods。</p></div>
+</details>
 <details id="faq-gke">
   <summary><span class="q">支援 GKE 嗎?</span></summary>
   <div class="a"><p>支援,但需要一個設定步驟。GKE 預設的 kubeconfig 每次要取得 token 時,都會執行 <code>gke-gcloud-auth-plugin</code> —— 一個外部憑證 helper。OpenAB Connect 在 Mac App Store 上架,而 App Sandbox 不允許沙箱化的 app 執行這類外部 helper,所以依賴它的 kubeconfig 無法部署。</p><p>解法是使用 <strong>static kubeconfig</strong>:直接內含 token 或 client 憑證,而不是一個 <code>exec</code> 區塊。請在你自己的機器上(<code>gcloud</code> 不受限制的地方)產生它,再讓 app 指向那個檔案。以 Google service account key 為底的 kubeconfig 是較持久的形式;短效 token 也可以,但會過期。EKS 沒有這個問題,是因為 app 透過自己的 SDK 與 AWS 溝通,而不是外部 plugin —— 原生 GCP 憑證已列入 roadmap,用來為 GKE 補上同樣的路徑。</p></div>

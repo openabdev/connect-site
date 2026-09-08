@@ -95,6 +95,22 @@ L = {
   ],
   faq_title="Questions",
   faq=[
+   ("controllers", "Does it support an Apple TV remote or a game controller?",
+    "<p>Yes — because the app exposes its pane navigation and dictation as ordinary "
+    "keyboard shortcuts (<code>⌘[</code> / <code>⌘]</code> to move between split panes, "
+    "<code>⌃⌘M</code> for dictation), anything that can synthesize keystrokes can drive "
+    "it from across the room. Two step-by-step guides:</p>"
+    "<ul>"
+    "<li><a href=\"https://eli5.openab.dev/howto-appletv-remote-vibe-coding/\">Vibe coding "
+    "with an Apple TV remote</a> — pair a 3rd-gen Siri Remote and remap it with the "
+    "HyperVibe daemon.</li>"
+    "<li><a href=\"https://eli5.openab.dev/8bitdo-vibe-coding-howto/\">Vibe coding with an "
+    "8BitDo Zero 2</a> — a sub-$20 Bluetooth gamepad in keyboard mode, remapped with "
+    "Karabiner-Elements.</li>"
+    "</ul>"
+    "<p>The D-pad or ring switches panes (an on-screen HUD shows which one), one button "
+    "sends, and another starts on-device dictation through your Mac's mic — AirPods "
+    "included.</p>"),
    ("gke", "Does it support GKE?",
     "<p>Yes, with one setup step. GKE's default kubeconfig authenticates by running "
     "<code>gke-gcloud-auth-plugin</code> — an external credential helper — every time it "
@@ -269,6 +285,18 @@ L = {
   ],
   faq_title="常見問題",
   faq=[
+   ("controllers", "支援 Apple TV 遙控器或遊戲手把嗎?",
+    "<p>支援——因為 app 把切換窗格與聽寫都做成了一般的鍵盤快捷鍵(<code>⌘[</code> / "
+    "<code>⌘]</code> 在分割窗格間移動、<code>⌃⌘M</code> 聽寫),任何能合成鍵盤事件的東西都能"
+    "隔著房間駕馭它。兩篇 step-by-step 教學:</p>"
+    "<ul>"
+    "<li><a href=\"https://eli5.openab.dev/howto-appletv-remote-vibe-coding/\">用 Apple TV "
+    "遙控器 Vibe Coding</a>——配對第三代 Siri Remote,用 HyperVibe 常駐程式重對應。</li>"
+    "<li><a href=\"https://eli5.openab.dev/8bitdo-vibe-coding-howto/\">用 8BitDo Zero 2 手把 "
+    "Vibe Coding</a>——不到 20 美元的藍牙手把切到鍵盤模式,用 Karabiner-Elements 重對應。</li>"
+    "</ul>"
+    "<p>十字鍵或方向環切換窗格(畫面浮現 HUD 顯示切到哪個),一顆鍵送出,另一顆啟動"
+    "在裝置端的聽寫,用你 Mac 的麥克風——包含 AirPods。</p>"),
    ("gke", "支援 GKE 嗎?",
     "<p>支援,但需要一個設定步驟。GKE 預設的 kubeconfig 每次要取得 token 時,都會執行 "
     "<code>gke-gcloud-auth-plugin</code> —— 一個外部憑證 helper。OpenAB Connect 在 Mac App "
@@ -428,6 +456,22 @@ L = {
   ],
   faq_title="よくある質問",
   faq=[
+   ("controllers", "Apple TV リモコンやゲームパッドに対応していますか?",
+    "<p>対応しています——ペイン切り替えとディクテーションを通常のキーボードショートカット"
+    "(<code>⌘[</code> / <code>⌘]</code> で分割ペイン間を移動、<code>⌃⌘M</code> でディクテーション)"
+    "として公開しているので、キー入力を合成できるものなら何でも、部屋の向こうから操作できます。"
+    "手順ガイドは 2 本:</p>"
+    "<ul>"
+    "<li><a href=\"https://eli5.openab.dev/howto-appletv-remote-vibe-coding/\">Apple TV "
+    "リモコンで Vibe Coding</a> — 第 3 世代 Siri Remote をペアリングし、HyperVibe デーモンで"
+    "リマップします。</li>"
+    "<li><a href=\"https://eli5.openab.dev/8bitdo-vibe-coding-howto/\">8BitDo Zero 2 で "
+    "Vibe Coding</a> — 20 ドル未満の Bluetooth ゲームパッドをキーボードモードにし、"
+    "Karabiner-Elements でリマップします。</li>"
+    "</ul>"
+    "<p>方向パッドやリングでペインを切り替え(画面の HUD がどれかを表示)、あるボタンで送信、"
+    "別のボタンで Mac のマイク(AirPods を含む)を使ったオンデバイスのディクテーションを開始"
+    "します。</p>"),
    ("gke", "GKE に対応していますか?",
     "<p>対応していますが、ひと手間の設定が必要です。GKE の既定の kubeconfig は、トークンが"
     "必要になるたびに外部の認証ヘルパー <code>gke-gcloud-auth-plugin</code> を実行します。"
@@ -606,6 +650,21 @@ L = {
   ],
   faq_title="자주 묻는 질문",
   faq=[
+   ("controllers", "Apple TV 리모컨이나 게임 컨트롤러를 지원하나요?",
+    "<p>지원합니다 — 앱이 창 전환과 받아쓰기를 일반 키보드 단축키(<code>⌘[</code> / "
+    "<code>⌘]</code> 로 분할 창 간 이동, <code>⌃⌘M</code> 으로 받아쓰기)로 노출하기 때문에, "
+    "키 입력을 합성할 수 있는 것이라면 무엇이든 방 건너편에서 조작할 수 있습니다. 단계별 "
+    "가이드 두 편:</p>"
+    "<ul>"
+    "<li><a href=\"https://eli5.openab.dev/howto-appletv-remote-vibe-coding/\">Apple TV "
+    "리모컨으로 Vibe Coding</a> — 3세대 Siri Remote를 페어링하고 HyperVibe 데몬으로 "
+    "리매핑합니다.</li>"
+    "<li><a href=\"https://eli5.openab.dev/8bitdo-vibe-coding-howto/\">8BitDo Zero 2로 "
+    "Vibe Coding</a> — 20달러 미만의 블루투스 게임패드를 키보드 모드로 두고 "
+    "Karabiner-Elements로 리매핑합니다.</li>"
+    "</ul>"
+    "<p>D-패드나 링으로 창을 전환하고(화면 HUD가 어느 창인지 표시), 한 버튼으로 전송, "
+    "다른 버튼으로 Mac의 마이크(AirPods 포함)를 사용한 온디바이스 받아쓰기를 시작합니다.</p>"),
    ("gke", "GKE를 지원하나요?",
     "<p>지원하지만 설정 한 단계가 필요합니다. GKE의 기본 kubeconfig는 토큰이 필요할 때마다 "
     "외부 자격 증명 헬퍼인 <code>gke-gcloud-auth-plugin</code>을 실행합니다. OpenAB Connect는 "

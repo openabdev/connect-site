@@ -103,6 +103,10 @@
 
 <section class="faq" id="faq">
 <h2>Questions</h2>
+<details id="faq-controllers">
+  <summary><span class="q">Does it support an Apple TV remote or a game controller?</span></summary>
+  <div class="a"><p>Yes — because the app exposes its pane navigation and dictation as ordinary keyboard shortcuts (<code>⌘[</code> / <code>⌘]</code> to move between split panes, <code>⌃⌘M</code> for dictation), anything that can synthesize keystrokes can drive it from across the room. Two step-by-step guides:</p><ul><li><a href="https://eli5.openab.dev/howto-appletv-remote-vibe-coding/">Vibe coding with an Apple TV remote</a> — pair a 3rd-gen Siri Remote and remap it with the HyperVibe daemon.</li><li><a href="https://eli5.openab.dev/8bitdo-vibe-coding-howto/">Vibe coding with an 8BitDo Zero 2</a> — a sub-$20 Bluetooth gamepad in keyboard mode, remapped with Karabiner-Elements.</li></ul><p>The D-pad or ring switches panes (an on-screen HUD shows which one), one button sends, and another starts on-device dictation through your Mac's mic — AirPods included.</p></div>
+</details>
 <details id="faq-gke">
   <summary><span class="q">Does it support GKE?</span></summary>
   <div class="a"><p>Yes, with one setup step. GKE's default kubeconfig authenticates by running <code>gke-gcloud-auth-plugin</code> — an external credential helper — every time it needs a token. OpenAB Connect ships on the Mac App Store, and the App Sandbox does not allow a sandboxed app to execute an external helper like that, so a kubeconfig that relies on it cannot deploy.</p><p>The workaround is a <strong>static kubeconfig</strong>: one that carries a token or client certificate directly instead of an <code>exec</code> block. Generate it on your own machine (where <code>gcloud</code> runs unrestricted) and point the app at that file. A kubeconfig backed by a Google service account key is the durable form; a short-lived token works too but expires. EKS avoids this because the app talks to AWS through its own SDK rather than an external plugin — native GCP credentials are on the roadmap to close the same gap for GKE.</p></div>

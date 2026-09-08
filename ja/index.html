@@ -103,6 +103,10 @@
 
 <section class="faq" id="faq">
 <h2>よくある質問</h2>
+<details id="faq-controllers">
+  <summary><span class="q">Apple TV リモコンやゲームパッドに対応していますか?</span></summary>
+  <div class="a"><p>対応しています——ペイン切り替えとディクテーションを通常のキーボードショートカット(<code>⌘[</code> / <code>⌘]</code> で分割ペイン間を移動、<code>⌃⌘M</code> でディクテーション)として公開しているので、キー入力を合成できるものなら何でも、部屋の向こうから操作できます。手順ガイドは 2 本:</p><ul><li><a href="https://eli5.openab.dev/howto-appletv-remote-vibe-coding/">Apple TV リモコンで Vibe Coding</a> — 第 3 世代 Siri Remote をペアリングし、HyperVibe デーモンでリマップします。</li><li><a href="https://eli5.openab.dev/8bitdo-vibe-coding-howto/">8BitDo Zero 2 で Vibe Coding</a> — 20 ドル未満の Bluetooth ゲームパッドをキーボードモードにし、Karabiner-Elements でリマップします。</li></ul><p>方向パッドやリングでペインを切り替え(画面の HUD がどれかを表示)、あるボタンで送信、別のボタンで Mac のマイク(AirPods を含む)を使ったオンデバイスのディクテーションを開始します。</p></div>
+</details>
 <details id="faq-gke">
   <summary><span class="q">GKE に対応していますか?</span></summary>
   <div class="a"><p>対応していますが、ひと手間の設定が必要です。GKE の既定の kubeconfig は、トークンが必要になるたびに外部の認証ヘルパー <code>gke-gcloud-auth-plugin</code> を実行します。OpenAB Connect は Mac App Store で配布されており、App Sandbox はサンドボックス化されたアプリがそのような外部ヘルパーを実行することを許可しません。そのため、それに依存する kubeconfig ではデプロイできません。</p><p>回避策は <strong>static kubeconfig</strong> です。<code>exec</code> ブロックの代わりにトークンやクライアント証明書を直接持つ kubeconfig を、<code>gcloud</code> が制限なく動く自分のマシンで生成し、アプリにそのファイルを指定します。Google サービスアカウントキーに基づく kubeconfig が持続的な形です。短命トークンでも動きますが期限切れになります。EKS でこの問題が起きないのは、アプリが外部プラグインではなく独自の SDK で AWS と通信するからです。GKE でも同じ隙間を埋めるため、ネイティブな GCP 認証情報がロードマップにあります。</p></div>
