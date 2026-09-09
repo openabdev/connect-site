@@ -38,7 +38,34 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.5.0", status="latest", date=dict(
+ dict(v="1.5.2", status="review", date=dict(
+   en="Submitted September 9, 2026", zh="2026 年 9 月 9 日送審",
+   ja="2026 年 9 月 9 日申請", ko="2026년 9월 9일 심사 제출"),
+  body=dict(
+   en="<ul><li>Switching panes with \u2318[ / \u2318] now moves keyboard focus "
+      "straight to the terminal, so you can start typing immediately \u2014 no "
+      "mouse click needed.</li></ul>",
+   zh="<ul><li>用 \u2318[ / \u2318] 切換窗格時，鍵盤焦點會直接落到終端機，切過去即可打字，"
+      "不必再用滑鼠點一下。</li></ul>",
+   ja="<ul><li>\u2318[ / \u2318] でペインを切り替えると、キーボードフォーカスが端末へ直接"
+      "移るようになりました。切り替えた直後からすぐ入力でき、マウスでクリックする必要は"
+      "ありません。</li></ul>",
+   ko="<ul><li>\u2318[ / \u2318] 로 페인을 전환하면 키보드 포커스가 곧바로 터미널로 "
+      "이동합니다. 전환 직후 바로 입력할 수 있으며 마우스로 클릭할 필요가 없습니다.</li></ul>"),
+ ),
+ dict(v="1.5.1", status="latest", date=dict(
+   en="September 8, 2026", zh="2026 年 9 月 8 日",
+   ja="2026 年 9 月 8 日", ko="2026년 9월 8일"),
+  body=dict(
+   en="<ul><li>Maintenance update: refreshed Mac App Store screenshots. No "
+      "functional changes.</li></ul>",
+   zh="<ul><li>維護性更新：更新 Mac App Store 截圖。功能沒有變更。</li></ul>",
+   ja="<ul><li>メンテナンス更新：Mac App Store のスクリーンショットを更新しました。"
+      "機能の変更はありません。</li></ul>",
+   ko="<ul><li>유지보수 업데이트: Mac App Store 스크린샷을 새로 고쳤습니다. 기능 변경은 "
+      "없습니다.</li></ul>"),
+ ),
+ dict(v="1.5.0", status="", date=dict(
    en="September 7, 2026", zh="2026 年 9 月 7 日",
    ja="2026 年 9 月 7 日", ko="2026년 9월 7일"),
   body=dict(
