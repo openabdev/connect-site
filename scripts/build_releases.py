@@ -38,9 +38,9 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.5.2", status="review", date=dict(
-   en="Submitted September 9, 2026", zh="2026 年 9 月 9 日送審",
-   ja="2026 年 9 月 9 日申請", ko="2026년 9월 9일 심사 제출"),
+ dict(v="1.5.2", status="latest", date=dict(
+   en="September 9, 2026", zh="2026 年 9 月 9 日",
+   ja="2026 年 9 月 9 日", ko="2026년 9월 9일"),
   body=dict(
    en="<ul><li>Switching panes with \u2318[ / \u2318] now moves keyboard focus "
       "straight to the terminal, so you can start typing immediately \u2014 no "
@@ -53,7 +53,7 @@ CONNECT_RELEASES = [
    ko="<ul><li>\u2318[ / \u2318] 로 페인을 전환하면 키보드 포커스가 곧바로 터미널로 "
       "이동합니다. 전환 직후 바로 입력할 수 있으며 마우스로 클릭할 필요가 없습니다.</li></ul>"),
  ),
- dict(v="1.5.1", status="latest", date=dict(
+ dict(v="1.5.1", status="", date=dict(
    en="September 8, 2026", zh="2026 年 9 月 8 日",
    ja="2026 年 9 月 8 日", ko="2026년 9월 8일"),
   body=dict(
