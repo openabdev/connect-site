@@ -38,9 +38,9 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.6.0", status="review", date=dict(
-   en="Submitted September 9, 2026", zh="2026 年 9 月 9 日送審",
-   ja="2026 年 9 月 9 日申請", ko="2026년 9월 9일 심사 제출"),
+ dict(v="1.6.0", status="latest", date=dict(
+   en="September 10, 2026", zh="2026 年 9 月 10 日",
+   ja="2026 年 9 月 10 日", ko="2026년 9월 10일"),
   body=dict(
    en="<ul><li>Redesigned the “Remove connection” dialog for Kubernetes "
       "deployments: one Delete action plus two optional checkboxes — keep the "
@@ -64,7 +64,7 @@ CONNECT_RELEASES = [
       "<li>남겨둔 볼륨은 공유로 표시되어 Kubernetes 관리 패널에 나타나며, 나중에 재사용하거나 "
       "삭제할 수 있습니다 — 더 이상 접근할 수 없는 고아 볼륨이 없습니다.</li></ul>"),
  ),
- dict(v="1.5.2", status="latest", date=dict(
+ dict(v="1.5.2", status="", date=dict(
    en="September 9, 2026", zh="2026 年 9 月 9 日",
    ja="2026 年 9 月 9 日", ko="2026년 9월 9일"),
   body=dict(
