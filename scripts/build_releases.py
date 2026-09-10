@@ -38,6 +38,32 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
+ dict(v="1.6.0", status="review", date=dict(
+   en="Submitted September 9, 2026", zh="2026 年 9 月 9 日送審",
+   ja="2026 年 9 月 9 日申請", ko="2026년 9월 9일 심사 제출"),
+  body=dict(
+   en="<ul><li>Redesigned the “Remove connection” dialog for Kubernetes "
+      "deployments: one Delete action plus two optional checkboxes — keep the "
+      "pod running (orphan it), and keep its volume for reuse by a new "
+      "connection.</li>"
+      "<li>A retained volume is marked shared, so it appears in the Kubernetes "
+      "management panel where you can reuse or delete it later — no more "
+      "orphaned volumes you can’t reach.</li></ul>",
+   zh="<ul><li>重新設計 Kubernetes 部署的「移除連線」對話框：一個「刪除」動作，搭配兩個"
+      "選用勾選框——保留 Pod 繼續執行（孤立它），以及保留其磁碟區供新連線重用。</li>"
+      "<li>保留的磁碟區會標記為共享，因此會出現在 Kubernetes 管理面板中，之後可在那裡"
+      "重用或刪除——不再有無法存取的孤立磁碟區。</li></ul>",
+   ja="<ul><li>Kubernetes デプロイの「接続を削除」ダイアログを再設計：1 つの削除操作と"
+      "2 つの任意チェックボックス——Pod を実行したまま残す（オーファン化）、そのボリューム"
+      "を新しい接続で再利用するために残す。</li>"
+      "<li>残したボリュームは共有としてマークされ、Kubernetes 管理パネルに表示されるので、"
+      "後で再利用も削除もできます——到達できない孤立ボリュームはもうありません。</li></ul>",
+   ko="<ul><li>Kubernetes 배포의 ‘연결 제거’ 대화상자를 새로 설계했습니다: 하나의 삭제 "
+      "동작과 두 개의 선택적 체크박스 — Pod를 실행 상태로 남겨두기(고아화), 그리고 "
+      "새 연결에서 재사용하도록 볼륨 남겨두기.</li>"
+      "<li>남겨둔 볼륨은 공유로 표시되어 Kubernetes 관리 패널에 나타나며, 나중에 재사용하거나 "
+      "삭제할 수 있습니다 — 더 이상 접근할 수 없는 고아 볼륨이 없습니다.</li></ul>"),
+ ),
  dict(v="1.5.2", status="latest", date=dict(
    en="September 9, 2026", zh="2026 年 9 月 9 日",
    ja="2026 年 9 月 9 日", ko="2026년 9월 9일"),
