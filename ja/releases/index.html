@@ -43,6 +43,10 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
+  <div class="rhead"><span class="ver">1.6.1</span><span class="relbadge review">審査中</span><span class="plat">Mac</span><span class="when">2026 年 9 月 11 日申請</span></div>
+  <ul><li>セッションの色が iPhone に引き継がれます：OpenAB Remote と接続を共有すると、各セッションのカラータグも一緒に渡されるため、iPhone のセッション一覧とスワイプ切り替えの表示が Mac のタブと同じ色になります。</li><li>OpenAB Remote 0.3.0 が必要です。更新後は iPhone 側で接続を再度読み込んでください。</li></ul>
+</article>
+<article class="rel">
   <div class="rhead"><span class="ver">1.6.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 9 月 10 日</span></div>
   <ul><li>Kubernetes デプロイの「接続を削除」ダイアログを再設計：1 つの削除操作と2 つの任意チェックボックス——Pod を実行したまま残す（オーファン化）、そのボリュームを新しい接続で再利用するために残す。</li><li>残したボリュームは共有としてマークされ、Kubernetes 管理パネルに表示されるので、後で再利用も削除もできます——到達できない孤立ボリュームはもうありません。</li></ul>
 </article>
@@ -89,6 +93,10 @@
 </section>
 <section class="relgroup" id="app-remote" data-app="remote">
   <h2 class="relgroup-h">OpenAB Remote for iPhone <a href="https://apps.apple.com/jp/app/openab-remote/id6805733009">App Store ↗</a></h2>
+<article class="rel">
+  <div class="rhead"><span class="ver">0.3.0</span><span class="relbadge review">審査中</span><span class="plat">iPhone</span><span class="when">2026 年 9 月 11 日申請</span></div>
+  <ul><li>スワイプでセッションを切り替え：端末画面の左右の端から内側へスワイプすると、前後のセッションへ移動します。端まで来ると先頭に戻る、テレビのリモコンと同じ順序です。切り替え時には接続名とセッション名（および 2 / 5 のような位置）が画面中央に短く表示され、キーボードの状態はそのまま保たれます。</li><li>セッションの色：Mac で設定したカラータグが共有した接続とともに引き継がれ、セッション一覧と切り替え表示に現れます（OpenAB Connect 1.6.1 から接続を再度読み込んでください）。</li><li>設定：Enter 自動送信、マイクのモード（押している間だけ話す／タップで開始・停止）、言語は歯車ボタンの「設定」に集約されました。デモモードと診断ログは「詳細設定」へ移動しました。</li><li>修正：「セッション」タブでセッションを開いている間に「トーク」タブのボタンが反応しなくなる問題を修正。ペアリングの接続に失敗した場合は「Mac で確認」のまま待ち続けず、その旨を表示します。</li></ul>
+</article>
 <article class="rel">
   <div class="rhead"><span class="ver">0.2.3</span><span class="relbadge latest">最新</span><span class="plat">iPhone</span><span class="when">2026 年 9 月 8 日</span></div>
   <ul><li>メンテナンス更新：App Store のスクリーンショットを更新し、細部を整理しました。機能の変更はありません。</li></ul>

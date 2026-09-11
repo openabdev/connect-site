@@ -38,6 +38,31 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
+ dict(v="1.6.1", status="review", date=dict(
+   en="Submitted September 11, 2026", zh="2026 年 9 月 11 日送審",
+   ja="2026 年 9 月 11 日申請", ko="2026년 9월 11일 심사 제출"),
+  body=dict(
+   en="<ul><li>Session colours travel to your iPhone: when you share connections "
+      "with OpenAB Remote, each session’s colour tag now goes along, so the "
+      "phone’s session list and its swipe-to-switch overlay show the same "
+      "colours as your tabs.</li>"
+      "<li>Requires OpenAB Remote 0.3.0; re-import connections on the phone "
+      "after updating.</li></ul>",
+   zh="<ul><li>Session 顏色同步到 iPhone：與 OpenAB Remote 分享連線時，每個 session 的"
+      "顏色標籤現在會一起帶過去，手機的 session 列表與滑動切換提示會顯示和 Mac 分頁"
+      "相同的顏色。</li>"
+      "<li>需搭配 OpenAB Remote 0.3.0；更新後請在手機上重新匯入連線。</li></ul>",
+   ja="<ul><li>セッションの色が iPhone に引き継がれます：OpenAB Remote と接続を共有"
+      "すると、各セッションのカラータグも一緒に渡されるため、iPhone のセッション一覧と"
+      "スワイプ切り替えの表示が Mac のタブと同じ色になります。</li>"
+      "<li>OpenAB Remote 0.3.0 が必要です。更新後は iPhone 側で接続を再度読み込んで"
+      "ください。</li></ul>",
+   ko="<ul><li>세션 색상이 iPhone으로 전달됩니다: OpenAB Remote와 연결을 공유하면 각 "
+      "세션의 색상 태그도 함께 전달되어, iPhone의 세션 목록과 스와이프 전환 표시가 Mac "
+      "탭과 같은 색상으로 보입니다.</li>"
+      "<li>OpenAB Remote 0.3.0이 필요합니다. 업데이트 후 iPhone에서 연결을 다시 "
+      "가져오세요.</li></ul>"),
+ ),
  dict(v="1.6.0", status="latest", date=dict(
    en="September 10, 2026", zh="2026 年 9 月 10 日",
    ja="2026 年 9 月 10 日", ko="2026년 9월 10일"),
@@ -351,6 +376,59 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
+ dict(v="0.3.0", status="review", date=dict(
+   en="Submitted September 11, 2026", zh="2026 年 9 月 11 日送審",
+   ja="2026 年 9 月 11 日申請", ko="2026년 9월 11일 심사 제출"),
+  body=dict(
+   en="<ul><li>Swipe between sessions: swipe in from the left or right edge of "
+      "the terminal to move to the previous or next session; the order wraps "
+      "around at the ends like a TV remote. A brief overlay names the connection "
+      "and session (and its position, e.g. 2 / 5), and the keyboard stays as "
+      "you left it.</li>"
+      "<li>Session colours: colour tags set on your Mac travel with shared "
+      "connections and appear in the session list and the switch overlay "
+      "(import connections again from OpenAB Connect 1.6.1).</li>"
+      "<li>Settings: Auto-Enter, microphone mode (hold to talk, or tap to start "
+      "and stop) and language now live in Settings behind the gear button; Demo "
+      "mode and the diagnostic log moved under Advanced.</li>"
+      "<li>Fixes: the Talk button no longer goes dead while a session is open in "
+      "the Sessions tab, and a pairing that fails to connect now says so instead "
+      "of waiting on “Confirm on your Mac”.</li></ul>",
+   zh="<ul><li>滑動切換 session：從終端畫面的左右邊緣往內滑，即可切到上一個或下一個 "
+      "session；到底會循環，就像電視遙控器。切換時畫面中央會短暫顯示連線名稱與 session "
+      "名稱（以及位置，例如 2 / 5），鍵盤狀態維持不變。</li>"
+      "<li>Session 顏色：在 Mac 上設定的顏色標籤會隨著分享的連線帶到手機，顯示在 "
+      "session 列表與切換提示上（請從 OpenAB Connect 1.6.1 重新匯入連線）。</li>"
+      "<li>設定：自動按 Enter、麥克風模式（按住說話，或點一下開始／停止）與語言現在集中在"
+      "齒輪按鈕後的「設定」頁；Demo 模式與診斷記錄移到「進階」。</li>"
+      "<li>修正：在「終端機」分頁開著 session 時，「語音」分頁的按鈕不再失效；配對連線"
+      "失敗時會明確提示，不再停在「請在 Mac 上確認」。</li></ul>",
+   ja="<ul><li>スワイプでセッションを切り替え：端末画面の左右の端から内側へスワイプすると、"
+      "前後のセッションへ移動します。端まで来ると先頭に戻る、テレビのリモコンと同じ順序"
+      "です。切り替え時には接続名とセッション名（および 2 / 5 のような位置）が画面中央に"
+      "短く表示され、キーボードの状態はそのまま保たれます。</li>"
+      "<li>セッションの色：Mac で設定したカラータグが共有した接続とともに引き継がれ、"
+      "セッション一覧と切り替え表示に現れます（OpenAB Connect 1.6.1 から接続を再度読み"
+      "込んでください）。</li>"
+      "<li>設定：Enter 自動送信、マイクのモード（押している間だけ話す／タップで開始・停止）、"
+      "言語は歯車ボタンの「設定」に集約されました。デモモードと診断ログは「詳細設定」へ"
+      "移動しました。</li>"
+      "<li>修正：「セッション」タブでセッションを開いている間に「トーク」タブのボタンが"
+      "反応しなくなる問題を修正。ペアリングの接続に失敗した場合は「Mac で確認」のまま"
+      "待ち続けず、その旨を表示します。</li></ul>",
+   ko="<ul><li>스와이프로 세션 전환: 터미널 화면의 왼쪽 또는 오른쪽 가장자리에서 안쪽으로 "
+      "스와이프하면 이전/다음 세션으로 이동합니다. 끝에 닿으면 처음으로 돌아가는, TV "
+      "리모컨과 같은 순서입니다. 전환 시 연결 이름과 세션 이름(그리고 2 / 5 같은 위치)이 "
+      "화면 가운데에 잠시 표시되며, 키보드 상태는 그대로 유지됩니다.</li>"
+      "<li>세션 색상: Mac에서 설정한 색상 태그가 공유한 연결과 함께 전달되어 세션 목록과 "
+      "전환 표시에 나타납니다(OpenAB Connect 1.6.1에서 연결을 다시 가져오세요).</li>"
+      "<li>설정: Enter 자동 입력, 마이크 모드(누르고 말하기 또는 탭하여 시작/정지), 언어가 "
+      "톱니바퀴 버튼 뒤의 ‘설정’으로 모였습니다. 데모 모드와 진단 로그는 ‘고급’으로 "
+      "옮겼습니다.</li>"
+      "<li>수정: ‘세션’ 탭에 세션이 열려 있는 동안 ‘말하기’ 탭의 버튼이 동작하지 않던 문제를 "
+      "고쳤습니다. 페어링 연결에 실패하면 ‘Mac에서 확인’에 머물지 않고 실패를 "
+      "알려줍니다.</li></ul>"),
+ ),
  dict(v="0.2.3", status="latest", date=dict(
    en="September 8, 2026", zh="2026 年 9 月 8 日",
    ja="2026 年 9 月 8 日", ko="2026년 9월 8일"),
