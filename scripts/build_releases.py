@@ -376,9 +376,9 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.3.1", status="review", date=dict(
-   en="Submitted September 11, 2026", zh="2026 年 9 月 11 日送審",
-   ja="2026 年 9 月 11 日申請", ko="2026년 9월 11일 심사 제출"),
+ dict(v="0.3.1", status="latest", date=dict(
+   en="September 12, 2026", zh="2026 年 9 月 12 日",
+   ja="2026 年 9 月 12 日", ko="2026년 9월 12일"),
   body=dict(
    en="<ul><li>More recognition languages: Cantonese (Hong Kong), Mandarin (China), "
       "Japanese and Korean join Taiwanese Mandarin and English. Each downloads its "
@@ -396,7 +396,7 @@ REMOTE_RELEASES = [
       "영어에 더해졌습니다. 각 언어는 처음 선택할 때 온디바이스 모델을 다운로드합니다.</li>"
       "<li>인식 언어는 이제 설정의 메뉴에서 선택하며, 한 줄에 빽빽하게 늘어놓지 않습니다.</li></ul>"),
  ),
- dict(v="0.3.0", status="latest", date=dict(
+ dict(v="0.3.0", status="", date=dict(
    en="September 11, 2026", zh="2026 年 9 月 11 日",
    ja="2026 年 9 月 11 日", ko="2026년 9월 11일"),
   body=dict(
