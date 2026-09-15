@@ -376,6 +376,35 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
+ dict(v="0.4.0", status="review", date=dict(
+   en="Submitted September 15, 2026", zh="2026 年 9 月 15 日送審",
+   ja="2026 年 9 月 15 日申請", ko="2026년 9월 15일 심사 제출"),
+  body=dict(
+   en="<ul><li>Optional Whisper engine: in Settings → Recognition Engine choose Whisper, "
+      "download one of three open-source models (Base 150 MB, Small 216 MB, or the recommended "
+      "Large v3 Turbo 626 MB) and run it entirely on the iPhone. One model covers every language "
+      "the app offers, including Cantonese.</li>"
+      "<li>Nothing is bundled: the download happens only when you ask, with the size and the MIT "
+      "license shown first; models can be deleted at any time. Apple’s on-device engine remains "
+      "the default and needs no download.</li></ul>",
+   zh="<ul><li>選用 Whisper 引擎：在 設定 → 辨識引擎 選 Whisper，從三個開源模型中下載一個（Base 150 MB、"
+      "Small 216 MB，或推薦的 Large v3 Turbo 626 MB），完全在 iPhone 上執行。一個模型涵蓋 app 支援的"
+      "所有語言，含粵語。</li>"
+      "<li>App 本體不內含模型：只在你點下載時才下載，並先顯示大小與 MIT 授權；模型可隨時刪除。Apple 裝置端"
+      "引擎仍為預設，不需下載。</li></ul>",
+   ja="<ul><li>Whisper エンジン（任意）：「設定 → 認識エンジン」で Whisper を選び、3 つのオープンソース"
+      "モデル（Base 150 MB、Small 216 MB、推奨の Large v3 Turbo 626 MB）から 1 つをダウンロードして、"
+      "すべて iPhone 上で実行します。1 つのモデルで広東語を含むアプリの全言語に対応します。</li>"
+      "<li>アプリにモデルは同梱されません。ダウンロードはユーザーが指示したときのみ行われ、事前にサイズと "
+      "MIT ライセンスを表示します。モデルはいつでも削除できます。Apple のオンデバイスエンジンが引き続き"
+      "デフォルトで、ダウンロードは不要です。</li></ul>",
+   ko="<ul><li>선택형 Whisper 엔진: 설정 → 인식 엔진에서 Whisper를 선택하고 세 가지 오픈소스 모델(Base 150 MB, "
+      "Small 216 MB, 권장 Large v3 Turbo 626 MB) 중 하나를 다운로드하여 iPhone에서만 실행합니다. 하나의 "
+      "모델이 광둥어를 포함한 앱의 모든 언어를 처리합니다.</li>"
+      "<li>앱에 모델은 포함되지 않습니다. 사용자가 요청할 때만 다운로드하며, 그 전에 크기와 MIT 라이선스를 "
+      "표시합니다. 모델은 언제든 삭제할 수 있습니다. Apple 온디바이스 엔진이 기본값이며 다운로드가 필요 "
+      "없습니다.</li></ul>"),
+ ),
  dict(v="0.3.1", status="latest", date=dict(
    en="September 12, 2026", zh="2026 年 9 月 12 日",
    ja="2026 年 9 月 12 日", ko="2026년 9월 12일"),
