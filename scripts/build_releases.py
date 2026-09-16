@@ -376,7 +376,32 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.4.0", status="latest", date=dict(
+ dict(v="0.4.1", status="latest", date=dict(
+   en="September 16, 2026", zh="2026 年 9 月 16 日",
+   ja="2026 年 9 月 16 日", ko="2026년 9월 16일"),
+  body=dict(
+   en="<ul><li>New SenseVoice engine (Alibaba FunASR via sherpa-onnx): a third on-device recognition engine, "
+      "recommended for Mandarin, Cantonese, Japanese and Korean, decoding an utterance in a fraction of a second. "
+      "Downloaded once (~227 MB), nothing bundled; Apple's engine stays the default.</li>"
+      "<li>Model downloads (Whisper and SenseVoice) now resume after an interruption, with parallel connections and "
+      "SHA-256 verification.</li>"
+      "<li>The app opens on the tab you last used, and nearby Mac discovery only starts on the Talk tab.</li></ul>",
+   zh="<ul><li>新增 SenseVoice 引擎（阿里巴巴 FunASR，透過 sherpa-onnx）：第三個裝置端辨識引擎，中 / 粵 / 日 / 韓 推薦，"
+      "一句話零點幾秒解完。下載一次（~227 MB），app 本體不內含模型；Apple 引擎仍為預設。</li>"
+      "<li>模型下載（Whisper 與 SenseVoice）中斷後可續傳，多段平行下載並以 SHA-256 驗證。</li>"
+      "<li>App 啟動時回到上次使用的分頁，鄰近 Mac 搜尋只在「語音」分頁才開始。</li></ul>",
+   ja="<ul><li>SenseVoice エンジンを追加（Alibaba FunASR、sherpa-onnx 経由）：3 つ目のオンデバイス認識エンジンで、"
+      "中国語・広東語・日本語・韓国語におすすめ。1 発話を 1 秒未満で認識します。一度ダウンロード（約 227 MB）、"
+      "アプリに同梱はなし。Apple のエンジンが引き続きデフォルトです。</li>"
+      "<li>モデルのダウンロード（Whisper と SenseVoice）が中断後に再開できるようになり、並列接続と SHA-256 検証に対応。</li>"
+      "<li>アプリは前回使ったタブで開き、付近の Mac 検索はトークタブでのみ開始します。</li></ul>",
+   ko="<ul><li>SenseVoice 엔진 추가(Alibaba FunASR, sherpa-onnx 사용): 세 번째 온디바이스 인식 엔진으로 "
+      "중국어·광둥어·일본어·한국어에 권장하며 한 발화를 1초 미만에 인식합니다. 한 번 다운로드(~227 MB)하며 앱에 "
+      "포함되지 않습니다. Apple 엔진이 기본값으로 유지됩니다.</li>"
+      "<li>모델 다운로드(Whisper 및 SenseVoice)가 중단 후 재개되며, 병렬 연결과 SHA-256 검증을 지원합니다.</li>"
+      "<li>앱은 마지막으로 사용한 탭에서 열리고, 근처 Mac 검색은 Talk 탭에서만 시작됩니다.</li></ul>"),
+ ),
+ dict(v="0.4.0", status="", date=dict(
    en="September 16, 2026", zh="2026 年 9 月 16 日",
    ja="2026 年 9 月 16 日", ko="2026년 9월 16일"),
   body=dict(
