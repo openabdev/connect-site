@@ -376,9 +376,9 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.4.0", status="review", date=dict(
-   en="Submitted September 15, 2026", zh="2026 年 9 月 15 日送審",
-   ja="2026 年 9 月 15 日申請", ko="2026년 9월 15일 심사 제출"),
+ dict(v="0.4.0", status="latest", date=dict(
+   en="September 16, 2026", zh="2026 年 9 月 16 日",
+   ja="2026 年 9 月 16 日", ko="2026년 9월 16일"),
   body=dict(
    en="<ul><li>Optional Whisper engine: in Settings → Recognition Engine choose Whisper, "
       "download one of three open-source models (Base 150 MB, Small 216 MB, or the recommended "
@@ -405,7 +405,7 @@ REMOTE_RELEASES = [
       "표시합니다. 모델은 언제든 삭제할 수 있습니다. Apple 온디바이스 엔진이 기본값이며 다운로드가 필요 "
       "없습니다.</li></ul>"),
  ),
- dict(v="0.3.1", status="latest", date=dict(
+ dict(v="0.3.1", status="", date=dict(
    en="September 12, 2026", zh="2026 年 9 月 12 日",
    ja="2026 年 9 月 12 日", ko="2026년 9월 12일"),
   body=dict(
