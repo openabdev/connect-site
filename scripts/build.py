@@ -71,6 +71,19 @@ L = {
   remote_desc="Your iPhone becomes a private push-to-talk remote. Speech is transcribed "
               "on-device, and only terminal-safe text is sent to the selected Mac session.",
   remote_meta="iPhone companion · on-device speech",
+  landscape=dict(
+   title="Three roles. All on infrastructure you control.",
+   intro="A remote sandbox, your own Mac, and the clients in your hand form one private loop — connected by Tailscale, not a SaaS control plane.",
+   a_role="Run the agent", a_name="openab-pty", a_desc="Coding CLI in an isolated remote sandbox",
+   b_role="Do the work", b_name="oab-mac-agent", b_desc="Xcode, Simulator, browser and GUI tools on your Mac",
+   c_role="Observe and direct", c_name="OpenAB Connect + Remote",
+   c_desc="Mac and iPhone · voice in Chinese, Cantonese, English, Japanese and Korean",
+   ac="Terminal and voice", bc="Live screen over HTTPS",
+   ab="MCP through the openab-pty proxy", takeover="Take over the Mac",
+   auth="Tailscale identity + bearer token",
+   band="One private Tailscale network · no public control plane",
+   benefits=("Your infrastructure", "Bring your own subscription", "Add as many Macs as you need"),
+  ),
   feats=[
    ("Every major vendor",
     "Thirteen agent CLIs, one image each — Claude Code, Codex, Cursor, Kiro, Gemini, "
@@ -264,6 +277,19 @@ L = {
   remote_desc="把 iPhone 變成私有的按住說話遙控器。語音在手機上完成辨識，只把終端安全文字"
               "送到 Mac 上選定的 session。",
   remote_meta="iPhone 伴侶 App · 裝置端語音辨識",
+  landscape=dict(
+   title="三個角色，全都跑在你掌握的基礎架構。",
+   intro="遠端沙盒、你自己的 Mac，以及手上的客戶端，透過 Tailscale 組成一個私有閉環——不是別人的 SaaS 控制平面。",
+   a_role="讓 Agent 運行", a_name="openab-pty", a_desc="Coding CLI 位於隔離的遠端沙盒",
+   b_role="讓 Mac 做事", b_name="oab-mac-agent", b_desc="在你的 Mac 使用 Xcode、模擬器、瀏覽器與 GUI 工具",
+   c_role="觀測與下指令", c_name="OpenAB Connect + Remote",
+   c_desc="Mac 與 iPhone · 支援中文、粵語、英文、日文與韓文語音",
+   ac="終端機與語音", bc="透過 HTTPS 即時看畫面",
+   ab="由 openab-pty 代理 MCP", takeover="接管 Mac 操作",
+   auth="Tailscale 身分 + Bearer Token",
+   band="同一個私有 Tailscale 網路 · 沒有公開控制平面",
+   benefits=("自己的基礎架構", "使用自己的訂閱", "依需要加入任意數量的 Mac"),
+  ),
   feats=[
    ("涵蓋所有頂尖廠商",
     "13 種 agent CLI，各自一個映像 —— Claude Code、Codex、Cursor、Kiro、Gemini、"
@@ -432,6 +458,19 @@ L = {
   remote_desc="iPhone がプライベートなプッシュ・トゥ・トークリモコンに。音声は端末上で"
               "文字化され、安全なテキストだけを選択中の Mac セッションへ送ります。",
   remote_meta="iPhone コンパニオン · オンデバイス音声認識",
+  landscape=dict(
+   title="3つの役割。すべて自分のインフラ上で。",
+   intro="リモートサンドボックス、自分の Mac、手元のクライアントが、Tailscale でひとつのプライベートなループになります。SaaS の制御プレーンはありません。",
+   a_role="エージェントを実行", a_name="openab-pty", a_desc="隔離されたリモートサンドボックス内の Coding CLI",
+   b_role="Mac で作業", b_name="oab-mac-agent", b_desc="自分の Mac の Xcode、Simulator、ブラウザ、GUI ツール",
+   c_role="観測して指示", c_name="OpenAB Connect + Remote",
+   c_desc="Mac と iPhone · 中国語、広東語、英語、日本語、韓国語の音声",
+   ac="ターミナルと音声", bc="HTTPS でライブ画面",
+   ab="openab-pty 経由の MCP プロキシ", takeover="Mac の操作を引き継ぐ",
+   auth="Tailscale ID + Bearer Token",
+   band="ひとつのプライベート Tailscale ネットワーク · 公開制御プレーンなし",
+   benefits=("自分のインフラ", "自分のサブスクリプション", "必要なだけ Mac を追加"),
+  ),
   feats=[
    ("主要ベンダーを網羅",
     "13 種類のエージェント CLI に、それぞれのイメージ — Claude Code、Codex、Cursor、"
@@ -629,6 +668,19 @@ L = {
   remote_desc="iPhone을 개인용 푸시투토크 리모컨으로 사용하세요. 음성은 기기에서 텍스트로 "
               "변환되고, 터미널에 안전한 텍스트만 선택한 Mac 세션으로 전송됩니다.",
   remote_meta="iPhone 컴패니언 · 온디바이스 음성 인식",
+  landscape=dict(
+   title="세 가지 역할. 모두 내가 관리하는 인프라에서.",
+   intro="원격 샌드박스, 내 Mac, 손안의 클라이언트가 Tailscale로 하나의 비공개 루프를 이룹니다. 타사의 SaaS 제어 평면은 없습니다.",
+   a_role="에이전트 실행", a_name="openab-pty", a_desc="격리된 원격 샌드박스 안의 Coding CLI",
+   b_role="Mac에서 작업", b_name="oab-mac-agent", b_desc="내 Mac의 Xcode, Simulator, 브라우저와 GUI 도구",
+   c_role="관찰하고 지시", c_name="OpenAB Connect + Remote",
+   c_desc="Mac과 iPhone · 중국어, 광둥어, 영어, 일본어, 한국어 음성",
+   ac="터미널과 음성", bc="HTTPS 라이브 화면",
+   ab="openab-pty를 통한 MCP 프록시", takeover="Mac 조작 인계",
+   auth="Tailscale 신원 + Bearer Token",
+   band="하나의 비공개 Tailscale 네트워크 · 공개 제어 평면 없음",
+   benefits=("내 인프라", "내 구독 사용", "필요한 만큼 Mac 추가"),
+  ),
   feats=[
    ("주요 벤더를 모두",
     "에이전트 CLI 13종, 각각 별도의 이미지 — Claude Code, Codex, Cursor, Kiro, Gemini, "
@@ -803,6 +855,37 @@ def alternates():
     return "\n".join(rows)
 
 
+def landscape_html(d):
+    l = d["landscape"]
+    chips = "".join(f'<li>{item}</li>' for item in l["benefits"])
+    return f'''<section class="landscape" id="landscape" aria-labelledby="landscape-title">
+  <div class="landscape-heading">
+    <p class="landscape-kicker">OpenAB landscape</p>
+    <h2 id="landscape-title">{l["title"]}</h2>
+    <p>{l["intro"]}</p>
+  </div>
+  <div class="landscape-stage">
+    <svg class="landscape-wires" viewBox="0 0 960 610" aria-hidden="true">
+      <defs><marker id="landscape-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
+      <path class="landscape-wire wire-ac" d="M480 145 L210 430" />
+      <path class="landscape-wire wire-bc" d="M480 145 L750 430" />
+      <path class="landscape-wire wire-ab planned" d="M210 430 L750 430" marker-end="url(#landscape-arrow)" />
+      <path class="landscape-flow flow-ac" d="M480 145 L210 430" />
+      <path class="landscape-flow flow-bc" d="M750 430 L480 145" />
+      <path class="landscape-flow flow-ab" d="M210 430 L750 430" />
+    </svg>
+    <article class="landscape-node node-c"><span class="landscape-letter">C</span><span class="landscape-role">{l["c_role"]}</span><h3>{l["c_name"]}</h3><p>{l["c_desc"]}</p></article>
+    <article class="landscape-node node-a"><span class="landscape-letter">A</span><span class="landscape-role">{l["a_role"]}</span><h3>{l["a_name"]}</h3><p>{l["a_desc"]}</p></article>
+    <article class="landscape-node node-b"><span class="landscape-letter">B</span><span class="landscape-role">{l["b_role"]}</span><h3>{l["b_name"]}</h3><p>{l["b_desc"]}</p></article>
+    <div class="landscape-edge edge-ac"><span>{l["ac"]}</span></div>
+    <div class="landscape-edge edge-bc"><span>{l["bc"]}</span><span class="landscape-auth"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>{l["auth"]}</span><span class="landscape-dev">{l["takeover"]} · {d["dev_label"]}</span></div>
+    <div class="landscape-edge edge-ab"><span>{l["ab"]}</span><span class="landscape-dev">{d["dev_label"]}</span></div>
+    <div class="landscape-band"><span class="tailscale-dot-grid" aria-hidden="true"></span><strong>Tailscale</strong><span>{l["band"]}</span></div>
+  </div>
+  <ul class="landscape-benefits">{chips}</ul>
+</section>'''
+
+
 TEMPLATE = """<!DOCTYPE html>
 <html lang="{htmllang}" data-lang="{code}" data-base="{base}">
 <head>
@@ -841,6 +924,8 @@ TEMPLATE = """<!DOCTYPE html>
   </div>
 </section>
 
+{landscape}
+
 <section class="faq" id="faq">
 <h2>{faq_title}</h2>
 {faqs}
@@ -849,6 +934,21 @@ TEMPLATE = """<!DOCTYPE html>
 {footer}
 
 <script>
+// Motion carries meaning here: packets begin moving only when the architecture enters
+// view. Without JS the complete diagram and dotted routes remain visible and static.
+(function () {{
+  var landscape = document.querySelector(".landscape");
+  if (!landscape || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) {{ landscape.classList.add("is-visible"); return; }}
+  var observer = new IntersectionObserver(function (entries) {{
+    if (entries[0].isIntersecting) {{
+      landscape.classList.add("is-visible");
+      observer.disconnect();
+    }}
+  }}, {{ threshold: 0.18 }});
+  observer.observe(landscape);
+}})();
+
 // Give every question a copyable anchor, so an answer can be linked to directly rather
 // than described. Added in script because the markup should stay readable.
 (function () {{
@@ -919,6 +1019,7 @@ for code in ORDER:
         cta_badge=cta_badge, cta_meta=d["cta_meta"],
         remote_desc=d["remote_desc"], remote_meta=d["remote_meta"],
         soon_label=d["soon_label"], remote_badge=remote_badge,
+        landscape=landscape_html(d),
         shot_alt=d["shot_alt"], faq_title=d["faq_title"]),
         encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}  ({len(cards)} cards, {len(d['faq'])} questions)")

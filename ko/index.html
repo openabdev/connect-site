@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://connect.openab.dev/og-ko.png?v=4b955962">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=d4079a77">
+<link rel="stylesheet" href="/style.css?v=3ce8b202">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
@@ -101,6 +101,33 @@
   </div>
 </section>
 
+<section class="landscape" id="landscape" aria-labelledby="landscape-title">
+  <div class="landscape-heading">
+    <p class="landscape-kicker">OpenAB landscape</p>
+    <h2 id="landscape-title">세 가지 역할. 모두 내가 관리하는 인프라에서.</h2>
+    <p>원격 샌드박스, 내 Mac, 손안의 클라이언트가 Tailscale로 하나의 비공개 루프를 이룹니다. 타사의 SaaS 제어 평면은 없습니다.</p>
+  </div>
+  <div class="landscape-stage">
+    <svg class="landscape-wires" viewBox="0 0 960 610" aria-hidden="true">
+      <defs><marker id="landscape-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
+      <path class="landscape-wire wire-ac" d="M480 145 L210 430" />
+      <path class="landscape-wire wire-bc" d="M480 145 L750 430" />
+      <path class="landscape-wire wire-ab planned" d="M210 430 L750 430" marker-end="url(#landscape-arrow)" />
+      <path class="landscape-flow flow-ac" d="M480 145 L210 430" />
+      <path class="landscape-flow flow-bc" d="M750 430 L480 145" />
+      <path class="landscape-flow flow-ab" d="M210 430 L750 430" />
+    </svg>
+    <article class="landscape-node node-c"><span class="landscape-letter">C</span><span class="landscape-role">관찰하고 지시</span><h3>OpenAB Connect + Remote</h3><p>Mac과 iPhone · 중국어, 광둥어, 영어, 일본어, 한국어 음성</p></article>
+    <article class="landscape-node node-a"><span class="landscape-letter">A</span><span class="landscape-role">에이전트 실행</span><h3>openab-pty</h3><p>격리된 원격 샌드박스 안의 Coding CLI</p></article>
+    <article class="landscape-node node-b"><span class="landscape-letter">B</span><span class="landscape-role">Mac에서 작업</span><h3>oab-mac-agent</h3><p>내 Mac의 Xcode, Simulator, 브라우저와 GUI 도구</p></article>
+    <div class="landscape-edge edge-ac"><span>터미널과 음성</span></div>
+    <div class="landscape-edge edge-bc"><span>HTTPS 라이브 화면</span><span class="landscape-auth"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Tailscale 신원 + Bearer Token</span><span class="landscape-dev">Mac 조작 인계 · 개발 중</span></div>
+    <div class="landscape-edge edge-ab"><span>openab-pty를 통한 MCP 프록시</span><span class="landscape-dev">개발 중</span></div>
+    <div class="landscape-band"><span class="tailscale-dot-grid" aria-hidden="true"></span><strong>Tailscale</strong><span>하나의 비공개 Tailscale 네트워크 · 공개 제어 평면 없음</span></div>
+  </div>
+  <ul class="landscape-benefits"><li>내 인프라</li><li>내 구독 사용</li><li>필요한 만큼 Mac 추가</li></ul>
+</section>
+
 <section class="faq" id="faq">
 <h2>자주 묻는 질문</h2>
 <details id="faq-controllers">
@@ -169,6 +196,21 @@
 </footer>
 
 <script>
+// Motion carries meaning here: packets begin moving only when the architecture enters
+// view. Without JS the complete diagram and dotted routes remain visible and static.
+(function () {
+  var landscape = document.querySelector(".landscape");
+  if (!landscape || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) { landscape.classList.add("is-visible"); return; }
+  var observer = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      landscape.classList.add("is-visible");
+      observer.disconnect();
+    }
+  }, { threshold: 0.18 });
+  observer.observe(landscape);
+})();
+
 // Give every question a copyable anchor, so an answer can be linked to directly rather
 // than described. Added in script because the markup should stay readable.
 (function () {

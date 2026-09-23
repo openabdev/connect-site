@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://connect.openab.dev/og-zh.png?v=f1aa85e6">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=d4079a77">
+<link rel="stylesheet" href="/style.css?v=3ce8b202">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
@@ -101,6 +101,33 @@
   </div>
 </section>
 
+<section class="landscape" id="landscape" aria-labelledby="landscape-title">
+  <div class="landscape-heading">
+    <p class="landscape-kicker">OpenAB landscape</p>
+    <h2 id="landscape-title">三個角色，全都跑在你掌握的基礎架構。</h2>
+    <p>遠端沙盒、你自己的 Mac，以及手上的客戶端，透過 Tailscale 組成一個私有閉環——不是別人的 SaaS 控制平面。</p>
+  </div>
+  <div class="landscape-stage">
+    <svg class="landscape-wires" viewBox="0 0 960 610" aria-hidden="true">
+      <defs><marker id="landscape-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
+      <path class="landscape-wire wire-ac" d="M480 145 L210 430" />
+      <path class="landscape-wire wire-bc" d="M480 145 L750 430" />
+      <path class="landscape-wire wire-ab planned" d="M210 430 L750 430" marker-end="url(#landscape-arrow)" />
+      <path class="landscape-flow flow-ac" d="M480 145 L210 430" />
+      <path class="landscape-flow flow-bc" d="M750 430 L480 145" />
+      <path class="landscape-flow flow-ab" d="M210 430 L750 430" />
+    </svg>
+    <article class="landscape-node node-c"><span class="landscape-letter">C</span><span class="landscape-role">觀測與下指令</span><h3>OpenAB Connect + Remote</h3><p>Mac 與 iPhone · 支援中文、粵語、英文、日文與韓文語音</p></article>
+    <article class="landscape-node node-a"><span class="landscape-letter">A</span><span class="landscape-role">讓 Agent 運行</span><h3>openab-pty</h3><p>Coding CLI 位於隔離的遠端沙盒</p></article>
+    <article class="landscape-node node-b"><span class="landscape-letter">B</span><span class="landscape-role">讓 Mac 做事</span><h3>oab-mac-agent</h3><p>在你的 Mac 使用 Xcode、模擬器、瀏覽器與 GUI 工具</p></article>
+    <div class="landscape-edge edge-ac"><span>終端機與語音</span></div>
+    <div class="landscape-edge edge-bc"><span>透過 HTTPS 即時看畫面</span><span class="landscape-auth"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Tailscale 身分 + Bearer Token</span><span class="landscape-dev">接管 Mac 操作 · 開發中</span></div>
+    <div class="landscape-edge edge-ab"><span>由 openab-pty 代理 MCP</span><span class="landscape-dev">開發中</span></div>
+    <div class="landscape-band"><span class="tailscale-dot-grid" aria-hidden="true"></span><strong>Tailscale</strong><span>同一個私有 Tailscale 網路 · 沒有公開控制平面</span></div>
+  </div>
+  <ul class="landscape-benefits"><li>自己的基礎架構</li><li>使用自己的訂閱</li><li>依需要加入任意數量的 Mac</li></ul>
+</section>
+
 <section class="faq" id="faq">
 <h2>常見問題</h2>
 <details id="faq-controllers">
@@ -169,6 +196,21 @@
 </footer>
 
 <script>
+// Motion carries meaning here: packets begin moving only when the architecture enters
+// view. Without JS the complete diagram and dotted routes remain visible and static.
+(function () {
+  var landscape = document.querySelector(".landscape");
+  if (!landscape || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) { landscape.classList.add("is-visible"); return; }
+  var observer = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      landscape.classList.add("is-visible");
+      observer.disconnect();
+    }
+  }, { threshold: 0.18 });
+  observer.observe(landscape);
+})();
+
 // Give every question a copyable anchor, so an answer can be linked to directly rather
 // than described. Added in script because the markup should stay readable.
 (function () {

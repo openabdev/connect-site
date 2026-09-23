@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://connect.openab.dev/og-en.png?v=e7f6c079">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=d4079a77">
+<link rel="stylesheet" href="/style.css?v=3ce8b202">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
@@ -101,6 +101,33 @@
   </div>
 </section>
 
+<section class="landscape" id="landscape" aria-labelledby="landscape-title">
+  <div class="landscape-heading">
+    <p class="landscape-kicker">OpenAB landscape</p>
+    <h2 id="landscape-title">Three roles. All on infrastructure you control.</h2>
+    <p>A remote sandbox, your own Mac, and the clients in your hand form one private loop — connected by Tailscale, not a SaaS control plane.</p>
+  </div>
+  <div class="landscape-stage">
+    <svg class="landscape-wires" viewBox="0 0 960 610" aria-hidden="true">
+      <defs><marker id="landscape-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" /></marker></defs>
+      <path class="landscape-wire wire-ac" d="M480 145 L210 430" />
+      <path class="landscape-wire wire-bc" d="M480 145 L750 430" />
+      <path class="landscape-wire wire-ab planned" d="M210 430 L750 430" marker-end="url(#landscape-arrow)" />
+      <path class="landscape-flow flow-ac" d="M480 145 L210 430" />
+      <path class="landscape-flow flow-bc" d="M750 430 L480 145" />
+      <path class="landscape-flow flow-ab" d="M210 430 L750 430" />
+    </svg>
+    <article class="landscape-node node-c"><span class="landscape-letter">C</span><span class="landscape-role">Observe and direct</span><h3>OpenAB Connect + Remote</h3><p>Mac and iPhone · voice in Chinese, Cantonese, English, Japanese and Korean</p></article>
+    <article class="landscape-node node-a"><span class="landscape-letter">A</span><span class="landscape-role">Run the agent</span><h3>openab-pty</h3><p>Coding CLI in an isolated remote sandbox</p></article>
+    <article class="landscape-node node-b"><span class="landscape-letter">B</span><span class="landscape-role">Do the work</span><h3>oab-mac-agent</h3><p>Xcode, Simulator, browser and GUI tools on your Mac</p></article>
+    <div class="landscape-edge edge-ac"><span>Terminal and voice</span></div>
+    <div class="landscape-edge edge-bc"><span>Live screen over HTTPS</span><span class="landscape-auth"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Tailscale identity + bearer token</span><span class="landscape-dev">Take over the Mac · in development</span></div>
+    <div class="landscape-edge edge-ab"><span>MCP through the openab-pty proxy</span><span class="landscape-dev">in development</span></div>
+    <div class="landscape-band"><span class="tailscale-dot-grid" aria-hidden="true"></span><strong>Tailscale</strong><span>One private Tailscale network · no public control plane</span></div>
+  </div>
+  <ul class="landscape-benefits"><li>Your infrastructure</li><li>Bring your own subscription</li><li>Add as many Macs as you need</li></ul>
+</section>
+
 <section class="faq" id="faq">
 <h2>Questions</h2>
 <details id="faq-controllers">
@@ -169,6 +196,21 @@
 </footer>
 
 <script>
+// Motion carries meaning here: packets begin moving only when the architecture enters
+// view. Without JS the complete diagram and dotted routes remain visible and static.
+(function () {
+  var landscape = document.querySelector(".landscape");
+  if (!landscape || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) { landscape.classList.add("is-visible"); return; }
+  var observer = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) {
+      landscape.classList.add("is-visible");
+      observer.disconnect();
+    }
+  }, { threshold: 0.18 });
+  observer.observe(landscape);
+})();
+
 // Give every question a copyable anchor, so an answer can be linked to directly rather
 // than described. Added in script because the markup should stay readable.
 (function () {
