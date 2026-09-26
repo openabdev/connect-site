@@ -38,7 +38,50 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.6.1", status="latest", date=dict(
+ dict(v="1.7.0", status="latest", date=dict(
+   en="September 25, 2026", zh="2026 年 9 月 25 日",
+   ja="2026 年 9 月 25 日", ko="2026년 9월 25일"),
+  body=dict(
+   en="<ul><li>Screens sidebar: add a Mac running <code>oab-instance-mcp</code> and "
+      "select it to watch the desktop live in a compact stage at the lower left. Pop "
+      "it out into a large, resizable window when you need detail. Viewing is "
+      "read-only for now.</li>"
+      "<li>Secure screen connections: bearer tokens are stored in your Keychain and "
+      "sent together with your Tailscale identity.</li>"
+      "<li>Appearance menu: choose System, Light or Dark chrome. Terminal content "
+      "stays on its dark, ANSI-tuned canvas.</li>"
+      "<li>Cleaner sidebar and window layout for switching between remote sessions "
+      "and screens.</li></ul>",
+   zh="<ul><li>Screens 側欄：加入一台執行 <code>oab-instance-mcp</code> 的 Mac，選取後即可"
+      "在左下角的小型區域即時觀看桌面；需要細節時可獨立開啟大型、可調整尺寸的視窗。"
+      "目前僅供唯讀觀看。</li>"
+      "<li>安全的螢幕連線：Bearer Token 儲存在 Keychain，並與你的 Tailscale 身分一起"
+      "驗證。</li>"
+      "<li>外觀選單：可選擇「跟隨系統」、「淺色」或「深色」介面；終端內容維持適合 ANSI "
+      "色彩的深色背景。</li>"
+      "<li>更簡潔的側欄與視窗配置，方便在遠端 session 與螢幕之間切換。</li></ul>",
+   ja="<ul><li>Screens サイドバー：<code>oab-instance-mcp</code> を実行している Mac を追加し、"
+      "選択すると左下のコンパクトなステージでデスクトップをライブ表示できます。詳細が"
+      "必要なときは、大きくサイズ変更可能なウインドウとして切り離せます。現時点では"
+      "表示のみ（読み取り専用）です。</li>"
+      "<li>安全な画面接続：Bearer トークンはキーチェーンに保存され、Tailscale の ID と"
+      "一緒に送信されます。</li>"
+      "<li>外観メニュー：「システム」「ライト」「ダーク」からウインドウの外観を選べます。"
+      "ターミナルの内容は ANSI 色向けのダークな背景のままです。</li>"
+      "<li>リモートセッションと画面を切り替えやすいように、サイドバーとウインドウの"
+      "レイアウトを整理しました。</li></ul>",
+   ko="<ul><li>Screens 사이드바: <code>oab-instance-mcp</code>를 실행하는 Mac을 추가하고 "
+      "선택하면 왼쪽 아래의 작은 스테이지에서 데스크탑을 실시간으로 볼 수 있습니다. "
+      "자세히 보려면 크고 크기 조절이 가능한 창으로 분리할 수 있습니다. 현재는 보기만 "
+      "가능(읽기 전용)합니다.</li>"
+      "<li>안전한 화면 연결: Bearer 토큰은 키체인에 저장되며 Tailscale 신원과 함께 "
+      "전송됩니다.</li>"
+      "<li>화면 모드 메뉴: 시스템, 라이트, 다크 중에서 창 외관을 선택할 수 있습니다. "
+      "터미널 내용은 ANSI 색상에 맞춘 다크 배경을 유지합니다.</li>"
+      "<li>원격 세션과 화면 사이를 전환하기 쉽도록 사이드바와 창 레이아웃을 "
+      "정리했습니다.</li></ul>"),
+ ),
+ dict(v="1.6.1", status="", date=dict(
    en="September 11, 2026", zh="2026 年 9 月 11 日",
    ja="2026 年 9 月 11 日", ko="2026년 9월 11일"),
   body=dict(
