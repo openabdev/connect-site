@@ -210,14 +210,6 @@ section.acclaim { max-width: 900px; margin: 0 auto; padding: 2.4rem 24px 0; text
 .acclaim-stage {
   position: relative; display: grid; gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  padding-top: 1.6rem;
-}
-/* Georgia, pinned: the glyph is decoration, and the CJK faces draw “ as a small
-   fullwidth mark that reads as a typo rather than a poster quote. */
-.acclaim-stage::before {
-  content: "\201C"; position: absolute; top: -0.35em; left: 50%; transform: translateX(-50%);
-  font: 700 5.5rem/1 Georgia, "Times New Roman", serif;
-  color: var(--accent); opacity: 0.55; pointer-events: none;
 }
 .acclaim-quote { margin: 0; padding: 0.4rem 0.6rem 0; }
 .acclaim-quote blockquote {
@@ -272,7 +264,6 @@ html[data-lang="ko"] .acclaim-quote blockquote { letter-spacing: 0; font-weight:
 .acclaim-dots button:focus-visible { outline: 2px solid var(--brush); outline-offset: -4px; border-radius: 50%; }
 @media (max-width: 620px) {
   section.acclaim { padding-top: 1.8rem; }
-  .acclaim-stage::before { font-size: 4.2rem; }
   .acclaim-quote blockquote { font-size: 1.15rem; }
   .acclaim-quote.long blockquote { font-size: 0.94rem; }
 }

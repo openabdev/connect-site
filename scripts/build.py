@@ -1012,7 +1012,6 @@ def acclaim_html(d):
             f'    </figure>')
     note = f'\n  <p class="acclaim-note">{a["note"]}</p>' if a["note"] else ""
     return (f'<section class="acclaim" aria-label="{a["label"]}" data-dot-label="{a["dot"]}">\n'
-            f'  <p class="acclaim-kicker">{a["kicker"]}</p>\n'
             f'  <div class="acclaim-stage">\n' + "\n".join(figs) + '\n  </div>'
             f'{note}\n</section>')
 
