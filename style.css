@@ -220,6 +220,9 @@ section.acclaim { max-width: 900px; margin: 0 auto; padding: 2.4rem 24px 0; text
 .acclaim-quote.long blockquote {
   max-width: 40em; font-size: 1rem; font-weight: 500; line-height: 1.7; text-wrap: pretty;
 }
+/* Each review reads as a quotation: inline “…” around the whole text, in every language. */
+.acclaim-quote blockquote::before { content: "\201C"; }
+.acclaim-quote blockquote::after { content: "\201D"; }
 html[data-lang="zh"] .acclaim-quote blockquote,
 html[data-lang="ja"] .acclaim-quote blockquote,
 html[data-lang="ko"] .acclaim-quote blockquote { letter-spacing: 0; font-weight: 600; }
