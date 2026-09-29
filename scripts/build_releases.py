@@ -427,15 +427,15 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.5.0", status="review", date=dict(
-   en="Submitted September 29, 2026", zh="2026 年 9 月 29 日送審",
-   ja="2026 年 9 月 29 日に審査提出", ko="2026년 9월 29일 심사 제출"),
+ dict(v="0.5.0", status="latest", date=dict(
+   en="September 29, 2026", zh="2026 年 9 月 29 日",
+   ja="2026 年 9 月 29 日", ko="2026년 9월 29일"),
   body=dict(
    en="<ul><li>Computers tab: view a computer's screen on your iPhone — macOS or Linux, running <code>oab-instance-mcp</code> on your tailnet. It opens straight onto the last computer you viewed; swipe to switch, pinch or double-tap to zoom. Read-only, and frames are fetched only while the screen is on display.</li><li>Import computers from OpenAB Connect together with your connections — no typing URLs and tokens on the phone. Your Mac asks first and lets you leave them out.</li><li>Give a session access to a computer for 1, 2, 4, 12 or 24 hours from the session's long-press menu, and disconnect any time.</li></ul>",
    zh="<ul><li>「電腦」分頁：在 iPhone 上觀看一台電腦的畫面，macOS 或 Linux 都可以，只要在你的 tailnet 上執行 <code>oab-instance-mcp</code>。點進去直接開上次看的那台；左右滑動切換，雙指或點兩下放大。唯讀，只有畫面顯示時才抓取。</li><li>從 OpenAB Connect 匯入連線時可一併帶入電腦，不必在手機上輸入網址和 token；Mac 會先詢問，也可以選擇不帶。</li><li>長按 session 即可讓它使用一台電腦 1、2、4、12 或 24 小時，並可隨時中斷連線。</li></ul>",
    ja="<ul><li>「コンピュータ」タブ：tailnet 上で <code>oab-instance-mcp</code> を実行している macOS / Linux コンピュータの画面を iPhone で表示できます。前回見たコンピュータがすぐに開き、左右スワイプで切り替え、ピンチまたはダブルタップで拡大します。表示のみで、画面表示中だけフレームを取得します。</li><li>OpenAB Connect から接続を読み込むとき、登録済みのコンピュータもまとめて読み込めます。iPhone で URL やトークンを入力する必要はありません。Mac が事前に確認し、含めないことも選べます。</li><li>セッションの長押しメニューから、コンピュータへのアクセスを 1・2・4・12・24 時間許可でき、いつでも切断できます。</li></ul>",
    ko="<ul><li>컴퓨터 탭: tailnet에서 <code>oab-instance-mcp</code>를 실행하는 macOS 또는 Linux 컴퓨터의 화면을 iPhone에서 볼 수 있습니다. 마지막으로 본 컴퓨터가 바로 열리고, 좌우로 스와이프해 전환하며, 핀치나 두 번 탭으로 확대합니다. 보기 전용이며 화면이 표시될 때만 프레임을 가져옵니다.</li><li>OpenAB Connect에서 연결을 가져올 때 등록된 컴퓨터도 함께 가져올 수 있어 iPhone에서 URL과 토큰을 입력할 필요가 없습니다. Mac이 먼저 확인하며 제외할 수도 있습니다.</li><li>세션을 길게 눌러 컴퓨터 접근 권한을 1·2·4·12·24시간 부여하고, 언제든 연결을 해제할 수 있습니다.</li></ul>")),
- dict(v="0.4.1", status="latest", date=dict(
+ dict(v="0.4.1", status="", date=dict(
    en="September 16, 2026", zh="2026 年 9 月 16 日",
    ja="2026 年 9 月 16 日", ko="2026년 9월 16일"),
   body=dict(
