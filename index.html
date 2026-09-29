@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://connect.openab.dev/og-en.png?v=e7f6c079">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=4c4d9ef0">
+<link rel="stylesheet" href="/style.css?v=f2f72689">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
@@ -49,6 +49,25 @@
   <p class="tag">Encrypted and distributed across your own private infrastructure.<br><strong>Quit the app and they keep running.</strong></p>
   <p class="cta"><a class="badge" href="https://apps.apple.com/app/openab-connect/id6803728097?mt=12">Download on the Mac App Store</a><span class="dim">Free · macOS 13 or later</span></p>
 </header>
+
+<section class="acclaim" aria-label="What the models say" data-dot-label="Quote">
+  <p class="acclaim-kicker">Reviewed by the models it hosts</p>
+  <div class="acclaim-stage">
+    <figure class="acclaim-quote long">
+      <blockquote>What struck me most is how it thinks, not the feature list. Most AI agent tools ship “it can act” first and bolt safety on later; this project does the reverse and settles the trust boundary first: the brain lives in a disposable sandbox, the hands are leased, revocable grants, the connection is always dialled out by the controlled side, and no port is ever opened. These decisions agree with each other and are written into a public contract and ADRs — <span class="mark">the author clearly understands systems security rather than using “secure” as a marketing word</span>. The docs are also honest about their own limits, which is rare in an early project.</blockquote>
+      <figcaption><span class="acclaim-name">Claude Opus 5.5</span><span class="acclaim-vendor">Anthropic</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="Source — see the FAQ">*</a></figcaption>
+    </figure>
+    <figure class="acclaim-quote">
+      <blockquote>Squarely on the pain point, and the architecture is genuinely forward-looking (agentic security).</blockquote>
+      <figcaption><span class="acclaim-name">Gemini</span><span class="acclaim-vendor">Google</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="Source — see the FAQ">*</a></figcaption>
+    </figure>
+    <figure class="acclaim-quote">
+      <blockquote>Of everything I have seen that lets a coding agent touch a real desktop, this is the closest to the correct isolation model.</blockquote>
+      <figcaption><span class="acclaim-name">Grok</span><span class="acclaim-vendor">xAI</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="Source — see the FAQ">*</a></figcaption>
+    </figure>
+  </div>
+  <p class="acclaim-note">Quotes translated from the original Chinese.</p>
+</section>
 
 <div class="shotwrap">
 <figure><img src="/screenshot.png?v=d54c103c" alt="OpenAB Connect 1.3.0 with three connection cards, colour-coded session tabs, and split terminal panes running OpenCode, Claude Code, and Kiro"></figure>
@@ -186,6 +205,10 @@
   <summary><span class="q">Can agents talk to each other across devices, regions and networks? <span class="ribbon inline">in development</span></span></summary>
   <div class="a"><p><strong>Not yet — this is being built.</strong> Today each session is independent: you instruct each agent, and they do not delegate work to one another.</p><p>The design is public. It follows OpenAB's <a href="https://github.com/openabdev/openab/pull/1465">Agent Control Plane ADR</a> — a hub-and-spoke registration and routing service that lets agents delegate directly over ACP on WebSocket instead of round-tripping through a chat platform, which costs rate limits, latency, and orchestration noise in channels meant for people. Three parts: a registry of who is alive and how they are labelled, a router that dispatches by name, label or namespace, and policy covering delegation depth, cycles, namespaces and allowlists.</p><p>One decision there matches this app's model: agents <strong>dial out</strong> to the control plane, so working across networks needs no inbound port at either end.</p><p>The ADR is merged; the implementation is not shipped. Contributions welcome — that document is where the discussion starts.</p></div>
 </details>
+<details id="faq-model-reviews">
+  <summary><span class="q">How do the major AI models rate this project?</span></summary>
+  <div class="a"><p>The quotes under the hero come from three conversations in which the runtime's public contract and ADRs were handed to a model and it was asked for an assessment. They are quoted verbatim (translated from Chinese on this page); each conversation is shared in full so the context can be checked.</p><ul><li><strong>Claude Opus 5.5</strong> (Anthropic) — <a href="https://claude.ai/share/9379b127-14be-4beb-80a0-cf3f0c2f34b4" rel="noopener">conversation</a></li><li><strong>Gemini</strong> (Google) — <a href="https://share.gemini.google/4iFS842p5UYF" rel="noopener">conversation</a></li><li><strong>Grok</strong> (xAI) — <a href="https://grok.com/share/bGVnYWN5_926044d6-9c30-4615-bd2b-1e19d2f0d3e0" rel="noopener">conversation</a></li></ul><p>A model reading the design documents is not a security audit, and these are not endorsements. They are shown because the reasoning they responded to is the same reasoning this page makes.</p></div>
+</details>
 </section>
 
 <footer>
@@ -196,6 +219,50 @@
 </footer>
 
 <script>
+// Critics' strip: one quote showing, the next every five seconds. The markup has all
+// of them, so with JS off the page shows three quotes side by side rather than none.
+// Pauses while pointed at, focused, or in a background tab, and never auto-advances
+// under prefers-reduced-motion — the dots still work by hand.
+(function () {
+  var root = document.querySelector(".acclaim");
+  if (!root) return;
+  var quotes = root.querySelectorAll(".acclaim-quote");
+  if (quotes.length < 2) return;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var label = root.getAttribute("data-dot-label") || "Quote";
+  var current = 0, timer = null;
+  var dots = document.createElement("div");
+  dots.className = "acclaim-dots";
+  var buttons = Array.prototype.map.call(quotes, function (_, n) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", label + " " + (n + 1) + " / " + quotes.length);
+    b.addEventListener("click", function () { show(n); restart(); });
+    dots.appendChild(b);
+    return b;
+  });
+  function show(n) {
+    current = n;
+    Array.prototype.forEach.call(quotes, function (q, i) {
+      q.classList.toggle("is-active", i === n);
+      q.setAttribute("aria-hidden", i === n ? "false" : "true");
+    });
+    buttons.forEach(function (b, i) { b.setAttribute("aria-pressed", i === n ? "true" : "false"); });
+  }
+  function start() { if (still || timer) return; timer = setInterval(function () { show((current + 1) % quotes.length); }, 5000); }
+  function stop() { clearInterval(timer); timer = null; }
+  function restart() { stop(); start(); }
+  root.classList.add("is-live");
+  root.appendChild(dots);
+  show(0);
+  root.addEventListener("mouseenter", stop);
+  root.addEventListener("mouseleave", start);
+  root.addEventListener("focusin", stop);
+  root.addEventListener("focusout", start);
+  document.addEventListener("visibilitychange", function () { if (document.hidden) stop(); else start(); });
+  start();
+})();
+
 // Motion carries meaning here: packets begin moving only when the architecture enters
 // view. Without JS the complete diagram and dotted routes remain visible and static.
 (function () {
@@ -225,11 +292,15 @@
   });
   // A linked question should already be open when it is arrived at. Looked up by id
   // rather than built into a selector: location.hash needs escaping to be a valid
-  // selector, and getElementById needs none.
-  if (location.hash) {
+  // selector, and getElementById needs none. Also on hashchange, because the critics'
+  // strip's asterisk is a same-page link to #faq-model-reviews.
+  function openLinked() {
+    if (!location.hash) return;
     var t = document.getElementById(location.hash.slice(1));
     if (t && t.tagName === "DETAILS") { t.open = true; }
   }
+  openLinked();
+  window.addEventListener("hashchange", openLinked);
 })();
 </script>
 

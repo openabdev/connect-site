@@ -42,6 +42,13 @@ ICONS = [
 ]
 
 PTY = "https://github.com/openabdev/openab-pty"
+# The conversations the critics' strip quotes from. Cited in the FAQ, not in the strip:
+# a poster carries the line and the name, and the footnote carries the receipt.
+REVIEWS = dict(
+    claude="https://claude.ai/share/9379b127-14be-4beb-80a0-cf3f0c2f34b4",
+    gemini="https://share.gemini.google/4iFS842p5UYF",
+    grok="https://grok.com/share/bGVnYWN5_926044d6-9c30-4615-bd2b-1e19d2f0d3e0",
+)
 CONTRACT = PTY + "/blob/main/runtime/CLIENT-CONTRACT.md"
 
 # Not translations of each other. Each carries the same argument in the way that
@@ -71,6 +78,28 @@ L = {
   remote_desc="Your iPhone becomes a private push-to-talk remote. Speech is transcribed "
               "on-device, and only terminal-safe text is sent to the selected Mac session.",
   remote_meta="iPhone companion · on-device speech",
+  acclaim=dict(
+   label="What the models say",
+   kicker="Reviewed by the models it hosts",
+   note="Quotes translated from the original Chinese.",
+   dot="Quote",
+   foot="Source — see the FAQ",
+   quotes=[
+    ("What struck me most is how it thinks, not the feature list. Most AI agent tools "
+     "ship “it can act” first and bolt safety on later; this project does the reverse "
+     "and settles the trust boundary first: the brain lives in a disposable sandbox, "
+     "the hands are leased, revocable grants, the connection is always dialled out by "
+     "the controlled side, and no port is ever opened. These decisions agree with each "
+     "other and are written into a public contract and ADRs — <span class=\"mark\">the "
+     "author clearly understands systems security rather than using “secure” as a "
+     "marketing word</span>. The docs are also honest about their own limits, which is "
+     "rare in an early project.", "Claude Opus 5.5", "Anthropic"),
+    ("Squarely on the pain point, and the architecture is genuinely forward-looking "
+     "(agentic security).", "Gemini", "Google"),
+    ("Of everything I have seen that lets a coding agent touch a real desktop, this is "
+     "the closest to the correct isolation model.", "Grok", "xAI"),
+   ],
+  ),
   landscape=dict(
    title="Three roles. All on infrastructure you control.",
    intro="A remote sandbox, your own Mac, and the clients in your hand form one private loop — connected by Tailscale, not a SaaS control plane.",
@@ -252,6 +281,19 @@ L = {
     "control plane, so working across networks needs no inbound port at either end.</p>"
     "<p>The ADR is merged; the implementation is not shipped. Contributions welcome — that "
     "document is where the discussion starts.</p>", True),
+   ("model-reviews", "How do the major AI models rate this project?",
+    "<p>The quotes under the hero come from three conversations in which the runtime's "
+    "public contract and ADRs were handed to a model and it was asked for an assessment. "
+    "They are quoted verbatim (translated from Chinese on this page); each conversation "
+    "is shared in full so the context can be checked.</p>"
+    "<ul>"
+    f"<li><strong>Claude Opus 5.5</strong> (Anthropic) — <a href=\"{REVIEWS['claude']}\" rel=\"noopener\">conversation</a></li>"
+    f"<li><strong>Gemini</strong> (Google) — <a href=\"{REVIEWS['gemini']}\" rel=\"noopener\">conversation</a></li>"
+    f"<li><strong>Grok</strong> (xAI) — <a href=\"{REVIEWS['grok']}\" rel=\"noopener\">conversation</a></li>"
+    "</ul>"
+    "<p>A model reading the design documents is not a security audit, and these are not "
+    "endorsements. They are shown because the reasoning they responded to is the same "
+    "reasoning this page makes.</p>"),
   ],
   f=("Privacy", "Support", "Runtime source"),
  ),
@@ -277,6 +319,24 @@ L = {
   remote_desc="把 iPhone 變成私有的按住說話遙控器。語音在手機上完成辨識，只把終端安全文字"
               "送到 Mac 上選定的 session。",
   remote_meta="iPhone 伴侶 App · 裝置端語音辨識",
+  acclaim=dict(
+   label="各家模型的評價",
+   kicker="它所承載的模型，怎麼評價它",
+   note="",
+   dot="評語",
+   foot="出處，見常見問題",
+   quotes=[
+    ("最打動我的是它的思考方式，而不是功能本身。多數 AI agent 工具先做出「能動」，"
+     "再補安全；這個專案反過來，先想清楚信任邊界：大腦放在可丟棄的沙箱，手腳是有租期、"
+     "可撤銷的授權，連線永遠由被控端撥出，不開任何連接埠。這些決定彼此一致，也寫進了"
+     "公開契約和 ADR 裡，<span class=\"mark\">看得出作者是真的懂系統安全，而不是拿「安全」"
+     "當行銷詞</span>。文件對自己的限制也講得很誠實，這在早期專案裡很少見。",
+     "Claude Opus 5.5", "Anthropic"),
+    ("極度切中痛點，架構設計非常具備前瞻性（Agentic Security）。", "Gemini", "Google"),
+    ("這是目前我看過「讓 coding agent 碰到真的桌面」裡，最接近正確隔離模型的一個。",
+     "Grok", "xAI"),
+   ],
+  ),
   landscape=dict(
    title="三個角色，全都跑在你掌握的基礎架構。",
    intro="遠端沙盒、你自己的 Mac，以及手上的客戶端，透過 Tailscale 組成一個私有閉環——不是別人的 SaaS 控制平面。",
@@ -431,6 +491,16 @@ L = {
     "<p>其中一個決定和這個 app 的模型剛好一致:agent 是<strong>向外撥出</strong>連到控制平面的，"
     "所以跨網路運作不需要在任何一端開入向連接埠。</p>"
     "<p>ADR 已經合併，實作還沒出貨。歡迎一起做 —— 那份文件就是討論的起點。</p>", True),
+   ("model-reviews", "主流 AI 模型如何評價這個專案？",
+    "<p>Hero 下方輪播的那幾句，來自三段對話：把 runtime 的公開契約和 ADR 交給模型，"
+    "請它評估。引文照原文刊出，三段對話都完整公開，脈絡可以自己查。</p>"
+    "<ul>"
+    f"<li><strong>Claude Opus 5.5</strong>（Anthropic）—— <a href=\"{REVIEWS['claude']}\" rel=\"noopener\">對話全文</a></li>"
+    f"<li><strong>Gemini</strong>（Google）—— <a href=\"{REVIEWS['gemini']}\" rel=\"noopener\">對話全文</a></li>"
+    f"<li><strong>Grok</strong>（xAI）—— <a href=\"{REVIEWS['grok']}\" rel=\"noopener\">對話全文</a></li>"
+    "</ul>"
+    "<p>模型讀設計文件不等於安全稽核，這些也不是背書。放上來是因為它們回應的那套推理，"
+    "就是這個頁面在講的同一套。</p>"),
   ],
   f=("隱私", "支援", "runtime 原始碼"),
  ),
@@ -458,6 +528,27 @@ L = {
   remote_desc="iPhone がプライベートなプッシュ・トゥ・トークリモコンに。音声は端末上で"
               "文字化され、安全なテキストだけを選択中の Mac セッションへ送ります。",
   remote_meta="iPhone コンパニオン · オンデバイス音声認識",
+  acclaim=dict(
+   label="各モデルの評価",
+   kicker="このアプリが動かすモデル自身の評価",
+   note="引用は中国語の原文からの翻訳です。",
+   dot="コメント",
+   foot="出典 — よくある質問へ",
+   quotes=[
+    ("いちばん心を動かされたのは、機能そのものではなく考え方です。多くの AI エージェント"
+     "ツールはまず「動く」ものを作り、安全は後から足す。このプロジェクトは逆で、まず"
+     "信頼境界を考え抜いています。頭脳は使い捨てのサンドボックスに、手足は期限付きで"
+     "取り消せる権限に、接続は常に制御される側から発信し、ポートは一切開かない。これらの"
+     "決定は互いに矛盾せず、公開の契約と ADR に書き残されている。<span class=\"mark\">作者が"
+     "本当にシステムセキュリティを理解していて、「安全」をマーケティング用語として使って"
+     "いないことが分かります</span>。自らの制約についても文書が正直で、初期段階の"
+     "プロジェクトでは珍しいことです。", "Claude Opus 5.5", "Anthropic"),
+    ("痛点をまさに突いていて、アーキテクチャ設計は非常に先見性があります"
+     "（Agentic Security）。", "Gemini", "Google"),
+    ("「コーディングエージェントに本物のデスクトップを触らせる」ものの中で、私が見た限り"
+     "最も正しい隔離モデルに近い一つです。", "Grok", "xAI"),
+   ],
+  ),
   landscape=dict(
    title="3つの役割。すべて自分のインフラ上で。",
    intro="リモートサンドボックス、自分の Mac、手元のクライアントが、Tailscale でひとつのプライベートなループになります。SaaS の制御プレーンはありません。",
@@ -641,6 +732,17 @@ L = {
     "どちら側にも受信ポートは要りません。</p>"
     "<p>ADR はマージ済みで、実装はまだ出荷していません。参加を歓迎します — "
     "議論はあの文書から始まります。</p>", True),
+   ("model-reviews", "主要な AI モデルはこのプロジェクトをどう評価していますか？",
+    "<p>ヒーロー下の引用は、ランタイムの公開契約と ADR をモデルに渡して評価を求めた"
+    "三つの会話から取っています。原文どおりに引用し（このページでは中国語からの翻訳）、"
+    "会話はすべて公開しているので文脈を確認できます。</p>"
+    "<ul>"
+    f"<li><strong>Claude Opus 5.5</strong>（Anthropic）— <a href=\"{REVIEWS['claude']}\" rel=\"noopener\">会話全文</a></li>"
+    f"<li><strong>Gemini</strong>（Google）— <a href=\"{REVIEWS['gemini']}\" rel=\"noopener\">会話全文</a></li>"
+    f"<li><strong>Grok</strong>（xAI）— <a href=\"{REVIEWS['grok']}\" rel=\"noopener\">会話全文</a></li>"
+    "</ul>"
+    "<p>モデルが設計文書を読むことはセキュリティ監査ではなく、これらは推薦でもありません。"
+    "掲載しているのは、モデルが応えた論理がこのページの論理と同じだからです。</p>"),
   ],
   f=("プライバシー", "サポート", "ランタイムのソース"),
  ),
@@ -668,6 +770,27 @@ L = {
   remote_desc="iPhone을 개인용 푸시투토크 리모컨으로 사용하세요. 음성은 기기에서 텍스트로 "
               "변환되고, 터미널에 안전한 텍스트만 선택한 Mac 세션으로 전송됩니다.",
   remote_meta="iPhone 컴패니언 · 온디바이스 음성 인식",
+  acclaim=dict(
+   label="모델들의 평가",
+   kicker="이 앱이 실행하는 모델들이 직접 평가했습니다",
+   note="인용문은 중국어 원문을 번역한 것입니다.",
+   dot="평가",
+   foot="출처 — 자주 묻는 질문으로",
+   quotes=[
+    ("가장 마음을 움직인 것은 기능이 아니라 사고방식입니다. 대부분의 AI 에이전트 도구는 "
+     "먼저 “움직이게” 만들고 안전은 나중에 덧붙이는데, 이 프로젝트는 반대로 신뢰 경계를 "
+     "먼저 정리했습니다. 두뇌는 폐기 가능한 샌드박스에, 손발은 기한이 있고 회수할 수 있는 "
+     "권한으로, 연결은 언제나 제어받는 쪽에서 걸고, 어떤 포트도 열지 않습니다. 이 결정들은 "
+     "서로 일관되며 공개 계약과 ADR에 기록되어 있어, <span class=\"mark\">작성자가 “보안”을 "
+     "마케팅 용어로 쓰는 것이 아니라 시스템 보안을 정말 이해하고 있음이 보입니다</span>. "
+     "문서가 스스로의 한계에 대해서도 정직한데, 초기 프로젝트에서는 드문 일입니다.",
+     "Claude Opus 5.5", "Anthropic"),
+    ("고통 지점을 정확히 짚었고, 아키텍처 설계는 매우 앞서 있습니다（Agentic Security）.",
+     "Gemini", "Google"),
+    ("“코딩 에이전트가 진짜 데스크톱을 만지게 하는” 것들 중 제가 본 것 가운데 올바른 격리 "
+     "모델에 가장 가까운 하나입니다.", "Grok", "xAI"),
+   ],
+  ),
   landscape=dict(
    title="세 가지 역할. 모두 내가 관리하는 인프라에서.",
    intro="원격 샌드박스, 내 Mac, 손안의 클라이언트가 Tailscale로 하나의 비공개 루프를 이룹니다. 타사의 SaaS 제어 평면은 없습니다.",
@@ -839,6 +962,17 @@ L = {
     "포트가 필요하지 않습니다.</p>"
     "<p>ADR은 병합되었고 구현은 아직 출시되지 않았습니다. 함께 만들어 주세요 — 그 문서가 논의의 "
     "출발점입니다.</p>", True),
+   ("model-reviews", "주요 AI 모델들은 이 프로젝트를 어떻게 평가하나요?",
+    "<p>히어로 아래의 인용문은 런타임의 공개 계약과 ADR을 모델에 건네고 평가를 요청한 세 "
+    "대화에서 가져왔습니다. 원문 그대로 인용했으며(이 페이지에서는 중국어를 번역), 대화는 "
+    "모두 공개되어 있어 맥락을 직접 확인할 수 있습니다.</p>"
+    "<ul>"
+    f"<li><strong>Claude Opus 5.5</strong>(Anthropic) — <a href=\"{REVIEWS['claude']}\" rel=\"noopener\">대화 전문</a></li>"
+    f"<li><strong>Gemini</strong>(Google) — <a href=\"{REVIEWS['gemini']}\" rel=\"noopener\">대화 전문</a></li>"
+    f"<li><strong>Grok</strong>(xAI) — <a href=\"{REVIEWS['grok']}\" rel=\"noopener\">대화 전문</a></li>"
+    "</ul>"
+    "<p>모델이 설계 문서를 읽는 것은 보안 감사가 아니며, 이는 보증도 아닙니다. 모델이 "
+    "응답한 논리가 이 페이지가 펼치는 논리와 같기 때문에 실어 두었습니다.</p>"),
   ],
   f=("개인정보", "지원", "런타임 소스"),
  ),
@@ -853,6 +987,34 @@ def alternates():
     # x-default is what a search engine serves when it matches no listed language.
     rows.append('<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/">')
     return "\n".join(rows)
+
+
+def acclaim_html(d):
+    """The critics' strip under the hero — poster grammar: one quote at a time,
+    attribution in spaced caps, and an asterisk instead of a URL. The asterisk is a
+    link to the FAQ entry that carries the three conversations.
+
+    Every quote is in the markup; the script only decides which one is showing.
+    With JS off all three stand side by side, which is a poster too."""
+    a = d["acclaim"]
+    figs = []
+    for text, name, vendor in a["quotes"]:
+        # Poster type has one size. A paragraph-length quote at that size would push the
+        # screenshot below the fold, so it steps down and the .mark carries the pull line.
+        long = len(text) > 160
+        figs.append(
+            f'    <figure class="acclaim-quote{" long" if long else ""}">\n'
+            f'      <blockquote>{text}</blockquote>\n'
+            f'      <figcaption><span class="acclaim-name">{name}</span>'
+            f'<span class="acclaim-vendor">{vendor}</span>'
+            f'<a class="acclaim-foot" href="#faq-model-reviews" aria-label="{a["foot"]}">*</a>'
+            f'</figcaption>\n'
+            f'    </figure>')
+    note = f'\n  <p class="acclaim-note">{a["note"]}</p>' if a["note"] else ""
+    return (f'<section class="acclaim" aria-label="{a["label"]}" data-dot-label="{a["dot"]}">\n'
+            f'  <p class="acclaim-kicker">{a["kicker"]}</p>\n'
+            f'  <div class="acclaim-stage">\n' + "\n".join(figs) + '\n  </div>'
+            f'{note}\n</section>')
 
 
 def landscape_html(d):
@@ -902,6 +1064,8 @@ TEMPLATE = """<!DOCTYPE html>
   <p class="cta">{cta_badge}<span class="dim">{cta_meta}</span></p>
 </header>
 
+{acclaim}
+
 <div class="shotwrap">
 <figure><img src="{shot}" alt="{shot_alt}"></figure>
 </div>
@@ -934,6 +1098,50 @@ TEMPLATE = """<!DOCTYPE html>
 {footer}
 
 <script>
+// Critics' strip: one quote showing, the next every five seconds. The markup has all
+// of them, so with JS off the page shows three quotes side by side rather than none.
+// Pauses while pointed at, focused, or in a background tab, and never auto-advances
+// under prefers-reduced-motion — the dots still work by hand.
+(function () {{
+  var root = document.querySelector(".acclaim");
+  if (!root) return;
+  var quotes = root.querySelectorAll(".acclaim-quote");
+  if (quotes.length < 2) return;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var label = root.getAttribute("data-dot-label") || "Quote";
+  var current = 0, timer = null;
+  var dots = document.createElement("div");
+  dots.className = "acclaim-dots";
+  var buttons = Array.prototype.map.call(quotes, function (_, n) {{
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", label + " " + (n + 1) + " / " + quotes.length);
+    b.addEventListener("click", function () {{ show(n); restart(); }});
+    dots.appendChild(b);
+    return b;
+  }});
+  function show(n) {{
+    current = n;
+    Array.prototype.forEach.call(quotes, function (q, i) {{
+      q.classList.toggle("is-active", i === n);
+      q.setAttribute("aria-hidden", i === n ? "false" : "true");
+    }});
+    buttons.forEach(function (b, i) {{ b.setAttribute("aria-pressed", i === n ? "true" : "false"); }});
+  }}
+  function start() {{ if (still || timer) return; timer = setInterval(function () {{ show((current + 1) % quotes.length); }}, 5000); }}
+  function stop() {{ clearInterval(timer); timer = null; }}
+  function restart() {{ stop(); start(); }}
+  root.classList.add("is-live");
+  root.appendChild(dots);
+  show(0);
+  root.addEventListener("mouseenter", stop);
+  root.addEventListener("mouseleave", start);
+  root.addEventListener("focusin", stop);
+  root.addEventListener("focusout", start);
+  document.addEventListener("visibilitychange", function () {{ if (document.hidden) stop(); else start(); }});
+  start();
+}})();
+
 // Motion carries meaning here: packets begin moving only when the architecture enters
 // view. Without JS the complete diagram and dotted routes remain visible and static.
 (function () {{
@@ -963,11 +1171,15 @@ TEMPLATE = """<!DOCTYPE html>
   }});
   // A linked question should already be open when it is arrived at. Looked up by id
   // rather than built into a selector: location.hash needs escaping to be a valid
-  // selector, and getElementById needs none.
-  if (location.hash) {{
+  // selector, and getElementById needs none. Also on hashchange, because the critics'
+  // strip's asterisk is a same-page link to #faq-model-reviews.
+  function openLinked() {{
+    if (!location.hash) return;
     var t = document.getElementById(location.hash.slice(1));
     if (t && t.tagName === "DETAILS") {{ t.open = true; }}
   }}
+  openLinked();
+  window.addEventListener("hashchange", openLinked);
 }})();
 </script>
 
@@ -1020,6 +1232,7 @@ for code in ORDER:
         remote_desc=d["remote_desc"], remote_meta=d["remote_meta"],
         soon_label=d["soon_label"], remote_badge=remote_badge,
         landscape=landscape_html(d),
+        acclaim=acclaim_html(d),
         shot_alt=d["shot_alt"], faq_title=d["faq_title"]),
         encoding="utf-8")
     print(f"  wrote {out.relative_to(ROOT)}  ({len(cards)} cards, {len(d['faq'])} questions)")

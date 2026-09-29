@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://connect.openab.dev/og-zh.png?v=f1aa85e6">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=4c4d9ef0">
+<link rel="stylesheet" href="/style.css?v=f2f72689">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
@@ -49,6 +49,24 @@
   <p class="tag">加密分散運行在你的私有基礎架構，關掉 app，<br><strong>它們繼續運行。</strong></p>
   <p class="cta"><a class="badge" href="https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12">前往 Mac App Store 下載</a><span class="dim">免費 · macOS 13 或以上</span></p>
 </header>
+
+<section class="acclaim" aria-label="各家模型的評價" data-dot-label="評語">
+  <p class="acclaim-kicker">它所承載的模型，怎麼評價它</p>
+  <div class="acclaim-stage">
+    <figure class="acclaim-quote long">
+      <blockquote>最打動我的是它的思考方式，而不是功能本身。多數 AI agent 工具先做出「能動」，再補安全；這個專案反過來，先想清楚信任邊界：大腦放在可丟棄的沙箱，手腳是有租期、可撤銷的授權，連線永遠由被控端撥出，不開任何連接埠。這些決定彼此一致，也寫進了公開契約和 ADR 裡，<span class="mark">看得出作者是真的懂系統安全，而不是拿「安全」當行銷詞</span>。文件對自己的限制也講得很誠實，這在早期專案裡很少見。</blockquote>
+      <figcaption><span class="acclaim-name">Claude Opus 5.5</span><span class="acclaim-vendor">Anthropic</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="出處，見常見問題">*</a></figcaption>
+    </figure>
+    <figure class="acclaim-quote">
+      <blockquote>極度切中痛點，架構設計非常具備前瞻性（Agentic Security）。</blockquote>
+      <figcaption><span class="acclaim-name">Gemini</span><span class="acclaim-vendor">Google</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="出處，見常見問題">*</a></figcaption>
+    </figure>
+    <figure class="acclaim-quote">
+      <blockquote>這是目前我看過「讓 coding agent 碰到真的桌面」裡，最接近正確隔離模型的一個。</blockquote>
+      <figcaption><span class="acclaim-name">Grok</span><span class="acclaim-vendor">xAI</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="出處，見常見問題">*</a></figcaption>
+    </figure>
+  </div>
+</section>
 
 <div class="shotwrap">
 <figure><img src="/screenshot.png?v=d54c103c" alt="OpenAB Connect 1.3.0 顯示三張連線卡片、彩色 session 分頁，以及同時執行 OpenCode、Claude Code 與 Kiro 的分割終端機"></figure>
@@ -186,6 +204,10 @@
   <summary><span class="q">Agent 之間能夠跨裝置、跨地理區、跨網路互相對話嗎? <span class="ribbon inline">開發中</span></span></summary>
   <div class="a"><p><strong>還不行 —— 這正在開發中。</strong>今天每個 session 是獨立的:你對每個 agent 下指令，它們不會互相委派工作。</p><p>設計已經公開。它基於 OpenAB 的 <a href="https://github.com/openabdev/openab/pull/1465">Agent Control Plane ADR</a> —— 一個 hub-and-spoke 的註冊與路由服務，讓 agent 直接經 ACP over WebSocket 互相委派，而不是繞道聊天平台(那會撞上速率限制、延遲，以及把編排噪音倒進人看的頻道裡)。裡面有三個部分:Registry 記錄誰活著與它的標籤、Router 按名稱／標籤／namespace 轉送、Policy 管委派深度、環路、namespace 與 allowlist。</p><p>其中一個決定和這個 app 的模型剛好一致:agent 是<strong>向外撥出</strong>連到控制平面的，所以跨網路運作不需要在任何一端開入向連接埠。</p><p>ADR 已經合併，實作還沒出貨。歡迎一起做 —— 那份文件就是討論的起點。</p></div>
 </details>
+<details id="faq-model-reviews">
+  <summary><span class="q">主流 AI 模型如何評價這個專案？</span></summary>
+  <div class="a"><p>Hero 下方輪播的那幾句，來自三段對話：把 runtime 的公開契約和 ADR 交給模型，請它評估。引文照原文刊出，三段對話都完整公開，脈絡可以自己查。</p><ul><li><strong>Claude Opus 5.5</strong>（Anthropic）—— <a href="https://claude.ai/share/9379b127-14be-4beb-80a0-cf3f0c2f34b4" rel="noopener">對話全文</a></li><li><strong>Gemini</strong>（Google）—— <a href="https://share.gemini.google/4iFS842p5UYF" rel="noopener">對話全文</a></li><li><strong>Grok</strong>（xAI）—— <a href="https://grok.com/share/bGVnYWN5_926044d6-9c30-4615-bd2b-1e19d2f0d3e0" rel="noopener">對話全文</a></li></ul><p>模型讀設計文件不等於安全稽核，這些也不是背書。放上來是因為它們回應的那套推理，就是這個頁面在講的同一套。</p></div>
+</details>
 </section>
 
 <footer>
@@ -196,6 +218,50 @@
 </footer>
 
 <script>
+// Critics' strip: one quote showing, the next every five seconds. The markup has all
+// of them, so with JS off the page shows three quotes side by side rather than none.
+// Pauses while pointed at, focused, or in a background tab, and never auto-advances
+// under prefers-reduced-motion — the dots still work by hand.
+(function () {
+  var root = document.querySelector(".acclaim");
+  if (!root) return;
+  var quotes = root.querySelectorAll(".acclaim-quote");
+  if (quotes.length < 2) return;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var label = root.getAttribute("data-dot-label") || "Quote";
+  var current = 0, timer = null;
+  var dots = document.createElement("div");
+  dots.className = "acclaim-dots";
+  var buttons = Array.prototype.map.call(quotes, function (_, n) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", label + " " + (n + 1) + " / " + quotes.length);
+    b.addEventListener("click", function () { show(n); restart(); });
+    dots.appendChild(b);
+    return b;
+  });
+  function show(n) {
+    current = n;
+    Array.prototype.forEach.call(quotes, function (q, i) {
+      q.classList.toggle("is-active", i === n);
+      q.setAttribute("aria-hidden", i === n ? "false" : "true");
+    });
+    buttons.forEach(function (b, i) { b.setAttribute("aria-pressed", i === n ? "true" : "false"); });
+  }
+  function start() { if (still || timer) return; timer = setInterval(function () { show((current + 1) % quotes.length); }, 5000); }
+  function stop() { clearInterval(timer); timer = null; }
+  function restart() { stop(); start(); }
+  root.classList.add("is-live");
+  root.appendChild(dots);
+  show(0);
+  root.addEventListener("mouseenter", stop);
+  root.addEventListener("mouseleave", start);
+  root.addEventListener("focusin", stop);
+  root.addEventListener("focusout", start);
+  document.addEventListener("visibilitychange", function () { if (document.hidden) stop(); else start(); });
+  start();
+})();
+
 // Motion carries meaning here: packets begin moving only when the architecture enters
 // view. Without JS the complete diagram and dotted routes remain visible and static.
 (function () {
@@ -225,11 +291,15 @@
   });
   // A linked question should already be open when it is arrived at. Looked up by id
   // rather than built into a selector: location.hash needs escaping to be a valid
-  // selector, and getElementById needs none.
-  if (location.hash) {
+  // selector, and getElementById needs none. Also on hashchange, because the critics'
+  // strip's asterisk is a same-page link to #faq-model-reviews.
+  function openLinked() {
+    if (!location.hash) return;
     var t = document.getElementById(location.hash.slice(1));
     if (t && t.tagName === "DETAILS") { t.open = true; }
   }
+  openLinked();
+  window.addEventListener("hashchange", openLinked);
 })();
 </script>
 

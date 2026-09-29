@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://connect.openab.dev/og-ja.png?v=779d3ca6">
 <link rel="icon" href="/icon.png?v=e698e97e">
 <link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
-<link rel="stylesheet" href="/style.css?v=4c4d9ef0">
+<link rel="stylesheet" href="/style.css?v=f2f72689">
 <link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/">
 <link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/">
 <link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/">
@@ -49,6 +49,25 @@
   <p class="tag">暗号化されたまま、自分のプライベート環境に分散して動きます。<br><strong>アプリを閉じても、動き続けます。</strong></p>
   <p class="cta"><a class="badge" href="https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12">Mac App Store でダウンロード</a><span class="dim">無料 · macOS 13 以降</span></p>
 </header>
+
+<section class="acclaim" aria-label="各モデルの評価" data-dot-label="コメント">
+  <p class="acclaim-kicker">このアプリが動かすモデル自身の評価</p>
+  <div class="acclaim-stage">
+    <figure class="acclaim-quote long">
+      <blockquote>いちばん心を動かされたのは、機能そのものではなく考え方です。多くの AI エージェントツールはまず「動く」ものを作り、安全は後から足す。このプロジェクトは逆で、まず信頼境界を考え抜いています。頭脳は使い捨てのサンドボックスに、手足は期限付きで取り消せる権限に、接続は常に制御される側から発信し、ポートは一切開かない。これらの決定は互いに矛盾せず、公開の契約と ADR に書き残されている。<span class="mark">作者が本当にシステムセキュリティを理解していて、「安全」をマーケティング用語として使っていないことが分かります</span>。自らの制約についても文書が正直で、初期段階のプロジェクトでは珍しいことです。</blockquote>
+      <figcaption><span class="acclaim-name">Claude Opus 5.5</span><span class="acclaim-vendor">Anthropic</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="出典 — よくある質問へ">*</a></figcaption>
+    </figure>
+    <figure class="acclaim-quote">
+      <blockquote>痛点をまさに突いていて、アーキテクチャ設計は非常に先見性があります（Agentic Security）。</blockquote>
+      <figcaption><span class="acclaim-name">Gemini</span><span class="acclaim-vendor">Google</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="出典 — よくある質問へ">*</a></figcaption>
+    </figure>
+    <figure class="acclaim-quote">
+      <blockquote>「コーディングエージェントに本物のデスクトップを触らせる」ものの中で、私が見た限り最も正しい隔離モデルに近い一つです。</blockquote>
+      <figcaption><span class="acclaim-name">Grok</span><span class="acclaim-vendor">xAI</span><a class="acclaim-foot" href="#faq-model-reviews" aria-label="出典 — よくある質問へ">*</a></figcaption>
+    </figure>
+  </div>
+  <p class="acclaim-note">引用は中国語の原文からの翻訳です。</p>
+</section>
 
 <div class="shotwrap">
 <figure><img src="/screenshot.png?v=d54c103c" alt="3 枚の接続カード、色分けされたセッションタブ、OpenCode、Claude Code、Kiro を実行する分割ターミナルを表示した OpenAB Connect 1.3.0"></figure>
@@ -186,6 +205,10 @@
   <summary><span class="q">エージェント同士は、デバイスや地域やネットワークをまたいで会話できますか? <span class="ribbon inline">開発中</span></span></summary>
   <div class="a"><p><strong>まだできません — 現在開発中です。</strong>今日は各セッションが独立していて、あなたが個々のエージェントに指示を出し、エージェント同士が仕事を委譲することはありません。</p><p>設計は公開されています。OpenAB の <a href="https://github.com/openabdev/openab/pull/1465">Agent Control Plane ADR</a> に基づくもので、チャットプラットフォームを経由せず ACP over WebSocket でエージェントが直接委譲できるようにする、ハブ&スポーク型の登録・ルーティングサービスです。チャット経由はレート制限と遅延を招き、人間のためのチャンネルにオーケストレーションのノイズを流し込みます。構成は三つ:誰が生きていてどのラベルを持つかの Registry、名前／ラベル／namespace で振り分ける Router、委譲の深さ・循環・namespace・allowlist を扱う Policy です。</p><p>その設計のひとつはこのアプリの考え方と一致します。エージェントは制御プレーンへ<strong>外向きに接続</strong>するので、ネットワークをまたいで動かすのに、どちら側にも受信ポートは要りません。</p><p>ADR はマージ済みで、実装はまだ出荷していません。参加を歓迎します — 議論はあの文書から始まります。</p></div>
 </details>
+<details id="faq-model-reviews">
+  <summary><span class="q">主要な AI モデルはこのプロジェクトをどう評価していますか？</span></summary>
+  <div class="a"><p>ヒーロー下の引用は、ランタイムの公開契約と ADR をモデルに渡して評価を求めた三つの会話から取っています。原文どおりに引用し（このページでは中国語からの翻訳）、会話はすべて公開しているので文脈を確認できます。</p><ul><li><strong>Claude Opus 5.5</strong>（Anthropic）— <a href="https://claude.ai/share/9379b127-14be-4beb-80a0-cf3f0c2f34b4" rel="noopener">会話全文</a></li><li><strong>Gemini</strong>（Google）— <a href="https://share.gemini.google/4iFS842p5UYF" rel="noopener">会話全文</a></li><li><strong>Grok</strong>（xAI）— <a href="https://grok.com/share/bGVnYWN5_926044d6-9c30-4615-bd2b-1e19d2f0d3e0" rel="noopener">会話全文</a></li></ul><p>モデルが設計文書を読むことはセキュリティ監査ではなく、これらは推薦でもありません。掲載しているのは、モデルが応えた論理がこのページの論理と同じだからです。</p></div>
+</details>
 </section>
 
 <footer>
@@ -196,6 +219,50 @@
 </footer>
 
 <script>
+// Critics' strip: one quote showing, the next every five seconds. The markup has all
+// of them, so with JS off the page shows three quotes side by side rather than none.
+// Pauses while pointed at, focused, or in a background tab, and never auto-advances
+// under prefers-reduced-motion — the dots still work by hand.
+(function () {
+  var root = document.querySelector(".acclaim");
+  if (!root) return;
+  var quotes = root.querySelectorAll(".acclaim-quote");
+  if (quotes.length < 2) return;
+  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var label = root.getAttribute("data-dot-label") || "Quote";
+  var current = 0, timer = null;
+  var dots = document.createElement("div");
+  dots.className = "acclaim-dots";
+  var buttons = Array.prototype.map.call(quotes, function (_, n) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", label + " " + (n + 1) + " / " + quotes.length);
+    b.addEventListener("click", function () { show(n); restart(); });
+    dots.appendChild(b);
+    return b;
+  });
+  function show(n) {
+    current = n;
+    Array.prototype.forEach.call(quotes, function (q, i) {
+      q.classList.toggle("is-active", i === n);
+      q.setAttribute("aria-hidden", i === n ? "false" : "true");
+    });
+    buttons.forEach(function (b, i) { b.setAttribute("aria-pressed", i === n ? "true" : "false"); });
+  }
+  function start() { if (still || timer) return; timer = setInterval(function () { show((current + 1) % quotes.length); }, 5000); }
+  function stop() { clearInterval(timer); timer = null; }
+  function restart() { stop(); start(); }
+  root.classList.add("is-live");
+  root.appendChild(dots);
+  show(0);
+  root.addEventListener("mouseenter", stop);
+  root.addEventListener("mouseleave", start);
+  root.addEventListener("focusin", stop);
+  root.addEventListener("focusout", start);
+  document.addEventListener("visibilitychange", function () { if (document.hidden) stop(); else start(); });
+  start();
+})();
+
 // Motion carries meaning here: packets begin moving only when the architecture enters
 // view. Without JS the complete diagram and dotted routes remain visible and static.
 (function () {
@@ -225,11 +292,15 @@
   });
   // A linked question should already be open when it is arrived at. Looked up by id
   // rather than built into a selector: location.hash needs escaping to be a valid
-  // selector, and getElementById needs none.
-  if (location.hash) {
+  // selector, and getElementById needs none. Also on hashchange, because the critics'
+  // strip's asterisk is a same-page link to #faq-model-reviews.
+  function openLinked() {
+    if (!location.hash) return;
     var t = document.getElementById(location.hash.slice(1));
     if (t && t.tagName === "DETAILS") { t.open = true; }
   }
+  openLinked();
+  window.addEventListener("hashchange", openLinked);
 })();
 </script>
 
