@@ -891,6 +891,9 @@ profile：只要有一個號稱比 shell 窄、卻允許任何能碰到 shell �
 </ul>
 <p>它的限制也要說清楚：截圖仍會洩漏畫面上的內容。<code>observe</code> 保證的是「它不能動手」，
 不是「它什麼都看不到」。借出前，先把不想被看到的視窗關掉。</p>
+<p>還有一點：<code>observe</code> 保護的是你的電腦，不是 agent。截圖會進入 agent 的 context，
+如果畫面上是一個惡意網頁或訊息，上面的文字就可能成為 prompt injection。它動不了你的電腦，但它在
+pod 裡仍有自己的 shell、模型 API，以及那個 session 握有的憑證。</p>
 <h2>瀏覽器要另外想</h2>
 <p><code>owner</code> 看得到全部 32 個瀏覽器工具，<code>desktop</code> 只有 15 個：導覽、讀取、點擊、
 填表。拿掉的包括能跑任意 JavaScript 的 <code>browser_evaluate</code> 和
@@ -1000,6 +1003,10 @@ while allowing any shell-capable tool, CI fails.</li>
 <p>Its limit, stated plainly: a screenshot still shows whatever is on screen. <code>observe</code>
 guarantees the agent cannot act, not that it cannot see. Close anything you would rather it did not
 see before you lend.</p>
+<p>One more thing: <code>observe</code> protects your computer, not the agent. Every screenshot
+goes into the agent's context, so a hostile page or message on screen can act as a prompt injection.
+The agent still cannot touch your computer, but it keeps its own shell in the pod, its model API, and
+whatever credentials the session holds.</p>
 <h2>The browser is a separate question</h2>
 <p><code>owner</code> sees all 32 browser tools; <code>desktop</code> sees 15: navigate, read, click, fill
 in forms. The ones left out include arbitrary JavaScript (<code>browser_evaluate</code>,
@@ -1119,6 +1126,10 @@ Remote からパソコンを貸し出す。期間を選び、プロファイル�
 <p>限界もはっきり書いておく。スクリーンショットは画面に映っているものを明かす。
 <code>observe</code> が保証するのは「手を出せない」ことで、「何も見えない」ことではない。貸す前に、
 見られたくないウィンドウは閉じておこう。</p>
+<p>もう一つ。<code>observe</code> が守るのはあなたのパソコンであって、エージェントではない。
+スクリーンショットはエージェントのコンテキストに入るので、画面に悪意あるページやメッセージが
+あれば、その文字がプロンプトインジェクションになりうる。パソコンには手を出せなくても、エージェントは
+pod の中に自分のシェル、モデル API、そのセッションが持つ認証情報を持っている。</p>
 <h2>ブラウザは別に考える</h2>
 <p><code>owner</code> には 32 個すべてのブラウザツールが見え、<code>desktop</code> には 15 個だけが
 見える。移動、読み取り、クリック、フォーム入力だ。外したのは、任意の JavaScript を実行できる
@@ -1234,6 +1245,10 @@ Events의 키 입력. 들어갈 길이 너무 많습니다. “명령 실행 금
 <p>한계도 분명히 적어 둡니다. 스크린샷은 화면에 보이는 것을 드러냅니다. <code>observe</code>가
 보장하는 것은 “손을 댈 수 없다”이지 “아무것도 보지 못한다”가 아닙니다. 빌려주기 전에 보여 주고
 싶지 않은 창은 닫아 두세요.</p>
+<p>하나 더. <code>observe</code>가 지키는 것은 당신의 컴퓨터이지 에이전트가 아닙니다. 스크린샷은
+에이전트의 컨텍스트로 들어가므로, 화면에 악의적인 페이지나 메시지가 있으면 그 글이 프롬프트
+인젝션이 될 수 있습니다. 에이전트는 컴퓨터에 손을 댈 수 없어도, pod 안의 자기 셸과 모델 API,
+그 세션이 가진 자격 증명은 그대로 가지고 있습니다.</p>
 <h2>브라우저는 따로 생각해야 한다</h2>
 <p><code>owner</code>에는 브라우저 도구 32개가 모두 보이고, <code>desktop</code>에는 15개만 보입니다.
 이동, 읽기, 클릭, 양식 입력입니다. 뺀 것에는 임의의 JavaScript를 실행하는 <code>browser_evaluate</code>와

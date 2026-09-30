@@ -103,6 +103,10 @@ while allowing any shell-capable tool, CI fails.</li>
 <p>Its limit, stated plainly: a screenshot still shows whatever is on screen. <code>observe</code>
 guarantees the agent cannot act, not that it cannot see. Close anything you would rather it did not
 see before you lend.</p>
+<p>One more thing: <code>observe</code> protects your computer, not the agent. Every screenshot
+goes into the agent's context, so a hostile page or message on screen can act as a prompt injection.
+The agent still cannot touch your computer, but it keeps its own shell in the pod, its model API, and
+whatever credentials the session holds.</p>
 <h2>The browser is a separate question</h2>
 <p><code>owner</code> sees all 32 browser tools; <code>desktop</code> sees 15: navigate, read, click, fill
 in forms. The ones left out include arbitrary JavaScript (<code>browser_evaluate</code>,
