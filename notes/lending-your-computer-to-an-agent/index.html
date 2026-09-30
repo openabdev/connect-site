@@ -105,8 +105,9 @@ guarantees the agent cannot act, not that it cannot see. Close anything you woul
 see before you lend.</p>
 <p>One more thing: <code>observe</code> protects your computer, not the agent. Every screenshot
 goes into the agent's context, so a hostile page or message on screen can act as a prompt injection.
-The agent still cannot touch your computer, but it keeps its own shell in the pod, its model API, and
-whatever credentials the session holds.</p>
+The agent still cannot touch your computer, but it keeps its own shell in the pod, outbound internet
+access by default, and whatever credentials the session holds (for example git) — it can send whatever
+it reads to any host.</p>
 <h2>The browser is a separate question</h2>
 <p><code>owner</code> sees all 32 browser tools; <code>desktop</code> sees 15: navigate, read, click, fill
 in forms. The ones left out include arbitrary JavaScript (<code>browser_evaluate</code>,
