@@ -22,6 +22,16 @@ ROOT = base.ROOT
 # One entry per note: slug + per-language (two headline lines, subline). Line
 # lengths are fitted at draw time; keep headlines to ~2 short lines.
 NOTES = [
+    ("lending-your-computer-to-an-agent", {
+        "en": (["An agent wants to borrow my computer.", "How much access should I give it?"],
+               "See, use, own: three profiles, and the only real boundary."),
+        "zh": (["Agent 要跟我借電腦，", "我該給它多少權限？"],
+               "看、用、管三種 profile，以及唯一真正的邊界。"),
+        "ja": (["エージェントが私のパソコンを借りたいと言う。", "どこまで権限を渡すべきか"],
+               "見る・使う・管理する——三つのプロファイルと、唯一の本当の境界。"),
+        "ko": (["에이전트가 내 컴퓨터를 빌려 달라고 한다.", "권한을 얼마나 줘야 할까?"],
+               "보기·사용·관리 — 세 가지 프로필과 유일한 진짜 경계."),
+    }),
     ("shareable-state-for-stateless-agents", {
         "en": (["Durable · Shared · Portable", "Shareable state for stateless agents"],
                "Sandboxes are disposable; data should outlive any one session."),

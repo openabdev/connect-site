@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>エージェントが私のパソコンを借りたいと言う。どこまで権限を渡すべきか — OpenAB Connect</title>
+<meta name="description" content="見る・使う・管理する——三つのプロファイルと、唯一の本当の境界。デスクトップを操作できればシェルがあるのと同じだ。だから sandbox という名前を捨てて正直な desktop に改め、見るだけの observe を加えた。">
+<link rel="canonical" href="https://connect.openab.dev/ja/notes/lending-your-computer-to-an-agent/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="エージェントが私のパソコンを借りたいと言う。どこまで権限を渡すべきか — OpenAB Connect">
+<meta property="og:description" content="見る・使う・管理する——三つのプロファイルと、唯一の本当の境界。デスクトップを操作できればシェルがあるのと同じだ。だから sandbox という名前を捨てて正直な desktop に改め、見るだけの observe を加えた。">
+<meta property="og:url" content="https://connect.openab.dev/ja/notes/lending-your-computer-to-an-agent/">
+<meta property="og:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-ja.png?v=6b072e28">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="エージェントが私のパソコンを借りたいと言う。どこまで権限を渡すべきか——三つのプロファイル">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="エージェントが私のパソコンを借りたいと言う。どこまで権限を渡すべきか — OpenAB Connect">
+<meta name="twitter:description" content="見る・使う・管理する——三つのプロファイルと、唯一の本当の境界。デスクトップを操作できればシェルがあるのと同じだ。だから sandbox という名前を捨てて正直な desktop に改め、見るだけの observe を加えた。">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-ja.png?v=6b072e28">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=7044ef38">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ja/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ja/#features">特徴</a>
+    <a href="/ja/#faq">よくある質問</a>
+    <a href="/ja/notes/">開発ノート</a>
+    <a href="/ja/releases/">リリース</a>
+    <a href="/ja/support.html">サポート</a>
+    <span class="lang"><a href="/zh/notes/lending-your-computer-to-an-agent/">中文</a>|<a class="active" href="/ja/notes/lending-your-computer-to-an-agent/">日本語</a>|<a href="/ko/notes/lending-your-computer-to-an-agent/">한국어</a>|<a href="/notes/lending-your-computer-to-an-agent/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/ja/notes/">開発ノート</a></p>
+  <h1>エージェントが私のパソコンを借りたいと言う。どこまで権限を渡すべきか</h1>
+  <p class="byline">OpenAB Connect · 2026年9月30日</p>
+  <p class="lede">前回の<a href="/ja/notes/terminal-trust-spectrum/">「ターミナル信頼スペクトラム」</a>は、こう結んだ。エージェントが本当に放たれる日、誰もがまず問うのは——それは何に触れられるのか、だと。今回はその問いの裏側に答える。エージェントがあなたのパソコンを借りたいと言ったとき、どこまで権限を渡すべきか。</p>
+
+<p>OpenAB Connect のエージェントはリモートのサンドボックスで動き、本来あなたのパソコンには触れられない。それでも触れてほしい場面はある。画面を見てどこがおかしいか教えてほしい、ブラウザでフォームを埋めてほしい、Mac で Xcode のビルドを一度走らせてほしい。そのときあなたは Connect か
+Remote からパソコンを貸し出す。期間を選び、プロファイルを選ぶ。プロファイルが、エージェントの手に渡るものを決める。</p>
+<h2>直感的な答えは間違っている</h2>
+<p>まず思いつくのは「コマンドを実行させなければ安全だ」という考えだ。見る、クリックする、入力する、そこまでは許して、シェルだけは渡さない。</p>
+<p>問題は、デスクトップを操作できればシェルがあるのと同じだということだ。</p>
+<ul>
+<li><code>osascript</code> は <code>do shell script</code> を実行できる。</li>
+<li><code>key</code> はターミナルに文字を打ち込める。</li>
+<li><code>mouse</code> はターミナルを開ける。</li>
+</ul>
+<p>AppleScript の中身をフィルタしても塞げない。JXA の <code>doShellScript</code>、
+<code>ObjC.import</code> から <code>NSTask</code>、Terminal の <code>do script</code>、System Events
+のキー入力。入口が多すぎる。「コマンドを実行させない」は便利な入口を一つ減らすだけで、権限は何も減らない。</p>
+<h2>私たち自身がそこでつまずいた</h2>
+<p>つい最近まで、自分用の <code>owner</code> 以外の選択肢は <code>sandbox</code> という名前だった。中身は <code>owner</code> から <code>exec</code> を抜いただけだ。</p>
+<p>この名前は間違っていた。サンドボックスではなく、シェルと同等だった。sandbox と名乗りながらシェルを渡す選択肢は、選択肢がないより悪い。安心して貸してよいと思わせてしまうからだ。だから捨てた。<code>sandbox</code> は実際にできることに合わせて <code>desktop</code> に改名し、本当の境界として <code>observe</code> を加えた（<a href="https://github.com/openabdev/instance-mcp/issues/45">#45</a>）。</p>
+<h2>三つの選択肢、それぞれで渡すもの</h2>
+<figure class="cmp-shot"><a href="/notes/lending-your-computer-to-an-agent/profiles-en.png?v=24da4087"><img src="/notes/lending-your-computer-to-an-agent/profiles-en.png?v=24da4087" width="1536" height="1024" alt="三つのプロファイルの比較図。Observe は見るだけで、システム情報とスクリーンショットのみ、唯一のセキュリティ境界。Desktop はマウス、キーボード、AppleScript と 15 個のブラウザツールを加えるが、シェルと同等で境界ではない。Owner はシェルと全ブラウザツールを含むすべてのツールを持ち、自分の CLI 用。表の最終行：シェルと同等か？ いいえ、はい、はい"></a></figure>
+<div class="tablewrap"><table class="cmp profiles">
+<thead><tr><th>プロファイル</th><th>シェルと同等？</th><th>ツール数（macOS / Linux）</th><th>渡すもの</th></tr></thead>
+<tbody>
+<tr><th><code>observe</code></th><td><strong>いいえ</strong></td><td>2 / 2</td><td>画面とシステム情報。それだけ</td></tr>
+<tr><th><code>desktop</code></th><td><strong>はい</strong>（GUI 経由）</td><td>20 / 20</td><td>デスクトップ、つまりシェル</td></tr>
+<tr><th><code>owner</code></th><td>はい（直接）</td><td>42 / 37</td><td>すべて。自分の CLI 用</td></tr>
+</tbody></table></div>
+<p><code>desktop</code> は macOS では <code>exec</code> を持たないが、マウス、キーボード、AppleScript
+は持つ。Linux では <code>bash</code> をそのまま残している。<code>mouse</code> と <code>key</code>
+でどうせターミナルを開けるのだから、<code>bash</code> を隠してもエージェントが不便になるだけで権限は減らない。だから、減ったふりはしない。ツールの完全な一覧は
+<a href="https://github.com/openabdev/instance-mcp/blob/main/docs/tool-profiles.md">tool-profiles.md</a> にある。</p>
+<h2>なぜ「見る」だけが境界なのか</h2>
+<p><code>observe</code> のツールは <code>sys_info</code> と <code>screenshot</code> の二つだけだ。入力も、クリックも、コマンド実行も、状態の変更もできない。境界として成り立つのは、次の三つによる。</p>
+<ul>
+<li><strong>denylist ではなく allowlist であること。</strong>今後追加されるツールは、ローカルでもブラウザでも、誰かが明示的に加えるまで <code>observe</code> では拒否される。</li>
+<li><strong>名前が能力を表していること。</strong><code>observe</code> は「見る」、<code>desktop</code>
+は「デスクトップを操作する」。何を取り除いたかで名付けるのはやめた。</li>
+<li><strong>ルールがドキュメントではなくテストにあること。</strong><code>ProfileBoundaryTests</code>
+がすべてのプロファイルを検査し、シェルより狭いと称しながらシェルに届くツールを一つでも許すものがあれば CI が落ちる。</li>
+</ul>
+<p>限界もはっきり書いておく。スクリーンショットは画面に映っているものを明かす。
+<code>observe</code> が保証するのは「手を出せない」ことで、「何も見えない」ことではない。貸す前に、見られたくないウィンドウは閉じておこう。</p>
+<h2>ブラウザは別に考える</h2>
+<p><code>owner</code> には 32 個すべてのブラウザツールが見え、<code>desktop</code> には 15 個だけが見える。移動、読み取り、クリック、フォーム入力だ。外したのは、任意の JavaScript を実行できる
+<code>browser_evaluate</code> と <code>browser_run_code_unsafe</code>、ファイルのアップロードと
+PDF、ネットワークの監視、座標指定の生のマウス操作などだ。</p>
+<p>ただし、狭めたのはツールであって、ブラウザそのものではない。そのブラウザはこのパソコンの永続プロファイルを使う。ログイン済みサイトの cookie はそこにあり、このパソコンから届くネットワーク、localhost や tailnet にも届く。</p>
+<h2>では、どれを選べばいいのか</h2>
+<ul>
+<li><strong>既定は「見るだけ」。</strong>「ちょっと見て」という依頼の多くは <code>observe</code>
+で足りる。次の Connect では <code>observe</code> が既定の選択肢になる（未公開）。</li>
+<li><strong>手を動かさせるなら、専用のパソコンを貸す。</strong>Linux の hands node、使い捨てのマシンや VM であって、今作業しているパソコンではない。<code>desktop</code> を選ぶことは、貸出期間中ずっと、そのパソコンのデスクトップユーザーのシェルを渡すことだ。</li>
+<li><strong><code>owner</code> は自分のために取っておく。</strong>自分の CLI から自分のパソコンにつなぐためのものだ。</li>
+</ul>
+<h2>アップグレードの前に</h2>
+<p>今回は破壊的変更だ。instance-mcp v0.7.0 から：</p>
+<ul>
+<li><code>sandbox</code> は拒否される（HTTP 400）。黙って別の層に読み替えることはしない。</li>
+<li>Connect と貸し出すパソコンは一緒に更新する。古い Connect が送る <code>sandbox</code> は新しいパソコンに拒否され、新しい Connect が送る <code>desktop</code> や <code>observe</code> は古いパソコンに拒否される。Connect がまだ古いなら、パソコンを v0.7.0 に上げるのは待とう。</li>
+<li>古いビルドが保存した <code>sandbox</code> の貸出は、新しいビルドが読み込むときに破棄される。もう一度貸し出してほしい。</li>
+</ul>
+<p>背後にある原則は一つだけだ。知らないプロファイルに出会ったら貸出を終わらせる。決して
+<code>owner</code> に広げない。</p>
+<p>なお v0.6.7 から、貸し出したパソコンはデーモンが再起動しても自動でつなぎ直す（macOS と
+Linux）。デプロイやクラッシュのたびに貸し直す必要はもうない。</p>
+<h2>次に来るもの（開発中）</h2>
+<ul>
+<li><strong><code>browser</code> 層</strong>：ブラウザツールだけを持ち、貸出ごとに使い捨てのブラウザプロファイルを使う。境界はブラウザ自身が担う。</li>
+<li><strong>型付きのアプリ操作</strong>：汎用の <code>osascript</code> の代わりに bundle ID の
+allowlist を使い、Terminal、Script Editor、System Settings は除外する。</li>
+<li><strong>カスタムポリシー</strong>：貸出時に allow / deny リストを渡す。これも「シェルと同等か」の検査を通す。</li>
+<li><strong>使い捨ての macOS VM を貸し出す</strong>：ホストそのものではなく。</li>
+</ul>
+<h2>名前はインターフェースの一部だ</h2>
+<p>前回、最初に問われるのは「何に触れられるのか」だと書いた。エージェントがパソコンを借りたいと言うとき、その答えは、あなたが選ぶプロファイルの名前に書いてある。だから名前は本当のことを言わなければならない。<code>sandbox</code> はできないことを約束していた。私たちはそれを
+<code>desktop</code> に置き換え、本当に見るだけの選択肢をもう一つ用意した。</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/ja/privacy.html">プライバシー</a>
+  <a href="/ja/support.html">サポート</a>
+  <a href="https://github.com/openabdev/openab-pty">ランタイムのソース</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

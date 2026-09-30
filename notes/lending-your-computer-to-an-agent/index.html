@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An agent wants to borrow my computer. How much access should I give it? — OpenAB Connect</title>
+<meta name="description" content="See, use, own: three profiles, and the only real boundary. Controlling the desktop is a shell, so we removed a profile called sandbox, renamed it to the honest desktop, and added observe, which can only look.">
+<link rel="canonical" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="An agent wants to borrow my computer. How much access should I give it? — OpenAB Connect">
+<meta property="og:description" content="See, use, own: three profiles, and the only real boundary. Controlling the desktop is a shell, so we removed a profile called sandbox, renamed it to the honest desktop, and added observe, which can only look.">
+<meta property="og:url" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+<meta property="og:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-en.png?v=14252f6a">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="An agent wants to borrow my computer. How much access should I give it? Three profiles: see, use, own">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An agent wants to borrow my computer. How much access should I give it? — OpenAB Connect">
+<meta name="twitter:description" content="See, use, own: three profiles, and the only real boundary. Controlling the desktop is a shell, so we removed a profile called sandbox, renamed it to the honest desktop, and added observe, which can only look.">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-en.png?v=14252f6a">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=7044ef38">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/#features">Features</a>
+    <a href="/#faq">FAQ</a>
+    <a href="/notes/">Dev notes</a>
+    <a href="/releases/">Releases</a>
+    <a href="/support.html">Support</a>
+    <span class="lang"><a href="/zh/notes/lending-your-computer-to-an-agent/">中文</a>|<a href="/ja/notes/lending-your-computer-to-an-agent/">日本語</a>|<a href="/ko/notes/lending-your-computer-to-an-agent/">한국어</a>|<a class="active" href="/notes/lending-your-computer-to-an-agent/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/notes/">Dev notes</a></p>
+  <h1>An agent wants to borrow my computer. How much access should I give it?</h1>
+  <p class="byline">OpenAB Connect · September 30, 2026</p>
+  <p class="lede">Our last note, <a href="/notes/terminal-trust-spectrum/">on the terminal trust spectrum</a>, ended on a bet: the day agents are really let loose, the first thing everyone asks is what they can touch. This one answers the other side of that question: when an agent asks to borrow your computer, how much should you give it?</p>
+
+<p>An OpenAB Connect agent runs in a remote sandbox and cannot reach your computer. Sometimes you
+want it to: look at your screen and tell you what is wrong, fill in a form in your browser, run an
+Xcode build on your Mac. So you lend it your computer from Connect or Remote: you choose how long,
+and you choose a profile, which decides what it gets.</p>
+<h2>The intuitive answer is wrong</h2>
+<p>The obvious idea is: “it is safe as long as it cannot run commands.” Let it look, click and
+type, but give it no shell.</p>
+<p>The trouble is that controlling the desktop is a shell:</p>
+<ul>
+<li><code>osascript</code> can run <code>do shell script</code>.</li>
+<li><code>key</code> can type into a terminal.</li>
+<li><code>mouse</code> can open one.</li>
+</ul>
+<p>Filtering the AppleScript text does not close it either: JXA's <code>doShellScript</code>,
+<code>ObjC.import</code> reaching <code>NSTask</code>, Terminal's <code>do script</code>, keystrokes
+from System Events. There are too many ways in. Taking away “run a command” removes a convenient
+entry point, not a privilege.</p>
+<h2>We made this mistake ourselves</h2>
+<p>Until recently, the option besides <code>owner</code> (for your own use) was called
+<code>sandbox</code>: <code>owner</code> without <code>exec</code>.</p>
+<p>The name was wrong. It was not a sandbox; it was shell-equivalent. An option named sandbox that
+hands over a shell is worse than no option at all, because it tells you it is safe to lend. So we
+removed it: <code>sandbox</code> became <code>desktop</code>, named for what it actually does, and we
+added <code>observe</code>, a real boundary (<a href="https://github.com/openabdev/instance-mcp/issues/45">#45</a>).</p>
+<h2>Three options, and what each one hands over</h2>
+<figure class="cmp-shot"><a href="/notes/lending-your-computer-to-an-agent/profiles-en.png?v=24da4087"><img src="/notes/lending-your-computer-to-an-agent/profiles-en.png?v=24da4087" width="1536" height="1024" alt="Comparison of the three profiles. Observe can only look: system info and screenshots, and it is the only security boundary. Desktop adds mouse, keyboard, AppleScript and 15 browser tools, but is shell-equivalent and not a boundary. Owner has every tool, including the shell and the full browser toolset, and is meant for your own CLI. The last row of the table: shell-equivalent? No, yes, yes"></a></figure>
+<div class="tablewrap"><table class="cmp profiles">
+<thead><tr><th>Profile</th><th>Shell-equivalent?</th><th>Tools (macOS / Linux)</th><th>What you hand over</th></tr></thead>
+<tbody>
+<tr><th><code>observe</code></th><td><strong>No</strong></td><td>2 / 2</td><td>Your screen and system information, nothing more</td></tr>
+<tr><th><code>desktop</code></th><td><strong>Yes</strong> (through the GUI)</td><td>20 / 20</td><td>Your desktop, which means your shell</td></tr>
+<tr><th><code>owner</code></th><td>Yes (directly)</td><td>42 / 37</td><td>Everything; meant for your own CLI</td></tr>
+</tbody></table></div>
+<p>On macOS <code>desktop</code> has no <code>exec</code> but keeps the mouse, keyboard and
+AppleScript. On Linux it keeps <code>bash</code> outright: <code>mouse</code> and <code>key</code> can
+open a terminal anyway, so hiding <code>bash</code> would only inconvenience the agent without taking
+away a privilege, and we do not pretend otherwise. The full tool lists are in
+<a href="https://github.com/openabdev/instance-mcp/blob/main/docs/tool-profiles.md">tool-profiles.md</a>.</p>
+<h2>Why only “look” is a boundary</h2>
+<p><code>observe</code> has two tools, <code>sys_info</code> and <code>screenshot</code>. It cannot type,
+click, run commands or change any state. Three things make it a boundary:</p>
+<ul>
+<li><strong>It is an allowlist, not a denylist.</strong> Any tool added later, local or browser, is
+denied under <code>observe</code> until someone adds it on purpose.</li>
+<li><strong>Names describe capability.</strong> <code>observe</code> means look; <code>desktop</code> means
+drive the desktop. No more naming a profile after what was taken away.</li>
+<li><strong>The rule lives in a test, not in a document someone has to remember.</strong>
+<code>ProfileBoundaryTests</code> checks every profile: if one claims to be narrower than a shell
+while allowing any shell-capable tool, CI fails.</li>
+</ul>
+<p>Its limit, stated plainly: a screenshot still shows whatever is on screen. <code>observe</code>
+guarantees the agent cannot act, not that it cannot see. Close anything you would rather it did not
+see before you lend.</p>
+<h2>The browser is a separate question</h2>
+<p><code>owner</code> sees all 32 browser tools; <code>desktop</code> sees 15: navigate, read, click, fill
+in forms. The ones left out include arbitrary JavaScript (<code>browser_evaluate</code>,
+<code>browser_run_code_unsafe</code>), file upload and PDF, network inspection, and raw
+coordinate-based mouse events.</p>
+<p>But this narrows the tools, not the browser. That browser uses this computer's persistent
+profile, with the cookies of every site you are signed in to, and it reaches whatever network the
+computer reaches, localhost and the tailnet included.</p>
+<h2>So which one should I pick?</h2>
+<ul>
+<li><strong>Default to look only.</strong> Most “can you take a look” requests need nothing more than
+<code>observe</code>. The next Connect release makes it the default choice (not yet on the store).</li>
+<li><strong>To let it act, lend a dedicated computer.</strong> A Linux hands node, a throwaway machine
+or a VM, not the one you work on. Choosing <code>desktop</code> hands over that computer's desktop
+user's shell for the whole lease.</li>
+<li><strong>Keep <code>owner</code> for yourself.</strong> It is for your own CLI talking to your own
+computer.</li>
+</ul>
+<h2>Before you upgrade</h2>
+<p>This is a breaking change. From instance-mcp v0.7.0:</p>
+<ul>
+<li><code>sandbox</code> is refused (HTTP 400); it is not quietly mapped to anything.</li>
+<li>Upgrade Connect and the lent computer together. An older Connect sending <code>sandbox</code> is
+refused by an updated computer, and an updated Connect sending <code>desktop</code> or
+<code>observe</code> is refused by an older one. If your Connect is still the older version, hold
+the computer back from v0.7.0.</li>
+<li>A <code>sandbox</code> grant stored by an older build is dropped when the new one loads it; lend
+again.</li>
+</ul>
+<p>One principle is behind all three: an unknown profile ends the grant. It never widens to
+<code>owner</code>.</p>
+<p>Separately, since v0.6.7 a lent computer reconnects on its own after its daemon restarts
+(macOS and Linux), so a deploy or a crash no longer means lending again.</p>
+<h2>Next (in development)</h2>
+<ul>
+<li><strong>A <code>browser</code> tier</strong>: browser tools only, with a throwaway browser profile
+per grant, so the browser itself is the boundary.</li>
+<li><strong>Typed app control</strong> instead of generic <code>osascript</code>: a bundle-ID allowlist
+that excludes Terminal, Script Editor and System Settings.</li>
+<li><strong>Custom policies</strong>: an allow/deny list supplied with the grant, held to the same
+shell-equivalence check.</li>
+<li><strong>Lending a disposable macOS VM</strong> instead of the host itself.</li>
+</ul>
+<h2>A name is part of the interface</h2>
+<p>Our last note said the first question would be what an agent can touch. When an agent asks to
+borrow your computer, the answer is written in the name of the profile you pick. So the name has to
+tell the truth. <code>sandbox</code> promised something it could not deliver; we replaced it with
+<code>desktop</code>, and gave you one more option that really can only look.</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/support.html">Support</a>
+  <a href="https://github.com/openabdev/openab-pty">Runtime source</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

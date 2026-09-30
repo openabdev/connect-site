@@ -804,8 +804,498 @@ stateless인 것은 실행 환경입니다 — 그 층은 버릴 수 있고, 신
 """,
 )
 
+
+# --- lending-your-computer-to-an-agent -------------------------------------
+
+SLUG_LEND = "lending-your-computer-to-an-agent"
+PROFILES_DOC = "https://github.com/openabdev/instance-mcp/blob/main/docs/tool-profiles.md"
+ISSUE_45 = "https://github.com/openabdev/instance-mcp/issues/45"
+
+
+def _lend_fig(lang, alt):
+    """The three-profile illustration: Chinese for zh, English elsewhere."""
+    img = "profiles-zh.png" if lang == "zh" else "profiles-en.png"
+    src = chrome.rev(f"notes/{SLUG_LEND}/{img}")
+    # A dense infographic: at phone width it is a thumbnail, so it opens full size.
+    return (f'<figure class="cmp-shot"><a href="{src}">'
+            f'<img src="{src}" width="1536" height="1024" alt="{alt}"></a></figure>')
+
+
+def _lend_table(head, rows):
+    out = ['<div class="tablewrap"><table class="cmp profiles">',
+           "<thead><tr>" + "".join(f"<th>{h}</th>" for h in head) + "</tr></thead>",
+           "<tbody>"]
+    for r in rows:
+        out.append("<tr><th>" + r[0] + "</th>" + "".join(f"<td>{c}</td>" for c in r[1:]) + "</tr>")
+    out.append("</tbody></table></div>")
+    return "\n".join(out)
+
+
+NOTE_LEND = {}
+
+NOTE_LEND["zh"] = dict(
+ title="Agent 要跟我借電腦，我該給它多少權限？",
+ desc="看、用、管三種 profile，以及唯一真正的邊界。能操作桌面就等於有 shell——我們因此拿掉"
+      "了一個叫 sandbox 的名字，換成說真話的 desktop，並新增只能看的 observe。",
+ og_alt="Agent 要跟我借電腦，我該給它多少權限？看、用、管三種 profile",
+ date="2026 年 9 月 30 日",
+ notes_label="開發筆記",
+ notes_lede="關於 OpenAB Connect 的設計取捨，以及它所在的市場。",
+ lede="上一篇<a href=\"/zh/notes/terminal-trust-spectrum/\">〈終端信任光譜〉</a>的結尾說：在"
+      " agent 真正被放出去亂跑的那天，大家最先問的是——它能碰到什麼。這篇回答同一個問題的"
+      "另一面：當 agent 要跟你借電腦時，你該給它多少權限。",
+ rows=[],
+ body=f"""
+<p>OpenAB Connect 的 agent 跑在遠端沙箱裡，本來碰不到你的電腦。但有時你會想讓它碰：看一下
+你的螢幕哪裡出錯、在瀏覽器裡幫你填一張表、在 Mac 上跑一次 Xcode build。這時你透過 Connect 或
+Remote 把電腦借給它，選好借多久，再選一個 profile，決定它拿到什麼。</p>
+<h2>直覺的答案是錯的</h2>
+<p>最直覺的想法是：「不讓它執行指令就安全了。」讓它看、讓它點、讓它打字，但不給 shell。</p>
+<p>問題是，能操作桌面，就等於有 shell：</p>
+<ul>
+<li><code>osascript</code> 可以執行 <code>do shell script</code>。</li>
+<li><code>key</code> 可以在終端機裡打字。</li>
+<li><code>mouse</code> 可以把終端機打開。</li>
+</ul>
+<p>想靠過濾 AppleScript 的內容來擋，也擋不住：JXA 的 <code>doShellScript</code>、
+<code>ObjC.import</code> 呼叫 <code>NSTask</code>、Terminal 的 <code>do script</code>、System Events
+送出的按鍵，路太多了。所以「不給執行指令」只是少一個方便的入口，並沒有少任何權限。</p>
+<h2>我們自己就踩過</h2>
+<p>直到最近，除了給你自己用的 <code>owner</code>，借出電腦時的另一個選項叫 <code>sandbox</code>：
+跟 <code>owner</code> 一樣，只是拿掉了 <code>exec</code>。</p>
+<p>這個名字說錯了。它不是沙箱，它等同 shell。一個叫 sandbox、實際上交出 shell 的選項，比沒有
+這個選項更糟，因為它讓人以為可以放心借出。所以我們把它拿掉了：<code>sandbox</code> 改名為
+<code>desktop</code>，照它實際能做的事命名；另外新增 <code>observe</code>，一個真正的邊界
+（<a href="{ISSUE_45}">#45</a>）。</p>
+<h2>三個選項，你交出去的分別是什麼</h2>
+{_lend_fig("zh", "三種 profile 的對照圖：Observe 只看，只有系統資訊與截圖，是唯一的安全邊界；Desktop 可以操作滑鼠、鍵盤、AppleScript 與 15 個瀏覽器工具，但等同 shell，不是安全邊界；Owner 擁有全部工具，包括 shell 與完整瀏覽器，留給你自己的 CLI。底部對照表的最後一列：等同 shell？否、是、是")}
+{_lend_table(["Profile", "等同 shell？", "工具數（macOS / Linux）", "你交出去的"], [
+    ["<code>observe</code>", "<strong>否</strong>", "2 / 2", "你的螢幕畫面和系統資訊，僅此而已"],
+    ["<code>desktop</code>", "<strong>是</strong>（透過 GUI）", "20 / 20", "你的桌面，也就等於你的 shell"],
+    ["<code>owner</code>", "是（直接）", "42 / 37", "全部，留給你自己的 CLI"],
+])}
+<p><code>desktop</code> 在 macOS 上沒有 <code>exec</code>，但有滑鼠、鍵盤和 AppleScript；在 Linux
+上它直接保留了 <code>bash</code>。既然 <code>mouse</code> 和 <code>key</code> 反正能打開終端機，把
+<code>bash</code> 藏起來只會讓 agent 不方便，不會少任何權限，所以我們不假裝。完整的工具清單在
+<a href="{PROFILES_DOC}">tool-profiles.md</a>。</p>
+<h2>為什麼只有「看」算邊界</h2>
+<p><code>observe</code> 只有兩個工具：<code>sys_info</code> 和 <code>screenshot</code>。它不能打字、
+點擊、執行指令，也不能改變任何狀態。它能成為邊界，靠的是三件事：</p>
+<ul>
+<li><strong>它是 allowlist，不是 denylist。</strong>日後新增的任何工具，不管是本地的還是瀏覽器的，在
+<code>observe</code> 下都預設拒絕，直到有人明確把它加進清單。</li>
+<li><strong>名字照能力命名。</strong><code>observe</code> 就是「看」，<code>desktop</code> 就是「操作
+桌面」，不再用「拿掉了什麼」來命名。</li>
+<li><strong>規則寫進測試，不寫在文件裡等人記得。</strong><code>ProfileBoundaryTests</code> 會檢查每個
+profile：只要有一個號稱比 shell 窄、卻允許任何能碰到 shell 的工具，CI 就會失敗。</li>
+</ul>
+<p>它的限制也要說清楚：截圖仍會洩漏畫面上的內容。<code>observe</code> 保證的是「它不能動手」，
+不是「它什麼都看不到」。借出前，先把不想被看到的視窗關掉。</p>
+<h2>瀏覽器要另外想</h2>
+<p><code>owner</code> 看得到全部 32 個瀏覽器工具，<code>desktop</code> 只有 15 個：導覽、讀取、點擊、
+填表。拿掉的包括能跑任意 JavaScript 的 <code>browser_evaluate</code> 和
+<code>browser_run_code_unsafe</code>、檔案上傳與 PDF、網路監看，以及用座標操作的原始滑鼠事件。</p>
+<p>但這收窄的是工具，不是瀏覽器本身。那個瀏覽器用的是這台電腦的持久 profile：你已登入網站的
+cookie 都在，它也連得到這台電腦連得到的網路，包括 localhost 和 tailnet。</p>
+<h2>所以我該怎麼選</h2>
+<ul>
+<li><strong>預設只給它看。</strong>大部分「幫我看一下」的需求，<code>observe</code> 就夠了。下一版
+Connect 會把 <code>observe</code> 設為預設選項（尚未上架）。</li>
+<li><strong>要它動手，就借一台專用電腦。</strong>一台 Linux hands node、一台用完即丟的機器或 VM，
+不要借你正在工作的那台。選 <code>desktop</code>，等於在整個租期內把那台電腦桌面使用者的 shell
+交出去。</li>
+<li><strong><code>owner</code> 留給你自己。</strong>那是你自己的 CLI 連到自己電腦用的。</li>
+</ul>
+<h2>升級須知</h2>
+<p>這次是破壞性變更。從 instance-mcp v0.7.0 起：</p>
+<ul>
+<li><code>sandbox</code> 會被拒絕（HTTP 400），不會默默對應到其他層級。</li>
+<li>Connect 和被借出的電腦要一起升級：舊版 Connect 送出的 <code>sandbox</code> 會被新版電腦拒絕；
+新版送出的 <code>desktop</code> 或 <code>observe</code> 也會被舊版電腦拒絕。如果你的 Connect 還是
+舊版，先別把電腦升到 v0.7.0。</li>
+<li>舊版存下的 <code>sandbox</code> 借用，新版載入時會直接丟棄，需要重新借出。</li>
+</ul>
+<p>背後只有一個原則：遇到不認得的 profile，就結束這次借用，絕不擴權成 <code>owner</code>。</p>
+<p>另外，從 v0.6.7 起，借出去的電腦在 daemon 重啟後會自動接回（macOS 與 Linux），部署或當機
+不再需要你重新借一次。</p>
+<h2>接下來（開發中）</h2>
+<ul>
+<li><strong><code>browser</code> 層</strong>：只有瀏覽器工具，每次借用搭配一個拋棄式瀏覽器 profile，由
+瀏覽器本身提供邊界。</li>
+<li><strong>有型別的 app 控制</strong>：用 bundle ID allowlist 取代通用的 <code>osascript</code>，並排除
+Terminal、Script Editor、System Settings。</li>
+<li><strong>自訂 policy</strong>：借出時附上 allow / deny 清單，同樣要通過「是否等同 shell」的檢查。</li>
+<li><strong>借出一次性的 macOS VM</strong>，而不是主機本身。</li>
+</ul>
+<h2>名字是介面的一部分</h2>
+<p>上一篇說，大家最先問的會是「它能碰到什麼」。當 agent 要跟你借電腦時，這個問題的答案就寫在
+你選的那個 profile 名字上。所以名字必須說真話：<code>sandbox</code> 承諾了它做不到的事，我們把
+它換成 <code>desktop</code>，並多給你一個真正只能看的選項。</p>
+""",
+)
+
+NOTE_LEND["en"] = dict(
+ title="An agent wants to borrow my computer. How much access should I give it?",
+ desc="See, use, own: three profiles, and the only real boundary. Controlling the desktop is "
+      "a shell, so we removed a profile called sandbox, renamed it to the honest desktop, and "
+      "added observe, which can only look.",
+ og_alt="An agent wants to borrow my computer. How much access should I give it? Three profiles: see, use, own",
+ date="September 30, 2026",
+ notes_label="Dev notes",
+ notes_lede="Design trade-offs behind OpenAB Connect, and the market it sits in.",
+ lede="Our last note, <a href=\"/notes/terminal-trust-spectrum/\">on the terminal trust "
+      "spectrum</a>, ended on a bet: the day agents are really let loose, the first thing "
+      "everyone asks is what they can touch. This one answers the other side of that "
+      "question: when an agent asks to borrow your computer, how much should you give it?",
+ rows=[],
+ body=f"""
+<p>An OpenAB Connect agent runs in a remote sandbox and cannot reach your computer. Sometimes you
+want it to: look at your screen and tell you what is wrong, fill in a form in your browser, run an
+Xcode build on your Mac. So you lend it your computer from Connect or Remote: you choose how long,
+and you choose a profile, which decides what it gets.</p>
+<h2>The intuitive answer is wrong</h2>
+<p>The obvious idea is: “it is safe as long as it cannot run commands.” Let it look, click and
+type, but give it no shell.</p>
+<p>The trouble is that controlling the desktop is a shell:</p>
+<ul>
+<li><code>osascript</code> can run <code>do shell script</code>.</li>
+<li><code>key</code> can type into a terminal.</li>
+<li><code>mouse</code> can open one.</li>
+</ul>
+<p>Filtering the AppleScript text does not close it either: JXA's <code>doShellScript</code>,
+<code>ObjC.import</code> reaching <code>NSTask</code>, Terminal's <code>do script</code>, keystrokes
+from System Events. There are too many ways in. Taking away “run a command” removes a convenient
+entry point, not a privilege.</p>
+<h2>We made this mistake ourselves</h2>
+<p>Until recently, the option besides <code>owner</code> (for your own use) was called
+<code>sandbox</code>: <code>owner</code> without <code>exec</code>.</p>
+<p>The name was wrong. It was not a sandbox; it was shell-equivalent. An option named sandbox that
+hands over a shell is worse than no option at all, because it tells you it is safe to lend. So we
+removed it: <code>sandbox</code> became <code>desktop</code>, named for what it actually does, and we
+added <code>observe</code>, a real boundary (<a href="{ISSUE_45}">#45</a>).</p>
+<h2>Three options, and what each one hands over</h2>
+{_lend_fig("en", "Comparison of the three profiles. Observe can only look: system info and screenshots, and it is the only security boundary. Desktop adds mouse, keyboard, AppleScript and 15 browser tools, but is shell-equivalent and not a boundary. Owner has every tool, including the shell and the full browser toolset, and is meant for your own CLI. The last row of the table: shell-equivalent? No, yes, yes")}
+{_lend_table(["Profile", "Shell-equivalent?", "Tools (macOS / Linux)", "What you hand over"], [
+    ["<code>observe</code>", "<strong>No</strong>", "2 / 2", "Your screen and system information, nothing more"],
+    ["<code>desktop</code>", "<strong>Yes</strong> (through the GUI)", "20 / 20", "Your desktop, which means your shell"],
+    ["<code>owner</code>", "Yes (directly)", "42 / 37", "Everything; meant for your own CLI"],
+])}
+<p>On macOS <code>desktop</code> has no <code>exec</code> but keeps the mouse, keyboard and
+AppleScript. On Linux it keeps <code>bash</code> outright: <code>mouse</code> and <code>key</code> can
+open a terminal anyway, so hiding <code>bash</code> would only inconvenience the agent without taking
+away a privilege, and we do not pretend otherwise. The full tool lists are in
+<a href="{PROFILES_DOC}">tool-profiles.md</a>.</p>
+<h2>Why only “look” is a boundary</h2>
+<p><code>observe</code> has two tools, <code>sys_info</code> and <code>screenshot</code>. It cannot type,
+click, run commands or change any state. Three things make it a boundary:</p>
+<ul>
+<li><strong>It is an allowlist, not a denylist.</strong> Any tool added later, local or browser, is
+denied under <code>observe</code> until someone adds it on purpose.</li>
+<li><strong>Names describe capability.</strong> <code>observe</code> means look; <code>desktop</code> means
+drive the desktop. No more naming a profile after what was taken away.</li>
+<li><strong>The rule lives in a test, not in a document someone has to remember.</strong>
+<code>ProfileBoundaryTests</code> checks every profile: if one claims to be narrower than a shell
+while allowing any shell-capable tool, CI fails.</li>
+</ul>
+<p>Its limit, stated plainly: a screenshot still shows whatever is on screen. <code>observe</code>
+guarantees the agent cannot act, not that it cannot see. Close anything you would rather it did not
+see before you lend.</p>
+<h2>The browser is a separate question</h2>
+<p><code>owner</code> sees all 32 browser tools; <code>desktop</code> sees 15: navigate, read, click, fill
+in forms. The ones left out include arbitrary JavaScript (<code>browser_evaluate</code>,
+<code>browser_run_code_unsafe</code>), file upload and PDF, network inspection, and raw
+coordinate-based mouse events.</p>
+<p>But this narrows the tools, not the browser. That browser uses this computer's persistent
+profile, with the cookies of every site you are signed in to, and it reaches whatever network the
+computer reaches, localhost and the tailnet included.</p>
+<h2>So which one should I pick?</h2>
+<ul>
+<li><strong>Default to look only.</strong> Most “can you take a look” requests need nothing more than
+<code>observe</code>. The next Connect release makes it the default choice (not yet on the store).</li>
+<li><strong>To let it act, lend a dedicated computer.</strong> A Linux hands node, a throwaway machine
+or a VM, not the one you work on. Choosing <code>desktop</code> hands over that computer's desktop
+user's shell for the whole lease.</li>
+<li><strong>Keep <code>owner</code> for yourself.</strong> It is for your own CLI talking to your own
+computer.</li>
+</ul>
+<h2>Before you upgrade</h2>
+<p>This is a breaking change. From instance-mcp v0.7.0:</p>
+<ul>
+<li><code>sandbox</code> is refused (HTTP 400); it is not quietly mapped to anything.</li>
+<li>Upgrade Connect and the lent computer together. An older Connect sending <code>sandbox</code> is
+refused by an updated computer, and an updated Connect sending <code>desktop</code> or
+<code>observe</code> is refused by an older one. If your Connect is still the older version, hold
+the computer back from v0.7.0.</li>
+<li>A <code>sandbox</code> grant stored by an older build is dropped when the new one loads it; lend
+again.</li>
+</ul>
+<p>One principle is behind all three: an unknown profile ends the grant. It never widens to
+<code>owner</code>.</p>
+<p>Separately, since v0.6.7 a lent computer reconnects on its own after its daemon restarts
+(macOS and Linux), so a deploy or a crash no longer means lending again.</p>
+<h2>Next (in development)</h2>
+<ul>
+<li><strong>A <code>browser</code> tier</strong>: browser tools only, with a throwaway browser profile
+per grant, so the browser itself is the boundary.</li>
+<li><strong>Typed app control</strong> instead of generic <code>osascript</code>: a bundle-ID allowlist
+that excludes Terminal, Script Editor and System Settings.</li>
+<li><strong>Custom policies</strong>: an allow/deny list supplied with the grant, held to the same
+shell-equivalence check.</li>
+<li><strong>Lending a disposable macOS VM</strong> instead of the host itself.</li>
+</ul>
+<h2>A name is part of the interface</h2>
+<p>Our last note said the first question would be what an agent can touch. When an agent asks to
+borrow your computer, the answer is written in the name of the profile you pick. So the name has to
+tell the truth. <code>sandbox</code> promised something it could not deliver; we replaced it with
+<code>desktop</code>, and gave you one more option that really can only look.</p>
+""",
+)
+
+NOTE_LEND["ja"] = dict(
+ title="エージェントが私のパソコンを借りたいと言う。どこまで権限を渡すべきか",
+ desc="見る・使う・管理する——三つのプロファイルと、唯一の本当の境界。デスクトップを操作できれば"
+      "シェルがあるのと同じだ。だから sandbox という名前を捨てて正直な desktop に改め、見るだけの"
+      " observe を加えた。",
+ og_alt="エージェントが私のパソコンを借りたいと言う。どこまで権限を渡すべきか——三つのプロファイル",
+ date="2026年9月30日",
+ notes_label="開発ノート",
+ notes_lede="OpenAB Connect の設計上のトレードオフと、それが立つ市場について。",
+ lede="前回の<a href=\"/ja/notes/terminal-trust-spectrum/\">「ターミナル信頼スペクトラム」</a>は、"
+      "こう結んだ。エージェントが本当に放たれる日、誰もがまず問うのは——それは何に触れられるのか、"
+      "だと。今回はその問いの裏側に答える。エージェントがあなたのパソコンを借りたいと言ったとき、"
+      "どこまで権限を渡すべきか。",
+ rows=[],
+ body=f"""
+<p>OpenAB Connect のエージェントはリモートのサンドボックスで動き、本来あなたのパソコンには触れ
+られない。それでも触れてほしい場面はある。画面を見てどこがおかしいか教えてほしい、ブラウザで
+フォームを埋めてほしい、Mac で Xcode のビルドを一度走らせてほしい。そのときあなたは Connect か
+Remote からパソコンを貸し出す。期間を選び、プロファイルを選ぶ。プロファイルが、エージェントの
+手に渡るものを決める。</p>
+<h2>直感的な答えは間違っている</h2>
+<p>まず思いつくのは「コマンドを実行させなければ安全だ」という考えだ。見る、クリックする、
+入力する、そこまでは許して、シェルだけは渡さない。</p>
+<p>問題は、デスクトップを操作できればシェルがあるのと同じだということだ。</p>
+<ul>
+<li><code>osascript</code> は <code>do shell script</code> を実行できる。</li>
+<li><code>key</code> はターミナルに文字を打ち込める。</li>
+<li><code>mouse</code> はターミナルを開ける。</li>
+</ul>
+<p>AppleScript の中身をフィルタしても塞げない。JXA の <code>doShellScript</code>、
+<code>ObjC.import</code> から <code>NSTask</code>、Terminal の <code>do script</code>、System Events
+のキー入力。入口が多すぎる。「コマンドを実行させない」は便利な入口を一つ減らすだけで、権限は
+何も減らない。</p>
+<h2>私たち自身がそこでつまずいた</h2>
+<p>つい最近まで、自分用の <code>owner</code> 以外の選択肢は <code>sandbox</code> という名前だった。
+中身は <code>owner</code> から <code>exec</code> を抜いただけだ。</p>
+<p>この名前は間違っていた。サンドボックスではなく、シェルと同等だった。sandbox と名乗りながら
+シェルを渡す選択肢は、選択肢がないより悪い。安心して貸してよいと思わせてしまうからだ。だから
+捨てた。<code>sandbox</code> は実際にできることに合わせて <code>desktop</code> に改名し、本当の
+境界として <code>observe</code> を加えた（<a href="{ISSUE_45}">#45</a>）。</p>
+<h2>三つの選択肢、それぞれで渡すもの</h2>
+{_lend_fig("ja", "三つのプロファイルの比較図。Observe は見るだけで、システム情報とスクリーンショットのみ、唯一のセキュリティ境界。Desktop はマウス、キーボード、AppleScript と 15 個のブラウザツールを加えるが、シェルと同等で境界ではない。Owner はシェルと全ブラウザツールを含むすべてのツールを持ち、自分の CLI 用。表の最終行：シェルと同等か？ いいえ、はい、はい")}
+{_lend_table(["プロファイル", "シェルと同等？", "ツール数（macOS / Linux）", "渡すもの"], [
+    ["<code>observe</code>", "<strong>いいえ</strong>", "2 / 2", "画面とシステム情報。それだけ"],
+    ["<code>desktop</code>", "<strong>はい</strong>（GUI 経由）", "20 / 20", "デスクトップ、つまりシェル"],
+    ["<code>owner</code>", "はい（直接）", "42 / 37", "すべて。自分の CLI 用"],
+])}
+<p><code>desktop</code> は macOS では <code>exec</code> を持たないが、マウス、キーボード、AppleScript
+は持つ。Linux では <code>bash</code> をそのまま残している。<code>mouse</code> と <code>key</code>
+でどうせターミナルを開けるのだから、<code>bash</code> を隠してもエージェントが不便になるだけで
+権限は減らない。だから、減ったふりはしない。ツールの完全な一覧は
+<a href="{PROFILES_DOC}">tool-profiles.md</a> にある。</p>
+<h2>なぜ「見る」だけが境界なのか</h2>
+<p><code>observe</code> のツールは <code>sys_info</code> と <code>screenshot</code> の二つだけだ。
+入力も、クリックも、コマンド実行も、状態の変更もできない。境界として成り立つのは、次の三つに
+よる。</p>
+<ul>
+<li><strong>denylist ではなく allowlist であること。</strong>今後追加されるツールは、ローカルでも
+ブラウザでも、誰かが明示的に加えるまで <code>observe</code> では拒否される。</li>
+<li><strong>名前が能力を表していること。</strong><code>observe</code> は「見る」、<code>desktop</code>
+は「デスクトップを操作する」。何を取り除いたかで名付けるのはやめた。</li>
+<li><strong>ルールがドキュメントではなくテストにあること。</strong><code>ProfileBoundaryTests</code>
+がすべてのプロファイルを検査し、シェルより狭いと称しながらシェルに届くツールを一つでも許すもの
+があれば CI が落ちる。</li>
+</ul>
+<p>限界もはっきり書いておく。スクリーンショットは画面に映っているものを明かす。
+<code>observe</code> が保証するのは「手を出せない」ことで、「何も見えない」ことではない。貸す前に、
+見られたくないウィンドウは閉じておこう。</p>
+<h2>ブラウザは別に考える</h2>
+<p><code>owner</code> には 32 個すべてのブラウザツールが見え、<code>desktop</code> には 15 個だけが
+見える。移動、読み取り、クリック、フォーム入力だ。外したのは、任意の JavaScript を実行できる
+<code>browser_evaluate</code> と <code>browser_run_code_unsafe</code>、ファイルのアップロードと
+PDF、ネットワークの監視、座標指定の生のマウス操作などだ。</p>
+<p>ただし、狭めたのはツールであって、ブラウザそのものではない。そのブラウザはこのパソコンの
+永続プロファイルを使う。ログイン済みサイトの cookie はそこにあり、このパソコンから届くネット
+ワーク、localhost や tailnet にも届く。</p>
+<h2>では、どれを選べばいいのか</h2>
+<ul>
+<li><strong>既定は「見るだけ」。</strong>「ちょっと見て」という依頼の多くは <code>observe</code>
+で足りる。次の Connect では <code>observe</code> が既定の選択肢になる（未公開）。</li>
+<li><strong>手を動かさせるなら、専用のパソコンを貸す。</strong>Linux の hands node、使い捨ての
+マシンや VM であって、今作業しているパソコンではない。<code>desktop</code> を選ぶことは、貸出期間中
+ずっと、そのパソコンのデスクトップユーザーのシェルを渡すことだ。</li>
+<li><strong><code>owner</code> は自分のために取っておく。</strong>自分の CLI から自分のパソコンに
+つなぐためのものだ。</li>
+</ul>
+<h2>アップグレードの前に</h2>
+<p>今回は破壊的変更だ。instance-mcp v0.7.0 から：</p>
+<ul>
+<li><code>sandbox</code> は拒否される（HTTP 400）。黙って別の層に読み替えることはしない。</li>
+<li>Connect と貸し出すパソコンは一緒に更新する。古い Connect が送る <code>sandbox</code> は新しい
+パソコンに拒否され、新しい Connect が送る <code>desktop</code> や <code>observe</code> は古い
+パソコンに拒否される。Connect がまだ古いなら、パソコンを v0.7.0 に上げるのは待とう。</li>
+<li>古いビルドが保存した <code>sandbox</code> の貸出は、新しいビルドが読み込むときに破棄される。
+もう一度貸し出してほしい。</li>
+</ul>
+<p>背後にある原則は一つだけだ。知らないプロファイルに出会ったら貸出を終わらせる。決して
+<code>owner</code> に広げない。</p>
+<p>なお v0.6.7 から、貸し出したパソコンはデーモンが再起動しても自動でつなぎ直す（macOS と
+Linux）。デプロイやクラッシュのたびに貸し直す必要はもうない。</p>
+<h2>次に来るもの（開発中）</h2>
+<ul>
+<li><strong><code>browser</code> 層</strong>：ブラウザツールだけを持ち、貸出ごとに使い捨ての
+ブラウザプロファイルを使う。境界はブラウザ自身が担う。</li>
+<li><strong>型付きのアプリ操作</strong>：汎用の <code>osascript</code> の代わりに bundle ID の
+allowlist を使い、Terminal、Script Editor、System Settings は除外する。</li>
+<li><strong>カスタムポリシー</strong>：貸出時に allow / deny リストを渡す。これも「シェルと同等か」
+の検査を通す。</li>
+<li><strong>使い捨ての macOS VM を貸し出す</strong>：ホストそのものではなく。</li>
+</ul>
+<h2>名前はインターフェースの一部だ</h2>
+<p>前回、最初に問われるのは「何に触れられるのか」だと書いた。エージェントがパソコンを借りたいと
+言うとき、その答えは、あなたが選ぶプロファイルの名前に書いてある。だから名前は本当のことを
+言わなければならない。<code>sandbox</code> はできないことを約束していた。私たちはそれを
+<code>desktop</code> に置き換え、本当に見るだけの選択肢をもう一つ用意した。</p>
+""",
+)
+
+NOTE_LEND["ko"] = dict(
+ title="에이전트가 내 컴퓨터를 빌려 달라고 한다. 권한을 얼마나 줘야 할까?",
+ desc="보기·사용·관리 — 세 가지 프로필과 유일한 진짜 경계. 데스크톱을 조작할 수 있으면 셸이 있는"
+      " 것과 같습니다. 그래서 sandbox라는 이름을 버리고 정직한 desktop으로 바꾸고, 보기만 하는"
+      " observe를 추가했습니다.",
+ og_alt="에이전트가 내 컴퓨터를 빌려 달라고 한다. 권한을 얼마나 줘야 할까? 세 가지 프로필",
+ date="2026년 9월 30일",
+ notes_label="개발 노트",
+ notes_lede="OpenAB Connect의 설계 트레이드오프, 그리고 이 제품이 서 있는 시장에 대하여.",
+ lede="지난 글 <a href=\"/ko/notes/terminal-trust-spectrum/\">〈터미널 신뢰 스펙트럼〉</a>은 이렇게"
+      " 끝났습니다. 에이전트가 정말로 풀려나는 날, 모두가 가장 먼저 묻는 것은 — 그것이 무엇에 닿을"
+      " 수 있는가? 이번 글은 같은 질문의 반대편에 답합니다. 에이전트가 당신의 컴퓨터를 빌려 달라고"
+      " 할 때, 권한을 얼마나 줘야 할까요?",
+ rows=[],
+ body=f"""
+<p>OpenAB Connect의 에이전트는 원격 샌드박스에서 돌아가며, 원래는 당신의 컴퓨터에 닿을 수
+없습니다. 그래도 닿게 하고 싶을 때가 있습니다. 화면을 보고 어디가 잘못됐는지 알려 달라, 브라우저에서
+양식을 채워 달라, Mac에서 Xcode 빌드를 한 번 돌려 달라. 그럴 때 Connect나 Remote에서 컴퓨터를
+빌려줍니다. 기간을 고르고, 프로필을 고릅니다. 프로필이 에이전트가 받는 것을 정합니다.</p>
+<h2>직관적인 답은 틀렸다</h2>
+<p>가장 먼저 떠오르는 생각은 “명령만 실행하지 못하게 하면 안전하다”입니다. 보고, 클릭하고,
+입력하는 것까지는 허용하되 셸은 주지 않는 것이죠.</p>
+<p>문제는 데스크톱을 조작할 수 있으면 셸이 있는 것과 같다는 점입니다.</p>
+<ul>
+<li><code>osascript</code>는 <code>do shell script</code>를 실행할 수 있습니다.</li>
+<li><code>key</code>는 터미널에 입력할 수 있습니다.</li>
+<li><code>mouse</code>는 터미널을 열 수 있습니다.</li>
+</ul>
+<p>AppleScript 내용을 필터링해도 막히지 않습니다. JXA의 <code>doShellScript</code>,
+<code>ObjC.import</code>로 부르는 <code>NSTask</code>, Terminal의 <code>do script</code>, System
+Events의 키 입력. 들어갈 길이 너무 많습니다. “명령 실행 금지”는 편리한 입구 하나를 줄일 뿐,
+권한은 하나도 줄이지 않습니다.</p>
+<h2>우리도 직접 그 함정에 빠졌다</h2>
+<p>최근까지, 본인이 쓰는 <code>owner</code> 외의 선택지는 <code>sandbox</code>라는 이름이었습니다.
+<code>owner</code>에서 <code>exec</code>만 뺀 것이었죠.</p>
+<p>이 이름은 틀렸습니다. 샌드박스가 아니라 셸과 동등했습니다. sandbox라고 부르면서 셸을 넘기는
+선택지는 선택지가 없는 것보다 나쁩니다. 안심하고 빌려줘도 된다고 믿게 만들기 때문입니다. 그래서
+버렸습니다. <code>sandbox</code>는 실제로 할 수 있는 일에 맞춰 <code>desktop</code>으로 이름을
+바꾸고, 진짜 경계로 <code>observe</code>를 추가했습니다(<a href="{ISSUE_45}">#45</a>).</p>
+<h2>세 가지 선택지, 각각 넘기는 것</h2>
+{_lend_fig("ko", "세 가지 프로필 비교 그림. Observe는 보기만 하며 시스템 정보와 스크린샷뿐이고, 유일한 보안 경계입니다. Desktop은 마우스, 키보드, AppleScript와 15개의 브라우저 도구를 더하지만 셸과 동등하며 경계가 아닙니다. Owner는 셸과 전체 브라우저 도구를 포함한 모든 도구를 가지며 본인의 CLI용입니다. 표의 마지막 행: 셸과 동등한가? 아니요, 예, 예")}
+{_lend_table(["프로필", "셸과 동등?", "도구 수(macOS / Linux)", "넘기는 것"], [
+    ["<code>observe</code>", "<strong>아니요</strong>", "2 / 2", "화면과 시스템 정보, 그뿐"],
+    ["<code>desktop</code>", "<strong>예</strong>(GUI를 통해)", "20 / 20", "데스크톱, 곧 셸"],
+    ["<code>owner</code>", "예(직접)", "42 / 37", "전부. 본인의 CLI용"],
+])}
+<p><code>desktop</code>은 macOS에서는 <code>exec</code>가 없지만 마우스, 키보드, AppleScript는
+있습니다. Linux에서는 <code>bash</code>를 그대로 남겨 둡니다. <code>mouse</code>와 <code>key</code>로
+어차피 터미널을 열 수 있으니, <code>bash</code>를 숨겨도 에이전트가 불편해질 뿐 권한은 줄지
+않습니다. 그래서 줄어든 척하지 않습니다. 전체 도구 목록은
+<a href="{PROFILES_DOC}">tool-profiles.md</a>에 있습니다.</p>
+<h2>왜 “보기”만 경계인가</h2>
+<p><code>observe</code>의 도구는 <code>sys_info</code>와 <code>screenshot</code> 두 개뿐입니다. 입력도,
+클릭도, 명령 실행도, 상태 변경도 할 수 없습니다. 경계가 되는 이유는 세 가지입니다.</p>
+<ul>
+<li><strong>denylist가 아니라 allowlist입니다.</strong> 앞으로 추가되는 도구는 로컬이든 브라우저든,
+누군가 명시적으로 넣기 전까지 <code>observe</code>에서 거부됩니다.</li>
+<li><strong>이름이 능력을 말합니다.</strong> <code>observe</code>는 “보기”, <code>desktop</code>은
+“데스크톱 조작”입니다. 무엇을 뺐는지로 이름 짓지 않습니다.</li>
+<li><strong>규칙이 문서가 아니라 테스트에 있습니다.</strong> <code>ProfileBoundaryTests</code>가 모든
+프로필을 검사해, 셸보다 좁다고 하면서 셸에 닿는 도구를 하나라도 허용하면 CI가 실패합니다.</li>
+</ul>
+<p>한계도 분명히 적어 둡니다. 스크린샷은 화면에 보이는 것을 드러냅니다. <code>observe</code>가
+보장하는 것은 “손을 댈 수 없다”이지 “아무것도 보지 못한다”가 아닙니다. 빌려주기 전에 보여 주고
+싶지 않은 창은 닫아 두세요.</p>
+<h2>브라우저는 따로 생각해야 한다</h2>
+<p><code>owner</code>에는 브라우저 도구 32개가 모두 보이고, <code>desktop</code>에는 15개만 보입니다.
+이동, 읽기, 클릭, 양식 입력입니다. 뺀 것에는 임의의 JavaScript를 실행하는 <code>browser_evaluate</code>와
+<code>browser_run_code_unsafe</code>, 파일 업로드와 PDF, 네트워크 관찰, 좌표로 움직이는 원시
+마우스 이벤트가 있습니다.</p>
+<p>하지만 좁힌 것은 도구이지 브라우저 자체가 아닙니다. 그 브라우저는 이 컴퓨터의 영구 프로필을
+씁니다. 로그인한 사이트의 cookie가 모두 있고, 이 컴퓨터가 닿는 네트워크, localhost와 tailnet까지
+닿습니다.</p>
+<h2>그래서 무엇을 골라야 할까</h2>
+<ul>
+<li><strong>기본은 보기만.</strong> “잠깐 봐 줘” 류의 요청은 대부분 <code>observe</code>로 충분합니다.
+다음 Connect 버전에서는 <code>observe</code>가 기본 선택지가 됩니다(아직 출시 전).</li>
+<li><strong>손을 쓰게 하려면 전용 컴퓨터를 빌려주세요.</strong> Linux hands node, 쓰고 버릴 머신이나
+VM이지, 지금 작업 중인 컴퓨터가 아닙니다. <code>desktop</code>을 고르면 대여 기간 내내 그 컴퓨터의
+데스크톱 사용자 셸을 넘기는 것입니다.</li>
+<li><strong><code>owner</code>는 본인을 위해 남겨 두세요.</strong> 본인의 CLI에서 본인의 컴퓨터로
+연결할 때 쓰는 것입니다.</li>
+</ul>
+<h2>업그레이드 전에</h2>
+<p>이번 변경은 호환성을 깨뜨립니다. instance-mcp v0.7.0부터:</p>
+<ul>
+<li><code>sandbox</code>는 거부됩니다(HTTP 400). 조용히 다른 단계로 바꾸지 않습니다.</li>
+<li>Connect와 빌려줄 컴퓨터는 함께 업데이트하세요. 구 버전 Connect가 보내는 <code>sandbox</code>는
+새 컴퓨터가 거부하고, 새 Connect가 보내는 <code>desktop</code>이나 <code>observe</code>는 구 버전
+컴퓨터가 거부합니다. Connect가 아직 구 버전이라면 컴퓨터를 v0.7.0으로 올리는 것은 미루세요.</li>
+<li>구 빌드가 저장한 <code>sandbox</code> 대여는 새 빌드가 불러올 때 버려집니다. 다시 빌려주세요.</li>
+</ul>
+<p>이 모든 것 뒤에는 원칙 하나가 있습니다. 모르는 프로필을 만나면 대여를 끝낸다. 절대
+<code>owner</code>로 넓히지 않는다.</p>
+<p>덧붙여 v0.6.7부터, 빌려준 컴퓨터는 데몬이 재시작해도 스스로 다시 연결합니다(macOS와 Linux).
+배포나 크래시 때마다 다시 빌려줄 필요가 없습니다.</p>
+<h2>다음 단계(개발 중)</h2>
+<ul>
+<li><strong><code>browser</code> 단계</strong>: 브라우저 도구만 있고, 대여마다 일회용 브라우저 프로필을
+씁니다. 경계는 브라우저 자체가 맡습니다.</li>
+<li><strong>타입이 있는 앱 제어</strong>: 범용 <code>osascript</code> 대신 bundle ID allowlist를 쓰고,
+Terminal, Script Editor, System Settings는 제외합니다.</li>
+<li><strong>사용자 정의 정책</strong>: 대여 시 allow / deny 목록을 함께 넘깁니다. 이것도 “셸과
+동등한가” 검사를 거칩니다.</li>
+<li><strong>일회용 macOS VM 대여</strong>: 호스트 자체가 아니라.</li>
+</ul>
+<h2>이름은 인터페이스의 일부다</h2>
+<p>지난 글에서, 가장 먼저 나올 질문은 “무엇에 닿을 수 있는가”라고 했습니다. 에이전트가 컴퓨터를
+빌려 달라고 할 때, 그 답은 당신이 고르는 프로필의 이름에 적혀 있습니다. 그러니 이름은 사실을 말해야
+합니다. <code>sandbox</code>는 지킬 수 없는 약속을 했습니다. 우리는 그것을 <code>desktop</code>으로
+바꾸고, 정말로 보기만 하는 선택지를 하나 더 드렸습니다.</p>
+""",
+)
+
+
+# Source lines break mid-sentence for readability; in HTML a newline between two
+# CJK characters renders as a space ("看一下 你的螢幕"). Join those for zh and ja.
+# Korean separates words with spaces, so a newline there is correct as is.
+import re as _re
+_CJK = r"[\u3000-\u30ff\u3400-\u9fff\uff00-\uffef]"
+for _code in ("zh", "ja"):
+    for _k in ("body", "lede", "desc"):
+        NOTE_LEND[_code][_k] = _re.sub(rf"(?<={_CJK})\n(?={_CJK})", "", NOTE_LEND[_code][_k])
+
 # Newest first.
 NOTES = [
+    (SLUG_LEND, NOTE_LEND),
     (SLUG_SHARE, NOTE_SHARE),
     (SLUG_TRUST, NOTE_TRUST),
 ]

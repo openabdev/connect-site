@@ -675,6 +675,11 @@ table.cmp tbody th {
 }
 /* The verdict rows read as a conclusion, so they look like one. */
 table.cmp tbody tr:nth-last-child(-n+2) td { font-weight: 700; }
+/* A profile table is a list of equals, not a comparison ending in a verdict:
+   no verdict bolding, and three short columns fit a phone without scrolling. */
+table.cmp.profiles { min-width: 0; }
+table.cmp.profiles tbody tr td { font-weight: 400; }
+table.cmp.profiles td strong { font-weight: 700; }
 
 /* The zh note carries the comparison as a designed graphic instead of the HTML
    table. The source is 2560px against a ~730px column, so it only ever scales

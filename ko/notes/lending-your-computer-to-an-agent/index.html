@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>에이전트가 내 컴퓨터를 빌려 달라고 한다. 권한을 얼마나 줘야 할까? — OpenAB Connect</title>
+<meta name="description" content="보기·사용·관리 — 세 가지 프로필과 유일한 진짜 경계. 데스크톱을 조작할 수 있으면 셸이 있는 것과 같습니다. 그래서 sandbox라는 이름을 버리고 정직한 desktop으로 바꾸고, 보기만 하는 observe를 추가했습니다.">
+<link rel="canonical" href="https://connect.openab.dev/ko/notes/lending-your-computer-to-an-agent/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="에이전트가 내 컴퓨터를 빌려 달라고 한다. 권한을 얼마나 줘야 할까? — OpenAB Connect">
+<meta property="og:description" content="보기·사용·관리 — 세 가지 프로필과 유일한 진짜 경계. 데스크톱을 조작할 수 있으면 셸이 있는 것과 같습니다. 그래서 sandbox라는 이름을 버리고 정직한 desktop으로 바꾸고, 보기만 하는 observe를 추가했습니다.">
+<meta property="og:url" content="https://connect.openab.dev/ko/notes/lending-your-computer-to-an-agent/">
+<meta property="og:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-ko.png?v=7b962135">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="에이전트가 내 컴퓨터를 빌려 달라고 한다. 권한을 얼마나 줘야 할까? 세 가지 프로필">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="에이전트가 내 컴퓨터를 빌려 달라고 한다. 권한을 얼마나 줘야 할까? — OpenAB Connect">
+<meta name="twitter:description" content="보기·사용·관리 — 세 가지 프로필과 유일한 진짜 경계. 데스크톱을 조작할 수 있으면 셸이 있는 것과 같습니다. 그래서 sandbox라는 이름을 버리고 정직한 desktop으로 바꾸고, 보기만 하는 observe를 추가했습니다.">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-ko.png?v=7b962135">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=7044ef38">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/ko/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/ko/#features">특징</a>
+    <a href="/ko/#faq">자주 묻는 질문</a>
+    <a href="/ko/notes/">개발 노트</a>
+    <a href="/ko/releases/">릴리스</a>
+    <a href="/ko/support.html">지원</a>
+    <span class="lang"><a href="/zh/notes/lending-your-computer-to-an-agent/">中文</a>|<a href="/ja/notes/lending-your-computer-to-an-agent/">日本語</a>|<a class="active" href="/ko/notes/lending-your-computer-to-an-agent/">한국어</a>|<a href="/notes/lending-your-computer-to-an-agent/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/ko/notes/">개발 노트</a></p>
+  <h1>에이전트가 내 컴퓨터를 빌려 달라고 한다. 권한을 얼마나 줘야 할까?</h1>
+  <p class="byline">OpenAB Connect · 2026년 9월 30일</p>
+  <p class="lede">지난 글 <a href="/ko/notes/terminal-trust-spectrum/">〈터미널 신뢰 스펙트럼〉</a>은 이렇게 끝났습니다. 에이전트가 정말로 풀려나는 날, 모두가 가장 먼저 묻는 것은 — 그것이 무엇에 닿을 수 있는가? 이번 글은 같은 질문의 반대편에 답합니다. 에이전트가 당신의 컴퓨터를 빌려 달라고 할 때, 권한을 얼마나 줘야 할까요?</p>
+
+<p>OpenAB Connect의 에이전트는 원격 샌드박스에서 돌아가며, 원래는 당신의 컴퓨터에 닿을 수
+없습니다. 그래도 닿게 하고 싶을 때가 있습니다. 화면을 보고 어디가 잘못됐는지 알려 달라, 브라우저에서
+양식을 채워 달라, Mac에서 Xcode 빌드를 한 번 돌려 달라. 그럴 때 Connect나 Remote에서 컴퓨터를
+빌려줍니다. 기간을 고르고, 프로필을 고릅니다. 프로필이 에이전트가 받는 것을 정합니다.</p>
+<h2>직관적인 답은 틀렸다</h2>
+<p>가장 먼저 떠오르는 생각은 “명령만 실행하지 못하게 하면 안전하다”입니다. 보고, 클릭하고,
+입력하는 것까지는 허용하되 셸은 주지 않는 것이죠.</p>
+<p>문제는 데스크톱을 조작할 수 있으면 셸이 있는 것과 같다는 점입니다.</p>
+<ul>
+<li><code>osascript</code>는 <code>do shell script</code>를 실행할 수 있습니다.</li>
+<li><code>key</code>는 터미널에 입력할 수 있습니다.</li>
+<li><code>mouse</code>는 터미널을 열 수 있습니다.</li>
+</ul>
+<p>AppleScript 내용을 필터링해도 막히지 않습니다. JXA의 <code>doShellScript</code>,
+<code>ObjC.import</code>로 부르는 <code>NSTask</code>, Terminal의 <code>do script</code>, System
+Events의 키 입력. 들어갈 길이 너무 많습니다. “명령 실행 금지”는 편리한 입구 하나를 줄일 뿐,
+권한은 하나도 줄이지 않습니다.</p>
+<h2>우리도 직접 그 함정에 빠졌다</h2>
+<p>최근까지, 본인이 쓰는 <code>owner</code> 외의 선택지는 <code>sandbox</code>라는 이름이었습니다.
+<code>owner</code>에서 <code>exec</code>만 뺀 것이었죠.</p>
+<p>이 이름은 틀렸습니다. 샌드박스가 아니라 셸과 동등했습니다. sandbox라고 부르면서 셸을 넘기는
+선택지는 선택지가 없는 것보다 나쁩니다. 안심하고 빌려줘도 된다고 믿게 만들기 때문입니다. 그래서
+버렸습니다. <code>sandbox</code>는 실제로 할 수 있는 일에 맞춰 <code>desktop</code>으로 이름을
+바꾸고, 진짜 경계로 <code>observe</code>를 추가했습니다(<a href="https://github.com/openabdev/instance-mcp/issues/45">#45</a>).</p>
+<h2>세 가지 선택지, 각각 넘기는 것</h2>
+<figure class="cmp-shot"><a href="/notes/lending-your-computer-to-an-agent/profiles-en.png?v=24da4087"><img src="/notes/lending-your-computer-to-an-agent/profiles-en.png?v=24da4087" width="1536" height="1024" alt="세 가지 프로필 비교 그림. Observe는 보기만 하며 시스템 정보와 스크린샷뿐이고, 유일한 보안 경계입니다. Desktop은 마우스, 키보드, AppleScript와 15개의 브라우저 도구를 더하지만 셸과 동등하며 경계가 아닙니다. Owner는 셸과 전체 브라우저 도구를 포함한 모든 도구를 가지며 본인의 CLI용입니다. 표의 마지막 행: 셸과 동등한가? 아니요, 예, 예"></a></figure>
+<div class="tablewrap"><table class="cmp profiles">
+<thead><tr><th>프로필</th><th>셸과 동등?</th><th>도구 수(macOS / Linux)</th><th>넘기는 것</th></tr></thead>
+<tbody>
+<tr><th><code>observe</code></th><td><strong>아니요</strong></td><td>2 / 2</td><td>화면과 시스템 정보, 그뿐</td></tr>
+<tr><th><code>desktop</code></th><td><strong>예</strong>(GUI를 통해)</td><td>20 / 20</td><td>데스크톱, 곧 셸</td></tr>
+<tr><th><code>owner</code></th><td>예(직접)</td><td>42 / 37</td><td>전부. 본인의 CLI용</td></tr>
+</tbody></table></div>
+<p><code>desktop</code>은 macOS에서는 <code>exec</code>가 없지만 마우스, 키보드, AppleScript는
+있습니다. Linux에서는 <code>bash</code>를 그대로 남겨 둡니다. <code>mouse</code>와 <code>key</code>로
+어차피 터미널을 열 수 있으니, <code>bash</code>를 숨겨도 에이전트가 불편해질 뿐 권한은 줄지
+않습니다. 그래서 줄어든 척하지 않습니다. 전체 도구 목록은
+<a href="https://github.com/openabdev/instance-mcp/blob/main/docs/tool-profiles.md">tool-profiles.md</a>에 있습니다.</p>
+<h2>왜 “보기”만 경계인가</h2>
+<p><code>observe</code>의 도구는 <code>sys_info</code>와 <code>screenshot</code> 두 개뿐입니다. 입력도,
+클릭도, 명령 실행도, 상태 변경도 할 수 없습니다. 경계가 되는 이유는 세 가지입니다.</p>
+<ul>
+<li><strong>denylist가 아니라 allowlist입니다.</strong> 앞으로 추가되는 도구는 로컬이든 브라우저든,
+누군가 명시적으로 넣기 전까지 <code>observe</code>에서 거부됩니다.</li>
+<li><strong>이름이 능력을 말합니다.</strong> <code>observe</code>는 “보기”, <code>desktop</code>은
+“데스크톱 조작”입니다. 무엇을 뺐는지로 이름 짓지 않습니다.</li>
+<li><strong>규칙이 문서가 아니라 테스트에 있습니다.</strong> <code>ProfileBoundaryTests</code>가 모든
+프로필을 검사해, 셸보다 좁다고 하면서 셸에 닿는 도구를 하나라도 허용하면 CI가 실패합니다.</li>
+</ul>
+<p>한계도 분명히 적어 둡니다. 스크린샷은 화면에 보이는 것을 드러냅니다. <code>observe</code>가
+보장하는 것은 “손을 댈 수 없다”이지 “아무것도 보지 못한다”가 아닙니다. 빌려주기 전에 보여 주고
+싶지 않은 창은 닫아 두세요.</p>
+<h2>브라우저는 따로 생각해야 한다</h2>
+<p><code>owner</code>에는 브라우저 도구 32개가 모두 보이고, <code>desktop</code>에는 15개만 보입니다.
+이동, 읽기, 클릭, 양식 입력입니다. 뺀 것에는 임의의 JavaScript를 실행하는 <code>browser_evaluate</code>와
+<code>browser_run_code_unsafe</code>, 파일 업로드와 PDF, 네트워크 관찰, 좌표로 움직이는 원시
+마우스 이벤트가 있습니다.</p>
+<p>하지만 좁힌 것은 도구이지 브라우저 자체가 아닙니다. 그 브라우저는 이 컴퓨터의 영구 프로필을
+씁니다. 로그인한 사이트의 cookie가 모두 있고, 이 컴퓨터가 닿는 네트워크, localhost와 tailnet까지
+닿습니다.</p>
+<h2>그래서 무엇을 골라야 할까</h2>
+<ul>
+<li><strong>기본은 보기만.</strong> “잠깐 봐 줘” 류의 요청은 대부분 <code>observe</code>로 충분합니다.
+다음 Connect 버전에서는 <code>observe</code>가 기본 선택지가 됩니다(아직 출시 전).</li>
+<li><strong>손을 쓰게 하려면 전용 컴퓨터를 빌려주세요.</strong> Linux hands node, 쓰고 버릴 머신이나
+VM이지, 지금 작업 중인 컴퓨터가 아닙니다. <code>desktop</code>을 고르면 대여 기간 내내 그 컴퓨터의
+데스크톱 사용자 셸을 넘기는 것입니다.</li>
+<li><strong><code>owner</code>는 본인을 위해 남겨 두세요.</strong> 본인의 CLI에서 본인의 컴퓨터로
+연결할 때 쓰는 것입니다.</li>
+</ul>
+<h2>업그레이드 전에</h2>
+<p>이번 변경은 호환성을 깨뜨립니다. instance-mcp v0.7.0부터:</p>
+<ul>
+<li><code>sandbox</code>는 거부됩니다(HTTP 400). 조용히 다른 단계로 바꾸지 않습니다.</li>
+<li>Connect와 빌려줄 컴퓨터는 함께 업데이트하세요. 구 버전 Connect가 보내는 <code>sandbox</code>는
+새 컴퓨터가 거부하고, 새 Connect가 보내는 <code>desktop</code>이나 <code>observe</code>는 구 버전
+컴퓨터가 거부합니다. Connect가 아직 구 버전이라면 컴퓨터를 v0.7.0으로 올리는 것은 미루세요.</li>
+<li>구 빌드가 저장한 <code>sandbox</code> 대여는 새 빌드가 불러올 때 버려집니다. 다시 빌려주세요.</li>
+</ul>
+<p>이 모든 것 뒤에는 원칙 하나가 있습니다. 모르는 프로필을 만나면 대여를 끝낸다. 절대
+<code>owner</code>로 넓히지 않는다.</p>
+<p>덧붙여 v0.6.7부터, 빌려준 컴퓨터는 데몬이 재시작해도 스스로 다시 연결합니다(macOS와 Linux).
+배포나 크래시 때마다 다시 빌려줄 필요가 없습니다.</p>
+<h2>다음 단계(개발 중)</h2>
+<ul>
+<li><strong><code>browser</code> 단계</strong>: 브라우저 도구만 있고, 대여마다 일회용 브라우저 프로필을
+씁니다. 경계는 브라우저 자체가 맡습니다.</li>
+<li><strong>타입이 있는 앱 제어</strong>: 범용 <code>osascript</code> 대신 bundle ID allowlist를 쓰고,
+Terminal, Script Editor, System Settings는 제외합니다.</li>
+<li><strong>사용자 정의 정책</strong>: 대여 시 allow / deny 목록을 함께 넘깁니다. 이것도 “셸과
+동등한가” 검사를 거칩니다.</li>
+<li><strong>일회용 macOS VM 대여</strong>: 호스트 자체가 아니라.</li>
+</ul>
+<h2>이름은 인터페이스의 일부다</h2>
+<p>지난 글에서, 가장 먼저 나올 질문은 “무엇에 닿을 수 있는가”라고 했습니다. 에이전트가 컴퓨터를
+빌려 달라고 할 때, 그 답은 당신이 고르는 프로필의 이름에 적혀 있습니다. 그러니 이름은 사실을 말해야
+합니다. <code>sandbox</code>는 지킬 수 없는 약속을 했습니다. 우리는 그것을 <code>desktop</code>으로
+바꾸고, 정말로 보기만 하는 선택지를 하나 더 드렸습니다.</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/ko/privacy.html">개인정보</a>
+  <a href="/ko/support.html">지원</a>
+  <a href="https://github.com/openabdev/openab-pty">런타임 소스</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>

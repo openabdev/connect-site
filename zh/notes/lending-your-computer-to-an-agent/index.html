@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent 要跟我借電腦，我該給它多少權限？ — OpenAB Connect</title>
+<meta name="description" content="看、用、管三種 profile，以及唯一真正的邊界。能操作桌面就等於有 shell——我們因此拿掉了一個叫 sandbox 的名字，換成說真話的 desktop，並新增只能看的 observe。">
+<link rel="canonical" href="https://connect.openab.dev/zh/notes/lending-your-computer-to-an-agent/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="Agent 要跟我借電腦，我該給它多少權限？ — OpenAB Connect">
+<meta property="og:description" content="看、用、管三種 profile，以及唯一真正的邊界。能操作桌面就等於有 shell——我們因此拿掉了一個叫 sandbox 的名字，換成說真話的 desktop，並新增只能看的 observe。">
+<meta property="og:url" content="https://connect.openab.dev/zh/notes/lending-your-computer-to-an-agent/">
+<meta property="og:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-zh.png?v=4920c9f6">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Agent 要跟我借電腦，我該給它多少權限？看、用、管三種 profile">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agent 要跟我借電腦，我該給它多少權限？ — OpenAB Connect">
+<meta name="twitter:description" content="看、用、管三種 profile，以及唯一真正的邊界。能操作桌面就等於有 shell——我們因此拿掉了一個叫 sandbox 的名字，換成說真話的 desktop，並新增只能看的 observe。">
+<meta name="twitter:image" content="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/og-zh.png?v=4920c9f6">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=7044ef38">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ja" href="https://connect.openab.dev/ja/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="ko" href="https://connect.openab.dev/ko/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/notes/lending-your-computer-to-an-agent/">
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/zh/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/zh/#features">特色</a>
+    <a href="/zh/#faq">常見問題</a>
+    <a href="/zh/notes/">開發筆記</a>
+    <a href="/zh/releases/">版本紀錄</a>
+    <a href="/zh/support.html">支援</a>
+    <span class="lang"><a class="active" href="/zh/notes/lending-your-computer-to-an-agent/">中文</a>|<a href="/ja/notes/lending-your-computer-to-an-agent/">日本語</a>|<a href="/ko/notes/lending-your-computer-to-an-agent/">한국어</a>|<a href="/notes/lending-your-computer-to-an-agent/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap note">
+<article>
+  <p class="crumbs"><a href="/zh/notes/">開發筆記</a></p>
+  <h1>Agent 要跟我借電腦，我該給它多少權限？</h1>
+  <p class="byline">OpenAB Connect · 2026 年 9 月 30 日</p>
+  <p class="lede">上一篇<a href="/zh/notes/terminal-trust-spectrum/">〈終端信任光譜〉</a>的結尾說：在 agent 真正被放出去亂跑的那天，大家最先問的是——它能碰到什麼。這篇回答同一個問題的另一面：當 agent 要跟你借電腦時，你該給它多少權限。</p>
+
+<p>OpenAB Connect 的 agent 跑在遠端沙箱裡，本來碰不到你的電腦。但有時你會想讓它碰：看一下你的螢幕哪裡出錯、在瀏覽器裡幫你填一張表、在 Mac 上跑一次 Xcode build。這時你透過 Connect 或
+Remote 把電腦借給它，選好借多久，再選一個 profile，決定它拿到什麼。</p>
+<h2>直覺的答案是錯的</h2>
+<p>最直覺的想法是：「不讓它執行指令就安全了。」讓它看、讓它點、讓它打字，但不給 shell。</p>
+<p>問題是，能操作桌面，就等於有 shell：</p>
+<ul>
+<li><code>osascript</code> 可以執行 <code>do shell script</code>。</li>
+<li><code>key</code> 可以在終端機裡打字。</li>
+<li><code>mouse</code> 可以把終端機打開。</li>
+</ul>
+<p>想靠過濾 AppleScript 的內容來擋，也擋不住：JXA 的 <code>doShellScript</code>、
+<code>ObjC.import</code> 呼叫 <code>NSTask</code>、Terminal 的 <code>do script</code>、System Events
+送出的按鍵，路太多了。所以「不給執行指令」只是少一個方便的入口，並沒有少任何權限。</p>
+<h2>我們自己就踩過</h2>
+<p>直到最近，除了給你自己用的 <code>owner</code>，借出電腦時的另一個選項叫 <code>sandbox</code>：跟 <code>owner</code> 一樣，只是拿掉了 <code>exec</code>。</p>
+<p>這個名字說錯了。它不是沙箱，它等同 shell。一個叫 sandbox、實際上交出 shell 的選項，比沒有這個選項更糟，因為它讓人以為可以放心借出。所以我們把它拿掉了：<code>sandbox</code> 改名為
+<code>desktop</code>，照它實際能做的事命名；另外新增 <code>observe</code>，一個真正的邊界（<a href="https://github.com/openabdev/instance-mcp/issues/45">#45</a>）。</p>
+<h2>三個選項，你交出去的分別是什麼</h2>
+<figure class="cmp-shot"><a href="/notes/lending-your-computer-to-an-agent/profiles-zh.png?v=c01895e4"><img src="/notes/lending-your-computer-to-an-agent/profiles-zh.png?v=c01895e4" width="1536" height="1024" alt="三種 profile 的對照圖：Observe 只看，只有系統資訊與截圖，是唯一的安全邊界；Desktop 可以操作滑鼠、鍵盤、AppleScript 與 15 個瀏覽器工具，但等同 shell，不是安全邊界；Owner 擁有全部工具，包括 shell 與完整瀏覽器，留給你自己的 CLI。底部對照表的最後一列：等同 shell？否、是、是"></a></figure>
+<div class="tablewrap"><table class="cmp profiles">
+<thead><tr><th>Profile</th><th>等同 shell？</th><th>工具數（macOS / Linux）</th><th>你交出去的</th></tr></thead>
+<tbody>
+<tr><th><code>observe</code></th><td><strong>否</strong></td><td>2 / 2</td><td>你的螢幕畫面和系統資訊，僅此而已</td></tr>
+<tr><th><code>desktop</code></th><td><strong>是</strong>（透過 GUI）</td><td>20 / 20</td><td>你的桌面，也就等於你的 shell</td></tr>
+<tr><th><code>owner</code></th><td>是（直接）</td><td>42 / 37</td><td>全部，留給你自己的 CLI</td></tr>
+</tbody></table></div>
+<p><code>desktop</code> 在 macOS 上沒有 <code>exec</code>，但有滑鼠、鍵盤和 AppleScript；在 Linux
+上它直接保留了 <code>bash</code>。既然 <code>mouse</code> 和 <code>key</code> 反正能打開終端機，把
+<code>bash</code> 藏起來只會讓 agent 不方便，不會少任何權限，所以我們不假裝。完整的工具清單在
+<a href="https://github.com/openabdev/instance-mcp/blob/main/docs/tool-profiles.md">tool-profiles.md</a>。</p>
+<h2>為什麼只有「看」算邊界</h2>
+<p><code>observe</code> 只有兩個工具：<code>sys_info</code> 和 <code>screenshot</code>。它不能打字、點擊、執行指令，也不能改變任何狀態。它能成為邊界，靠的是三件事：</p>
+<ul>
+<li><strong>它是 allowlist，不是 denylist。</strong>日後新增的任何工具，不管是本地的還是瀏覽器的，在
+<code>observe</code> 下都預設拒絕，直到有人明確把它加進清單。</li>
+<li><strong>名字照能力命名。</strong><code>observe</code> 就是「看」，<code>desktop</code> 就是「操作桌面」，不再用「拿掉了什麼」來命名。</li>
+<li><strong>規則寫進測試，不寫在文件裡等人記得。</strong><code>ProfileBoundaryTests</code> 會檢查每個
+profile：只要有一個號稱比 shell 窄、卻允許任何能碰到 shell 的工具，CI 就會失敗。</li>
+</ul>
+<p>它的限制也要說清楚：截圖仍會洩漏畫面上的內容。<code>observe</code> 保證的是「它不能動手」，不是「它什麼都看不到」。借出前，先把不想被看到的視窗關掉。</p>
+<h2>瀏覽器要另外想</h2>
+<p><code>owner</code> 看得到全部 32 個瀏覽器工具，<code>desktop</code> 只有 15 個：導覽、讀取、點擊、填表。拿掉的包括能跑任意 JavaScript 的 <code>browser_evaluate</code> 和
+<code>browser_run_code_unsafe</code>、檔案上傳與 PDF、網路監看，以及用座標操作的原始滑鼠事件。</p>
+<p>但這收窄的是工具，不是瀏覽器本身。那個瀏覽器用的是這台電腦的持久 profile：你已登入網站的
+cookie 都在，它也連得到這台電腦連得到的網路，包括 localhost 和 tailnet。</p>
+<h2>所以我該怎麼選</h2>
+<ul>
+<li><strong>預設只給它看。</strong>大部分「幫我看一下」的需求，<code>observe</code> 就夠了。下一版
+Connect 會把 <code>observe</code> 設為預設選項（尚未上架）。</li>
+<li><strong>要它動手，就借一台專用電腦。</strong>一台 Linux hands node、一台用完即丟的機器或 VM，不要借你正在工作的那台。選 <code>desktop</code>，等於在整個租期內把那台電腦桌面使用者的 shell
+交出去。</li>
+<li><strong><code>owner</code> 留給你自己。</strong>那是你自己的 CLI 連到自己電腦用的。</li>
+</ul>
+<h2>升級須知</h2>
+<p>這次是破壞性變更。從 instance-mcp v0.7.0 起：</p>
+<ul>
+<li><code>sandbox</code> 會被拒絕（HTTP 400），不會默默對應到其他層級。</li>
+<li>Connect 和被借出的電腦要一起升級：舊版 Connect 送出的 <code>sandbox</code> 會被新版電腦拒絕；新版送出的 <code>desktop</code> 或 <code>observe</code> 也會被舊版電腦拒絕。如果你的 Connect 還是舊版，先別把電腦升到 v0.7.0。</li>
+<li>舊版存下的 <code>sandbox</code> 借用，新版載入時會直接丟棄，需要重新借出。</li>
+</ul>
+<p>背後只有一個原則：遇到不認得的 profile，就結束這次借用，絕不擴權成 <code>owner</code>。</p>
+<p>另外，從 v0.6.7 起，借出去的電腦在 daemon 重啟後會自動接回（macOS 與 Linux），部署或當機不再需要你重新借一次。</p>
+<h2>接下來（開發中）</h2>
+<ul>
+<li><strong><code>browser</code> 層</strong>：只有瀏覽器工具，每次借用搭配一個拋棄式瀏覽器 profile，由瀏覽器本身提供邊界。</li>
+<li><strong>有型別的 app 控制</strong>：用 bundle ID allowlist 取代通用的 <code>osascript</code>，並排除
+Terminal、Script Editor、System Settings。</li>
+<li><strong>自訂 policy</strong>：借出時附上 allow / deny 清單，同樣要通過「是否等同 shell」的檢查。</li>
+<li><strong>借出一次性的 macOS VM</strong>，而不是主機本身。</li>
+</ul>
+<h2>名字是介面的一部分</h2>
+<p>上一篇說，大家最先問的會是「它能碰到什麼」。當 agent 要跟你借電腦時，這個問題的答案就寫在你選的那個 profile 名字上。所以名字必須說真話：<code>sandbox</code> 承諾了它做不到的事，我們把它換成 <code>desktop</code>，並多給你一個真正只能看的選項。</p>
+
+</article>
+</main>
+
+<footer>
+  <a href="/zh/privacy.html">隱私</a>
+  <a href="/zh/support.html">支援</a>
+  <a href="https://github.com/openabdev/openab-pty">runtime 原始碼</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+
+</body>
+</html>
