@@ -38,15 +38,15 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.8.0", status="review", date=dict(
-   en="Submitted September 28, 2026", zh="2026 年 9 月 28 日送審",
-   ja="2026 年 9 月 28 日に審査提出", ko="2026년 9월 28일 심사 제출"),
+ dict(v="1.8.0", status="latest", date=dict(
+   en="September 29, 2026", zh="2026 年 9 月 29 日",
+   ja="2026 年 9 月 29 日", ko="2026년 9월 29일"),
   body=dict(
    en="<ul><li>Give a session access to a computer — macOS or Linux — with a 1, 2, 4, 12 or 24-hour lease, and disconnect any time.</li><li>Choose the computer explicitly before granting access.</li><li>Sidebar badges now stay fully visible at narrow widths.</li></ul>",
    zh="<ul><li>讓 session 使用一台電腦（macOS 或 Linux），可選擇 1、2、4、12 或 24 小時的使用期限，並隨時中斷連線。</li><li>授予權限前需明確選擇要使用的電腦。</li><li>側欄較窄時，狀態標記也能完整顯示。</li></ul>",
    ja="<ul><li>セッションにコンピュータ（macOS または Linux）へのアクセスを許可できます。期間は 1・2・4・12・24 時間から選べ、いつでも切断できます。</li><li>アクセスを許可する前に、使用するコンピュータを明示的に選択します。</li><li>サイドバーが狭くても、状態バッジが最後まで表示されるようになりました。</li></ul>",
    ko="<ul><li>세션에 컴퓨터(macOS 또는 Linux) 접근 권한을 부여할 수 있습니다. 기간은 1·2·4·12·24시간 중에서 선택하며 언제든 연결을 해제할 수 있습니다.</li><li>접근 권한을 부여하기 전에 사용할 컴퓨터를 명시적으로 선택합니다.</li><li>사이드바가 좁아도 상태 배지가 모두 표시됩니다.</li></ul>")),
- dict(v="1.7.0", status="latest", date=dict(
+ dict(v="1.7.0", status="", date=dict(
    en="September 25, 2026", zh="2026 年 9 月 25 日",
    ja="2026 年 9 月 25 日", ko="2026년 9월 25일"),
   body=dict(
