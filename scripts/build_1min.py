@@ -80,6 +80,49 @@ VIDEOS = [
             back="所有 1 分鐘影片",
         ),
     ),
+    dict(
+        slug="lending-your-computer-to-an-agent",
+        date_iso="2026-10-01",
+        en=dict(
+            date="October 1, 2026",
+            title="Your agent, your computer: access is your call — OpenAB Connect in 1 minute",
+            h1="Your agent, your computer. Access is your call.",
+            desc="Agents are splitting from the computers they act on. When an agent borrows your "
+                 "Mac, OpenAB Connect gives it one of three profiles: observe looks only, desktop "
+                 "controls the desktop (which is a shell), owner gets every tool.",
+            og_alt="Your agent, your computer. Access is your call.",
+            label="Play the video",
+            points=[
+                ("observe", "Look only: screenshots and system info, 2 tools. Not a shell. The default, "
+                            "and enough for “tell me what's wrong here”."),
+                ("desktop", "Control the desktop: fill in forms, run a build, 20 tools. Controlling the "
+                            "desktop is a shell, so lend it a dedicated computer."),
+                ("owner", "Every tool, including the shell, 42 tools. Keep it for your own CLI."),
+            ],
+            note=("Read the full dev note", "/notes/lending-your-computer-to-an-agent/"),
+            download="Download MP4",
+            back="All 1-minute explainers",
+        ),
+        zh=dict(
+            date="2026 年 10 月 1 日",
+            title="Agent 和電腦分開，權限由你決定｜OpenAB Connect 1 分鐘看懂",
+            h1="Agent 和電腦分開，權限由你決定",
+            desc="Agent 和它動手的電腦正在分開。Agent 跟你借 Mac 時，OpenAB Connect 給它三種 "
+                 "profile 之一：observe 只給看、desktop 操作桌面（等同 shell）、owner 全部工具。",
+            og_alt="Agent 和電腦分開，權限由你決定",
+            label="播放影片",
+            points=[
+                ("observe", "只給看：截圖和系統資訊，共 2 個工具，不等同 shell。預設值，"
+                            "「幫我看一下哪裡出錯」這樣就夠了。"),
+                ("desktop", "操作桌面：能填表、跑 build，共 20 個工具。能操作桌面就等於有 shell，"
+                            "請借它一台專用的電腦。"),
+                ("owner", "全部工具，包括 shell，共 42 個工具。留給你自己的 CLI。"),
+            ],
+            note=("閱讀完整開發筆記", "/zh/notes/lending-your-computer-to-an-agent/"),
+            download="下載 MP4",
+            back="所有 1 分鐘影片",
+        ),
+    ),
 ]
 
 STYLE = """<style>
@@ -165,6 +208,7 @@ def video_page(v, code):
     cover = chrome.rev(f"{media}/cover-{code}.jpg")
     og = SITE + chrome.rev(f"{media}/og-{code}.jpg")
     points = "\n".join(f"  <div><b>{k}</b>{p}</div>" for k, p in t["points"])
+    note = f'<p><a href="{t["note"][1]}">{t["note"][0]} →</a></p>\n' if t.get("note") else ""
     body = f"""<main class="wrap onemin">
 <h1>{t['h1']}</h1>
 <div class="when"><time datetime="{v['date_iso']}">{t['date']}</time></div>
@@ -180,7 +224,7 @@ def video_page(v, code):
 <div class="points">
 {points}
 </div>
-<p><a href="{chrome.prefix(code)}1min/">← {t['back']}</a></p>
+{note}<p><a href="{chrome.prefix(code)}1min/">← {t['back']}</a></p>
 </main>"""
     html = page(code, filename, t["title"], t["desc"], body, og, t["og_alt"], "video.other")
     # og:video lets chat apps that support it play inline; the card still falls back to og:image.
