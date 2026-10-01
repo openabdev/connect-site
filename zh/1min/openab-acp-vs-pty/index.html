@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ACP 還是 PTY？要結果，還是要掌控｜OpenAB 1 分鐘看懂</title>
+<meta name="description" content="OpenAB 有兩種模式：ACP 把任何支援 ACP 的 coding CLI 串到 Discord、Slack、Telegram、飛書、LINE，只給你結果；PTY 把 Agent 的終端機直接掛到 OpenAB Connect，全程可見、完整掌控。">
+<link rel="canonical" href="https://connect.openab.dev/zh/1min/openab-acp-vs-pty/">
+<meta property="og:type" content="video.other">
+<meta property="og:site_name" content="OpenAB Connect">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:title" content="ACP 還是 PTY？要結果，還是要掌控｜OpenAB 1 分鐘看懂">
+<meta property="og:description" content="OpenAB 有兩種模式：ACP 把任何支援 ACP 的 coding CLI 串到 Discord、Slack、Telegram、飛書、LINE，只給你結果；PTY 把 Agent 的終端機直接掛到 OpenAB Connect，全程可見、完整掌控。">
+<meta property="og:url" content="https://connect.openab.dev/zh/1min/openab-acp-vs-pty/">
+<meta property="og:image" content="https://connect.openab.dev/1min/openab-acp-vs-pty/og-zh.jpg?v=dd4f85a5">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ACP 還是 PTY？要結果，還是要掌控">
+<meta property="og:video" content="https://connect.openab.dev/1min/openab-acp-vs-pty/video-zh.mp4?v=b517d278">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1080">
+<meta property="og:video:height" content="1920">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ACP 還是 PTY？要結果，還是要掌控｜OpenAB 1 分鐘看懂">
+<meta name="twitter:description" content="OpenAB 有兩種模式：ACP 把任何支援 ACP 的 coding CLI 串到 Discord、Slack、Telegram、飛書、LINE，只給你結果；PTY 把 Agent 的終端機直接掛到 OpenAB Connect，全程可見、完整掌控。">
+<meta name="twitter:image" content="https://connect.openab.dev/1min/openab-acp-vs-pty/og-zh.jpg?v=dd4f85a5">
+<link rel="icon" href="/icon.png?v=e698e97e">
+<link rel="apple-touch-icon" href="/icon.png?v=e698e97e">
+<link rel="stylesheet" href="/style.css?v=7044ef38">
+<link rel="alternate" hreflang="zh-Hant" href="https://connect.openab.dev/zh/1min/openab-acp-vs-pty/">
+<link rel="alternate" hreflang="en" href="https://connect.openab.dev/1min/openab-acp-vs-pty/">
+<link rel="alternate" hreflang="x-default" href="https://connect.openab.dev/1min/openab-acp-vs-pty/">
+<style>
+.onemin{max-width:760px}
+.onemin .when{color:var(--muted);font-size:.95rem;margin:.25rem 0 1.5rem}
+.iphone{position:relative;width:min(380px,88vw,calc((100svh - 160px) * 9 / 19.5));aspect-ratio:9/19.5;margin:1rem auto 0;padding:12px;border-radius:60px;
+  background:linear-gradient(145deg,#5b5f66 0%,#2b2e33 18%,#1a1c20 50%,#33363c 82%,#6a6e75 100%);
+  box-shadow:0 0 0 2px #0d0e10,0 0 0 3px #45484e,0 40px 90px rgba(0,0,0,.45)}
+.iphone::before{content:"";position:absolute;inset:5px;border-radius:55px;border:1px solid rgba(255,255,255,.12);pointer-events:none}
+.iphone .hw{position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#2a2c30,#55585e)}
+.iphone .act{left:-4px;top:16%;height:4%}.iphone .vu{left:-4px;top:24%;height:8%}.iphone .vd{left:-4px;top:34%;height:8%}
+.iphone .pw{right:-4px;top:27%;height:12%;background:linear-gradient(270deg,#2a2c30,#55585e)}
+.iphone .screen{position:relative;width:100%;height:100%;border-radius:48px;overflow:hidden;background:#000;display:flex;flex-direction:column;justify-content:center}
+.iphone .status{position:absolute;top:0;left:0;right:0;height:8.5%;display:flex;align-items:center;justify-content:space-between;padding:0 9% 0 11%;
+  color:#fff;font:600 15px/1 -apple-system,"SF Pro Text",sans-serif;z-index:2;pointer-events:none}
+.iphone .island{position:absolute;left:50%;top:22%;transform:translateX(-50%);width:32%;height:44%;border-radius:999px;background:#000}
+.iphone .icons{display:flex;gap:5px;align-items:center}
+.iphone video{display:block;width:100%;aspect-ratio:9/16;background:#000}
+.iphone .home{position:absolute;bottom:1.6%;left:50%;transform:translateX(-50%);width:36%;height:5px;border-radius:3px;background:rgba(255,255,255,.85);z-index:2;pointer-events:none}
+.onemin .dl{text-align:center;margin:1.25rem 0 2rem}
+.onemin .points{display:grid;gap:1rem;margin:0 0 2rem}
+.onemin .points div{padding:1rem 1.25rem;border-radius:14px;border:1px solid rgba(127,127,127,.25)}
+.onemin .points b{display:block;margin-bottom:.35rem}
+.onemin-index .vid{display:flex;gap:1rem;align-items:center}
+.onemin-index .vid img{width:96px;border-radius:10px;flex:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="/zh/"><img src="/icon.png?v=e698e97e" alt="" width="28" height="28">OpenAB Connect</a>
+  <div class="links">
+    <a href="/zh/#features">特色</a>
+    <a href="/zh/#faq">常見問題</a>
+    <a href="/zh/notes/">開發筆記</a>
+    <a href="/zh/releases/">版本紀錄</a>
+    <a href="/zh/support.html">支援</a>
+    <span class="lang"><a class="active" href="/zh/1min/openab-acp-vs-pty/">中文</a>|<a href="/1min/openab-acp-vs-pty/">EN</a></span>
+  </div>
+</nav>
+
+<main class="wrap onemin">
+<h1>ACP 還是 PTY？要結果，還是要掌控</h1>
+<div class="when"><time datetime="2026-10-01">2026 年 10 月 1 日</time></div>
+<div class="iphone" role="region" aria-label="播放影片">
+  <i class="hw act"></i><i class="hw vu"></i><i class="hw vd"></i><i class="hw pw"></i>
+  <div class="screen">
+    <div class="status"><span>9:41</span><span class="island"></span><span class="icons" aria-hidden="true"><svg width="18" height="12" viewBox="0 0 18 12" fill="#fff"><rect y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" width="3" height="12" rx="1"/></svg><svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="#fff" opacity=".5"/><rect x="2" y="2" width="20" height="9" rx="2" fill="#fff"/></svg></span></div>
+    <video src="/1min/openab-acp-vs-pty/video-zh.mp4?v=b517d278" poster="/1min/openab-acp-vs-pty/cover-zh.jpg?v=8ba57e2b" controls playsinline preload="metadata" aria-label="播放影片"></video>
+    <div class="home"></div>
+  </div>
+</div>
+<p class="dl"><a href="/1min/openab-acp-vs-pty/video-zh.mp4?v=b517d278" download>下載 MP4</a></p>
+<div class="points">
+  <div><b>ACP</b>經典模式。支援 Agent Communication Protocol 的 coding CLI 都能和 OpenAB 溝通，由 OpenAB 當 broker 串到 Discord、Slack、Telegram、飛書、LINE，結果直接貼在團隊頻道。</div>
+  <div><b>PTY</b>新模式。Agent 的終端機直接掛到你 Mac 上的 OpenAB Connect，可以遠端安裝、配置，甚至用語音對話，每一步都看得到。代價是資訊可能太多。</div>
+  <div><b>PTY 生態</b>OpenAB PTY 是一個 runtime，延伸出 OpenAB Connect（Mac）、OpenAB Remote（iOS），再加上當手腳的 instance MCP。只有 PTY 模式才有。</div>
+</div>
+<p><a href="/zh/1min/">← 所有 1 分鐘影片</a></p>
+</main>
+
+<footer>
+  <a href="/zh/privacy.html">隱私</a>
+  <a href="/zh/support.html">支援</a>
+  <a href="https://github.com/openabdev/openab-pty">runtime 原始碼</a>
+  <span class="dim">© 2026 openabdev</span>
+</footer>
+</body>
+</html>
