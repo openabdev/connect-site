@@ -258,7 +258,7 @@ def index_page(code):
 <p class="lede">{t['lede']}</p>
 {chr(10).join(rows)}
 </main>"""
-    og = SITE + chrome.rev(f"1min/{VIDEOS[0]['slug']}/og-{code}.jpg")
+    og = SITE + chrome.rev(f"1min/og-{code}.png")
     html = page(code, "1min/", t["title"], t["lede"], body, og, t["h1"])
     out = chrome.out_path(code, "1min/index.html")
     out.parent.mkdir(parents=True, exist_ok=True)
