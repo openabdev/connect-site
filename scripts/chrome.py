@@ -15,16 +15,16 @@ ORDER = ["zh", "ja", "ko", "en"]
 # Per-language chrome only. Page content lives with the generator that owns the page.
 CHROME = {
     "en": dict(dir="", base="/", htmllang="en", label="EN", og_locale="en_US",
-               nav=("Features", "FAQ", "Support"), notes="Dev notes", releases="Releases",
+               nav=("Features", "FAQ", "Support"), onemin="1-min tutorials", notes="Dev notes", releases="Releases",
                foot=("Privacy", "Support", "Runtime source")),
     "zh": dict(dir="zh", base="/zh/", htmllang="zh-Hant", label="中文", og_locale="zh_TW",
-               nav=("特色", "常見問題", "支援"), notes="開發筆記", releases="版本紀錄",
+               nav=("特色", "常見問題", "支援"), onemin="一分鐘看懂", notes="開發筆記", releases="版本紀錄",
                foot=("隱私", "支援", "runtime 原始碼")),
     "ja": dict(dir="ja", base="/ja/", htmllang="ja", label="日本語", og_locale="ja_JP",
-               nav=("特徴", "よくある質問", "サポート"), notes="開発ノート", releases="リリース",
+               nav=("特徴", "よくある質問", "サポート"), onemin="1分で分かる", notes="開発ノート", releases="リリース",
                foot=("プライバシー", "サポート", "ランタイムのソース")),
     "ko": dict(dir="ko", base="/ko/", htmllang="ko", label="한국어", og_locale="ko_KR",
-               nav=("특징", "자주 묻는 질문", "지원"), notes="개발 노트", releases="릴리스",
+               nav=("특징", "자주 묻는 질문", "지원"), onemin="1분 만에 보기", notes="개발 노트", releases="릴리스",
                foot=("개인정보", "지원", "런타임 소스")),
 }
 PTY = "https://github.com/openabdev/openab-pty"
@@ -126,11 +126,14 @@ def nav(code, filename="index.html"):
     # absolute links back to it rather than fragments that would resolve to nothing.
     home = p if filename == "index.html" else p
     icon = rev("icon.png")
+    # The videos exist in en and zh only; ja and ko readers get the English page.
+    onemin = f"{p}1min/" if code in ("en", "zh") else "/1min/"
     return f"""<nav>
   <a class="brand" href="{home}"><img src="{icon}" alt="" width="28" height="28">OpenAB Connect</a>
   <div class="links">
     <a href="{p}#features">{d["nav"][0]}</a>
     <a href="{p}#faq">{d["nav"][1]}</a>
+    <a href="{onemin}">{d["onemin"]}</a>
     <a href="{p}notes/">{d["notes"]}</a>
     <a href="{p}releases/">{d["releases"]}</a>
     <a href="{p}support.html">{d["nav"][2]}</a>
