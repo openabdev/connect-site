@@ -435,15 +435,15 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.5.1", status="review", date=dict(
-   en="Submitted September 30, 2026", zh="2026 年 9 月 30 日送審",
-   ja="2026 年 9 月 30 日に審査提出", ko="2026년 9월 30일 심사 제출"),
+ dict(v="0.5.1", status="latest", date=dict(
+   en="October 1, 2026", zh="2026 年 10 月 1 日",
+   ja="2026 年 10 月 1 日", ko="2026년 10월 1일"),
   body=dict(
    en="<ul><li>Honest access levels: when you give a session access to a computer you choose <b>Observe</b> (the default — screen and system info only), <b>Desktop</b> or <b>Owner</b>. Desktop and Owner are described for what they are: full control of that computer, equivalent to its user's shell. Lend a dedicated computer for those.</li><li>Requires <code>oab-instance-mcp</code> 0.7.0 or later on the lent computer.</li></ul>",
    zh="<ul><li>誠實標示的存取等級：讓 session 使用一台電腦時，可選 <b>Observe</b>（預設，只能看畫面與系統資訊）、<b>Desktop</b> 或 <b>Owner</b>。Desktop 與 Owner 會照實說明：等於完整控制那台電腦，和它的使用者 shell 相同；使用時建議借出專用電腦。</li><li>被借出的電腦需執行 <code>oab-instance-mcp</code> 0.7.0 或更新版本。</li></ul>",
    ja="<ul><li>正直なアクセスレベル：セッションにコンピュータへのアクセスを許可するとき、<b>Observe</b>（既定：画面とシステム情報のみ）、<b>Desktop</b>、<b>Owner</b> から選びます。Desktop と Owner はそのコンピュータの完全な操作権（そのユーザーのシェルと同等）として説明されます。その場合は専用のコンピュータを貸してください。</li><li>貸し出すコンピュータには <code>oab-instance-mcp</code> 0.7.0 以降が必要です。</li></ul>",
    ko="<ul><li>정직한 접근 수준: 세션에 컴퓨터 접근 권한을 줄 때 <b>Observe</b>(기본값: 화면과 시스템 정보만), <b>Desktop</b>, <b>Owner</b> 중에서 고릅니다. Desktop과 Owner는 해당 컴퓨터의 완전한 제어권(해당 사용자의 셸과 동일)으로 설명됩니다. 이 경우 전용 컴퓨터를 빌려주세요.</li><li>빌려주는 컴퓨터에는 <code>oab-instance-mcp</code> 0.7.0 이상이 필요합니다.</li></ul>")),
- dict(v="0.5.0", status="latest", date=dict(
+ dict(v="0.5.0", status="", date=dict(
    en="September 29, 2026", zh="2026 年 9 月 29 日",
    ja="2026 年 9 月 29 日", ko="2026년 9월 29일"),
   body=dict(
