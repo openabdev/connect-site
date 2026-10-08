@@ -435,7 +435,15 @@ CONNECT_RELEASES = [
 # The iPhone companion: attach to your Mac's sessions, and push-to-talk dictation.
 # Newest first. status: "review" | "latest" | ""
 REMOTE_RELEASES = [
- dict(v="0.5.1", status="latest", date=dict(
+ dict(v="0.5.2", status="latest", date=dict(
+   en="October 8, 2026", zh="2026 年 10 月 8 日",
+   ja="2026 年 10 月 8 日", ko="2026년 10월 8일"),
+  body=dict(
+   en="<ul><li>Sessions stay on the latest output when you switch to another app and come back, instead of jumping up into history. If you had scrolled up to read history, your place is kept.</li></ul>",
+   zh="<ul><li>切到其他 App 再回來時，session 會停在最新的輸出，不再被捲回上方的歷史內容。若你原本正在往上翻閱歷史，則會保留原本的位置。</li></ul>",
+   ja="<ul><li>別のアプリに切り替えて戻ってきても、セッションは履歴の途中に飛ばず最新の出力を表示したままになります。履歴を遡って読んでいた場合は、その位置が保たれます。</li></ul>",
+   ko="<ul><li>다른 앱으로 전환했다가 돌아와도 세션이 기록 위쪽으로 튀지 않고 최신 출력에 머뭅니다. 위로 스크롤해 기록을 읽고 있었다면 그 위치가 유지됩니다.</li></ul>")),
+ dict(v="0.5.1", status="", date=dict(
    en="October 1, 2026", zh="2026 年 10 月 1 日",
    ja="2026 年 10 月 1 日", ko="2026년 10월 1일"),
   body=dict(
