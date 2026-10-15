@@ -123,6 +123,30 @@ VIDEOS = [
             back="所有 1 分鐘影片",
         ),
     ),
+    dict(
+        slug="orca-herdr-openab",
+        date_iso="2026-10-15",
+        langs=["zh"],
+        zh=dict(
+            date="2026 年 10 月 15 日",
+            title="你該信任 Agent 多少？Orca、Herdr、OpenAB Connect",
+            h1="你該信任 Agent 多少？Orca、Herdr、OpenAB Connect",
+            desc="Orca、Herdr、OpenAB Connect 都能同時跑很多 coding Agent，差別在 Agent 跑在哪裡、"
+                 "你信任它多少：Herdr 押編排、Orca 押工作台、OpenAB Connect 押信任。",
+            og_alt="你該信任 Agent 多少？Orca、Herdr、OpenAB Connect",
+            label="播放影片",
+            points=[
+                ("Herdr・押編排", "一個畫面排很多 git worktree 的 Agent，一眼看出誰在跑、誰卡住、"
+                                 "誰可以合併。重點是編排與可見性。"),
+                ("Orca・押工作台", "把多個 Agent 收進一個工作台，像 IDE 一樣切換、檢視每個 Agent 的狀態，"
+                                 "重點是集中的操作台。"),
+                ("OpenAB Connect・押信任", "Agent 和它動手的電腦分開，權限由你決定——"
+                                        "observe 只給看、desktop 操作桌面、owner 全部工具。重點是信任邊界。"),
+            ],
+            download="下載 MP4",
+            back="所有 1 分鐘影片",
+        ),
+    ),
 ]
 
 STYLE = """<style>
@@ -245,6 +269,8 @@ def index_page(code):
     t = INDEX[code]
     rows = []
     for v in VIDEOS:
+        if code not in v.get("langs", LANGS):
+            continue
         x = v[code]
         cover = chrome.rev(f"1min/{v['slug']}/cover-{code}.jpg")
         rows.append(f"""<a class="note-entry vid" href="{chrome.prefix(code)}1min/{v['slug']}/">
@@ -269,5 +295,7 @@ def index_page(code):
 if __name__ == "__main__":
     for code in LANGS:
         for v in VIDEOS:
+            if code not in v.get("langs", LANGS):
+                continue
             print(video_page(v, code).relative_to(ROOT))
         print(index_page(code).relative_to(ROOT))
