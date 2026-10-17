@@ -147,6 +147,53 @@ VIDEOS = [
             back="所有 1 分鐘影片",
         ),
     ),
+    dict(
+        slug="colocated-mode",
+        date_iso="2026-10-17",
+        en=dict(
+            date="October 17, 2026",
+            title="ACP or PTY? Have both — OpenAB in 1 minute",
+            h1="ACP or PTY? Have both: one workspace, two doors",
+            desc="Colocated mode puts a Discord bot (ACP) and your terminal (PTY) in one pod over the "
+                 "same /workspace. When the agent leaves something half-done, you open a terminal "
+                 "and pick it up.",
+            og_alt="ACP or PTY? Have both",
+            label="Play the video",
+            points=[
+                ("One bench", "The bot and the terminal run from the same image and share /workspace. "
+                              "Files the bot writes after a Discord message show up in your terminal "
+                              "right away."),
+                ("Own drawers", "Each has its own /tmp and its own secret, and the bot opens no port. "
+                                "A bad token restarts only the bot; the terminal keeps working."),
+                ("One trust zone", "Whoever can open a terminal can reach the bot's token, and whoever "
+                                   "can prompt the bot effectively has a shell. So the allowlist starts "
+                                   "with just you."),
+            ],
+            note=("Read the full explainer", "https://eli5.openab.dev/colocated-mode/"),
+            download="Download MP4",
+            back="All 1-minute explainers",
+        ),
+        zh=dict(
+            date="2026 年 10 月 17 日",
+            title="ACP 和 PTY 不用選｜OpenAB 1 分鐘看懂",
+            h1="ACP 和 PTY 不用選：同一個 workspace，兩扇門",
+            desc="Colocated 模式把 Discord bot（ACP）和你的終端機（PTY）放進同一個 pod，"
+                 "共用同一個 /workspace。Agent 做到一半的東西，你打開終端機就能接手。",
+            og_alt="ACP 和 PTY 不用選",
+            label="播放影片",
+            points=[
+                ("一張桌子", "bot 和終端機用同一個 image，共用 /workspace。bot 在 Discord 收到指令後"
+                             "寫的檔案，終端機馬上看得到。"),
+                ("各管各的", "/tmp 各一份，密鑰各一把，bot 不開任何 port。token 錯了只有 bot 自己重啟，"
+                             "終端機照常可用。"),
+                ("一個信任區", "能開終端機的人碰得到 bot 的 token，能叫 bot 做事的人等於有 shell，"
+                               "所以白名單預設只有你自己。"),
+            ],
+            note=("閱讀完整說明", "https://eli5.openab.dev/colocated-mode/"),
+            download="下載 MP4",
+            back="所有 1 分鐘影片",
+        ),
+    ),
 ]
 
 STYLE = """<style>
