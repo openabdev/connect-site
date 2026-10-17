@@ -103,7 +103,7 @@ L = {
   landscape=dict(
    title="Three roles. All on infrastructure you control.",
    intro="A remote sandbox, your own Mac, and the clients in your hand form one private loop — connected by Tailscale, not a SaaS control plane.",
-   a_role="Run the agent", a_name="openab-pty", a_desc="Coding CLI in an isolated remote sandbox",
+   a_role="Run the agent", a_name="openab-pty", a_desc="Coding CLI in an isolated remote sandbox · optional Discord bot",
    b_role="Do the work", b_name="oab-instance-mcp", b_desc="Xcode, Simulator, browser and GUI tools on your Mac",
    c_role="Observe and direct", c_name="OpenAB Connect + Remote",
    c_desc="Mac and iPhone · voice in Chinese, Cantonese, English, Japanese and Korean",
@@ -131,9 +131,9 @@ L = {
    ("The runtime is open source",
     f'MIT licensed at <a href="{PTY}">openabdev/openab-pty</a>. Read exactly what you '
     "are about to run, or write your own client against the published contract."),
-   ("Just say it",
-    "Talk to the agent instead of typing at it — the same session, driven by chat or "
-    "voice through openab."),
+   ("A Discord bot next door",
+    "Coming soon: tick one box on New Agent and the same workspace also gets a Discord "
+    "bot (classic openab). Ask in chat, then open a terminal and pick up where it left off."),
   ],
   faq_title="Questions",
   faq=[
@@ -200,7 +200,8 @@ L = {
     "your npm and GitHub tokens, and every repository on the disk — so a wrong command is a "
     "wrong command on your machine. Here the shell has none of that, the workspace is "
     "discarded with the session, and several agents can work at once without competing for "
-    "the same working tree or the same ports. Your laptop can sleep or close without "
+    "the same working tree or the same ports. One exception: on a host that also runs the "
+    "Discord bot, the shell shares a trust zone with it and can reach its token. Your laptop can sleep or close without "
     "stopping anything. The cost is real: the agent cannot see your local files, so work "
     "arrives by git; the first pull of an image takes a few minutes; and you need a cluster "
     "or an AWS account. For a quick edit in a repo you already have open, running locally "
@@ -222,16 +223,21 @@ L = {
     "something half-finished you attach and look at it in situ. Neither requires the other, and "
     "the session models share nothing on purpose — a byte stream's liveness is defined by bytes "
     "and sockets, not turns.</p>"
+    "<p>They can also run together. In <strong>colocated mode</strong> (coming soon in OpenAB Connect) a classic openab Discord bot and openab-pty run in one pod, from the same image, over the same <code>/workspace</code>: you instruct in chat and take over in the terminal. They still share files, never processes. See the <a href=\"/1min/colocated-mode/\">1-minute video</a> or the <a href=\"https://eli5.openab.dev/colocated-mode/\">full explainer</a>.</p>"
     "<p>The full account is in openab-pty's <a href=\"https://github.com/openabdev/openab-pty/blob/main/DESIGN.md\">design document</a>. "
     "<strong>OpenAB Connect is the first client implementation of the "
     "<a href=\"https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md\">openab-pty client contract</a></strong> — the contract is published, so "
     "anything that can hold a credential and speak WebSocket can be the next one.</p>"),
+   ("colocated", "Can a Discord bot run in the same workspace?",
+    "<p>Yes, coming soon. In the New Agent sheet tick <strong>Also run a Discord bot</strong> and enter the bot token, the channel ID and who may talk to it; the app checks all three with Discord before it deploys anything. The pod or ECS task gets a third container running classic <code>openab run</code> from the same image as the terminal.</p><ul><li><strong>Shared:</strong> <code>/workspace</code>, so the agent login, repositories and files are the same on both sides.</li><li><strong>Not shared:</strong> each container has its own <code>/tmp</code> and its own secret, and the bot opens no port. A bad token restarts only the bot.</li><li><strong>One trust zone:</strong> whoever can open a terminal can reach the bot's token, and whoever can prompt the bot effectively has a shell. That is why the allowlist starts with you only.</li></ul><p>First-version limits: Kiro only, Discord only, and on ECS not together with a persistence bucket. Details: <a href=\"https://eli5.openab.dev/colocated-mode/\">eli5.openab.dev/colocated-mode</a>.</p>"),
    ("what-can-the-shell-do", "How much can the shell actually do?",
     "Deliberately little. It opens as <code>uid 1000</code> with no <code>sudo</code>, "
     "no service-account token and no host credentials, on a read-only root filesystem "
     "with an ephemeral workspace. A session shell can reach the runtime over loopback, "
     "which is why the admin credential is never inside the container: an attach token "
-    "authorises exactly one session and expires."),
+    "authorises exactly one session and expires. One exception: a host that also runs the "
+    "colocated Discord bot shares <code>/workspace</code> with it, so the shell can reach the "
+    "bot's token through files the bot executes."),
    ("open-ports", "Do I have to open a port or set up ingress?",
     "No. The runtime binds <code>127.0.0.1</code> and holds no TLS key. A Tailscale "
     "sidecar in the same pod is the only thing with a network identity, and the two "
@@ -340,7 +346,7 @@ L = {
   landscape=dict(
    title="三個角色，全都跑在你掌握的基礎架構。",
    intro="遠端沙盒、你自己的 Mac，以及手上的客戶端，透過 Tailscale 組成一個私有閉環——不是別人的 SaaS 控制平面。",
-   a_role="讓 Agent 運行", a_name="openab-pty", a_desc="Coding CLI 位於隔離的遠端沙盒",
+   a_role="讓 Agent 運行", a_name="openab-pty", a_desc="Coding CLI 位於隔離的遠端沙盒 · 可選配 Discord bot",
    b_role="讓 Mac 做事", b_name="oab-instance-mcp", b_desc="在你的 Mac 使用 Xcode、模擬器、瀏覽器與 GUI 工具",
    c_role="觀測與下指令", c_name="OpenAB Connect + Remote",
    c_desc="Mac 與 iPhone · 支援中文、粵語、英文、日文與韓文語音",
@@ -366,8 +372,9 @@ L = {
    ("核心 runtime 開放原始碼",
     f'MIT 授權，位於 <a href="{PTY}">openabdev/openab-pty</a>。你可以先確認自己要跑的'
     "到底是什麼，也可以照公開的契約寫自己的客戶端。"),
-   ("用說的也可以",
-    "不只打字 —— 透過 openab 用聊天或語音對同一個 session 下指令。"),
+   ("隔壁住一個 Discord bot",
+    "即將推出：New Agent 勾一個框，同一個 workspace 裡多一個 Discord bot（經典 openab）。"
+    "在聊天室吩咐，回到終端機接著做。"),
   ],
   faq_title="常見問題",
   faq=[
@@ -424,7 +431,7 @@ L = {
     "在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、"
     "你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，"
     "是在你的機器上下錯。這裡的 shell 什麼都沒有，workspace 隨 session 一起丟掉，"
-    "而且好幾個 agent 可以同時工作而不必爭同一個 working tree 或同一組連接埠。"
+    "而且好幾個 agent 可以同時工作而不必爭同一個 working tree 或同一組連接埠。例外是開了 Discord bot 的 host：shell 和 bot 同一個信任區，碰得到 bot 的 token。"
     "你的筆電也可以睡眠或闔上，什麼都不會停。"
     "代價是真的:agent 看不到你本機的檔案，工作要透過 git 送過去;某個映像第一次拉取"
     "要幾分鐘;而且你需要一個叢集或一個 AWS 帳號。如果只是在一個已經開著的 repo 裡改一行，"
@@ -443,14 +450,19 @@ L = {
     "所以 shell 開在<strong>和 agent 同一個映像裡</strong>，同一個 CLI、同一個 workspace。"
     "agent 把事情做到一半，你就地接上去看。兩者互不依賴，session 模型也刻意不共用 —— "
     "位元組流的存活由位元組和 socket 定義，不是由回合定義。</p>"
+    "<p>兩者也可以放在一起。<strong>Colocated 模式</strong>（OpenAB Connect 即將推出）讓經典 openab 的 Discord bot 和 openab-pty 跑在同一個 pod、用同一個 image、共用同一個 <code>/workspace</code>：在聊天室吩咐，回終端機接手。兩者仍然只共用檔案，不共用程序。看 <a href=\"/zh/1min/colocated-mode/\">1 分鐘影片</a>或<a href=\"https://eli5.openab.dev/colocated-mode/\">完整說明</a>。</p>"
     "<p>完整說明在 openab-pty 的 <a href=\"https://github.com/openabdev/openab-pty/blob/main/DESIGN.md\">設計文件</a>。"
     "而 <strong>OpenAB Connect 是 <a href=\"https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md\">openab-pty 客戶端契約</a>的第一個客戶端實作</strong> —— "
     "契約是公開的，任何能持有憑證並講 WebSocket 的東西都可以是下一個。</p>"),
+   ("colocated", "可以在同一個 workspace 跑 Discord bot 嗎?",
+    "<p>可以，即將推出。在 New Agent 視窗勾 <strong>Also run a Discord bot</strong>，填 bot token、頻道 ID 和誰可以跟它說話；app 部署前會先跟 Discord 確認這三項。pod 或 ECS task 會多一個容器，用和終端機同一個 image 跑經典的 <code>openab run</code>。</p><ul><li><strong>共用：</strong><code>/workspace</code>，所以 agent 的登入、repo 和檔案兩邊都一樣。</li><li><strong>不共用：</strong>每個容器有自己的 <code>/tmp</code> 和自己的密鑰，bot 不開任何 port。token 錯了只有 bot 自己重啟。</li><li><strong>同一個信任區：</strong>能開終端機的人碰得到 bot 的 token，能叫 bot 做事的人等於有 shell。所以白名單預設只有你自己。</li></ul><p>第一版的限制：只支援 Kiro、只支援 Discord，ECS 上不能和 persistence bucket 同時用。詳見 <a href=\"https://eli5.openab.dev/colocated-mode/\">eli5.openab.dev/colocated-mode</a>。</p>"),
    ("what-can-the-shell-do", "這個 shell 到底能做多少事?",
     "刻意很少。它以 <code>uid 1000</code> 開啟，沒有 <code>sudo</code>、沒有 "
     "service-account token、沒有主機憑證，根檔案系統唯讀，workspace 用完即棄。"
     "session 的 shell 可以經 loopback 連到 runtime —— 這正是管理憑證從不放進容器的原因:"
-    "attach token 只授權一個 session，而且會過期。"),
+    "attach token 只授權一個 session，而且會過期。"
+    "例外：同時跑 colocated Discord bot 的 host，shell 和 bot 共用 <code>/workspace</code>，"
+    "可以經由 bot 會執行的檔案碰到 bot 的 token。"),
    ("open-ports", "我需要開連接埠或設定 ingress 嗎?",
     "不需要。runtime 綁在 <code>127.0.0.1</code>，本身不持有 TLS 金鑰。"
     "同一個 pod 裡的 Tailscale sidecar 是唯一擁有網路身分的東西，兩者在 pod 的網路"
@@ -552,7 +564,7 @@ L = {
   landscape=dict(
    title="3つの役割。すべて自分のインフラ上で。",
    intro="リモートサンドボックス、自分の Mac、手元のクライアントが、Tailscale でひとつのプライベートなループになります。SaaS の制御プレーンはありません。",
-   a_role="エージェントを実行", a_name="openab-pty", a_desc="隔離されたリモートサンドボックス内の Coding CLI",
+   a_role="エージェントを実行", a_name="openab-pty", a_desc="隔離されたリモートサンドボックス内の Coding CLI · Discord bot も追加可",
    b_role="Mac で作業", b_name="oab-instance-mcp", b_desc="自分の Mac の Xcode、Simulator、ブラウザ、GUI ツール",
    c_role="観測して指示", c_name="OpenAB Connect + Remote",
    c_desc="Mac と iPhone · 中国語、広東語、英語、日本語、韓国語の音声",
@@ -581,8 +593,9 @@ L = {
     f'MIT ライセンスで <a href="{PTY}">openabdev/openab-pty</a> にあります。'
     "何を動かすのかを先に確認できますし、公開された契約に沿って自分のクライアントも"
     "書けます。"),
-   ("話しかけて動かす",
-    "打ち込むだけでなく — openab を通じて、同じセッションをチャットや音声で動かせます。"),
+   ("隣に Discord bot",
+    "近日公開:New Agent でチェックを一つ入れると、同じワークスペースに Discord bot"
+    "(従来の openab)が加わります。チャットで頼み、ターミナルで続きを引き取れます。"),
   ],
   faq_title="よくある質問",
   faq=[
@@ -649,7 +662,7 @@ L = {
     "GitHub のトークン、ディスク上のすべてのリポジトリに手が届くので、間違ったコマンドは"
     "あなたのマシンでの間違ったコマンドになります。こちらのシェルはそれらを一切持たず、"
     "ワークスペースはセッションとともに破棄され、複数のエージェントが同じ作業ツリーや"
-    "同じポートを奪い合わずに同時に働けます。ノートを閉じてもスリープさせても、"
+    "同じポートを奪い合わずに同時に働けます。例外は Discord bot を有効にしたホストで、シェルは bot と同じ信頼ゾーンにあり、bot のトークンに届きます。ノートを閉じてもスリープさせても、"
     "何も止まりません。"
     "代償は実在します。エージェントはローカルのファイルを見られないので作業は git 経由に"
     "なり、イメージの初回取得には数分かかり、クラスタか AWS アカウントが必要です。"
@@ -672,16 +685,21 @@ L = {
     "作業が途中で止まっていれば、その場で接続して見ます。どちらも他方を必要とせず、"
     "セッションモデルは意図的に何も共有しません — バイトストリームの生存はバイトとソケットで"
     "定義され、ターンでは定義されないからです。</p>"
+    "<p>二つを一緒に動かすこともできます。<strong>Colocated モード</strong>(OpenAB Connect で近日公開)では、従来の openab の Discord bot と openab-pty が同じ pod・同じイメージで、同じ <code>/workspace</code> を共有して動きます。チャットで指示し、ターミナルで引き継ぎます。共有するのはファイルだけで、プロセスは共有しません。<a href=\"/1min/colocated-mode/\">1 分動画</a>(英語)と<a href=\"https://eli5.openab.dev/colocated-mode/\">詳しい解説</a>をどうぞ。</p>"
     "<p>詳しくは openab-pty の <a href=\"https://github.com/openabdev/openab-pty/blob/main/DESIGN.md\">設計ドキュメント</a>にあります。"
     "そして <strong>OpenAB Connect は <a href=\"https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md\">openab-pty クライアント契約</a>の"
     "最初のクライアント実装</strong>です — 契約は公開されているので、"
     "資格情報を持てて WebSocket を話せるものなら、次の実装になれます。</p>"),
+   ("colocated", "同じワークスペースで Discord bot を動かせますか?",
+    "<p>はい、近日公開です。New Agent シートで <strong>Also run a Discord bot</strong> にチェックを入れ、bot トークン、チャンネル ID、話しかけてよい相手を入力します。アプリはデプロイ前にこの三つを Discord に確認します。pod または ECS タスクに三つ目のコンテナが加わり、ターミナルと同じイメージで従来の <code>openab run</code> を動かします。</p><ul><li><strong>共有するもの:</strong><code>/workspace</code>。エージェントのログイン、リポジトリ、ファイルは両側で同じです。</li><li><strong>共有しないもの:</strong>コンテナごとに自分の <code>/tmp</code> と自分のシークレットを持ち、bot はポートを開けません。トークンが間違っていても再起動するのは bot だけです。</li><li><strong>一つの信頼ゾーン:</strong>ターミナルを開ける人は bot のトークンに届き、bot に指示できる人は実質シェルを持ちます。だから許可リストは最初はあなただけです。</li></ul><p>最初の版の制限:Kiro のみ、Discord のみ、ECS では persistence bucket と併用できません。詳しくは <a href=\"https://eli5.openab.dev/colocated-mode/\">eli5.openab.dev/colocated-mode</a>。</p>"),
    ("what-can-the-shell-do", "このシェルはどこまでできるのですか?",
     "意図的にほとんど何もできません。<code>uid 1000</code> で開き、<code>sudo</code> "
     "なし、サービスアカウントトークンなし、ホストの資格情報なし、ルートファイルシステムは"
     "読み取り専用、ワークスペースは使い捨てです。セッションのシェルは loopback で"
     "ランタイムに到達できます。だからこそ管理用の資格情報はコンテナの中に置きません。"
-    "アタッチトークンが許可するのは 1 セッションだけで、期限もあります。"),
+    "アタッチトークンが許可するのは 1 セッションだけで、期限もあります。"
+    "例外:colocated の Discord bot も動かすホストでは、シェルは bot と <code>/workspace</code> を"
+    "共有するため、bot が実行するファイルを通じて bot のトークンに届きます。"),
    ("open-ports", "ポートを開けたり ingress を用意する必要はありますか?",
     "ありません。ランタイムは <code>127.0.0.1</code> にバインドし、TLS 鍵を持ちません。"
     "同じ pod の Tailscale サイドカーだけがネットワーク上の識別を持ち、両者は pod の"
@@ -794,7 +812,7 @@ L = {
   landscape=dict(
    title="세 가지 역할. 모두 내가 관리하는 인프라에서.",
    intro="원격 샌드박스, 내 Mac, 손안의 클라이언트가 Tailscale로 하나의 비공개 루프를 이룹니다. 타사의 SaaS 제어 평면은 없습니다.",
-   a_role="에이전트 실행", a_name="openab-pty", a_desc="격리된 원격 샌드박스 안의 Coding CLI",
+   a_role="에이전트 실행", a_name="openab-pty", a_desc="격리된 원격 샌드박스 안의 Coding CLI · Discord bot 선택 추가",
    b_role="Mac에서 작업", b_name="oab-instance-mcp", b_desc="내 Mac의 Xcode, Simulator, 브라우저와 GUI 도구",
    c_role="관찰하고 지시", c_name="OpenAB Connect + Remote",
    c_desc="Mac과 iPhone · 중국어, 광둥어, 영어, 일본어, 한국어 음성",
@@ -820,8 +838,9 @@ L = {
    ("런타임은 오픈소스",
     f'MIT 라이선스로 <a href="{PTY}">openabdev/openab-pty</a>에 있습니다. 무엇을 '
     "실행할지 먼저 확인할 수 있고, 공개된 계약에 맞춰 자신의 클라이언트도 만들 수 있습니다."),
-   ("말로도 됩니다",
-    "타이핑만이 아니라 — openab을 통해 같은 세션을 채팅이나 음성으로 움직입니다."),
+   ("옆집에 Discord bot",
+    "곧 출시: New Agent에서 체크 하나로 같은 워크스페이스에 Discord bot(기존 openab)이 "
+    "함께 돌아갑니다. 채팅으로 맡기고, 터미널에서 이어서 작업합니다."),
   ],
   faq_title="자주 묻는 질문",
   faq=[
@@ -883,7 +902,7 @@ L = {
     "GitHub 토큰, 디스크의 모든 리포지터리에 닿을 수 있으므로 잘못된 명령은 여러분의 "
     "기계에서의 잘못된 명령이 됩니다. 이쪽 셸은 그런 것을 하나도 갖지 않고, 워크스페이스는 "
     "세션과 함께 버려지며, 여러 에이전트가 같은 작업 트리나 같은 포트를 두고 다투지 않고 "
-    "동시에 일할 수 있습니다. 노트북을 닫거나 잠자기로 두어도 아무것도 멈추지 않습니다."
+    "동시에 일할 수 있습니다. 예외는 Discord bot을 켠 호스트로, 셸이 bot과 같은 신뢰 구역에 있어 bot의 토큰에 닿을 수 있습니다. 노트북을 닫거나 잠자기로 두어도 아무것도 멈추지 않습니다."
     "대가는 실재합니다. 에이전트는 로컬 파일을 볼 수 없어 작업은 git으로 오가고, 이미지의 "
     "첫 내려받기는 몇 분이 걸리며, 클러스터나 AWS 계정이 필요합니다. 이미 열어 둔 "
     "리포지터리에서 한 줄 고치는 정도라면 로컬 실행이 더 간단하고 이것은 아무 도움이 "
@@ -905,16 +924,21 @@ L = {
     "있으면 그 자리에서 붙어 들여다봅니다. 어느 쪽도 다른 쪽을 필요로 하지 않고, 세션 모델은 "
     "의도적으로 아무것도 공유하지 않습니다 — 바이트 스트림의 생존은 바이트와 소켓으로 정의되며 "
     "턴으로 정의되지 않기 때문입니다.</p>"
+    "<p>둘을 함께 돌릴 수도 있습니다. <strong>Colocated 모드</strong>(OpenAB Connect에 곧 출시)에서는 기존 openab의 Discord bot과 openab-pty가 같은 pod, 같은 이미지로 같은 <code>/workspace</code>를 공유하며 돌아갑니다. 채팅으로 지시하고 터미널에서 이어받습니다. 공유하는 것은 파일뿐이며 프로세스는 공유하지 않습니다. <a href=\"/1min/colocated-mode/\">1분 영상</a>(영어)과 <a href=\"https://eli5.openab.dev/colocated-mode/\">자세한 설명</a>을 보세요.</p>"
     "<p>자세한 내용은 openab-pty의 <a href=\"https://github.com/openabdev/openab-pty/blob/main/DESIGN.md\">설계 문서</a>에 있습니다. 그리고 "
     "<strong>OpenAB Connect는 <a href=\"https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md\">openab-pty 클라이언트 계약</a>의 첫 클라이언트 "
     "구현</strong>입니다 — 계약이 공개되어 있으므로 자격 증명을 들고 WebSocket을 말할 수 있는 "
     "것이면 다음 구현이 될 수 있습니다.</p>"),
+   ("colocated", "같은 워크스페이스에서 Discord bot을 돌릴 수 있습니까?",
+    "<p>네, 곧 출시됩니다. New Agent 시트에서 <strong>Also run a Discord bot</strong>을 체크하고 bot 토큰, 채널 ID, 말을 걸 수 있는 사람을 입력하면, 앱이 배포 전에 세 가지를 Discord에 확인합니다. pod나 ECS 태스크에 세 번째 컨테이너가 추가되어 터미널과 같은 이미지로 기존 <code>openab run</code>을 실행합니다.</p><ul><li><strong>공유:</strong> <code>/workspace</code>. 에이전트 로그인, 리포지터리, 파일이 양쪽에서 같습니다.</li><li><strong>공유하지 않음:</strong> 컨테이너마다 자기 <code>/tmp</code>와 자기 시크릿을 가지며 bot은 포트를 열지 않습니다. 토큰이 틀리면 bot만 재시작합니다.</li><li><strong>하나의 신뢰 구역:</strong> 터미널을 열 수 있는 사람은 bot의 토큰에 닿고, bot에 지시할 수 있는 사람은 사실상 셸을 가집니다. 그래서 허용 목록은 처음에는 본인뿐입니다.</li></ul><p>첫 버전의 제한: Kiro만, Discord만 지원하며, ECS에서는 persistence bucket과 함께 쓸 수 없습니다. 자세히: <a href=\"https://eli5.openab.dev/colocated-mode/\">eli5.openab.dev/colocated-mode</a>.</p>"),
    ("what-can-the-shell-do", "이 셸은 실제로 무엇을 할 수 있습니까?",
     "의도적으로 거의 못 합니다. <code>uid 1000</code>으로 열리며 <code>sudo</code>도, "
     "서비스 어카운트 토큰도, 호스트 자격 증명도 없습니다. 루트 파일시스템은 읽기 전용이고 "
     "워크스페이스는 일회용입니다. 세션 셸은 loopback으로 런타임에 닿을 수 있는데, 바로 "
     "그래서 관리 자격 증명은 컨테이너 안에 두지 않습니다. 어태치 토큰은 세션 하나만 "
-    "허용하고 만료됩니다."),
+    "허용하고 만료됩니다. "
+    "예외: colocated Discord bot도 함께 돌리는 호스트에서는 셸이 bot과 <code>/workspace</code>를 "
+    "공유하므로, bot이 실행하는 파일을 통해 bot의 토큰에 닿을 수 있습니다."),
    ("open-ports", "포트를 열거나 ingress를 설정해야 합니까?",
     "아닙니다. 런타임은 <code>127.0.0.1</code>에 바인드하고 TLS 키를 갖지 않습니다. 같은 "
     "pod의 Tailscale 사이드카만 네트워크 신원을 가지며, 둘은 pod의 네트워크 네임스페이스 "

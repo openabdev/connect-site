@@ -101,8 +101,8 @@
   </div>
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
-    <h3>用說的也可以</h3>
-    <p>不只打字 —— 透過 openab 用聊天或語音對同一個 session 下指令。</p>
+    <h3>隔壁住一個 Discord bot</h3>
+    <p>即將推出：New Agent 勾一個框，同一個 workspace 裡多一個 Discord bot（經典 openab）。在聊天室吩咐，回到終端機接著做。</p>
   </div>
 </div>
 </section>
@@ -136,7 +136,7 @@
       <path class="landscape-flow flow-ab" d="M210 430 L750 430" />
     </svg>
     <article class="landscape-node node-c"><span class="landscape-letter">C</span><span class="landscape-role">觀測與下指令</span><h3>OpenAB Connect + Remote</h3><p>Mac 與 iPhone · 支援中文、粵語、英文、日文與韓文語音</p></article>
-    <article class="landscape-node node-a"><span class="landscape-letter">A</span><span class="landscape-role">讓 Agent 運行</span><h3>openab-pty</h3><p>Coding CLI 位於隔離的遠端沙盒</p></article>
+    <article class="landscape-node node-a"><span class="landscape-letter">A</span><span class="landscape-role">讓 Agent 運行</span><h3>openab-pty</h3><p>Coding CLI 位於隔離的遠端沙盒 · 可選配 Discord bot</p></article>
     <article class="landscape-node node-b"><span class="landscape-letter">B</span><span class="landscape-role">讓 Mac 做事</span><h3>oab-instance-mcp</h3><p>在你的 Mac 使用 Xcode、模擬器、瀏覽器與 GUI 工具</p></article>
     <div class="landscape-edge edge-ac"><span>終端機與語音</span></div>
     <div class="landscape-edge edge-bc"><span>透過 HTTPS 即時看畫面</span><span class="landscape-auth"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Tailscale 身分 + Bearer Token</span><span class="landscape-dev">接管 Mac 操作 · 開發中</span></div>
@@ -166,15 +166,19 @@
 </details>
 <details id="faq-vs-local">
   <summary><span class="q">這跟只在我的電腦上跑 Claude Code 或 Codex Desktop 有什麼不同?</span></summary>
-  <div class="a"><p>在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，是在你的機器上下錯。這裡的 shell 什麼都沒有，workspace 隨 session 一起丟掉，而且好幾個 agent 可以同時工作而不必爭同一個 working tree 或同一組連接埠。你的筆電也可以睡眠或闔上，什麼都不會停。代價是真的:agent 看不到你本機的檔案，工作要透過 git 送過去;某個映像第一次拉取要幾分鐘;而且你需要一個叢集或一個 AWS 帳號。如果只是在一個已經開著的 repo 裡改一行，在本機跑更簡單，這個東西沒有任何幫助。</p></div>
+  <div class="a"><p>在你 Mac 上的 agent 是以你的身分執行的。它碰得到你的 SSH 金鑰、你的雲端憑證、你的 npm 和 GitHub token，以及磁碟上每一個 repository —— 所以一個下錯的指令，是在你的機器上下錯。這裡的 shell 什麼都沒有，workspace 隨 session 一起丟掉，而且好幾個 agent 可以同時工作而不必爭同一個 working tree 或同一組連接埠。例外是開了 Discord bot 的 host：shell 和 bot 同一個信任區，碰得到 bot 的 token。你的筆電也可以睡眠或闔上，什麼都不會停。代價是真的:agent 看不到你本機的檔案，工作要透過 git 送過去;某個映像第一次拉取要幾分鐘;而且你需要一個叢集或一個 AWS 帳號。如果只是在一個已經開著的 repo 裡改一行，在本機跑更簡單，這個東西沒有任何幫助。</p></div>
 </details>
 <details id="faq-vs-openab">
   <summary><span class="q">這跟原本的 OpenAB 有何不同?</span></summary>
-  <div class="a"><p>兩者是<strong>刻意互補</strong>的兩種模式，差別在你在意什麼:</p><ul><li><strong><a href="https://github.com/openabdev/openab">OpenAB</a> 仲介 ACP</strong> —— 你從聊天客戶端下指令，在意的是 agent <em>交付的結果</em>，而不是它怎麼做到的。你是<strong>下指令的人</strong>，session 是一問一答的回合制。</li><li><strong>openab-pty 走 PTY</strong> —— 完整的可觀察性，原生終端體驗。你在意的是<em>現在正在發生什麼</em>，即時觀看、檢視、動手。你是<strong>坐在鍵盤前的操作者</strong>，session 是無界的位元組流。</li></ul><p>互補是結構上的，不是比喻:PTY 的映像是 <code>FROM ghcr.io/openabdev/openab</code>，所以 shell 開在<strong>和 agent 同一個映像裡</strong>，同一個 CLI、同一個 workspace。agent 把事情做到一半，你就地接上去看。兩者互不依賴，session 模型也刻意不共用 —— 位元組流的存活由位元組和 socket 定義，不是由回合定義。</p><p>完整說明在 openab-pty 的 <a href="https://github.com/openabdev/openab-pty/blob/main/DESIGN.md">設計文件</a>。而 <strong>OpenAB Connect 是 <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">openab-pty 客戶端契約</a>的第一個客戶端實作</strong> —— 契約是公開的，任何能持有憑證並講 WebSocket 的東西都可以是下一個。</p></div>
+  <div class="a"><p>兩者是<strong>刻意互補</strong>的兩種模式，差別在你在意什麼:</p><ul><li><strong><a href="https://github.com/openabdev/openab">OpenAB</a> 仲介 ACP</strong> —— 你從聊天客戶端下指令，在意的是 agent <em>交付的結果</em>，而不是它怎麼做到的。你是<strong>下指令的人</strong>，session 是一問一答的回合制。</li><li><strong>openab-pty 走 PTY</strong> —— 完整的可觀察性，原生終端體驗。你在意的是<em>現在正在發生什麼</em>，即時觀看、檢視、動手。你是<strong>坐在鍵盤前的操作者</strong>，session 是無界的位元組流。</li></ul><p>互補是結構上的，不是比喻:PTY 的映像是 <code>FROM ghcr.io/openabdev/openab</code>，所以 shell 開在<strong>和 agent 同一個映像裡</strong>，同一個 CLI、同一個 workspace。agent 把事情做到一半，你就地接上去看。兩者互不依賴，session 模型也刻意不共用 —— 位元組流的存活由位元組和 socket 定義，不是由回合定義。</p><p>兩者也可以放在一起。<strong>Colocated 模式</strong>（OpenAB Connect 即將推出）讓經典 openab 的 Discord bot 和 openab-pty 跑在同一個 pod、用同一個 image、共用同一個 <code>/workspace</code>：在聊天室吩咐，回終端機接手。兩者仍然只共用檔案，不共用程序。看 <a href="/zh/1min/colocated-mode/">1 分鐘影片</a>或<a href="https://eli5.openab.dev/colocated-mode/">完整說明</a>。</p><p>完整說明在 openab-pty 的 <a href="https://github.com/openabdev/openab-pty/blob/main/DESIGN.md">設計文件</a>。而 <strong>OpenAB Connect 是 <a href="https://github.com/openabdev/openab-pty/blob/main/runtime/CLIENT-CONTRACT.md">openab-pty 客戶端契約</a>的第一個客戶端實作</strong> —— 契約是公開的，任何能持有憑證並講 WebSocket 的東西都可以是下一個。</p></div>
+</details>
+<details id="faq-colocated">
+  <summary><span class="q">可以在同一個 workspace 跑 Discord bot 嗎?</span></summary>
+  <div class="a"><p>可以，即將推出。在 New Agent 視窗勾 <strong>Also run a Discord bot</strong>，填 bot token、頻道 ID 和誰可以跟它說話；app 部署前會先跟 Discord 確認這三項。pod 或 ECS task 會多一個容器，用和終端機同一個 image 跑經典的 <code>openab run</code>。</p><ul><li><strong>共用：</strong><code>/workspace</code>，所以 agent 的登入、repo 和檔案兩邊都一樣。</li><li><strong>不共用：</strong>每個容器有自己的 <code>/tmp</code> 和自己的密鑰，bot 不開任何 port。token 錯了只有 bot 自己重啟。</li><li><strong>同一個信任區：</strong>能開終端機的人碰得到 bot 的 token，能叫 bot 做事的人等於有 shell。所以白名單預設只有你自己。</li></ul><p>第一版的限制：只支援 Kiro、只支援 Discord，ECS 上不能和 persistence bucket 同時用。詳見 <a href="https://eli5.openab.dev/colocated-mode/">eli5.openab.dev/colocated-mode</a>。</p></div>
 </details>
 <details id="faq-what-can-the-shell-do">
   <summary><span class="q">這個 shell 到底能做多少事?</span></summary>
-  <div class="a"><p>刻意很少。它以 <code>uid 1000</code> 開啟，沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證，根檔案系統唯讀，workspace 用完即棄。session 的 shell 可以經 loopback 連到 runtime —— 這正是管理憑證從不放進容器的原因:attach token 只授權一個 session，而且會過期。</p></div>
+  <div class="a"><p>刻意很少。它以 <code>uid 1000</code> 開啟，沒有 <code>sudo</code>、沒有 service-account token、沒有主機憑證，根檔案系統唯讀，workspace 用完即棄。session 的 shell 可以經 loopback 連到 runtime —— 這正是管理憑證從不放進容器的原因:attach token 只授權一個 session，而且會過期。例外：同時跑 colocated Discord bot 的 host，shell 和 bot 共用 <code>/workspace</code>，可以經由 bot 會執行的檔案碰到 bot 的 token。</p></div>
 </details>
 <details id="faq-open-ports">
   <summary><span class="q">我需要開連接埠或設定 ingress 嗎?</span></summary>
