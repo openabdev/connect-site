@@ -38,15 +38,23 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.8.1", status="review", date=dict(
-   en="Submitted September 30, 2026", zh="2026 年 9 月 30 日送審",
-   ja="2026 年 9 月 30 日に審査提出", ko="2026년 9월 30일 심사 제출"),
+ dict(v="1.8.2", status="review", date=dict(
+   en="Submitted October 28, 2026", zh="2026 年 10 月 28 日送審",
+   ja="2026 年 10 月 28 日に審査提出", ko="2026년 10월 28일 심사 제출"),
+  body=dict(
+   en="<ul><li>Kubernetes hosts recover on their own. A new host is a single-replica StatefulSet, so if the cluster evicts or reschedules its pod, a replacement starts by itself — on the same tailnet address, so the connection reconnects without changes. Files in <code>/workspace</code> are kept; open sessions end with the pod and need to be started again.</li><li>Run a Discord bot beside the terminal. New Agent can also start a Discord bot in the same host, sharing <code>/workspace</code>, for every agent except Hermes. Log the agent in once in a terminal; the bot uses that login. In the channel, @mention the bot.</li><li>Safer deploys. A deploy now checks that the name is free before it writes anything, and never overwrites an existing host, claim, or Keychain credential.</li><li>“Screens” in the sidebar is now “Computers”.</li></ul>",
+   zh="<ul><li>Kubernetes 主機會自動恢復。新部署的主機是單一副本的 StatefulSet，叢集驅逐或重新排程 pod 時會自動起一個新的，tailnet 位址不變，連線不用改設定就會重連。<code>/workspace</code> 裡的檔案會保留；正在執行的 session 會隨舊 pod 結束，需要重新開啟。</li><li>在終端機旁執行 Discord bot。New Agent 可以在同一台主機上一併啟動 Discord bot，共用 <code>/workspace</code>，支援 Hermes 以外的所有 agent。先在終端機登入一次 agent，bot 就會使用同一個登入。在頻道裡請 @提及 bot。</li><li>部署更安全。部署前會先確認名稱沒有被占用，不會覆寫既有的主機、volume 或 Keychain 憑證。</li><li>側欄的「Screens」改名為「Computers」。</li></ul>",
+   ja="<ul><li>Kubernetes ホストが自動で復旧します。新しいホストはレプリカ 1 つの StatefulSet なので、クラスタが pod を退避・再スケジュールしても代わりの pod が自動で起動します。tailnet アドレスは変わらないため、設定を変えずに再接続します。<code>/workspace</code> のファイルは保持されます。開いていたセッションは pod とともに終了するため、もう一度開始してください。</li><li>ターミナルの横で Discord bot を実行。New Agent で同じホストに Discord bot も起動でき、<code>/workspace</code> を共有します。Hermes 以外のすべての agent に対応します。ターミナルで agent に一度ログインすれば、bot はそのログインを使います。チャンネルでは bot を @メンションしてください。</li><li>より安全なデプロイ。デプロイは何かを書き込む前に名前が空いているかを確認し、既存のホスト、claim、キーチェーンの認証情報を上書きしません。</li><li>サイドバーの「Screens」は「Computers」になりました。</li></ul>",
+   ko="<ul><li>Kubernetes 호스트가 스스로 복구됩니다. 새 호스트는 복제본이 하나인 StatefulSet이므로, 클러스터가 pod를 축출하거나 다시 스케줄링해도 대체 pod가 자동으로 시작됩니다. tailnet 주소가 그대로라 설정을 바꾸지 않아도 다시 연결됩니다. <code>/workspace</code>의 파일은 유지되며, 열려 있던 세션은 pod와 함께 종료되므로 다시 시작해야 합니다.</li><li>터미널 옆에서 Discord bot 실행. New Agent로 같은 호스트에 Discord bot도 함께 시작할 수 있으며 <code>/workspace</code>를 공유합니다. Hermes를 제외한 모든 agent를 지원합니다. 터미널에서 agent에 한 번 로그인하면 bot이 그 로그인을 사용합니다. 채널에서 bot을 @멘션하세요.</li><li>더 안전한 배포. 배포는 무엇이든 쓰기 전에 이름이 비어 있는지 확인하며, 기존 호스트, claim, 키체인 자격 증명을 덮어쓰지 않습니다.</li><li>사이드바의 “Screens”가 “Computers”로 바뀌었습니다.</li></ul>")),
+ dict(v="1.8.1", status="latest", date=dict(
+   en="October 6, 2026", zh="2026 年 10 月 6 日",
+   ja="2026 年 10 月 6 日", ko="2026년 10월 6일"),
   body=dict(
    en="<ul><li>Honest access levels: when you give a session access to a computer you choose <b>Observe</b> (the default — screen and system info only), <b>Desktop</b> or <b>Owner</b>. Desktop and Owner are described for what they are: full control of that computer, equivalent to its user's shell. Lend a dedicated computer for those.</li><li>Share your computers with OpenAB Remote: importing connections on the iPhone can bring the computers registered here too. The approval dialog names each one and lets you leave them out.</li><li>Fixed: “Give this session access to a computer…” sometimes did nothing until clicked a second time.</li><li>Requires <code>oab-instance-mcp</code> 0.7.0 or later on the lent computer.</li></ul>",
    zh="<ul><li>誠實標示的存取等級：讓 session 使用一台電腦時，可選 <b>Observe</b>（預設，只能看畫面與系統資訊）、<b>Desktop</b> 或 <b>Owner</b>。Desktop 與 Owner 會照實說明：等於完整控制那台電腦，和它的使用者 shell 相同；使用時建議借出專用電腦。</li><li>把電腦分享給 OpenAB Remote：在 iPhone 匯入連線時，可以一併帶入這裡登記的電腦；確認視窗會列出每一台，也可以選擇不帶。</li><li>修正：「讓 session 使用一台電腦…」有時要點第二次才有反應。</li><li>被借出的電腦需執行 <code>oab-instance-mcp</code> 0.7.0 或更新版本。</li></ul>",
    ja="<ul><li>正直なアクセスレベル：セッションにコンピュータへのアクセスを許可するとき、<b>Observe</b>（既定：画面とシステム情報のみ）、<b>Desktop</b>、<b>Owner</b> から選びます。Desktop と Owner はそのコンピュータの完全な操作権（そのユーザーのシェルと同等）として説明されます。その場合は専用のコンピュータを貸してください。</li><li>コンピュータを OpenAB Remote と共有：iPhone で接続を読み込むとき、ここに登録したコンピュータもまとめて読み込めます。確認ダイアログに各コンピュータが表示され、含めないことも選べます。</li><li>修正：「このセッションにコンピュータへのアクセスを許可…」が、2 回目のクリックまで反応しないことがある問題。</li><li>貸し出すコンピュータには <code>oab-instance-mcp</code> 0.7.0 以降が必要です。</li></ul>",
    ko="<ul><li>정직한 접근 수준: 세션에 컴퓨터 접근 권한을 줄 때 <b>Observe</b>(기본값: 화면과 시스템 정보만), <b>Desktop</b>, <b>Owner</b> 중에서 고릅니다. Desktop과 Owner는 해당 컴퓨터의 완전한 제어권(해당 사용자의 셸과 동일)으로 설명됩니다. 이 경우 전용 컴퓨터를 빌려주세요.</li><li>컴퓨터를 OpenAB Remote와 공유: iPhone에서 연결을 가져올 때 여기 등록된 컴퓨터도 함께 가져올 수 있습니다. 확인 창에 각 컴퓨터가 표시되며 제외할 수도 있습니다.</li><li>수정: “이 세션에 컴퓨터 접근 권한 부여…”가 두 번째 클릭 전까지 반응하지 않던 문제.</li><li>빌려주는 컴퓨터에는 <code>oab-instance-mcp</code> 0.7.0 이상이 필요합니다.</li></ul>")),
- dict(v="1.8.0", status="latest", date=dict(
+ dict(v="1.8.0", status="", date=dict(
    en="September 29, 2026", zh="2026 年 9 月 29 日",
    ja="2026 年 9 月 29 日", ko="2026년 9월 29일"),
   body=dict(
