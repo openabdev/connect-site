@@ -44,11 +44,15 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.8.2</span><span class="relbadge review">In review</span><span class="plat">Mac</span><span class="when">Submitted October 28, 2026</span></div>
+  <div class="rhead"><span class="ver">1.9.0</span><span class="relbadge latest">Latest</span><span class="plat">Mac</span><span class="when">October 29, 2026</span></div>
+  <ul><li>Load the Discord bot’s config from a URL. In the Discord bot sheet, choose Built-in (unchanged) or URL, with an optional sha256 pin. The URL is fetched and checked when you press OK, and again on every bot start; if the check fails, the bot stays down. A bot token is optional in URL mode.</li><li>A host with a Discord bot runs the Nightly image. The channel picker selects Nightly and locks while the bot is enabled, and returns to your previous choice when you turn the bot off.</li><li>The Discord bot’s token can come from a secret you already keep, set in “Token from” in the Discord bot sheet, instead of being typed in.</li><li>Each secret row has a scope: “oab only” (only the openab process in the bot container) or “oab + agent” (also given to terminal sessions). <code>DISCORD_BOT_TOKEN</code> is only allowed on an “oab only” row.</li></ul>
+</article>
+<article class="rel">
+  <div class="rhead"><span class="ver">1.8.2</span><span class="plat">Mac</span><span class="when">October 28, 2026</span></div>
   <ul><li>Kubernetes hosts recover on their own. A new host is a single-replica StatefulSet, so if the cluster evicts or reschedules its pod, a replacement starts by itself — on the same tailnet address, so the connection reconnects without changes. Files in <code>/workspace</code> are kept; open sessions end with the pod and need to be started again.</li><li>Run a Discord bot beside the terminal. New Agent can also start a Discord bot in the same host, sharing <code>/workspace</code>, for every agent except Hermes. Log the agent in once in a terminal; the bot uses that login. In the channel, @mention the bot.</li><li>Safer deploys. A deploy now checks that the name is free before it writes anything, and never overwrites an existing host, claim, or Keychain credential.</li><li>“Screens” in the sidebar is now “Computers”.</li></ul>
 </article>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.8.1</span><span class="relbadge latest">Latest</span><span class="plat">Mac</span><span class="when">October 6, 2026</span></div>
+  <div class="rhead"><span class="ver">1.8.1</span><span class="plat">Mac</span><span class="when">October 6, 2026</span></div>
   <ul><li>Honest access levels: when you give a session access to a computer you choose <b>Observe</b> (the default — screen and system info only), <b>Desktop</b> or <b>Owner</b>. Desktop and Owner are described for what they are: full control of that computer, equivalent to its user's shell. Lend a dedicated computer for those.</li><li>Share your computers with OpenAB Remote: importing connections on the iPhone can bring the computers registered here too. The approval dialog names each one and lets you leave them out.</li><li>Fixed: “Give this session access to a computer…” sometimes did nothing until clicked a second time.</li><li>Requires <code>oab-instance-mcp</code> 0.7.0 or later on the lent computer.</li></ul>
 </article>
 <article class="rel">

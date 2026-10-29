@@ -44,11 +44,15 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/kr/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.8.2</span><span class="relbadge review">심사 중</span><span class="plat">Mac</span><span class="when">2026년 10월 28일 심사 제출</span></div>
+  <div class="rhead"><span class="ver">1.9.0</span><span class="relbadge latest">최신</span><span class="plat">Mac</span><span class="when">2026년 10월 29일</span></div>
+  <ul><li>Discord bot 설정을 URL에서 불러옵니다. Discord bot 설정 시트에서 Built-in(기존과 동일) 또는 URL을 선택하고, 선택적으로 sha256 고정 값을 지정할 수 있습니다. URL은 OK를 누를 때 가져와 검사하며, bot이 시작될 때마다 다시 검사합니다. 검사에 실패하면 bot은 시작되지 않습니다. URL 모드에서는 bot 토큰이 선택 사항입니다.</li><li>Discord bot이 있는 호스트는 Nightly 이미지로 실행됩니다. bot을 켜 두는 동안 채널 선택은 Nightly로 바뀌고 잠기며, bot을 끄면 이전 선택으로 돌아갑니다.</li><li>Discord bot의 토큰을 직접 입력하는 대신, 이미 보관 중인 secret에서 가져올 수 있습니다. Discord bot 설정 시트의 “Token from”에서 지정합니다.</li><li>각 secret 행에는 범위가 있습니다: “oab only”(bot 컨테이너 안의 openab 프로세스만) 또는 “oab + agent”(터미널 세션에도 전달). <code>DISCORD_BOT_TOKEN</code>은 “oab only” 행에서만 사용할 수 있습니다.</li></ul>
+</article>
+<article class="rel">
+  <div class="rhead"><span class="ver">1.8.2</span><span class="plat">Mac</span><span class="when">2026년 10월 28일</span></div>
   <ul><li>Kubernetes 호스트가 스스로 복구됩니다. 새 호스트는 복제본이 하나인 StatefulSet이므로, 클러스터가 pod를 축출하거나 다시 스케줄링해도 대체 pod가 자동으로 시작됩니다. tailnet 주소가 그대로라 설정을 바꾸지 않아도 다시 연결됩니다. <code>/workspace</code>의 파일은 유지되며, 열려 있던 세션은 pod와 함께 종료되므로 다시 시작해야 합니다.</li><li>터미널 옆에서 Discord bot 실행. New Agent로 같은 호스트에 Discord bot도 함께 시작할 수 있으며 <code>/workspace</code>를 공유합니다. Hermes를 제외한 모든 agent를 지원합니다. 터미널에서 agent에 한 번 로그인하면 bot이 그 로그인을 사용합니다. 채널에서 bot을 @멘션하세요.</li><li>더 안전한 배포. 배포는 무엇이든 쓰기 전에 이름이 비어 있는지 확인하며, 기존 호스트, claim, 키체인 자격 증명을 덮어쓰지 않습니다.</li><li>사이드바의 “Screens”가 “Computers”로 바뀌었습니다.</li></ul>
 </article>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.8.1</span><span class="relbadge latest">최신</span><span class="plat">Mac</span><span class="when">2026년 10월 6일</span></div>
+  <div class="rhead"><span class="ver">1.8.1</span><span class="plat">Mac</span><span class="when">2026년 10월 6일</span></div>
   <ul><li>정직한 접근 수준: 세션에 컴퓨터 접근 권한을 줄 때 <b>Observe</b>(기본값: 화면과 시스템 정보만), <b>Desktop</b>, <b>Owner</b> 중에서 고릅니다. Desktop과 Owner는 해당 컴퓨터의 완전한 제어권(해당 사용자의 셸과 동일)으로 설명됩니다. 이 경우 전용 컴퓨터를 빌려주세요.</li><li>컴퓨터를 OpenAB Remote와 공유: iPhone에서 연결을 가져올 때 여기 등록된 컴퓨터도 함께 가져올 수 있습니다. 확인 창에 각 컴퓨터가 표시되며 제외할 수도 있습니다.</li><li>수정: “이 세션에 컴퓨터 접근 권한 부여…”가 두 번째 클릭 전까지 반응하지 않던 문제.</li><li>빌려주는 컴퓨터에는 <code>oab-instance-mcp</code> 0.7.0 이상이 필요합니다.</li></ul>
 </article>
 <article class="rel">
