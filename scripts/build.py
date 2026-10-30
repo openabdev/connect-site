@@ -116,8 +116,8 @@ L = {
   feats=[
    ("Every major vendor",
     "Thirteen agent CLIs, one image each — Claude Code, Codex, Cursor, Kiro, Gemini, "
-    "Copilot and more. Chosen per session. The <code>native</code> variant carries no "
-    "agent at all."),
+    "Copilot and more. Chosen per session. The <code>native</code> image carries no "
+    "agent CLI."),
    ("Sessions outlive the client",
     "The shell runs in the container, not on your Mac. Quit the app and it keeps going; "
     "reopen and you are in the same split layout, output resuming from the byte where "
@@ -126,14 +126,18 @@ L = {
     "No ports opened, no ingress, no public endpoint. A Tailscale sidecar is the only "
     "thing with a network identity; the runtime binds loopback only."),
    ("Any Kubernetes, or ECS",
-    "It deploys a plain pod, so any conformant cluster works — k3s on a spare box, EKS, "
-    "GKE. Or AWS ECS Fargate, where there is no cluster to run at all."),
+    "On Kubernetes a host is a one-replica StatefulSet with its tailnet state on its own "
+    "volume, so after an eviction or restart it comes back by itself with the same tailnet "
+    "identity. Any conformant cluster works — k3s on a spare box, EKS, GKE. Or AWS ECS "
+    "Fargate, where there is no cluster to run at all."),
    ("The runtime is open source",
     f'MIT licensed at <a href="{PTY}">openabdev/openab-pty</a>. Read exactly what you '
     "are about to run, or write your own client against the published contract."),
    ("A Discord bot next door",
-    "Coming soon: tick one box on New Agent and the same workspace also gets a Discord "
-    "bot (classic openab). Ask in chat, then open a terminal and pick up where it left off."),
+    "Opt in on New Agent and the same workspace also runs a Discord bot (classic openab). "
+    "Use the built-in config or load one from a URL, optionally pinned by sha256. Paste the "
+    "token or take it from an existing Kubernetes Secret, and let a list of users or anyone "
+    "in the channel talk to it."),
   ],
   faq_title="Questions",
   faq=[
@@ -359,7 +363,7 @@ L = {
   feats=[
    ("涵蓋所有頂尖廠商",
     "13 種 agent CLI，各自一個映像 —— Claude Code、Codex、Cursor、Kiro、Gemini、"
-    "Copilot 等，每個 session 分別選擇。<code>native</code> 版本不含任何 agent。"),
+    "Copilot 等，每個 session 分別選擇。<code>native</code> 映像不含任何 agent CLI。"),
    ("Session 活得比客戶端久",
     "shell 跑在容器裡，不在你的 Mac 上。關掉 app 它繼續跑；再開啟就回到原本的分割版面，"
     "輸出從中斷的那個位元組接續。"),
@@ -367,14 +371,16 @@ L = {
     "不開連接埠、沒有 ingress、沒有公開端點。只有 Tailscale sidecar 擁有網路身分，"
     "runtime 只綁 loopback。"),
    ("任何 Kubernetes 或 ECS",
-    "它部署的是一個單純的 pod，所以任何符合規範的叢集都能跑 —— 閒置機器上的 k3s、EKS、"
-    "GKE。或是 AWS ECS Fargate，那裡連叢集都不必維護。"),
+    "在 Kubernetes 上，每個 host 是單一副本的 StatefulSet，tailnet 狀態放在自己的磁碟區，"
+    "被驅逐或重啟後會自己回來，tailnet 身分不變。任何符合規範的叢集都能跑 —— 閒置機器上的 "
+    "k3s、EKS、GKE。或是 AWS ECS Fargate，那裡連叢集都不必維護。"),
    ("核心 runtime 開放原始碼",
     f'MIT 授權，位於 <a href="{PTY}">openabdev/openab-pty</a>。你可以先確認自己要跑的'
     "到底是什麼，也可以照公開的契約寫自己的客戶端。"),
    ("隔壁住一個 Discord bot",
-    "即將推出：New Agent 勾一個框，同一個 workspace 裡多一個 Discord bot（經典 openab）。"
-    "在聊天室吩咐，回到終端機接著做。"),
+    "在 New Agent 選擇開啟，同一個 workspace 裡就多一個 Discord bot（經典 openab）。"
+    "設定可用內建的，或從 URL 載入並可加 sha256 驗證；token 直接貼上，或取自既有的 "
+    "Kubernetes Secret；可以只讓指定的使用者跟它說話，或開放給頻道裡任何人。"),
   ],
   faq_title="常見問題",
   faq=[
@@ -577,8 +583,8 @@ L = {
   feats=[
    ("主要ベンダーを網羅",
     "13 種類のエージェント CLI に、それぞれのイメージ — Claude Code、Codex、Cursor、"
-    "Kiro、Gemini、Copilot など。セッションごとに選べます。<code>native</code> は"
-    "エージェントを含みません。"),
+    "Kiro、Gemini、Copilot など。セッションごとに選べます。<code>native</code> イメージは"
+    "エージェント CLI を含みません。"),
    ("セッションはアプリより長生き",
     "シェルはコンテナの中で動きます。アプリを閉じても動き続け、次に開くと同じ分割"
     "レイアウトに戻り、出力は止まったバイト位置から続きます。"),
@@ -586,16 +592,19 @@ L = {
     "ポートを開けず、ingress も公開エンドポイントもありません。ネットワーク上の識別を"
     "持つのは Tailscale サイドカーだけで、ランタイムは loopback だけを listen します。"),
    ("Kubernetes でも ECS でも",
-    "デプロイするのはごく普通の pod なので、準拠したクラスタなら何でも動きます — "
-    "空いているマシンの k3s、EKS、GKE。あるいは AWS ECS Fargate なら、クラスタ自体を"
-    "運用する必要がありません。"),
+    "Kubernetes ではホストはレプリカ 1 の StatefulSet で、tailnet の状態は専用の"
+    "ボリュームに置かれます。退避や再起動のあとも自動で戻り、tailnet 上の識別は変わりません。"
+    "準拠したクラスタなら何でも動きます — 空いているマシンの k3s、EKS、GKE。あるいは "
+    "AWS ECS Fargate なら、クラスタ自体を運用する必要がありません。"),
    ("ランタイムはオープンソース",
     f'MIT ライセンスで <a href="{PTY}">openabdev/openab-pty</a> にあります。'
     "何を動かすのかを先に確認できますし、公開された契約に沿って自分のクライアントも"
     "書けます。"),
    ("隣に Discord bot",
-    "近日公開:New Agent でチェックを一つ入れると、同じワークスペースに Discord bot"
-    "(従来の openab)が加わります。チャットで頼み、ターミナルで続きを引き取れます。"),
+    "New Agent で有効にすると、同じワークスペースで Discord bot(従来の openab)も"
+    "動きます。設定は組み込みのものか、URL から読み込むもの(sha256 での固定も可)。"
+    "トークンは貼り付けるか既存の Kubernetes Secret から取り、話しかけられる相手は"
+    "指定したユーザーかチャンネルの誰でもかを選べます。"),
   ],
   faq_title="よくある質問",
   faq=[
@@ -825,7 +834,7 @@ L = {
   feats=[
    ("주요 벤더를 모두",
     "에이전트 CLI 13종, 각각 별도의 이미지 — Claude Code, Codex, Cursor, Kiro, Gemini, "
-    "Copilot 등. 세션마다 선택합니다. <code>native</code>는 에이전트를 포함하지 않습니다."),
+    "Copilot 등. 세션마다 선택합니다. <code>native</code> 이미지는 에이전트 CLI를 포함하지 않습니다."),
    ("세션이 앱보다 오래 삽니다",
     "셸은 컨테이너 안에서 실행됩니다. 앱을 닫아도 계속 돌아가고, 다시 열면 같은 분할 "
     "레이아웃으로 돌아와 출력이 멈춘 바이트에서 이어집니다."),
@@ -833,14 +842,18 @@ L = {
     "포트를 열지 않고 ingress도 공개 엔드포인트도 없습니다. 네트워크 신원을 가진 것은 "
     "Tailscale 사이드카뿐이며 런타임은 loopback만 수신합니다."),
    ("어떤 Kubernetes든, ECS든",
-    "배포하는 것은 평범한 pod이므로 표준을 따르는 클러스터면 모두 동작합니다 — 남는 "
-    "장비의 k3s, EKS, GKE. 또는 AWS ECS Fargate라면 운영할 클러스터 자체가 없습니다."),
+    "Kubernetes에서 호스트는 레플리카 1개의 StatefulSet이며 tailnet 상태를 자체 볼륨에 "
+    "둡니다. 축출되거나 재시작되어도 스스로 돌아오고 tailnet 신원도 그대로입니다. 표준을 "
+    "따르는 클러스터면 모두 동작합니다 — 남는 장비의 k3s, EKS, GKE. 또는 AWS ECS "
+    "Fargate라면 운영할 클러스터 자체가 없습니다."),
    ("런타임은 오픈소스",
     f'MIT 라이선스로 <a href="{PTY}">openabdev/openab-pty</a>에 있습니다. 무엇을 '
     "실행할지 먼저 확인할 수 있고, 공개된 계약에 맞춰 자신의 클라이언트도 만들 수 있습니다."),
    ("옆집에 Discord bot",
-    "곧 출시: New Agent에서 체크 하나로 같은 워크스페이스에 Discord bot(기존 openab)이 "
-    "함께 돌아갑니다. 채팅으로 맡기고, 터미널에서 이어서 작업합니다."),
+    "New Agent에서 켜면 같은 워크스페이스에서 Discord bot(기존 openab)도 함께 "
+    "돌아갑니다. 설정은 내장 설정이나 URL에서 불러온 설정(sha256 고정 선택)을 쓰고, 토큰은 "
+    "붙여넣거나 기존 Kubernetes Secret에서 가져옵니다. 말을 걸 수 있는 사람은 지정한 "
+    "사용자 목록이나 채널의 누구나 중에서 고릅니다."),
   ],
   faq_title="자주 묻는 질문",
   faq=[

@@ -78,7 +78,7 @@
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5z"/><path d="M2 12l10 5 10-5"/><path d="M2 17l10 5 10-5"/></svg></div>
     <h3>주요 벤더를 모두</h3>
-    <p>에이전트 CLI 13종, 각각 별도의 이미지 — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot 등. 세션마다 선택합니다. <code>native</code>는 에이전트를 포함하지 않습니다.</p>
+    <p>에이전트 CLI 13종, 각각 별도의 이미지 — Claude Code, Codex, Cursor, Kiro, Gemini, Copilot 등. 세션마다 선택합니다. <code>native</code> 이미지는 에이전트 CLI를 포함하지 않습니다.</p>
   </div>
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></div>
@@ -93,7 +93,7 @@
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
     <h3>어떤 Kubernetes든, ECS든</h3>
-    <p>배포하는 것은 평범한 pod이므로 표준을 따르는 클러스터면 모두 동작합니다 — 남는 장비의 k3s, EKS, GKE. 또는 AWS ECS Fargate라면 운영할 클러스터 자체가 없습니다.</p>
+    <p>Kubernetes에서 호스트는 레플리카 1개의 StatefulSet이며 tailnet 상태를 자체 볼륨에 둡니다. 축출되거나 재시작되어도 스스로 돌아오고 tailnet 신원도 그대로입니다. 표준을 따르는 클러스터면 모두 동작합니다 — 남는 장비의 k3s, EKS, GKE. 또는 AWS ECS Fargate라면 운영할 클러스터 자체가 없습니다.</p>
   </div>
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></svg></div>
@@ -103,7 +103,7 @@
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div>
     <h3>옆집에 Discord bot</h3>
-    <p>곧 출시: New Agent에서 체크 하나로 같은 워크스페이스에 Discord bot(기존 openab)이 함께 돌아갑니다. 채팅으로 맡기고, 터미널에서 이어서 작업합니다.</p>
+    <p>New Agent에서 켜면 같은 워크스페이스에서 Discord bot(기존 openab)도 함께 돌아갑니다. 설정은 내장 설정이나 URL에서 불러온 설정(sha256 고정 선택)을 쓰고, 토큰은 붙여넣거나 기존 Kubernetes Secret에서 가져옵니다. 말을 걸 수 있는 사람은 지정한 사용자 목록이나 채널의 누구나 중에서 고릅니다.</p>
   </div>
 </div>
 </section>
