@@ -93,7 +93,7 @@
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
     <h3>Kubernetes でも ECS でも</h3>
-    <p>Kubernetes ではホストはレプリカ 1 の StatefulSet で、tailnet の状態は専用のボリュームに置かれます。退避や再起動のあとも自動で戻り、tailnet 上の識別は変わりません。準拠したクラスタなら何でも動きます — 空いているマシンの k3s、EKS、GKE。あるいは AWS ECS Fargate なら、クラスタ自体を運用する必要がありません。</p>
+    <p>Kubernetes ではホストはレプリカ 1 の StatefulSet で、tailnet の状態は専用のボリュームに置かれます。退避や再起動のあとも自動で戻り、tailnet 上の識別は変わりません。Redeploy で設定をその場で変え、Export で仕様(シークレットは含みません)をファイルに保存し、Import でそのファイルからホストを作り直せます。ターミナルの <code>/tmp</code> はワークスペースのボリューム上にあります。準拠したクラスタなら何でも動きます — k3s、EKS、GKE。あるいは AWS ECS Fargate なら、クラスタ自体を運用する必要がありません。</p>
   </div>
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></svg></div>
@@ -204,6 +204,10 @@
 <details id="faq-teardown">
   <summary><span class="q">セッションを削除したあと、何か残りますか?</span></summary>
   <div class="a"><p><strong>ワークスペースは破棄されます。</strong>ここは確実です。そのセッションのためだけに存在し、セッションを削除すれば消えます。</p><p>確実でないのはプロセスです。セッションを削除するとそのセッションのプロセスグループは終了しますが、意図的にそのグループを離れたプロセス — <code>nohup</code> や <code>setsid</code> で起動したバックグラウンドジョブなど — は、pod や task が置き換わるまで生き残ることがあります。同じサンドボックスの中に閉じたままで、新たに何かへ手が届くわけではありませんが、その pod の CPU とメモリを使い続けます。</p><p>そのためアプリでは、きれいに終了したとは言わず best-effort と明示しています。何も残らないことを確実にするなら、pod か task を削除してください。</p></div>
+</details>
+<details id="faq-report">
+  <summary><span class="q">問題はどう報告すればいいですか?</span></summary>
+  <div class="a"><p>アプリメニューの <strong>Send Diagnostic Report…</strong> を選びます(Debug Log とデプロイ進行状況のウィンドウにもあります)。アプリはまずレポート全体を見せます:バージョンとビルド、macOS のバージョン、tailnet の状態、伏せ字にしたログと仮名の対応表。そのうえでメール、共有、保存、コピーを選びます。選ぶまでは何も送られません。アプリメニューの先頭にある <strong>About OpenAB Connect</strong> でバージョンとビルドを確認できます。</p></div>
 </details>
 <details id="faq-inter-agent">
   <summary><span class="q">エージェント同士は、デバイスや地域やネットワークをまたいで会話できますか? <span class="ribbon inline">開発中</span></span></summary>

@@ -93,7 +93,7 @@
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
     <h3>Any Kubernetes, or ECS</h3>
-    <p>On Kubernetes a host is a one-replica StatefulSet with its tailnet state on its own volume, so after an eviction or restart it comes back by itself with the same tailnet identity. Any conformant cluster works — k3s on a spare box, EKS, GKE. Or AWS ECS Fargate, where there is no cluster to run at all.</p>
+    <p>On Kubernetes a host is a one-replica StatefulSet with its tailnet state on its own volume, so after an eviction or restart it comes back by itself with the same tailnet identity. Redeploy changes its settings in place; Export saves its spec, without secrets, to a file that Import turns back into a host. The terminal's <code>/tmp</code> is on the workspace volume. Any conformant cluster works — k3s, EKS, GKE. Or AWS ECS Fargate, where there is no cluster to run at all.</p>
   </div>
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></svg></div>
@@ -204,6 +204,10 @@
 <details id="faq-teardown">
   <summary><span class="q">Is anything left behind when I delete a session?</span></summary>
   <div class="a"><p><strong>The workspace is discarded.</strong> That part is certain: it exists only for that session, and deleting the session deletes it.</p><p>What is not certain is processes. Deleting a session terminates that session's process group, but a process that deliberately leaves that group — a background job started with <code>nohup</code> or <code>setsid</code> — can outlive it until the pod or task is replaced. It is still confined to the same sandbox and gains no new reach, but it keeps consuming that pod's CPU and memory.</p><p>So this is labelled best-effort in the app rather than claimed as a clean kill. To be certain nothing remains, delete the pod or task.</p></div>
+</details>
+<details id="faq-report">
+  <summary><span class="q">How do I report a problem?</span></summary>
+  <div class="a"><p>Choose <strong>Send Diagnostic Report…</strong> in the app menu (it is also in the Debug Log and deploy progress windows). The app shows the whole report first: version and build, macOS version, tailnet state, and a redacted copy of its log, with a legend for the pseudonyms it uses. Then email, share, save or copy it; nothing is sent until you do. <strong>About OpenAB Connect</strong>, first in the app menu, shows the version and build.</p></div>
 </details>
 <details id="faq-inter-agent">
   <summary><span class="q">Can agents talk to each other across devices, regions and networks? <span class="ribbon inline">in development</span></span></summary>
