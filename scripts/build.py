@@ -1076,8 +1076,8 @@ def landscape_html(d):
     <article class="landscape-node node-a"><span class="landscape-letter">A</span><span class="landscape-role">{l["a_role"]}</span><h3>{l["a_name"]}</h3><p>{l["a_desc"]}</p></article>
     <article class="landscape-node node-b"><span class="landscape-letter">B</span><span class="landscape-role">{l["b_role"]}</span><h3>{l["b_name"]}</h3><p>{l["b_desc"]}</p></article>
     <div class="landscape-edge edge-ac"><span>{l["ac"]}</span></div>
-    <div class="landscape-edge edge-bc"><span>{l["bc"]}</span><span class="landscape-auth"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>{l["auth"]}</span><span class="landscape-dev">{l["takeover"]} · {d["dev_label"]}</span></div>
-    <div class="landscape-edge edge-ab"><span>{l["ab"]}</span><span class="landscape-dev">{d["dev_label"]}</span></div>
+    <div class="landscape-edge edge-bc"><span>{l["bc"]}</span><span class="landscape-auth"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>{l["auth"]}</span><span>{l["takeover"]}</span></div>
+    <div class="landscape-edge edge-ab"><span>{l["ab"]}</span></div>
     <div class="landscape-band"><span class="tailscale-dot-grid" aria-hidden="true"></span><strong>Tailscale</strong><span>{l["band"]}</span></div>
   </div>
   <ul class="landscape-benefits">{chips}</ul>
