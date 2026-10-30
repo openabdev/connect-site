@@ -3,6 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+// Browser language on the root page. navigator.languages is read in order; the first entry
+// that is zh-Hant (script Hant, or region TW/HK/MO), ja, ko or en decides. Other entries
+// (zh-Hans, zh-CN, fr, …) are skipped, so with none matching the page stays English.
+// A language picked with the switcher is stored in localStorage and never overridden.
+(function () {
+  var KEY = "oab-lang";
+  var PAGES = { en: "/", zh: "/zh/", ja: "/ja/", ko: "/ko/" };
+  function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function pick(tag) {
+    var p = String(tag).toLowerCase().split("-");
+    if (p[0] === "en" || p[0] === "ja" || p[0] === "ko") return p[0];
+    if (p[0] !== "zh" || p.indexOf("hans") >= 0) return null;
+    var zhHant = p.some(function (s) { return s === "hant" || s === "tw" || s === "hk" || s === "mo"; });
+    return zhHant ? "zh" : null;
+  }
+  if (location.pathname === "/" && !stored()) {
+    var langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+    var lang = null;
+    for (var i = 0; i < langs.length && !lang; i++) lang = pick(langs[i]);
+    if (lang && lang !== "en") location.replace(PAGES[lang] + location.search + location.hash);
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest(".lang a");
+    if (!a) return;
+    var code = (a.getAttribute("href") || "").split("/")[1] || "en";
+    if (!PAGES[code]) return;
+    try { localStorage.setItem(KEY, code); } catch (err) { /* storage unavailable: nothing to remember */ }
+  });
+})();
+</script>
 <title>OpenAB Connect — 所有頂尖廠商的 Agent，一個客戶端</title>
 <meta name="description" content="所有頂尖廠商的 Agent，一個客戶端，各自沙箱。加密分散運行在你的私有基礎架構。">
 <link rel="canonical" href="https://connect.openab.dev/zh/">

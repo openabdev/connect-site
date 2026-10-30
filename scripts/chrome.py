@@ -29,6 +29,41 @@ CHROME = {
 }
 PTY = "https://github.com/openabdev/openab-pty"
 
+# Runs in <head> so the redirect happens before the page paints. Only `/` is redirected.
+# A language picked with the switcher is stored and then never overridden, so the
+# English link (which is `/`) keeps working for someone who once chose Chinese.
+LANG_SCRIPT = """<script>
+// Browser language on the root page. navigator.languages is read in order; the first entry
+// that is zh-Hant (script Hant, or region TW/HK/MO), ja, ko or en decides. Other entries
+// (zh-Hans, zh-CN, fr, …) are skipped, so with none matching the page stays English.
+// A language picked with the switcher is stored in localStorage and never overridden.
+(function () {
+  var KEY = "oab-lang";
+  var PAGES = { en: "/", zh: "/zh/", ja: "/ja/", ko: "/ko/" };
+  function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function pick(tag) {
+    var p = String(tag).toLowerCase().split("-");
+    if (p[0] === "en" || p[0] === "ja" || p[0] === "ko") return p[0];
+    if (p[0] !== "zh" || p.indexOf("hans") >= 0) return null;
+    var zhHant = p.some(function (s) { return s === "hant" || s === "tw" || s === "hk" || s === "mo"; });
+    return zhHant ? "zh" : null;
+  }
+  if (location.pathname === "/" && !stored()) {
+    var langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language];
+    var lang = null;
+    for (var i = 0; i < langs.length && !lang; i++) lang = pick(langs[i]);
+    if (lang && lang !== "en") location.replace(PAGES[lang] + location.search + location.hash);
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest(".lang a");
+    if (!a) return;
+    var code = (a.getAttribute("href") || "").split("/")[1] || "en";
+    if (!PAGES[code]) return;
+    try { localStorage.setItem(KEY, code); } catch (err) { /* storage unavailable: nothing to remember */ }
+  });
+})();
+</script>"""
+
 
 def rev(name):
     """An asset path with a content hash, so a change is never served stale.
@@ -58,12 +93,10 @@ def prefix(code):
 
 
 def switcher(current, filename="index.html"):
-    """Plain links, no script. `/` is always English.
+    """Plain links. A click on one is recorded by LANG_SCRIPT, then the browser follows it.
 
-    Detecting navigator.languages and redirecting made `/` mean different things to
-    different visitors and broke the English link, which pointed at `/` and was sent
-    straight back to the stored language. hreflang with x-default already tells search
-    engines how the pages relate.
+    `/` is English. The root page may redirect a first-time visitor by browser language
+    (see LANG_SCRIPT), but not once a choice has been stored here.
     """
     out = []
     for c in ORDER:
@@ -89,6 +122,7 @@ def head(code, filename, title, desc, og_image=None, og_alt=None, og_type="websi
     tags = [
         '<meta charset="utf-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1">',
+        LANG_SCRIPT,
         f"<title>{title}</title>",
         f'<meta name="description" content="{desc}">',
         f'<link rel="canonical" href="{url}">',
