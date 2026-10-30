@@ -128,7 +128,9 @@ L = {
    ("Any Kubernetes, or ECS",
     "On Kubernetes a host is a one-replica StatefulSet with its tailnet state on its own "
     "volume, so after an eviction or restart it comes back by itself with the same tailnet "
-    "identity. Any conformant cluster works — k3s on a spare box, EKS, GKE. Or AWS ECS "
+    "identity. Redeploy changes its settings in place; Export saves its spec, without "
+    "secrets, to a file that Import turns back into a host. The terminal's <code>/tmp</code> "
+    "is on the workspace volume. Any conformant cluster works — k3s, EKS, GKE. Or AWS ECS "
     "Fargate, where there is no cluster to run at all."),
    ("The runtime is open source",
     f'MIT licensed at <a href="{PTY}">openabdev/openab-pty</a>. Read exactly what you '
@@ -277,6 +279,13 @@ L = {
     "but it keeps consuming that pod's CPU and memory.</p>"
     "<p>So this is labelled best-effort in the app rather than claimed as a clean kill. To "
     "be certain nothing remains, delete the pod or task.</p>"),
+   ("report", "How do I report a problem?",
+    "<p>Choose <strong>Send Diagnostic Report…</strong> in the app menu (it is also in the "
+    "Debug Log and deploy progress windows). The app shows the whole report first: version "
+    "and build, macOS version, tailnet state, and a redacted copy of its log, with a legend "
+    "for the pseudonyms it uses. Then email, share, save or copy it; nothing is sent until "
+    "you do. <strong>About OpenAB Connect</strong>, first in the app menu, shows the version "
+    "and build.</p>"),
    ("inter-agent", "Can agents talk to each other across devices, regions and networks?",
     "<p><strong>Not yet — this is being built.</strong> Today each session is independent: you "
     "instruct each agent, and they do not delegate work to one another.</p>"
@@ -372,8 +381,10 @@ L = {
     "runtime 只綁 loopback。"),
    ("任何 Kubernetes 或 ECS",
     "在 Kubernetes 上，每個 host 是單一副本的 StatefulSet，tailnet 狀態放在自己的磁碟區，"
-    "被驅逐或重啟後會自己回來，tailnet 身分不變。任何符合規範的叢集都能跑 —— 閒置機器上的 "
-    "k3s、EKS、GKE。或是 AWS ECS Fargate，那裡連叢集都不必維護。"),
+    "被驅逐或重啟後會自己回來，tailnet 身分不變。Redeploy 直接改它的設定；Export 把它的規格"
+    "（不含密鑰）存成檔案，Import 再用檔案建回 host。終端機的 <code>/tmp</code> 放在 workspace "
+    "磁碟區上。任何符合規範的叢集都能跑 —— k3s、EKS、GKE。或是 AWS ECS Fargate，那裡連叢集都"
+    "不必維護。"),
    ("核心 runtime 開放原始碼",
     f'MIT 授權，位於 <a href="{PTY}">openabdev/openab-pty</a>。你可以先確認自己要跑的'
     "到底是什麼，也可以照公開的契約寫自己的客戶端。"),
@@ -498,6 +509,11 @@ L = {
     "不會因此碰到任何新的東西，但它會繼續佔用那個 pod 的 CPU 和記憶體。</p>"
     "<p>所以這件事在 app 裡標示為 best-effort，而不是聲稱乾淨結束。"
     "要確定什麼都不剩，刪掉那個 pod 或 task。</p>"),
+   ("report", "遇到問題怎麼回報?",
+    "<p>在 app 選單選 <strong>Send Diagnostic Report…</strong>（Debug Log 和部署進度視窗裡也有）。"
+    "app 會先讓你看完整份報告：版本與 build、macOS 版本、tailnet 狀態，以及遮蔽過的 log，"
+    "附上代稱對照。之後再選擇寄信、分享、存檔或複製；你沒動作之前什麼都不會送出。"
+    "app 選單第一項 <strong>About OpenAB Connect</strong> 會顯示版本與 build。</p>"),
    ("inter-agent", "Agent 之間能夠跨裝置、跨地理區、跨網路互相對話嗎?",
     "<p><strong>還不行 —— 這正在開發中。</strong>今天每個 session 是獨立的:你對每個 agent "
     "下指令，它們不會互相委派工作。</p>"
@@ -594,8 +610,10 @@ L = {
    ("Kubernetes でも ECS でも",
     "Kubernetes ではホストはレプリカ 1 の StatefulSet で、tailnet の状態は専用の"
     "ボリュームに置かれます。退避や再起動のあとも自動で戻り、tailnet 上の識別は変わりません。"
-    "準拠したクラスタなら何でも動きます — 空いているマシンの k3s、EKS、GKE。あるいは "
-    "AWS ECS Fargate なら、クラスタ自体を運用する必要がありません。"),
+    "Redeploy で設定をその場で変え、Export で仕様(シークレットは含みません)をファイルに"
+    "保存し、Import でそのファイルからホストを作り直せます。ターミナルの <code>/tmp</code> は"
+    "ワークスペースのボリューム上にあります。準拠したクラスタなら何でも動きます — k3s、EKS、"
+    "GKE。あるいは AWS ECS Fargate なら、クラスタ自体を運用する必要がありません。"),
    ("ランタイムはオープンソース",
     f'MIT ライセンスで <a href="{PTY}">openabdev/openab-pty</a> にあります。'
     "何を動かすのかを先に確認できますし、公開された契約に沿って自分のクライアントも"
@@ -744,6 +762,12 @@ L = {
     "新たに何かへ手が届くわけではありませんが、その pod の CPU とメモリを使い続けます。</p>"
     "<p>そのためアプリでは、きれいに終了したとは言わず best-effort と明示しています。"
     "何も残らないことを確実にするなら、pod か task を削除してください。</p>"),
+   ("report", "問題はどう報告すればいいですか?",
+    "<p>アプリメニューの <strong>Send Diagnostic Report…</strong> を選びます(Debug Log と"
+    "デプロイ進行状況のウィンドウにもあります)。アプリはまずレポート全体を見せます:バージョンと"
+    "ビルド、macOS のバージョン、tailnet の状態、伏せ字にしたログと仮名の対応表。そのうえで"
+    "メール、共有、保存、コピーを選びます。選ぶまでは何も送られません。アプリメニューの先頭にある "
+    "<strong>About OpenAB Connect</strong> でバージョンとビルドを確認できます。</p>"),
    ("inter-agent", "エージェント同士は、デバイスや地域やネットワークをまたいで会話できますか?",
     "<p><strong>まだできません — 現在開発中です。</strong>今日は各セッションが独立していて、"
     "あなたが個々のエージェントに指示を出し、エージェント同士が仕事を委譲することはありません。</p>"
@@ -843,9 +867,11 @@ L = {
     "Tailscale 사이드카뿐이며 런타임은 loopback만 수신합니다."),
    ("어떤 Kubernetes든, ECS든",
     "Kubernetes에서 호스트는 레플리카 1개의 StatefulSet이며 tailnet 상태를 자체 볼륨에 "
-    "둡니다. 축출되거나 재시작되어도 스스로 돌아오고 tailnet 신원도 그대로입니다. 표준을 "
-    "따르는 클러스터면 모두 동작합니다 — 남는 장비의 k3s, EKS, GKE. 또는 AWS ECS "
-    "Fargate라면 운영할 클러스터 자체가 없습니다."),
+    "둡니다. 축출되거나 재시작되어도 스스로 돌아오고 tailnet 신원도 그대로입니다. Redeploy로 "
+    "설정을 그 자리에서 바꾸고, Export로 사양(시크릿 제외)을 파일로 저장해 Import로 다시 "
+    "호스트를 만듭니다. 터미널의 <code>/tmp</code>는 워크스페이스 볼륨에 있습니다. 표준을 "
+    "따르는 클러스터면 모두 동작합니다 — k3s, EKS, GKE. 또는 AWS ECS Fargate라면 운영할 "
+    "클러스터 자체가 없습니다."),
    ("런타임은 오픈소스",
     f'MIT 라이선스로 <a href="{PTY}">openabdev/openab-pty</a>에 있습니다. 무엇을 '
     "실행할지 먼저 확인할 수 있고, 공개된 계약에 맞춰 자신의 클라이언트도 만들 수 있습니다."),
@@ -985,6 +1011,12 @@ L = {
     "CPU와 메모리를 계속 씁니다.</p>"
     "<p>그래서 앱에서는 깔끔하게 종료된다고 말하지 않고 best-effort라고 밝힙니다. 아무것도 "
     "남지 않게 하려면 pod이나 task를 삭제하십시오.</p>"),
+   ("report", "문제는 어떻게 알리나요?",
+    "<p>앱 메뉴에서 <strong>Send Diagnostic Report…</strong>를 고릅니다(Debug Log와 배포 진행 "
+    "창에도 있습니다). 앱은 먼저 보고서 전체를 보여 줍니다: 버전과 빌드, macOS 버전, tailnet "
+    "상태, 가린 로그와 가명 대응표. 그다음 이메일, 공유, 저장, 복사 중에서 고릅니다. 고르기 "
+    "전에는 아무것도 보내지 않습니다. 앱 메뉴 맨 위의 <strong>About OpenAB Connect</strong>에서 "
+    "버전과 빌드를 볼 수 있습니다.</p>"),
    ("inter-agent", "에이전트끼리 기기·지역·네트워크를 넘어 서로 대화할 수 있습니까?",
     "<p><strong>아직 안 됩니다 — 개발 중입니다.</strong> 지금은 각 세션이 독립적이어서 "
     "여러분이 각 에이전트에 지시하며, 에이전트끼리 일을 위임하지는 않습니다.</p>"

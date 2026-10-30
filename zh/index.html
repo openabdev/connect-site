@@ -92,7 +92,7 @@
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01"/></svg></div>
     <h3>任何 Kubernetes 或 ECS</h3>
-    <p>在 Kubernetes 上，每個 host 是單一副本的 StatefulSet，tailnet 狀態放在自己的磁碟區，被驅逐或重啟後會自己回來，tailnet 身分不變。任何符合規範的叢集都能跑 —— 閒置機器上的 k3s、EKS、GKE。或是 AWS ECS Fargate，那裡連叢集都不必維護。</p>
+    <p>在 Kubernetes 上，每個 host 是單一副本的 StatefulSet，tailnet 狀態放在自己的磁碟區，被驅逐或重啟後會自己回來，tailnet 身分不變。Redeploy 直接改它的設定；Export 把它的規格（不含密鑰）存成檔案，Import 再用檔案建回 host。終端機的 <code>/tmp</code> 放在 workspace 磁碟區上。任何符合規範的叢集都能跑 —— k3s、EKS、GKE。或是 AWS ECS Fargate，那裡連叢集都不必維護。</p>
   </div>
   <div class="feature">
     <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6"/></svg></div>
@@ -203,6 +203,10 @@
 <details id="faq-teardown">
   <summary><span class="q">刪掉 session 之後會留下東西嗎?</span></summary>
   <div class="a"><p><strong>workspace 會被丟掉</strong>，這部分是確定的:它只存在於那個 session，刪除就沒了。</p><p>不確定的是程序。刪除 session 時，runtime 會終止這個 session 的 process group，但一個刻意脫離那個 group 的程序 —— 例如用 <code>nohup</code> 或 <code>setsid</code> 啟動的背景工作 —— 可能活下來，直到那個 pod 或 task 被替換。它仍然關在同一個沙箱裡，不會因此碰到任何新的東西，但它會繼續佔用那個 pod 的 CPU 和記憶體。</p><p>所以這件事在 app 裡標示為 best-effort，而不是聲稱乾淨結束。要確定什麼都不剩，刪掉那個 pod 或 task。</p></div>
+</details>
+<details id="faq-report">
+  <summary><span class="q">遇到問題怎麼回報?</span></summary>
+  <div class="a"><p>在 app 選單選 <strong>Send Diagnostic Report…</strong>（Debug Log 和部署進度視窗裡也有）。app 會先讓你看完整份報告：版本與 build、macOS 版本、tailnet 狀態，以及遮蔽過的 log，附上代稱對照。之後再選擇寄信、分享、存檔或複製；你沒動作之前什麼都不會送出。app 選單第一項 <strong>About OpenAB Connect</strong> 會顯示版本與 build。</p></div>
 </details>
 <details id="faq-inter-agent">
   <summary><span class="q">Agent 之間能夠跨裝置、跨地理區、跨網路互相對話嗎? <span class="ribbon inline">開發中</span></span></summary>
