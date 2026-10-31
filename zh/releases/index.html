@@ -75,11 +75,11 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.10.0</span><span class="relbadge review">審核中</span><span class="plat">Mac</span><span class="when">2026 年 10 月 30 日送審</span></div>
+  <div class="rhead"><span class="ver">1.10.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 10 月 31 日</span></div>
   <ul><li>重新部署 Kubernetes 主機。在側邊欄的主機上選「Redeploy…」即可修改設定；主機的 secret、tailnet 狀態、工作區與已儲存的憑證都會保留。Pod 會重新啟動，因此開著的終端機工作階段會結束。</li><li>「Export host spec…」會把 Kubernetes 主機的設定與 secret 名稱（絕不含 secret 的值）存成檔案；在「New session host」視窗中按「Import…」即可從檔案填入表單。舊版部署的主機也能匯出，無法讀出的部分會標示出來讓你確認。</li><li>App 選單新增「Send Diagnostic Report…」。會先讓你看到完整報告，再由你用自己的郵件 App 或分享選單寄出，也可以儲存或複製。帳號、角色與機器名稱會以代號取代，你沒有按下寄出就不會送出任何資料。</li><li>App 選單新增「關於 OpenAB Connect」，顯示版本、建置編號與版權資訊。</li><li>AWS SSO 有多個帳號或角色時會詢問你要用哪一個，不再自動選第一個。</li><li>SSO 取得的 AWS 憑證只會交給 <code>aws</code>、<code>ecsctl</code> 與 <code>kubectl</code>，不會交給 App 執行的其他工具。</li><li>Kubernetes 終端機的 <code>/tmp</code> 改放在工作區磁碟區上，<code>/tmp</code> 裡的大檔案不會再讓 Pod 被驅逐。</li><li>終止工作階段時若 runtime 拒絕或連不上，現在會顯示錯誤，不會看起來像是成功了。</li><li>拒絕螢幕錄製權限後，「Computers」不會再反覆要求權限，並提供「Retry」重試。</li></ul>
 </article>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.9.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 10 月 29 日</span></div>
+  <div class="rhead"><span class="ver">1.9.0</span><span class="plat">Mac</span><span class="when">2026 年 10 月 29 日</span></div>
   <ul><li>從 URL 載入 Discord bot 的設定。在 Discord bot 設定頁可選「內建」（維持不變）或「URL」，並可加上 sha256 驗證碼。按下 OK 時會先抓取並檢查該 URL，之後每次啟動 bot 也會再檢查一次；檢查不通過時 bot 不會啟動。URL 模式下 bot token 為選填。</li><li>有 Discord bot 的主機使用 Nightly 映像。啟用 bot 時，頻道選單會自動選為 Nightly 並鎖定，關閉 bot 後會恢復原本的選擇。</li><li>Discord bot 的 token 可以取自你已有的 secret，在 Discord bot 設定頁的「Token from」選擇，不必再手動輸入。</li><li>每個 secret 列都有適用範圍：「oab only」（僅 bot 容器內的 openab 程序）或「oab + agent」（終端機工作階段也會取得）。<code>DISCORD_BOT_TOKEN</code> 只能用在「oab only」的列。</li></ul>
 </article>
 <article class="rel">
