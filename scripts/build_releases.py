@@ -38,7 +38,23 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.10.0", status="latest", date=dict(
+ dict(v="1.11.0", status="review", date=dict(
+   en="November 17, 2026", zh="2026 年 11 月 17 日",
+   ja="2026 年 11 月 17 日", ko="2026년 11월 17일"),
+  body=dict(
+   en="<ul><li>Deploy a switchboard to your Kubernetes cluster from the Kubernetes menu. You can add an optional HTTPS front, or use a switchboard config you already have. The result dialog says plainly whether the switchboard could be reached on your tailnet.</li><li>Remove Switchboard, also in the Kubernetes menu, asks for confirmation first and lists only what actually exists in your cluster.</li><li>Kubernetes hosts that can’t be reached now show their pod status in the sidebar. Hosts that run a bot show a Bot badge and menu.</li><li>Hosts created as a bare Pod can be upgraded in one step from the sidebar menu.</li><li>If the app quits during a deploy, it now offers to clean up what was left behind the next time it opens.</li><li>Saving a connection to the Keychain is safer: an existing entry is no longer lost if saving fails.</li><li>A batch of fixes to dialogs: buttons, Escape key, scrolling and wording.</li></ul>",
+   zh="<ul><li>現在可以從「Kubernetes」選單把 switchboard 部署到你的 Kubernetes 叢集。可選擇加上 HTTPS 前端，或直接使用你現有的 switchboard 設定檔。結果視窗會如實告訴你，這個 switchboard 是否能從你的 tailnet 連到。</li><li>同樣在「Kubernetes」選單的「移除 Switchboard」會先請你確認，而且只列出叢集裡實際存在的項目。</li><li>無法連線的 Kubernetes 主機，側邊欄現在會顯示 Pod 狀態。有執行 bot 的主機會顯示 Bot 標記與選單。</li><li>以單一 Pod 建立的主機，可在側邊欄選單中一步升級。</li><li>如果 App 在部署途中結束，下次開啟時會主動提供清理殘留項目的選項。</li><li>儲存連線到鑰匙圈更安全：儲存失敗時，不會再遺失原本的項目。</li><li>修正了一批對話框的問題，包括按鈕、Esc 鍵、捲動與文字說明。</li></ul>",
+   ja="<ul><li>Kubernetes メニューから、switchboard を Kubernetes クラスタにデプロイできます。HTTPS フロントを任意で追加することも、お手持ちの switchboard 設定を使うこともできます。結果ダイアログには、switchboard に tailnet から到達できたかどうかが正直に表示されます。</li><li>同じく Kubernetes メニューの「Remove Switchboard」は、先に確認を求め、クラスタに実際に存在するものだけを一覧表示します。</li><li>到達できない Kubernetes ホストは、サイドバーに pod の状態を表示するようになりました。bot を実行しているホストには Bot バッジとメニューが表示されます。</li><li>単体の Pod として作成されたホストは、サイドバーのメニューから 1 ステップでアップグレードできます。</li><li>デプロイ中にアプリが終了した場合、次回起動時に、残ったものをクリーンアップするか確認します。</li><li>接続をキーチェーンに保存する処理がより安全になりました。保存に失敗しても、既存の項目が失われなくなります。</li><li>ダイアログに関する一連の修正：ボタン、Esc キー、スクロール、文言。</li></ul>",
+   ko="<ul><li>Kubernetes 메뉴에서 switchboard를 Kubernetes 클러스터에 배포할 수 있습니다. HTTPS 프런트를 선택적으로 추가하거나, 이미 가지고 있는 switchboard 설정을 사용할 수 있습니다. 결과 대화상자는 switchboard에 tailnet에서 접속할 수 있었는지 솔직하게 알려 줍니다.</li><li>역시 Kubernetes 메뉴에 있는 “Remove Switchboard”는 먼저 확인을 요청하며, 클러스터에 실제로 있는 항목만 보여 줍니다.</li><li>연결할 수 없는 Kubernetes 호스트는 이제 사이드바에 pod 상태를 표시합니다. bot을 실행하는 호스트에는 Bot 배지와 메뉴가 표시됩니다.</li><li>단독 Pod로 만든 호스트는 사이드바 메뉴에서 한 번에 업그레이드할 수 있습니다.</li><li>배포 도중 앱이 종료되면, 다음에 열 때 남은 항목을 정리할지 묻습니다.</li><li>연결을 키체인에 저장하는 과정이 더 안전해졌습니다. 저장에 실패해도 기존 항목이 사라지지 않습니다.</li><li>대화상자의 여러 문제를 수정했습니다: 버튼, Esc 키, 스크롤, 문구.</li></ul>")),
+ dict(v="1.10.1", status="latest", date=dict(
+   en="November 9, 2026", zh="2026 年 11 月 9 日",
+   ja="2026 年 11 月 9 日", ko="2026년 11월 9일"),
+  body=dict(
+   en="<ul><li>Computer access now has two levels. Observe (the default) lets the agent see the screen and system info only. Owner gives it full control of the computer, the same as its user’s shell: commands, input and the logged-in browser. Choosing Owner asks you to confirm before access is granted.</li><li>Desktop is no longer offered. If you chose Desktop before, it now works as Observe.</li><li>If a computer gives a session less access than you asked for, the app tells you: an alert right after you grant access, and an orange badge and note on the session.</li></ul>",
+   zh="<ul><li>電腦存取權現在分成兩個等級。Observe（預設）只讓 agent 看畫面與系統資訊。Owner 會把電腦的完整控制權交給它，等同那台電腦的使用者 shell：包括執行指令、操作輸入，以及使用已登入的瀏覽器。選擇 Owner 時，會先請你確認才授予存取權。</li><li>不再提供 Desktop。如果你之前選過 Desktop，現在會以 Observe 運作。</li><li>若電腦給 session 的存取權比你要求的少，App 會告訴你：授予存取權後會立即跳出提示，session 上也會顯示橘色標記與說明。</li></ul>",
+   ja="<ul><li>コンピュータへのアクセス権が 2 段階になりました。Observe（デフォルト）では、agent は画面とシステム情報を見るだけです。Owner は、そのコンピュータのユーザーのシェルと同じ、コマンド、入力、ログイン済みのブラウザを含む完全な操作権限を agent に与えます。Owner を選ぶと、アクセスを許可する前に確認を求められます。</li><li>Desktop は提供されなくなりました。以前に Desktop を選んでいた場合は、Observe として動作します。</li><li>コンピュータがセッションに、要求したよりも少ないアクセス権しか与えなかった場合は、アプリがお知らせします。アクセスを許可した直後にアラートが表示され、セッションにはオレンジ色のバッジと説明が表示されます。</li></ul>",
+   ko="<ul><li>컴퓨터 접근 권한이 이제 두 단계입니다. Observe(기본값)는 agent가 화면과 시스템 정보만 볼 수 있게 합니다. Owner는 해당 컴퓨터 사용자의 셸과 동일한 전체 제어 권한, 즉 명령, 입력, 로그인된 브라우저를 agent에게 줍니다. Owner를 선택하면 접근을 허용하기 전에 확인을 요청합니다.</li><li>Desktop은 더 이상 제공되지 않습니다. 이전에 Desktop을 선택했다면 이제 Observe로 동작합니다.</li><li>컴퓨터가 세션에 요청한 것보다 적은 접근 권한을 준 경우 앱이 알려 줍니다. 접근을 허용한 직후 알림이 표시되고, 세션에는 주황색 배지와 설명이 표시됩니다.</li></ul>")),
+ dict(v="1.10.0", status="", date=dict(
    en="October 31, 2026", zh="2026 年 10 月 31 日",
    ja="2026 年 10 月 31 日", ko="2026년 10월 31일"),
   body=dict(

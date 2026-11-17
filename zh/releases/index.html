@@ -75,7 +75,15 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/tw/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
-  <div class="rhead"><span class="ver">1.10.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 10 月 31 日</span></div>
+  <div class="rhead"><span class="ver">1.11.0</span><span class="relbadge review">審核中</span><span class="plat">Mac</span><span class="when">2026 年 11 月 17 日</span></div>
+  <ul><li>現在可以從「Kubernetes」選單把 switchboard 部署到你的 Kubernetes 叢集。可選擇加上 HTTPS 前端，或直接使用你現有的 switchboard 設定檔。結果視窗會如實告訴你，這個 switchboard 是否能從你的 tailnet 連到。</li><li>同樣在「Kubernetes」選單的「移除 Switchboard」會先請你確認，而且只列出叢集裡實際存在的項目。</li><li>無法連線的 Kubernetes 主機，側邊欄現在會顯示 Pod 狀態。有執行 bot 的主機會顯示 Bot 標記與選單。</li><li>以單一 Pod 建立的主機，可在側邊欄選單中一步升級。</li><li>如果 App 在部署途中結束，下次開啟時會主動提供清理殘留項目的選項。</li><li>儲存連線到鑰匙圈更安全：儲存失敗時，不會再遺失原本的項目。</li><li>修正了一批對話框的問題，包括按鈕、Esc 鍵、捲動與文字說明。</li></ul>
+</article>
+<article class="rel">
+  <div class="rhead"><span class="ver">1.10.1</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 11 月 9 日</span></div>
+  <ul><li>電腦存取權現在分成兩個等級。Observe（預設）只讓 agent 看畫面與系統資訊。Owner 會把電腦的完整控制權交給它，等同那台電腦的使用者 shell：包括執行指令、操作輸入，以及使用已登入的瀏覽器。選擇 Owner 時，會先請你確認才授予存取權。</li><li>不再提供 Desktop。如果你之前選過 Desktop，現在會以 Observe 運作。</li><li>若電腦給 session 的存取權比你要求的少，App 會告訴你：授予存取權後會立即跳出提示，session 上也會顯示橘色標記與說明。</li></ul>
+</article>
+<article class="rel">
+  <div class="rhead"><span class="ver">1.10.0</span><span class="plat">Mac</span><span class="when">2026 年 10 月 31 日</span></div>
   <ul><li>重新部署 Kubernetes 主機。在側邊欄的主機上選「Redeploy…」即可修改設定；主機的 secret、tailnet 狀態、工作區與已儲存的憑證都會保留。Pod 會重新啟動，因此開著的終端機工作階段會結束。</li><li>「Export host spec…」會把 Kubernetes 主機的設定與 secret 名稱（絕不含 secret 的值）存成檔案；在「New session host」視窗中按「Import…」即可從檔案填入表單。舊版部署的主機也能匯出，無法讀出的部分會標示出來讓你確認。</li><li>App 選單新增「Send Diagnostic Report…」。會先讓你看到完整報告，再由你用自己的郵件 App 或分享選單寄出，也可以儲存或複製。帳號、角色與機器名稱會以代號取代，你沒有按下寄出就不會送出任何資料。</li><li>App 選單新增「關於 OpenAB Connect」，顯示版本、建置編號與版權資訊。</li><li>AWS SSO 有多個帳號或角色時會詢問你要用哪一個，不再自動選第一個。</li><li>SSO 取得的 AWS 憑證只會交給 <code>aws</code>、<code>ecsctl</code> 與 <code>kubectl</code>，不會交給 App 執行的其他工具。</li><li>Kubernetes 終端機的 <code>/tmp</code> 改放在工作區磁碟區上，<code>/tmp</code> 裡的大檔案不會再讓 Pod 被驅逐。</li><li>終止工作階段時若 runtime 拒絕或連不上，現在會顯示錯誤，不會看起來像是成功了。</li><li>拒絕螢幕錄製權限後，「Computers」不會再反覆要求權限，並提供「Retry」重試。</li></ul>
 </article>
 <article class="rel">
