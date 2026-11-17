@@ -75,6 +75,10 @@
 <section class="relgroup" id="app-connect" data-app="connect">
   <h2 class="relgroup-h">OpenAB Connect for Mac <a href="https://apps.apple.com/jp/app/openab-connect/id6803728097?mt=12">Mac App Store ↗</a></h2>
 <article class="rel">
+  <div class="rhead"><span class="ver">1.11.0</span><span class="relbadge review">審査中</span><span class="plat">Mac</span><span class="when">2026 年 11 月 17 日</span></div>
+  <ul><li>Kubernetes メニューから、switchboard を Kubernetes クラスタにデプロイできます。HTTPS フロントを任意で追加することも、お手持ちの switchboard 設定を使うこともできます。結果ダイアログには、switchboard に tailnet から到達できたかどうかが正直に表示されます。</li><li>同じく Kubernetes メニューの「Remove Switchboard」は、先に確認を求め、クラスタに実際に存在するものだけを一覧表示します。</li><li>到達できない Kubernetes ホストは、サイドバーに pod の状態を表示するようになりました。bot を実行しているホストには Bot バッジとメニューが表示されます。</li><li>単体の Pod として作成されたホストは、サイドバーのメニューから 1 ステップでアップグレードできます。</li><li>デプロイ中にアプリが終了した場合、次回起動時に、残ったものをクリーンアップするか確認します。</li><li>接続をキーチェーンに保存する処理がより安全になりました。保存に失敗しても、既存の項目が失われなくなります。</li><li>ダイアログに関する一連の修正：ボタン、Esc キー、スクロール、文言。</li></ul>
+</article>
+<article class="rel">
   <div class="rhead"><span class="ver">1.10.0</span><span class="relbadge latest">最新</span><span class="plat">Mac</span><span class="when">2026 年 10 月 31 日</span></div>
   <ul><li>Kubernetes ホストを再デプロイできます。サイドバーのホストで「Redeploy…」を選ぶと設定を変更でき、ホストの secret、tailnet の状態、ワークスペース、保存済みの認証情報は保持されます。pod が再起動するため、開いているターミナルセッションは終了します。</li><li>「Export host spec…」は Kubernetes ホストの設定と secret 名（secret の値は含みません）をファイルに保存し、「New session host」の「Import…」でそのファイルからフォームを埋められます。以前のバージョンでデプロイしたホストもエクスポートでき、読み取れなかった項目は確認できるよう表示されます。</li><li>アプリメニューに「Send Diagnostic Report…」を追加。まずレポート全体を確認し、ご自身のメールアプリや共有シートで送信するか、保存・コピーできます。アカウント名、ロール、マシン名は仮の名前に置き換えられ、送信しない限り何も送られません。</li><li>アプリメニューの「OpenAB Connect について」で、バージョン、ビルド、著作権を表示します。</li><li>AWS SSO でアカウントやロールが複数あるときは、先頭を自動で選ばず、どれを使うか尋ねます。</li><li>SSO で取得した AWS 認証情報は <code>aws</code>、<code>ecsctl</code>、<code>kubectl</code> にだけ渡し、アプリが実行するほかのツールには渡しません。</li><li>Kubernetes ターミナルの <code>/tmp</code> をワークスペースのボリューム上に置くようにしたため、<code>/tmp</code> の大きなファイルで pod が退避されなくなりました。</li><li>セッションの終了をランタイムが拒否した、または到達できなかった場合、成功したように見せずエラーを表示します。</li><li>画面収録の許可が拒否されたとき、Computers が何度も許可を求めなくなり、「Retry」で再試行できます。</li></ul>
 </article>
