@@ -38,15 +38,15 @@ REMOTE_STORE = {
 # ------------------------------------------------------------------ OpenAB Connect (Mac)
 # Newest first. status: "review" | "latest" | ""
 CONNECT_RELEASES = [
- dict(v="1.11.0", status="review", date=dict(
-   en="November 17, 2026", zh="2026 年 11 月 17 日",
-   ja="2026 年 11 月 17 日", ko="2026년 11월 17일"),
+ dict(v="1.11.0", status="latest", date=dict(
+   en="November 18, 2026", zh="2026 年 11 月 18 日",
+   ja="2026 年 11 月 18 日", ko="2026년 11월 18일"),
   body=dict(
    en="<ul><li>Deploy a switchboard to your Kubernetes cluster from the Kubernetes menu. You can add an optional HTTPS front, or use a switchboard config you already have. The result dialog says plainly whether the switchboard could be reached on your tailnet.</li><li>Remove Switchboard, also in the Kubernetes menu, asks for confirmation first and lists only what actually exists in your cluster.</li><li>Kubernetes hosts that can’t be reached now show their pod status in the sidebar. Hosts that run a bot show a Bot badge and menu.</li><li>Hosts created as a bare Pod can be upgraded in one step from the sidebar menu.</li><li>If the app quits during a deploy, it now offers to clean up what was left behind the next time it opens.</li><li>Saving a connection to the Keychain is safer: an existing entry is no longer lost if saving fails.</li><li>A batch of fixes to dialogs: buttons, Escape key, scrolling and wording.</li></ul>",
    zh="<ul><li>現在可以從「Kubernetes」選單把 switchboard 部署到你的 Kubernetes 叢集。可選擇加上 HTTPS 前端，或直接使用你現有的 switchboard 設定檔。結果視窗會如實告訴你，這個 switchboard 是否能從你的 tailnet 連到。</li><li>同樣在「Kubernetes」選單的「移除 Switchboard」會先請你確認，而且只列出叢集裡實際存在的項目。</li><li>無法連線的 Kubernetes 主機，側邊欄現在會顯示 Pod 狀態。有執行 bot 的主機會顯示 Bot 標記與選單。</li><li>以單一 Pod 建立的主機，可在側邊欄選單中一步升級。</li><li>如果 App 在部署途中結束，下次開啟時會主動提供清理殘留項目的選項。</li><li>儲存連線到鑰匙圈更安全：儲存失敗時，不會再遺失原本的項目。</li><li>修正了一批對話框的問題，包括按鈕、Esc 鍵、捲動與文字說明。</li></ul>",
    ja="<ul><li>Kubernetes メニューから、switchboard を Kubernetes クラスタにデプロイできます。HTTPS フロントを任意で追加することも、お手持ちの switchboard 設定を使うこともできます。結果ダイアログには、switchboard に tailnet から到達できたかどうかが正直に表示されます。</li><li>同じく Kubernetes メニューの「Remove Switchboard」は、先に確認を求め、クラスタに実際に存在するものだけを一覧表示します。</li><li>到達できない Kubernetes ホストは、サイドバーに pod の状態を表示するようになりました。bot を実行しているホストには Bot バッジとメニューが表示されます。</li><li>単体の Pod として作成されたホストは、サイドバーのメニューから 1 ステップでアップグレードできます。</li><li>デプロイ中にアプリが終了した場合、次回起動時に、残ったものをクリーンアップするか確認します。</li><li>接続をキーチェーンに保存する処理がより安全になりました。保存に失敗しても、既存の項目が失われなくなります。</li><li>ダイアログに関する一連の修正：ボタン、Esc キー、スクロール、文言。</li></ul>",
    ko="<ul><li>Kubernetes 메뉴에서 switchboard를 Kubernetes 클러스터에 배포할 수 있습니다. HTTPS 프런트를 선택적으로 추가하거나, 이미 가지고 있는 switchboard 설정을 사용할 수 있습니다. 결과 대화상자는 switchboard에 tailnet에서 접속할 수 있었는지 솔직하게 알려 줍니다.</li><li>역시 Kubernetes 메뉴에 있는 “Remove Switchboard”는 먼저 확인을 요청하며, 클러스터에 실제로 있는 항목만 보여 줍니다.</li><li>연결할 수 없는 Kubernetes 호스트는 이제 사이드바에 pod 상태를 표시합니다. bot을 실행하는 호스트에는 Bot 배지와 메뉴가 표시됩니다.</li><li>단독 Pod로 만든 호스트는 사이드바 메뉴에서 한 번에 업그레이드할 수 있습니다.</li><li>배포 도중 앱이 종료되면, 다음에 열 때 남은 항목을 정리할지 묻습니다.</li><li>연결을 키체인에 저장하는 과정이 더 안전해졌습니다. 저장에 실패해도 기존 항목이 사라지지 않습니다.</li><li>대화상자의 여러 문제를 수정했습니다: 버튼, Esc 키, 스크롤, 문구.</li></ul>")),
- dict(v="1.10.1", status="latest", date=dict(
+ dict(v="1.10.1", status="", date=dict(
    en="November 9, 2026", zh="2026 年 11 月 9 日",
    ja="2026 年 11 月 9 日", ko="2026년 11월 9일"),
   body=dict(
